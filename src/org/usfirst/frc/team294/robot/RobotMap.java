@@ -8,5 +8,5 @@ public class RobotMap {
 	public static final int rightMotor1 = 20; 
 	public static final int rightMotor2 = 21;
 	public static final int rightMotor3 = 22;
-	
+	public static final int pnuematicShifter = 2;
 }

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot;
 
+import org.usfirst.frc.team294.robot.commands.PnuematicShift;
 import org.usfirst.frc.team294.robot.commands.RunDriveTrain;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -12,5 +13,6 @@ public class OI {
 
 	{
 		SmartDashboard.putData("Start Drive Train", new RunDriveTrain()); //Adds a start Button
+		SmartDashboard.putData("Start Shifter", new PnuematicShift()); //Adds a start Button
 	}
 }

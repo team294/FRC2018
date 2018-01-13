@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team294.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -8,10 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team294.robot.commands.RunDriveTrain;
 import org.usfirst.frc.team294.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team294.robot.subsystems.Shifter;
 
 
 public class Robot extends TimedRobot {
 	public static final DriveTrain driveTrainSubsystem = new DriveTrain();
+	public static final Shifter shifterSubsystem = new Shifter();
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
