@@ -72,16 +72,41 @@ public class Robot extends TimedRobot {
 		
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
+
 		
-		SmartDashboard.putString("Game Data", gameData);
-		
-		/*if(gameData.charAt(0) == 'L')
+		if(gameData.charAt(0) == 'L')
 		{
+			SmartDashboard.putBoolean("Close Switch Left", true);
+			SmartDashboard.putBoolean("Close Switch Right", false);
 			//Put left auto code here
 		} else {
+			SmartDashboard.putBoolean("Close Switch Right", true);
+			SmartDashboard.putBoolean("Close Switch Left", false);
 			//Put right auto code here
 		}
-		*/
+		
+		if(gameData.charAt(1) == 'L')
+		{
+			SmartDashboard.putBoolean("Scale Left", true);
+			SmartDashboard.putBoolean("Scale Right", false);
+			//Put left auto code here
+		} else {
+			SmartDashboard.putBoolean("Scale Right", true);
+			SmartDashboard.putBoolean("Scale Left", false);
+			//Put right auto code here
+		}
+		
+		if(gameData.charAt(2) == 'L')
+		{
+			SmartDashboard.putBoolean("Far Switch Left", true);
+			SmartDashboard.putBoolean("Far Switch Right", false);
+			//Put left auto code here
+		} else {
+			SmartDashboard.putBoolean("Far Switch Right", true);
+			SmartDashboard.putBoolean("Far Switch Left", false);
+			//Put right auto code here
+		}
+		
 		
 		m_autonomousCommand = m_chooser.getSelected();
 		
