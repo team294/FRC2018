@@ -2,7 +2,8 @@
 package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.TimedRobot; 				//remove the ones that are not used.
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -48,6 +49,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
+		
 	}
 
 	/**
@@ -63,7 +69,22 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
+		SmartDashboard.putString("Game Data", gameData);
+		
+		/*if(gameData.charAt(0) == 'L')
+		{
+			//Put left auto code here
+		} else {
+			//Put right auto code here
+		}
+		*/
+		
 		m_autonomousCommand = m_chooser.getSelected();
+		
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
