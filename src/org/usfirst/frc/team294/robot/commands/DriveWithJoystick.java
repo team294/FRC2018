@@ -15,8 +15,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  * The Only Command
  * runs Drive Train with Both Joysticks
  */
-public class RunDriveTrain extends Command {
-	public RunDriveTrain() {
+public class DriveWithJoystick extends Command {
+	public DriveWithJoystick() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrainSubsystem);
 	}
@@ -29,16 +29,20 @@ public class RunDriveTrain extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		if(Math.abs(OI.leftJoystick.getY())>.15) {//Dead Zone of 15%
-			Robot.driveTrainSubsystem.setLeftMotors(OI.leftJoystick.getY()); //sets power of left motors based off of 
-		}else {
-			Robot.driveTrainSubsystem.setLeftMotors(0);
-		}
-		if(Math.abs(OI.rightJoystick.getY())>.15) {
-			Robot.driveTrainSubsystem.setRightMotors(OI.rightJoystick.getY());
-		}else {
-			Robot.driveTrainSubsystem.setRightMotors(0);
-		}
+//		if(Math.abs(OI.leftJoystick.getY())>.15) {//Dead Zone of 15%
+//			Robot.driveTrainSubsystem.setLeftMotors(OI.leftJoystick.getY()); //sets power of left motors based off of 
+//		}else {
+//			Robot.driveTrainSubsystem.setLeftMotors(0);
+//		}
+//		if(Math.abs(OI.rightJoystick.getY())>.15) {
+//			Robot.driveTrainSubsystem.setRightMotors(OI.rightJoystick.getY());
+//		}else {
+//			Robot.driveTrainSubsystem.setRightMotors(0);
+//		}
+		double leftVal = OI.leftJoystick.getY();
+		double rightVal = OI.rightJoystick.getY();
+		
+		Robot.driveTrainSubsystem.robotDrive.tankDrive(leftVal, rightVal);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
