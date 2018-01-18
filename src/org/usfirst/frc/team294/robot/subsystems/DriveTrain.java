@@ -39,10 +39,10 @@ public class DriveTrain extends Subsystem {
 		leftMotor3.set(ControlMode.Follower, RobotMap.leftMotor2);
 		rightMotor1.set(ControlMode.Follower, RobotMap.rightMotor2);
 		rightMotor3.set(ControlMode.Follower, RobotMap.rightMotor2);
-		
 		leftMotor2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		rightMotor2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
+		leftMotor2.setSensorPhase(true);
 //		leftMotor2.setInverted(true); // This might need to be changed to rightmotor2
 		
 		leftMotor2.clearStickyFaults(0);

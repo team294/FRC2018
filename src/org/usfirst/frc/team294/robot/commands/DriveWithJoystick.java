@@ -41,7 +41,7 @@ public class DriveWithJoystick extends Command {
 //		}
 		double leftVal = OI.leftJoystick.getY();
 		double rightVal = OI.rightJoystick.getY();
-		
+		Robot.driveTrainSubsystem.getGyroRotation();
 		Robot.driveTrainSubsystem.tankDrive(leftVal, rightVal);
 		Robot.driveTrainSubsystem.getLeftEncoderPosition();
 		Robot.driveTrainSubsystem.getRightEncoderPosition();
