@@ -42,7 +42,9 @@ public class DriveWithJoystick extends Command {
 		double leftVal = OI.leftJoystick.getY();
 		double rightVal = OI.rightJoystick.getY();
 		
-		Robot.driveTrainSubsystem.robotDrive.tankDrive(leftVal, rightVal);
+		Robot.driveTrainSubsystem.tankDrive(leftVal, rightVal);
+		Robot.driveTrainSubsystem.getLeftEncoderPosition();
+		Robot.driveTrainSubsystem.getRightEncoderPosition();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
