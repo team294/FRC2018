@@ -162,6 +162,9 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		
+		SmartDashboard.putNumber("Column Selected", m_oi.readAutoColumn());
+		SmartDashboard.putNumber("Start Position", m_oi.readStartPosition());
 	}
 
 	/**
