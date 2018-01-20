@@ -25,7 +25,7 @@ public class DriveTrain extends Subsystem {
 	private final WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.leftMotor1); 
 	private final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.leftMotor2);
 	private final WPI_TalonSRX leftMotor3 = new WPI_TalonSRX(RobotMap.leftMotor3);
-	public final DifferentialDrive robotDrive = new DifferentialDrive(rightMotor2, leftMotor2);
+	public final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor2, rightMotor2);
 	// NavX. Create the object , in the DriveTrain() constructor, so that we can catch
 	// errors.
 	private AHRS ahrs;

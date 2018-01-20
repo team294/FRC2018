@@ -17,7 +17,7 @@ public class OI {
 
 	{
 		SmartDashboard.putData("Start Drive Train", new DriveWithJoystick()); // Adds a start Button
-		SmartDashboard.putData("Drive Straight", new DriveStraightDistance(12, .4)); 
+		SmartDashboard.putData("Drive Straight", new DriveStraightDistance(62.83, .4)); 
 		
 		Button leftTrigger = new JoystickButton(leftJoystick, 1);
 		Button rightTrigger = new JoystickButton(rightJoystick, 1);

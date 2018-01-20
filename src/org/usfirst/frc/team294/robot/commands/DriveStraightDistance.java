@@ -16,7 +16,8 @@ public class DriveStraightDistance extends Command {
 	private double wheelCircumference = 4 * Math.PI;
 	private double distance;
 	private double distErr;
-	private ToleranceChecker tolChecker;
+	private double speedScale = 0.0001;
+	private boolean success;
 
 	public double encoderTickToInches(double encoderticks) {
 		return (encoderticks / encoderTickPerRotation) * wheelCircumference;
@@ -30,7 +31,6 @@ public class DriveStraightDistance extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.driveTrainSubsystem);
-		tolChecker = new ToleranceChecker(0.5, 5); // 0.5 is in inches
 		speed = powerPct;
 		distance = (inches / wheelCircumference) * encoderTickPerRotation;
 	}
@@ -55,12 +55,31 @@ public class DriveStraightDistance extends Command {
 		double currentDistance = (Robot.driveTrainSubsystem.getLeftEncoderPosition()
 				+ Robot.driveTrainSubsystem.getRightEncoderPosition()) / 2;
 		distErr = distance - currentDistance;
-		encoderTickToInches(distErr);
+
+		success = (distErr < 0) ? true : false;
+		if (!success) {
+			double encoderDifference = Robot.driveTrainSubsystem.getLeftEncoderPosition()
+					- Robot.driveTrainSubsystem.getRightEncoderPosition();
+			double leftSpeed = speed;
+			double rightSpeed = speed;
+			if (encoderDifference < 0) {
+				rightSpeed -= speedScale * (Math.abs(encoderDifference));
+			} else if (encoderDifference > 0) {
+				leftSpeed -= speedScale * (Math.abs(encoderDifference));
+			}
+			leftSpeed = (leftSpeed < 0) ? 0 : leftSpeed;
+			rightSpeed = (rightSpeed < 0) ? 0 : rightSpeed;
+			leftSpeed = (leftSpeed > 1) ? 1 : leftSpeed;
+			rightSpeed = (rightSpeed > 1) ? 1 : rightSpeed;
+			SmartDashboard.putNumber("Left Speed", leftSpeed);
+			SmartDashboard.putNumber("Right Speed", rightSpeed);
+			Robot.driveTrainSubsystem.tankDrive(leftSpeed, rightSpeed);
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Math.abs(Robot.driveTrainSubsystem.getRightEncoderPosition()) > distance; // ((distanceNeeded/(wheelCircumference*gearRatio))*4096);
+		return success;
 	}
 
 	// Called once after isFinished returns true
