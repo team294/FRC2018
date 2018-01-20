@@ -1,8 +1,10 @@
 
 package org.usfirst.frc.team294.robot;
 
+
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.TimedRobot; 				//remove the ones that are not used.
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -16,6 +18,10 @@ public class Robot extends TimedRobot {
 	public static final DriveTrain driveTrainSubsystem = new DriveTrain();
 	public static final Shifter shifterSubsystem = new Shifter();
 	public static OI m_oi;
+	public static boolean allianceSwitchLeft = false;
+	public static boolean scaleLeft = false;
+	public static boolean opponentSwitchLeft = false;
+	
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -48,6 +54,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
+		
 	}
 
 	/**
@@ -63,7 +74,63 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+
+		
+		if(gameData.charAt(0) == 'L')
+		{
+			SmartDashboard.putBoolean("Close Switch Left", true);
+			SmartDashboard.putBoolean("Close Switch Right", false);
+			allianceSwitchLeft = true;
+			//Put left auto code here
+		} else {
+			SmartDashboard.putBoolean("Close Switch Right", true);
+			SmartDashboard.putBoolean("Close Switch Left", false);
+			allianceSwitchLeft = false;
+			//Put right auto code here
+		}
+		
+		if(gameData.charAt(1) == 'L')
+		{
+			SmartDashboard.putBoolean("Scale Left", true);
+			SmartDashboard.putBoolean("Scale Right", false);
+			scaleLeft = true;
+			//Put left auto code here
+		} else {
+			SmartDashboard.putBoolean("Scale Right", true);
+			SmartDashboard.putBoolean("Scale Left", false);
+			scaleLeft = false;
+			//Put right auto code here
+		}
+		
+		if(gameData.charAt(2) == 'L')
+		{
+			SmartDashboard.putBoolean("Far Switch Left", true);
+			SmartDashboard.putBoolean("Far Switch Right", false);
+			opponentSwitchLeft = true;
+			//Put left auto code here
+		} else {
+			SmartDashboard.putBoolean("Far Switch Right", true);
+			SmartDashboard.putBoolean("Far Switch Left", false);
+			opponentSwitchLeft = false;
+			//Put right auto code here
+		}
+		
+		DriverStation.Alliance color;
+		color = DriverStation.getInstance().getAlliance();
+		
+		if(color == DriverStation.Alliance.Blue)
+		{
+			SmartDashboard.putBoolean("Alliance Color", true);
+		} else {
+			SmartDashboard.putBoolean("Alliance Color", false);
+		}
+		
+		
 		m_autonomousCommand = m_chooser.getSelected();
+    
 		this.driveTrainSubsystem.zeroLeftEncoder();
 		this.driveTrainSubsystem.zeroRightEncoder();
 		this.driveTrainSubsystem.zeroGyroRoataion();
