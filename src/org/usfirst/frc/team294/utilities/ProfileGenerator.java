@@ -27,6 +27,7 @@ public class ProfileGenerator {
 		
 	}
 	
+	//
 	public double getAcceleration() {
 		
 		double stoppingDistance = 0.5*currentVelocity*currentVelocity/maxAcceleration;
