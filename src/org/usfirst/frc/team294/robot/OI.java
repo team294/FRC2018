@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot;
 
 import org.usfirst.frc.team294.robot.commands.ShiftLow;
 import org.usfirst.frc.team294.robot.commands.ShiftHigh;
+import org.usfirst.frc.team294.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -16,6 +17,8 @@ public class OI {
 
 	{
 		SmartDashboard.putData("Start Drive Train", new DriveWithJoystick()); // Adds a start Button
+		SmartDashboard.putData("Drive Straight", new DriveStraightDistance(12, .4)); 
+		
 		Button leftTrigger = new JoystickButton(leftJoystick, 1);
 		Button rightTrigger = new JoystickButton(rightJoystick, 1);
 		leftTrigger.whenPressed(new ShiftLow());
