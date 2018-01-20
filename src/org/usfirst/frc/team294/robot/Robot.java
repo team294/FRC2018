@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team294.robot.commands.RunDriveTrain;
+import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team294.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team294.robot.subsystems.Shifter;
 
@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
 		/*
 		 * auto-config for autonomous
 		 */
-		m_chooser.addDefault("Default Auto", new RunDriveTrain());
+		m_chooser.addDefault("Default Auto", new DriveWithJoystick());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 	}
@@ -130,8 +130,10 @@ public class Robot extends TimedRobot {
 		
 		
 		m_autonomousCommand = m_chooser.getSelected();
-		
-
+    
+		this.driveTrainSubsystem.zeroLeftEncoder();
+		this.driveTrainSubsystem.zeroRightEncoder();
+		this.driveTrainSubsystem.zeroGyroRoataion();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
