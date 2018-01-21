@@ -16,7 +16,7 @@ public class DriveStraightDistance extends Command {
 	private double wheelCircumference = 4 * Math.PI;
 	private double distance;
 	private double distErr;
-	private double speedScale = 0.0005;
+	private double speedScale = 0.0001;
 	private boolean success;
 
 	public double encoderTickToInches(double encoderticks) {
@@ -56,19 +56,19 @@ public class DriveStraightDistance extends Command {
 				+ Robot.driveTrainSubsystem.getRightEncoderPosition()) / 2;
 		distErr = distance - currentDistance;
 
-		success = (distErr < 0) ? true : false;
+		success = distErr < 0;
 		if (!success) {
 			double encoderDifference = Robot.driveTrainSubsystem.getLeftEncoderPosition()
 					- Robot.driveTrainSubsystem.getRightEncoderPosition();
-			double leftSpeed = speed;
-			double rightSpeed = speed;
+			double leftSpeed = speed - (.2 * (currentDistance / distance));
+			double rightSpeed = speed - (.2 * (currentDistance / distance));
 			if (encoderDifference < 0) {
 				rightSpeed -= speedScale * (Math.abs(encoderDifference));
 			} else if (encoderDifference > 0) {
 				leftSpeed -= speedScale * (Math.abs(encoderDifference));
 			}
-			leftSpeed = (leftSpeed < 0) ? 0 : leftSpeed;
-			rightSpeed = (rightSpeed < 0) ? 0 : rightSpeed;
+			leftSpeed = (leftSpeed < .3) ? .3: leftSpeed;
+			rightSpeed = (rightSpeed < .3) ? .3 : rightSpeed;
 			leftSpeed = (leftSpeed > 1) ? 1 : leftSpeed;
 			rightSpeed = (rightSpeed > 1) ? 1 : rightSpeed;
 			SmartDashboard.putNumber("Left Speed", leftSpeed);
