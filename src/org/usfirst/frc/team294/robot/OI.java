@@ -18,18 +18,19 @@ public class OI {
 
 	public OI() {
 		// Initialize our auto column chooser
-		chooser_autoColumn.addDefault("Switch priority", 1);
+		chooser_autoColumn.addDefault("- choose from below -", 0);
+		chooser_autoColumn.addObject("Switch priority", 1);
 		chooser_autoColumn.addObject("Both switches middle", 2);
 		chooser_autoColumn.addObject("Scale only", 3);
 		chooser_autoColumn.addObject("Scale priority", 4);
 		SmartDashboard.putData("Auto Column Selection", chooser_autoColumn);
 		
 		// Initialize our position chooser
-		chooser_startPosition.addDefault("Left", 1);
+		chooser_startPosition.addDefault("- choose from below -", 0);
+		chooser_startPosition.addObject("Left", 1);
 		chooser_startPosition.addObject("Middle", 2);
 		chooser_startPosition.addObject("Right", 3);
 		SmartDashboard.putData("Start Position Selection", chooser_startPosition);
-
 	
 		SmartDashboard.putData("Start Drive Train", new RunDriveTrain()); //Adds a start Button
 		SmartDashboard.putData("Start Shifter", new PnuematicShift()); //Adds a start Button

@@ -9,9 +9,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team294.robot.commands.RunDriveTrain;
-import org.usfirst.frc.team294.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team294.robot.subsystems.Shifter;
+
+import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.*;
+import org.usfirst.frc.team294.robot.subsystems.*;
 
 
 public class Robot extends TimedRobot {
@@ -22,6 +23,8 @@ public class Robot extends TimedRobot {
 	public static boolean scaleLeft = false;
 	public static boolean opponentSwitchLeft = false;
 	
+//	public static Command[][] autoCommandArray = { {new PnuematicShift(), new RunDriveTrain()} };
+	public static Command[][] autoCommandArray = new Command[RobotMap.AUTO_COLS][RobotMap.AUTO_FIELD_LAYOUTS];
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -39,6 +42,28 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Default Auto", new RunDriveTrain());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		
+		// array chooses which auto program to use based on selected auto path and field layout
+		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath3_SameSideSwitch();
+		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath3_SameSideSwitch();
+		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
+		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath2_OppositeSideScale();
+
+		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath1_SameSideScale();
+		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath2_OppositeSideScale();
+		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
+		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath2_OppositeSideScale();
+
+		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath5_SwitchFromMiddle();
+		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath5_SwitchFromMiddle();
+		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath5_SwitchFromMiddle();
+		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath5_SwitchFromMiddle();
+		
+		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath3_SameSideSwitch();
+		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath3_SameSideSwitch();
+		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
+		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath4_OppositeSideSwitch();
+
 	}
 
 	/**
@@ -77,7 +102,8 @@ public class Robot extends TimedRobot {
 		
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-
+		
+		
 		
 		if(gameData.charAt(0) == 'L')
 		{
@@ -129,7 +155,25 @@ public class Robot extends TimedRobot {
 		}
 		
 		
-		m_autonomousCommand = m_chooser.getSelected();
+		int fieldLayout, autoSelect;
+
+		if (gameData.startsWith("LL")) 
+			fieldLayout = RobotMap.AutoFieldLayout.LL.ordinal();
+		else if (gameData.startsWith("LR"))
+			fieldLayout = RobotMap.AutoFieldLayout.LR.ordinal();
+		else if (gameData.startsWith("RL"))
+			fieldLayout = RobotMap.AutoFieldLayout.RL.ordinal();
+		else
+			fieldLayout = RobotMap.AutoFieldLayout.RR.ordinal();
+
+		autoSelect = m_oi.readAutoColumn();
+
+		m_autonomousCommand = autoCommandArray[autoSelect][fieldLayout];
+		SmartDashboard.putString("Auto path", m_autonomousCommand.getName());
+		SmartDashboard.putNumber("Field selection", fieldLayout);
+		SmartDashboard.putNumber("Column Selected", autoSelect);
+		
+		SmartDashboard.putNumber("Start Position", m_oi.readStartPosition());
 		
 
 		/*
@@ -163,8 +207,7 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		
-		SmartDashboard.putNumber("Column Selected", m_oi.readAutoColumn());
-		SmartDashboard.putNumber("Start Position", m_oi.readStartPosition());
+		
 	}
 
 	/**
