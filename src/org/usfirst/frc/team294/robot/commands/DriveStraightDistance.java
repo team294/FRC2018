@@ -16,7 +16,7 @@ public class DriveStraightDistance extends Command {
 	private double wheelCircumference = 4 * Math.PI;
 	private double distance;
 	private double distErr;
-	private double speedScale = 0.0001;
+	private double speedScale = 0.0005;
 	private boolean success;
 
 	public double encoderTickToInches(double encoderticks) {
