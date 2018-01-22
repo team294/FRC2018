@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -56,7 +57,7 @@ public class DriveTrain extends Subsystem {
 			 * details.
 			 */
 			
-			ahrs = new AHRS(SerialPort.Port.kMXP);
+			ahrs = new AHRS(I2C.Port.kMXP);
 		} catch (RuntimeException ex) {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 		}
