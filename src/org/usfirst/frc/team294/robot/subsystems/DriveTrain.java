@@ -25,7 +25,7 @@ public class DriveTrain extends Subsystem {
 	private final WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.leftMotor1); 
 	private final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.leftMotor2);
 	private final WPI_TalonSRX leftMotor3 = new WPI_TalonSRX(RobotMap.leftMotor3);
-	public final DifferentialDrive robotDrive = new DifferentialDrive(rightMotor2, leftMotor2);
+	public final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor2, rightMotor2);
 	// NavX. Create the object , in the DriveTrain() constructor, so that we can catch
 	// errors.
 	private AHRS ahrs;
@@ -55,10 +55,7 @@ public class DriveTrain extends Subsystem {
 			 * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
 			 * details.
 			 */
-
-			// TODO: Verify navX comms works using 2017 robot configuration (via USB?)
-			// ahrs = new AHRS(SPI.Port.kMXP); // Code from 2016 robot (navX plugged
-			// directly into RoboRio SPI port)
+			
 			ahrs = new AHRS(SerialPort.Port.kMXP);
 		} catch (RuntimeException ex) {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);

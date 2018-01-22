@@ -25,6 +25,8 @@ public class DriveStraightDistanceGyro extends Command {
 	private double kIangle = .002;
 	private double kDangle = .1;
 	private double curve;
+	private double minSpeed = .1;
+	private double angleBase;
     public DriveStraightDistanceGyro(double distanceTravel, double percentPower) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -51,6 +53,7 @@ public class DriveStraightDistanceGyro extends Command {
     	tolCheck = new ToleranceChecker(1,5);
     	Robot.driveTrainSubsystem.zeroLeftEncoder();
     	Robot.driveTrainSubsystem.zeroRightEncoder();
+    	angleBase = Robot.driveTrainSubsystem.getGyroRotation();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -66,7 +69,13 @@ public class DriveStraightDistanceGyro extends Command {
     		prevDistErr = distErr;
     		distSpeedControl = distSpeedControl > 1 ? 1 : distSpeedControl;
     		distSpeedControl = distSpeedControl < -1 ? -1 : distSpeedControl;
-    		angleErr = Robot.driveTrainSubsystem.getGyroRotation();
+    		distSpeedControl *= percentPower;
+    		if(distSpeedControl > 0) {
+    			distSpeedControl = (distSpeedControl < minSpeed) ? minSpeed : distSpeedControl;
+    		}else {
+    			distSpeedControl = (distSpeedControl > minSpeed) ? -minSpeed : distSpeedControl;
+    		}
+    		angleErr = angleBase - Robot.driveTrainSubsystem.getGyroRotation();
     		angleErr = (angleErr > 180)?angleErr-360:angleErr;
     		intErr = intErr + angleErr * 0.02;
     		double dErr = angleErr - prevAngleErr;
@@ -76,12 +85,13 @@ public class DriveStraightDistanceGyro extends Command {
     		curve = (curve < -0.5) ? -0.5 : curve;
     		curve = ( distanceTravel - currentDistanceInches >=0) ? curve : -curve;
     		Robot.driveTrainSubsystem.driveAtCurve(distSpeedControl, curve);
+    		
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return success;
     }
 
     // Called once after isFinished returns true
