@@ -18,11 +18,10 @@ public class OI {
 
 	public OI() {
 		// Initialize our auto column chooser
-		chooser_autoColumn.addDefault("- choose from below -", 0);
-		chooser_autoColumn.addObject("Switch priority", 1);
-		chooser_autoColumn.addObject("Both switches middle", 2);
-		chooser_autoColumn.addObject("Scale only", 3);
-		chooser_autoColumn.addObject("Scale priority", 4);
+		chooser_autoColumn.addDefault("Switch priority", 0);
+		chooser_autoColumn.addObject("Both switches middle", 1);
+		chooser_autoColumn.addObject("Scale only", 2);
+		chooser_autoColumn.addObject("Scale priority", 3);
 		SmartDashboard.putData("Auto Column Selection", chooser_autoColumn);
 		
 		// Initialize our position chooser
