@@ -1,9 +1,11 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import java.util.function.Supplier;
+
+import org.omg.PortableServer.ImplicitActivationPolicyOperations;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.utilities.ToleranceChecker;
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -36,11 +38,9 @@ public class DriveStraightDistanceGyro extends Command {
 		this.distanceTravel = distanceTravel;
 		this.percentPower = percentPower;
 	}
-
 	public double encoderTicksToInches(double encoderticks) {
 		return (encoderticks / RobotMap.encoderTicksPerRevolution) * RobotMap.wheelCircumference;
 	}
-
 	public double inchesToEncoderTicks(double inches) {
 		return (inches / RobotMap.wheelCircumference) * RobotMap.encoderTicksPerRevolution;
 	}

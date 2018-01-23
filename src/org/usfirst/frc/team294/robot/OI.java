@@ -1,6 +1,8 @@
 package org.usfirst.frc.team294.robot;
 
 import org.usfirst.frc.team294.robot.commands.ShiftLow;
+import org.usfirst.frc.team294.robot.commands.TurnGyro;
+import org.usfirst.frc.team294.robot.commands.TurnGyro.Units;
 import org.usfirst.frc.team294.robot.commands.ShiftHigh;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceGyro;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
@@ -22,6 +24,6 @@ public class OI {
 		Button rightTrigger = new JoystickButton(rightJoystick, 1);
 		leftTrigger.whenPressed(new ShiftLow());
 		rightTrigger.whenPressed(new ShiftHigh());
-		
+		SmartDashboard.putData("Turn heckla small", new TurnGyro(90,Units.Degrees));
 	}
 }
