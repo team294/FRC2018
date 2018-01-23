@@ -10,4 +10,9 @@ public class RobotMap {
 	public static final int rightMotor3 = 22;
 	public static final int pnuematicShifterLow = 1;
 	public static final int pnuematicShifterHigh = 0; 
+	public static final int armMotor = 30;
+	public static final int pneumaticArmPistonIn = 3;
+	public static final int pneumaticArmPistonOut = 2;
+
+	public static final int pistonInLimitSwitch = 0;
 }
