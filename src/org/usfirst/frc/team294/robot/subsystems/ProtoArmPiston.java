@@ -25,10 +25,10 @@ public class ProtoArmPiston extends Subsystem {
 	private final DoubleSolenoid armPiston = new DoubleSolenoid(RobotMap.pneumaticArmPistonIn,RobotMap.pneumaticArmPistonOut);
 
 	
-//	public void potAngleTest() {      // TODO calculate angle from pot data
-//		double potAngle = ProtoArmMotor.readArmPot();
-//		SmartDashboard.putNumber("Pot Angle raw count", potAngle);
-//	}
+	public void potAngleTest() {      // TODO calculate angle from pot data
+		double potAngle = ProtoArmMotor.PotValue;
+		SmartDashboard.putNumber("Pot Angle raw count", potAngle);
+	}
 
 	
 	public void extendPiston() {

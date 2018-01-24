@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -17,11 +19,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
  */
 public class ProtoArmMotor extends Subsystem {
 	
-	
 	public final WPI_TalonSRX armMotor = new WPI_TalonSRX(RobotMap.armMotor);
 	
 	int POT_ZERO_REFERENCE = 500; //  TODO add method to Calibrate andstore this in Network Nables and read from NT
-
+	public static int PotValue=0;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -30,6 +31,9 @@ public class ProtoArmMotor extends Subsystem {
 		armMotor.set(ControlMode.PercentOutput, 0.0);
 		armMotor.setNeutralMode(NeutralMode.Brake);
 		armMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
+		armMotor.configForwardLimitSwitchSource( LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0);
+		armMotor.configReverseLimitSwitchSource( LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0);
+		armMotor.overrideLimitSwitchesEnable(true);  			//  pass false to force disable limit switch
 		
 	}
 	
@@ -52,7 +56,7 @@ public class ProtoArmMotor extends Subsystem {
     
     
     public int readArmPot () {				// returns armPot corrected for zero degree reference
-    	int PotValue = armMotor.getSelectedSensorPosition(0)- POT_ZERO_REFERENCE;
+    	PotValue = armMotor.getSelectedSensorPosition(0)- POT_ZERO_REFERENCE;
     	SmartDashboard.putNumber("Arm Pot Value", PotValue);
     	return (PotValue );
     }
