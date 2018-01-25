@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot;
 
 import org.usfirst.frc.team294.robot.commands.ShiftLow;
+import org.usfirst.frc.team294.robot.commands.ArmExtend;
 //import org.usfirst.frc.team294.robot.commands.PistonControl;
 //import org.usfirst.frc.team294.robot.commands.ArmExtension;
 //import org.usfirst.frc.team294.robot.commands.ArmMotorControl;
@@ -24,6 +25,8 @@ public class OI {
 		SmartDashboard.putData("Start Drive Train", new DriveWithJoystick()); // Adds a start Button
 		
 		SmartDashboard.putData("Retract Arm", new ArmRetract()); // Adds a retract Button
+		
+		SmartDashboard.putData("Extend Arm", new ArmExtend()); //Adds a extend button
 		
 		// Add extend arm here
 		

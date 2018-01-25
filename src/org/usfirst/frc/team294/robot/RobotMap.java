@@ -14,5 +14,5 @@ public class RobotMap {
 	public static final int pneumaticArmPistonIn = 3;
 	public static final int pneumaticArmPistonOut = 2;
 
-	public static final int pistonInLimitSwitch = 0;
+	public static final int pistonRetractedLimitSwitch = 0;
 }
