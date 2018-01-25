@@ -1,8 +1,10 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
-import org.usfirst.frc.team294.robot.RobotMap;
 
+import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -41,7 +43,7 @@ public class ProtoArmMotor extends Subsystem {
 	
 	public void setArmMotorToPercentPower(double percent) {
 		if (percent > .3) percent = .3;						//  Can be +/- 1  after testing
-		if (percent < -3) percent = -.3;
+		if (percent < -.3) percent = -.3;
 		armMotor.set(ControlMode.PercentOutput, percent);
 		System.out.println("Arm motor " + armMotor.getDeviceID() + " set to percent " + percent + ", output " + armMotor.getMotorOutputVoltage() + " V," +
 				armMotor.getOutputCurrent() + " A, Bus at " + armMotor.getBusVoltage() + " V");

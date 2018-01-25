@@ -1,6 +1,5 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
-import java.io.DataInput;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
