@@ -21,7 +21,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
  */
 public class ProtoArmMotor extends Subsystem {
 	
-	public final WPI_TalonSRX armMotor = new WPI_TalonSRX(RobotMap.armMotor);
+	public final static WPI_TalonSRX armMotor = new WPI_TalonSRX(RobotMap.armMotor);
 	
 	int POT_ZERO_REFERENCE = 500; //  TODO add method to Calibrate andstore this in Network Nables and read from NT
 	public static int PotValue=0;
@@ -41,7 +41,7 @@ public class ProtoArmMotor extends Subsystem {
 	
 	
 	
-	public void setArmMotorToPercentPower(double percent) {
+	public static void setArmMotorToPercentPower(double percent) {
 		if (percent > .3) percent = .3;						//  Can be +/- 1  after testing
 		if (percent < -.3) percent = -.3;
 		armMotor.set(ControlMode.PercentOutput, percent);

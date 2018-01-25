@@ -2,9 +2,6 @@ package org.usfirst.frc.team294.robot;
 
 import org.usfirst.frc.team294.robot.commands.ShiftLow;
 import org.usfirst.frc.team294.robot.commands.ArmExtend;
-//import org.usfirst.frc.team294.robot.commands.PistonControl;
-//import org.usfirst.frc.team294.robot.commands.ArmExtension;
-//import org.usfirst.frc.team294.robot.commands.ArmMotorControl;
 import org.usfirst.frc.team294.robot.commands.ArmRetract;
 import org.usfirst.frc.team294.robot.commands.ShiftHigh;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
