@@ -17,12 +17,13 @@ public class TurnGyro extends Command {
 	private final Units turnUnits;
 	private double prevError = 0, integratedError = 0, derivativeError = 0, distError = 0;
 	private final double dt = .02;
-	private final double kPdist = 0.01, // Proportional Term
-			kDdist = 0, // Derivative Value
-			kIdist = 0; // Integral Term
+	private final double 
+			kPdist = 0.045, // Proportional Term
+			kDdist = 0.003, 	// Derivative Value
+			kIdist = 0; 	// Integral Term
 
 	public TurnGyro(double amountTurn, Units turnUnits) {// TODO FIX NEGATIVIZATION
-		this.amountTurn = -amountTurn;
+		this.amountTurn = amountTurn;
 		this.turnUnits = turnUnits;
 		requires(Robot.driveTrainSubsystem);
 	}
@@ -55,7 +56,11 @@ public class TurnGyro extends Command {
 		integratedError += distError * dt;
 		derivativeError = (distError - prevError) / dt;
 		percentSpeed = distError * kPdist + integratedError * kIdist + derivativeError * kDdist;
-		Robot.driveTrainSubsystem.tankDrive(-percentSpeed, percentSpeed);
+		//Robot.driveTrainSubsystem.tankDrive(-percentSpeed, percentSpeed);
+		percentSpeed = percentSpeed < .2 && percentSpeed > 0 ? .2 : percentSpeed;
+		percentSpeed = percentSpeed > -.2 && percentSpeed < 0 ? -.2 : percentSpeed;
+		Robot.driveTrainSubsystem.tankDrive(percentSpeed, -percentSpeed);
+		prevError = distError;
 		SmartDashboard.putNumber("Gyro Turn Dist Err:", distError);
 		SmartDashboard.putNumber("Gyro Turn Perc Speed:", percentSpeed);
 	}

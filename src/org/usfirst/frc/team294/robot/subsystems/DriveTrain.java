@@ -74,6 +74,7 @@ public class DriveTrain extends Subsystem {
 	
 	/**
 	 * Get the rotation of the gyro.
+	 * Uses normal people degrees.
 	 * @return Current angle from 0 to 360 degrees.
 	 */
 	public double getGyroRotation() {
