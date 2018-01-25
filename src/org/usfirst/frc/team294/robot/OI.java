@@ -25,5 +25,6 @@ public class OI {
 		leftTrigger.whenPressed(new ShiftLow());
 		rightTrigger.whenPressed(new ShiftHigh());
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90,Units.Degrees));
+		SmartDashboard.putData("Turn heckla small NEGATIVE", new TurnGyro(-90,Units.Degrees));
 	}
 }

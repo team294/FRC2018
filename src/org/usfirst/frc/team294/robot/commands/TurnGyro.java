@@ -18,8 +18,8 @@ public class TurnGyro extends Command {
 	private double prevError = 0, integratedError = 0, derivativeError = 0, distError = 0;
 	private final double dt = .02;
 	private final double 
-			kPdist = 0.045, // Proportional Term
-			kDdist = 0.003, 	// Derivative Value
+			kPdist = 0.04, // Proportional Term
+			kDdist = 0.0036, 	// Derivative Value
 			kIdist = 0; 	// Integral Term
 
 	public TurnGyro(double amountTurn, Units turnUnits) {// TODO FIX NEGATIVIZATION
