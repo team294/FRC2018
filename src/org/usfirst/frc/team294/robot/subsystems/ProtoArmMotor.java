@@ -3,19 +3,22 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.ReadArmPotTesting;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+/**
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+**/
 
 
 /**
@@ -25,16 +28,19 @@ public class ProtoArmMotor extends Subsystem {
 	
 	public final static WPI_TalonSRX armMotor = new WPI_TalonSRX(RobotMap.armMotor);
 	
-	int POT_ZERO_REFERENCE = 500; //  TODO add method to Calibrate andstore this in Network Nables and read from NT
 	public static int potValue = 0;
-	public static int countAtZeroDegrees;
+	public static Preferences robotPrefs;
+//	public static int countAtZeroDegrees;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
 	
 	public ProtoArmMotor() {		
+		robotPrefs = Preferences.getInstance();
+		
 		armMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
-		armMotor.set(ControlMode.Position, 3);
+//		armMotor.set(ControlMode.Position, 3);
+		armMotor.set(ControlMode.PercentOutput,0);
 		armMotor.setNeutralMode(NeutralMode.Brake);
 		armMotor.configForwardLimitSwitchSource( LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0);
 		armMotor.configReverseLimitSwitchSource( LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0);
@@ -57,14 +63,22 @@ public class ProtoArmMotor extends Subsystem {
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new ReadArmPotTesting());
+ //       setDefaultCommand(new ReadArmPotTesting());
     }
     
     
-    public static int readArmPot () {				// returns armPot corrected for zero degree reference
-    	potValue = armMotor.getSelectedSensorPosition(0); // - countAtZeroDegrees;
+/** returns armPot corrected for zero degree reference
+ * The reference value for the arm position at zero degrees is set in the Shuffleboard network table/preferences section
+ * Set the arm to the zero position, set the countAtZeroDegrees to 0.  The value at that time read should then be entered into the countAtZeroDegree field.
+ * The Arm Pot Value will now be calibrated and read 0
+**/
+    public static int readArmPot () {				
+    	potValue = armMotor.getSelectedSensorPosition(0)- robotPrefs.getInt("countAtZeroDegrees", 500);
     	SmartDashboard.putNumber("Arm Pot Value", potValue);
-    	return (potValue);
-    }
+    	return (potValue ); 
+    }    	
+    	
+
+    
 }
 
