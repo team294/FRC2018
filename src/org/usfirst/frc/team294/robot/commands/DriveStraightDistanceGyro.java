@@ -47,6 +47,7 @@ public class DriveStraightDistanceGyro extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
 		distErr = 0;
 		prevDistErr = 0;
 		angleErr = 0;

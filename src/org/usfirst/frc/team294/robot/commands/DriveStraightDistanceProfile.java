@@ -40,7 +40,6 @@ public class DriveStraightDistanceProfile extends Command {
 		this.distanceTravel = distanceTravel;
 		this.percentPower = percentPower;
 
-		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 84, 180, .01);
 	}
 	public double encoderTicksToInches(double encoderticks) {
 		return (encoderticks / RobotMap.encoderTicksPerRevolution) * RobotMap.wheelCircumference;
@@ -51,6 +50,7 @@ public class DriveStraightDistanceProfile extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
 		distErr = 0;
 		prevDistErr = 0;
 		angleErr = 0;
@@ -59,6 +59,7 @@ public class DriveStraightDistanceProfile extends Command {
 		tolCheck = new ToleranceChecker(1, 5);
 		Robot.driveTrainSubsystem.zeroLeftEncoder();
 		Robot.driveTrainSubsystem.zeroRightEncoder();
+		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 84, 180, .01);
 		angleBase = Robot.driveTrainSubsystem.getGyroRotation();
 	}
 

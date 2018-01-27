@@ -5,6 +5,7 @@ import org.usfirst.frc.team294.robot.commands.TurnGyro;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units;
 import org.usfirst.frc.team294.robot.commands.ShiftHigh;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceGyro;
+import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
 import edu.wpi.first.wpilibj.Joystick;
@@ -29,5 +30,7 @@ public class OI {
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90,Units.Degrees));
 		SmartDashboard.putData("Turn heckla small NEGATIVE2", new TurnGyro());
 		SmartDashboard.putNumber("Gyro Turn Angle Input", 90);
+		SmartDashboard.putData("DriveStraightDistanceProfile",new DriveStraightDistanceProfile(0,.5));
+		SmartDashboard.putNumber("DistToTravelDSDG", 60);
 	}
 }
