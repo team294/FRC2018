@@ -81,7 +81,6 @@ public class DriveTrain extends Subsystem {
 	 * @return Current angle from 0 to 360 degrees.
 	 */
 	public double getGyroRotation() {
-		SmartDashboard.putNumber("Gyro Levels:", Robot.driveTrainSubsystem.getGyroRotation());
 		double angle = ahrs.getAngle() - yawZero;
 		// Angle will be in terms of raw gyro units (-inf,inf), so you need to convert
 		// to [0,360]

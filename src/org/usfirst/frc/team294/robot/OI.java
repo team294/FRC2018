@@ -21,7 +21,7 @@ public class OI {
 
 	{
 		SmartDashboard.putData("Start Drive Train", new DriveWithJoystick()); // Adds a start Button
-		SmartDashboard.putData("Drive Straight Gyro Angle", new DriveStraightDistanceGyroAngle(60, .5, 0));
+		SmartDashboard.putData("Drive Straight Gyro Angle", new DriveStraightDistanceGyroAngle(60, .75, 0));
 		SmartDashboard.putData("Drive Straight", new DriveStraightDistance(121, .9));
 
 		Button leftTrigger = new JoystickButton(leftJoystick, 1);

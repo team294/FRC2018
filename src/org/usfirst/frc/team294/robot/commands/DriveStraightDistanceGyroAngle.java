@@ -62,6 +62,8 @@ public class DriveStraightDistanceGyroAngle extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		SmartDashboard.putNumber("Left Encoder Values", Robot.driveTrainSubsystem.getLeftEncoderPosition());
+		SmartDashboard.putNumber("Right Encoder Values", Robot.driveTrainSubsystem.getRightEncoderPosition());
 		final double currentDistanceInches = encoderTicksToInches((Robot.driveTrainSubsystem.getLeftEncoderPosition()
 				+ Robot.driveTrainSubsystem.getRightEncoderPosition()) / 2.0);
 
