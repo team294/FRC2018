@@ -15,6 +15,7 @@ public class TurnGyro extends Command {
 
 	private double percentSpeed, amountTurn;
 	private final Units turnUnits;
+	private boolean useSDashTemp = false;
 	private double prevError = 0, integratedError = 0, derivativeError = 0, distError = 0;
 	private final double dt = .02;
 	private final double 
@@ -27,8 +28,14 @@ public class TurnGyro extends Command {
 		this.turnUnits = turnUnits;
 		requires(Robot.driveTrainSubsystem);
 	}
-
+	public TurnGyro() {
+		this(0,null);
+		useSDashTemp = true;
+	}
 	private double getDegreesTurn() {
+		if(useSDashTemp) {
+			return SmartDashboard.getNumber("Gyro Turn Angle Input", 180);
+		}
 		switch (turnUnits) {
 		case Radians:
 			return Math.toDegrees(amountTurn);
@@ -44,7 +51,7 @@ public class TurnGyro extends Command {
 		integratedError = 0;
 		derivativeError = 0;
 		distError = 0;
-		Robot.driveTrainSubsystem.zeroGyroRoataion();
+		//Robot.driveTrainSubsystem.zeroGyroRoataion();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
