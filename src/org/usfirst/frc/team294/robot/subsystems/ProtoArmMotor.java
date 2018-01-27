@@ -66,6 +66,15 @@ public class ProtoArmMotor extends Subsystem {
  //       setDefaultCommand(new ReadArmPotTesting());
     }
     
+    public static void armGoToPosition(double position) {
+    	armMotor.set(ControlMode.Position, position);;
+    	armMotor.config_kF(0, 0.0, 10);
+        armMotor.config_kP(0, 0.1, 10);
+        armMotor.config_kI(0, 0.0, 10);
+        armMotor.config_kD(0, 0.0, 10);
+
+    }
+    
     
 /** returns armPot corrected for zero degree reference
  * The reference value for the arm position at zero degrees is set in the Shuffleboard network table/preferences section
@@ -75,7 +84,7 @@ public class ProtoArmMotor extends Subsystem {
     public static int readArmPot () {				
     	potValue = armMotor.getSelectedSensorPosition(0)- robotPrefs.getInt("countAtZeroDegrees", 500);
     	SmartDashboard.putNumber("Arm Pot Value", potValue);
-    	return (potValue ); 
+    	return (potValue); 
     }    	
     	
 

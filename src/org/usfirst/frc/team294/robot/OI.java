@@ -1,8 +1,10 @@
 package org.usfirst.frc.team294.robot;
 
 import org.usfirst.frc.team294.robot.commands.ShiftLow;
+import org.usfirst.frc.team294.robot.subsystems.ProtoArmMotor;
 import org.usfirst.frc.team294.robot.commands.ArmExtend;
 import org.usfirst.frc.team294.robot.commands.ArmMotorControl;
+import org.usfirst.frc.team294.robot.commands.ArmMotorControlPosition;
 import org.usfirst.frc.team294.robot.commands.ArmRetract;
 import org.usfirst.frc.team294.robot.commands.ShiftHigh;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
@@ -26,8 +28,9 @@ public class OI {
 		
 		SmartDashboard.putData("Extend Arm", new ArmExtend()); //Adds a extend button
 		
-		SmartDashboard.putData("Start Arm Motor", new ArmMotorControl());
-			
+		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
+		
+		SmartDashboard.putData("Control Arm Motor Position", new ArmMotorControlPosition());
 //		SmartDashboard.putData("Start Arm", new ArmMotorControl()); // Adds a start Button
 
 		Button leftTrigger = new JoystickButton(leftJoystick, 1);
