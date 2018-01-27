@@ -25,6 +25,7 @@ public class ProtoArmMotor extends Subsystem {
 	
 	int POT_ZERO_REFERENCE = 500; //  TODO add method to Calibrate andstore this in Network Nables and read from NT
 	public static int PotValue=0;
+	public static int countAtZeroDegrees;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -58,7 +59,7 @@ public class ProtoArmMotor extends Subsystem {
     
     
     public int readArmPot () {				// returns armPot corrected for zero degree reference
-    	PotValue = armMotor.getSelectedSensorPosition(0)- POT_ZERO_REFERENCE;
+    	PotValue = armMotor.getSelectedSensorPosition(0)- countAtZeroDegrees;
     	SmartDashboard.putNumber("Arm Pot Value", PotValue);
     	return (PotValue );
     }
