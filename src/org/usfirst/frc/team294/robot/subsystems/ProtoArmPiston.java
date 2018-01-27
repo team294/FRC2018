@@ -30,7 +30,7 @@ public class ProtoArmPiston extends Subsystem {
 	private final DigitalInput armRetracted = new DigitalInput(RobotMap.pistonRetractedLimitSwitch);
 	
 	public void potAngleTest() {      // TODO calculate angle from pot data
-		double potAngle = ProtoArmMotor.PotValue;
+		double potAngle = ProtoArmMotor.potValue;
 		SmartDashboard.putNumber("Pot Angle raw count", potAngle);
 	}
 	

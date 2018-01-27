@@ -1,22 +1,18 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.OI;
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.subsystems.ProtoArmMotor;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class ArmMotorControl extends Command {
-	
-    public ArmMotorControl() {
+public class ReadArmPotTesting extends Command {
+
+    public ReadArmPotTesting() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires (Robot.ProtoArmMotorSubsystem);
+    	requires(Robot.ProtoArmMotorSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -25,9 +21,7 @@ public class ArmMotorControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double armVal = OI.armJoystick.getY();
-    	ProtoArmMotor.setArmMotorToPercentPower(armVal);
-		ProtoArmMotor.readArmPot();
+    	Robot.ProtoArmMotorSubsystem.readArmPot();
     }
 
     // Make this return true when this Command no longer needs to run execute()
