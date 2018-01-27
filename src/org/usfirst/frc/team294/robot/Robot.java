@@ -4,6 +4,7 @@ package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; 				//remove the ones that are not used.
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -22,6 +23,9 @@ public class Robot extends TimedRobot {
 	public static boolean scaleLeft = false;
 	public static boolean opponentSwitchLeft = false;
 	
+	public static Preferences robotPrefs;
+	public static int countAtZeroDegrees; 	// Arm potentiometer position at O degrees
+	
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -33,6 +37,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
+		
+		readPreferences();		// Read preferences next, so that subsystems can use the preference values.
+
 		/*
 		 * auto-config for autonomous
 		 */
@@ -179,5 +186,19 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	}
+	
+	public void readPreferences() {
+		//TODO:  Create function to read and set defaults for one number preference, then move most prefs
+		//  to calling this function.  This will eliminate much of the duplicate code below.
+
+		//TODO:  For each robot preference:  Use more descriptive names?
+		robotPrefs = Preferences.getInstance();
+
+		if (robotPrefs.getDouble("countAtZeroDegrees", 0) == 0) {		//  If field was not set up, set up field
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
+			robotPrefs.putInt("countAtZeroDegrees", 500); //this needs to be changed when we find the new value
+		}
+		countAtZeroDegrees = robotPrefs.getInt("countAtZeroDegrees", 500);
 	}
 }
