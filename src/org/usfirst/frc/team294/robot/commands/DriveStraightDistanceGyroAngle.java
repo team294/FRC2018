@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Used for when you want to drive straight at some specified angle.
  */
-public class DriveStraightDistanceGyro extends Command {
+public class DriveStraightDistanceGyroAngle extends Command {
 
 	private double distErr = 0;
 	private double distanceTravel, percentPower;
@@ -29,14 +29,15 @@ public class DriveStraightDistanceGyro extends Command {
 	private double kDangle = .1;
 	private double curve;
 	private double minSpeed = .1;
-	private double angleBase;
+	private double angleTurn; // in degrees
 
-	public DriveStraightDistanceGyro(double distanceTravel, double percentPower) {
+	public DriveStraightDistanceGyroAngle(double distanceTravel, double percentPower, double angleTurn) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.driveTrainSubsystem);
 		this.distanceTravel = distanceTravel;
 		this.percentPower = percentPower;
+		this.angleTurn = angleTurn;
 	}
 
 	public double encoderTicksToInches(double encoderticks) {
@@ -57,7 +58,6 @@ public class DriveStraightDistanceGyro extends Command {
 		tolCheck = new ToleranceChecker(1, 5);
 		Robot.driveTrainSubsystem.zeroLeftEncoder();
 		Robot.driveTrainSubsystem.zeroRightEncoder();
-		angleBase = Robot.driveTrainSubsystem.getGyroRotation();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -66,8 +66,8 @@ public class DriveStraightDistanceGyro extends Command {
 				+ Robot.driveTrainSubsystem.getRightEncoderPosition()) / 2.0);
 
 		distErr = distanceTravel - currentDistanceInches;
-		SmartDashboard.putNumber("Distance Error", distanceTravel - currentDistanceInches);
-		success = tolCheck.success(Math.abs(distanceTravel - currentDistanceInches));
+		SmartDashboard.putNumber("Distance Error", distErr);
+		success = tolCheck.success(Math.abs(distErr));
 		if (!success) {
 			distSpeedControl = distErr * kPdist + (distErr - prevDistErr) * kDdist;
 			SmartDashboard.putNumber("SpeedControl", distSpeedControl);
@@ -80,7 +80,7 @@ public class DriveStraightDistanceGyro extends Command {
 			} else {
 				distSpeedControl = (distSpeedControl > -minSpeed) ? -minSpeed : distSpeedControl;
 			}
-			angleErr = angleBase - Robot.driveTrainSubsystem.getGyroRotation();
+			angleErr = angleTurn - Robot.driveTrainSubsystem.getGyroRotation();
 			angleErr = (angleErr > 180) ? angleErr - 360 : angleErr;
 			intErr = intErr + angleErr * 0.02;
 			double dErr = angleErr - prevAngleErr;
@@ -88,7 +88,7 @@ public class DriveStraightDistanceGyro extends Command {
 			curve = angleErr * kPangle + intErr * kIangle + dErr * kDangle;
 			curve = (curve > 0.5) ? 0.5 : curve;
 			curve = (curve < -0.5) ? -0.5 : curve;
-			curve = (distanceTravel - currentDistanceInches >= 0) ? curve : -curve;
+			curve = (distErr >= 0) ? curve : -curve;
 			Robot.driveTrainSubsystem.driveAtCurve(distSpeedControl, curve);
 
 		}
