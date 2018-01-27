@@ -1,19 +1,17 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.OI;
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.subsystems.ProtoArmMotor;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class ArmMotorControl extends Command {
+public class SetArmFromSmartDashboard extends Command  {
+
+	double angle;
 	
-    public ArmMotorControl() {
+    public SetArmFromSmartDashboard() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ProtoArmMotorSubsystem);
@@ -21,19 +19,16 @@ public class ArmMotorControl extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	angle = Robot.ProtoArmMotorSubsystem.setArmFromSmartDashboard();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double armVal = OI.armJoystick.getY();
-    	Robot.ProtoArmMotorSubsystem.setArmMotorToPercentPower(armVal);
-    	Robot.ProtoArmMotorSubsystem.getArmPot();
-    	Robot.ProtoArmMotorSubsystem.getArmDegrees();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return angle > 0.0;
     }
 
     // Called once after isFinished returns true

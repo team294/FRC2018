@@ -1,13 +1,6 @@
 package org.usfirst.frc.team294.robot;
 
-import org.usfirst.frc.team294.robot.commands.ShiftLow;
-import org.usfirst.frc.team294.robot.subsystems.ProtoArmMotor;
-import org.usfirst.frc.team294.robot.commands.ArmExtend;
-import org.usfirst.frc.team294.robot.commands.ArmMotorControl;
-import org.usfirst.frc.team294.robot.commands.ArmMotorControlPosition;
-import org.usfirst.frc.team294.robot.commands.ArmRetract;
-import org.usfirst.frc.team294.robot.commands.ShiftHigh;
-import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
+import org.usfirst.frc.team294.robot.commands.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -31,7 +24,9 @@ public class OI {
 		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
 		
 		SmartDashboard.putData("Control Arm Motor Position", new ArmMotorControlPosition());
-//		SmartDashboard.putData("Start Arm", new ArmMotorControl()); // Adds a start Button
+		
+		SmartDashboard.putData("Set Arm Position", new SetArmFromSmartDashboard());
+		SmartDashboard.putNumber("set Arm Angle", 0);
 
 		Button leftTrigger = new JoystickButton(leftJoystick, 1);
 		Button rightTrigger = new JoystickButton(rightJoystick, 1);
