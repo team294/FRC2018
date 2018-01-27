@@ -18,11 +18,13 @@ import org.usfirst.frc.team294.robot.subsystems.Shifter;
 
 
 public class Robot extends TimedRobot {
-	public static final DriveTrain driveTrainSubsystem = new DriveTrain();
-	public static final Shifter shifterSubsystem = new Shifter();
-	public static final ProtoArmPiston protoArmPistonSubsystem = new ProtoArmPiston();
-	public static final ProtoArmMotor ProtoArmMotorSubsystem = new ProtoArmMotor();
+	
+	public static DriveTrain driveTrainSubsystem = new DriveTrain();
+	public static Shifter shifterSubsystem = new Shifter();
+	public static ProtoArmPiston protoArmPistonSubsystem = new ProtoArmPiston();
+	public static ProtoArmMotor ProtoArmMotorSubsystem = new ProtoArmMotor();
 	public static OI m_oi;
+	
 	public static boolean allianceSwitchLeft = false;
 	public static boolean scaleLeft = false;
 	public static boolean opponentSwitchLeft = false;

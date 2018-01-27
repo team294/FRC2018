@@ -30,6 +30,9 @@ public class ProtoArmMotor extends Subsystem {
 	
 	public static int potValue = 0;
 	public static Preferences robotPrefs;
+	
+	public static final double DEGREES_PER_CLICK = 0.5; //TODO: calibrate value
+	
 //	public static int countAtZeroDegrees;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -60,25 +63,37 @@ public class ProtoArmMotor extends Subsystem {
 		SmartDashboard.putNumber("Arm Motor Percent", percent);
 	}
 		
-	
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
- //       setDefaultCommand(new ReadArmPotTesting());
-    }
-    
-    
 /** returns armPot corrected for zero degree reference
  * The reference value for the arm position at zero degrees is set in the Shuffleboard network table/preferences section
  * Set the arm to the zero position, set the countAtZeroDegrees to 0.  The value at that time read should then be entered into the countAtZeroDegree field.
  * The Arm Pot Value will now be calibrated and read 0
 **/
-    public static int readArmPot () {				
+    public int getArmPot () {				
     	potValue = armMotor.getSelectedSensorPosition(0)- robotPrefs.getInt("countAtZeroDegrees", 500);
     	SmartDashboard.putNumber("Arm Pot Value", potValue);
     	return (potValue ); 
     }    	
-    	
-
+    public double getArmDegrees () {
+    	double armAngle = getArmPot() * DEGREES_PER_CLICK;
+    	SmartDashboard.putNumber("Arm angle Value", armAngle);
+    	return(armAngle );
+    }
+    
+    public void setArmAngle (double angle) {
+    	double encoderDegrees = angle / DEGREES_PER_CLICK;
+    	//setPosition(encoderDegrees); TODO: merge with branch for set position
+    }
+    
+    public double setArmFromSmartDashboard() {
+    	double angle = SmartDashboard.getNumber("set Arm Angle", 0);
+    	setArmAngle(angle);
+    	return angle;
+    }
+    
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+ //       setDefaultCommand(new ReadArmPotTesting());
+    }
     
 }
 
