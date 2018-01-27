@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class SetArmFromSmartDashboard extends Command  {
-
-	double angle;
 	
     public SetArmFromSmartDashboard() {
         // Use requires() here to declare subsystem dependencies
@@ -19,7 +17,7 @@ public class SetArmFromSmartDashboard extends Command  {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	angle = Robot.ProtoArmMotorSubsystem.setArmFromSmartDashboard();
+    	Robot.ProtoArmMotorSubsystem.setArmFromSmartDashboard();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -28,7 +26,7 @@ public class SetArmFromSmartDashboard extends Command  {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return angle > 0.0;
+        return false;
     }
 
     // Called once after isFinished returns true

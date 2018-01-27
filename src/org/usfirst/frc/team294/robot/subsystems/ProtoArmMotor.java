@@ -63,7 +63,7 @@ public class ProtoArmMotor extends Subsystem {
 		SmartDashboard.putNumber("Arm Motor Percent", percent);
 	}
     
-    public static void armGoToPosition(double position) {
+    public static void setArmPosition(double position) {
     	armMotor.set(ControlMode.Position, position);;
     	armMotor.config_kF(0, 0.0, 10);
         armMotor.config_kP(0, 0.1, 10);
@@ -81,7 +81,8 @@ public class ProtoArmMotor extends Subsystem {
     	potValue = armMotor.getSelectedSensorPosition(0)- robotPrefs.getInt("countAtZeroDegrees", 500);
     	SmartDashboard.putNumber("Arm Pot Value", potValue);
     	return (potValue); 
-    }    	
+    }   
+    
     public double getArmDegrees () {
     	double armAngle = getArmPot() * DEGREES_PER_CLICK;
     	SmartDashboard.putNumber("Arm angle Value", armAngle);
@@ -90,13 +91,12 @@ public class ProtoArmMotor extends Subsystem {
     
     public void setArmAngle (double angle) {
     	double encoderDegrees = angle / DEGREES_PER_CLICK;
-    	//setPosition(encoderDegrees); TODO: merge with branch for set position
+    	setArmPosition(encoderDegrees);
     }
     
-    public double setArmFromSmartDashboard() {
+    public void setArmFromSmartDashboard() {
     	double angle = SmartDashboard.getNumber("set Arm Angle", 0);
     	setArmAngle(angle);
-    	return angle;
     }
     
     public void initDefaultCommand() {
