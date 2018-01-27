@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team294.robot.commands.RunDriveTrain;
 import org.usfirst.frc.team294.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team294.robot.subsystems.Shifter;
+import org.usfirst.frc.team294.utilities.FileLog;
 
 
 public class Robot extends TimedRobot {
@@ -21,6 +22,8 @@ public class Robot extends TimedRobot {
 	public static boolean allianceSwitchLeft = false;
 	public static boolean scaleLeft = false;
 	public static boolean opponentSwitchLeft = false;
+	
+	public static FileLog log;
 	
 
 	Command m_autonomousCommand;
@@ -32,7 +35,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		// Create the log file
+		log = new FileLog();
+		
+		// Create the OI
 		m_oi = new OI();
+		
 		/*
 		 * auto-config for autonomous
 		 */
@@ -74,6 +82,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		log.writeLogEcho("Autonomous mode started.");
 		
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -162,6 +171,8 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		
+		log.writeLogEcho("Teleop mode started.");
 	}
 
 	/**
