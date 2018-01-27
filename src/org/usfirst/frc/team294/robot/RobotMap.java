@@ -23,4 +23,25 @@ public class RobotMap {
 		// first letter is closest switch, second is scale
 	}
 	
+	
+	// Columns in Array are in order of LL, LR, RL, RR
+	public static int[][] startingLeftAutoPrograms = { { 3, 3, 1, 2},  // Program 1
+			{ 1, 2, 1, 2},  // Program 2
+			{ 5, 5, 5, 5},  // Program 3
+			{ 3, 3, 1, 4}   // Program 4
+	};
+	
+	public static int[][] startingMiddleAutoPrograms = { { 5, 5, 5, 5},  // Program 1
+			{ 5, 5, 5, 5},  // Program 2
+			{ 5, 5, 5, 5},  // Program 3
+			{ 5, 5, 5, 5}   // Program 4
+			
+	};
+	
+	public static int[][] startingRightAutoPrograms = { { 2, 1, 3, 3},  // Program 1
+			{ 2, 1, 2, 1},  // Program 2
+			{ 5, 5, 5, 5},  // Program 3
+			{ 4, 1, 3, 3}   // Program 4
+			
+	};
 }

@@ -162,9 +162,43 @@ public class Robot extends TimedRobot {
 		else
 			fieldLayout = RobotMap.AutoFieldLayout.RR.ordinal();
 
+		int programSelected;
 		autoSelect = m_oi.readAutoColumn();
+			
+		int startPosition = m_oi.readStartPosition(); 
+		
+		
+		if (startPosition == 1) {
+			programSelected = RobotMap.startingLeftAutoPrograms[autoSelect][fieldLayout];
+		} else if (startPosition == 2) {
+			programSelected = RobotMap.startingMiddleAutoPrograms[autoSelect][fieldLayout];
+		} else {
+			programSelected = RobotMap.startingRightAutoPrograms[autoSelect][fieldLayout];
+			
+		}
 
-		m_autonomousCommand = autoCommandArray[autoSelect][fieldLayout];
+		switch (programSelected) {
+		case 1 :
+			m_autonomousCommand = new AutoPath1_SameSideScale(startPosition)
+			break;
+		case 2 : 
+			m_autonomousCommand = new AutoPath2_OppositeSideScale(m_oi.chooser_startPosition);
+			break;
+		case 3 :
+			m_autonomousCommand = new AutoPath3_SameSideSwitch(m_oi.chooser_startPosition);
+			break;
+		case 4 :
+			m_autonomousCommand = new AutoPath4_OppositeSideSwitch(m_oi.chooser_startPosition);
+			break;
+		case 5 :
+			m_autonomousCommand = new AutoPath5_SwitchFromMiddle(m_oi.chooser_startPosition);
+
+			
+		}
+		
+	// NOTE: NEED TO FIX COMMANDS AND COMMAND SEQUENCES (deleted AutoPath1_SameSideScale command but left sequence)
+		
+//		m_autonomousCommand = autoCommandArray[autoSelect][fieldLayout];
 		SmartDashboard.putString("Auto path", m_autonomousCommand.getName());
 		SmartDashboard.putNumber("Field selection", fieldLayout);
 		SmartDashboard.putNumber("Column Selected", autoSelect);
