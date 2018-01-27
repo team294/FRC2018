@@ -55,14 +55,14 @@ public class Shifter extends Subsystem {
 	 * Shift the gears up
 	 */
 	public void shiftUp() {
-		shifter.set(Value.kForward); // kForward is high gear 
+		shifter.set(Value.kReverse); // kReverse is high gear 
 	}
 	
 	/**
 	 * Set the gear piston to in
 	 */
 	public void shiftDown() {
-		shifter.set(Value.kReverse); // KReverse is low gear 
+		shifter.set(Value.kForward); // KForward is low gear 
 	}
 
 	/**
