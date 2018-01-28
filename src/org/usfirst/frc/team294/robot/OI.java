@@ -4,10 +4,8 @@ import org.usfirst.frc.team294.robot.commands.ShiftLow;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units;
 import org.usfirst.frc.team294.robot.commands.ShiftHigh;
-import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceGyro;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceGyroAngle;
-import org.usfirst.frc.team294.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -21,18 +19,15 @@ public class OI {
 	public static Joystick rightJoystick = new Joystick(1); // Right Joystick is in port 1
 
 	{
-		SmartDashboard.putData("Start Drive Train", new DriveWithJoystick()); // Adds a start Button
-		SmartDashboard.putData("Drive Straight Gyro Angle", new DriveStraightDistanceGyroAngle(150, .75, 0));
-		SmartDashboard.putData("Drive Straight", new DriveStraightDistance(121, .9));
-
+		//SmartDashboard.putData("Start Drive Train", new DriveWithJoystick()); // Adds a start Button
+		//SmartDashboard.putData("Drive Straight Gyro Angle", new DriveStraightDistanceGyroAngle(150, .75, 0));
+/*
 		Button leftTrigger = new JoystickButton(leftJoystick, 1);
 		Button rightTrigger = new JoystickButton(rightJoystick, 1);
 		leftTrigger.whenPressed(new ShiftLow());
-		rightTrigger.whenPressed(new ShiftHigh());
-		SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
-		SmartDashboard.putData("Turn heckla small NEGATIVE2", new TurnGyro());
-		SmartDashboard.putNumber("Gyro Turn Angle Input", 90);
-		SmartDashboard.putData("DriveStraightDistanceProfile",new DriveStraightDistanceProfile(0,.5));
-		SmartDashboard.putNumber("DistToTravelDSDG", 60);
+		rightTrigger.whenPressed(new ShiftHigh());*/
+		//SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
+		SmartDashboard.putData("DriveStraightDistanceProfile",new DriveStraightDistanceProfile(0,0));
+		SmartDashboard.putNumber("DistToTravelDSDG", 150);
 	}
 }

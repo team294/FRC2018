@@ -12,4 +12,5 @@ public class RobotMap {
 	public static final int pnuematicShifterHigh = 0;
 	public static final double wheelCircumference = 4.0 * Math.PI;
 	public static final double encoderTicksPerRevolution = 4096.0;
+	public static final double driveTrainDistanceFudgeFactor = 0.96824; //TODO: store in robot preferences
 }

@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.2326315789473684,
+  "dividerPosition": 0.2323869610935857,
   "tabPane": [
     {
       "title": "Tab 1",
@@ -57,7 +57,7 @@
           "2,0": {
             "size": [
               2,
-              3
+              6
             ],
             "content": {
               "_type": "List Layout",
@@ -69,19 +69,21 @@
                   "_title": "SmartDashboard/Turn heckla small"
                 },
                 {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Turn heckla small NEGATIVE2",
-                  "_title": "SmartDashboard/Turn heckla small NEGATIVE2"
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Gyro Turn Angle Input",
-                  "_title": "/SmartDashboard/Gyro Turn Angle Input"
-                },
-                {
                   "_type": "Text View",
                   "_source0": "network_table:///SmartDashboard/Gyro Levels:",
                   "_title": "SmartDashboard/Gyro Levels:"
+                },
+                {
+                  "_type": "Graph",
+                  "_title": "Graph (no sources)",
+                  "Visible time": 5.0,
+                  "SmartDashboard/Actual Percent Power visible": true
+                },
+                {
+                  "_type": "Graph",
+                  "_title": "Graph (no sources)",
+                  "Visible time": 5.0,
+                  "SmartDashboard/Actual Distance visible": true
                 }
               ]
             }
@@ -97,20 +99,32 @@
               "_children": [
                 {
                   "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Drive Straight",
-                  "_title": "SmartDashboard/Drive Straight"
+                  "_source0": "network_table:///SmartDashboard/Drive Straight Gyro Angle",
+                  "_title": "/SmartDashboard/Drive Straight Gyro Angle"
                 },
                 {
                   "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Drive Straight Gyro",
-                  "_title": "SmartDashboard/Drive Straight Gyro"
+                  "_source0": "network_table:///SmartDashboard/DriveStraightDistanceProfile",
+                  "_title": "SmartDashboard/DriveStraightDistanceProfile"
                 },
                 {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Start Drive Train",
-                  "_title": "SmartDashboard/Start Drive Train"
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/DistToTravelDSDG",
+                  "_title": "SmartDashboard/DistToTravelDSDG"
                 }
               ]
+            }
+          },
+          "4,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Graph",
+              "_title": "Graph (no sources)",
+              "Visible time": 5.0,
+              "SmartDashboard/Distance Error visible": true
             }
           }
         }

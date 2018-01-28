@@ -11,41 +11,47 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Used for when you want to drive straight at some specified angle, uses motion profiling
  */
 public class DriveStraightDistanceProfile extends Command {
 
 	private double distErr = 0;
-	private double distanceTravel, percentPower, currentDistance;
+	private double distanceTravel, currentDistance;
 	private ToleranceChecker tolCheck;
 	private boolean success;
 	private double distSpeedControl;
-	private final double kPdist = 0.06, kDdist = 0.24;
+	
+	private final double 
+			kPdist = 0.05, 
+			kDdist = 0.37,
+			kIdist = 0.00; // not used
+	
 	private double prevDistErr;
 	private double angleErr;
 	private double intErr = 0;
 	private double prevAngleErr;
+	
 	private double kPangle = .06;
 	private double kIangle = .002;
 	private double kDangle = .1;
+	
 	private double curve;
 	private double minSpeed = .1;
 	private double angleBase;
 	private ProfileGenerator trapezoid;
 	
-	public DriveStraightDistanceProfile(double distanceTravel, double percentPower) {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
+	public DriveStraightDistanceProfile(double distanceTravel, double angleBase) {
 		requires(Robot.driveTrainSubsystem);
 		this.distanceTravel = distanceTravel;
-		this.percentPower = percentPower;
+		this.angleBase = angleBase;
+	}
 
-	}
 	public double encoderTicksToInches(double encoderticks) {
-		return (encoderticks / RobotMap.encoderTicksPerRevolution) * RobotMap.wheelCircumference;
+		return (encoderticks / RobotMap.encoderTicksPerRevolution) * RobotMap.wheelCircumference * RobotMap.driveTrainDistanceFudgeFactor;
 	}
+
 	public double inchesToEncoderTicks(double inches) {
-		return (inches / RobotMap.wheelCircumference) * RobotMap.encoderTicksPerRevolution;
+		return (inches / RobotMap.wheelCircumference / RobotMap.driveTrainDistanceFudgeFactor) * RobotMap.encoderTicksPerRevolution;
 	}
 
 	// Called just before this Command runs the first time
@@ -59,7 +65,7 @@ public class DriveStraightDistanceProfile extends Command {
 		tolCheck = new ToleranceChecker(1, 5);
 		Robot.driveTrainSubsystem.zeroLeftEncoder();
 		Robot.driveTrainSubsystem.zeroRightEncoder();
-		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 50, 80);
+		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 80, 80);
 		angleBase = Robot.driveTrainSubsystem.getGyroRotation();
 	}
 
@@ -68,22 +74,14 @@ public class DriveStraightDistanceProfile extends Command {
 		final double currentDistanceInches = encoderTicksToInches(Robot.driveTrainSubsystem.getLeftEncoderPosition());
 		this.currentDistance = currentDistanceInches;
 		distErr = trapezoid.getCurrentPosition() - currentDistanceInches;
-		SmartDashboard.putNumber("Distance Error", distanceTravel - currentDistanceInches);
 		success = tolCheck.success(Math.abs(distanceTravel - currentDistanceInches));
-
-		SmartDashboard.putNumber("Distance Calculated", trapezoid.getCurrentPosition());
-		SmartDashboard.putNumber("Set Distance", distanceTravel);
-		SmartDashboard.putNumber("Actual Distance", currentDistance);
-		SmartDashboard.putNumber("Actual Velocity", distSpeedControl);
 		
 		if (!success) {
 			distSpeedControl = distErr * kPdist + (distErr - prevDistErr) * kDdist;
-			SmartDashboard.putNumber("SpeedControl", distSpeedControl);
 			prevDistErr = distErr;
-			distSpeedControl = distSpeedControl > 1 ? 1 : distSpeedControl;
-			distSpeedControl = distSpeedControl < -1 ? -1 : distSpeedControl;
+			//distSpeedControl = distSpeedControl > percentPower ? percentPower : distSpeedControl;
+			//distSpeedControl = distSpeedControl < -percentPower ? -percentPower : distSpeedControl;
 			// TODO change this to max percent power, instead of scaling power
-			distSpeedControl *= percentPower;
 			if (distSpeedControl > 0) {
 				distSpeedControl = (distSpeedControl < minSpeed) ? minSpeed : distSpeedControl;
 			} else {
@@ -101,6 +99,11 @@ public class DriveStraightDistanceProfile extends Command {
 			Robot.driveTrainSubsystem.driveAtCurve(distSpeedControl, curve);
 
 		}
+
+		SmartDashboard.putNumber("Distance Calculated", trapezoid.getCurrentPosition());
+		SmartDashboard.putNumber("Distance Error", distanceTravel - currentDistanceInches);
+		SmartDashboard.putNumber("Actual Distance", currentDistance);
+		SmartDashboard.putNumber("Actual Percent Power", distSpeedControl);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
