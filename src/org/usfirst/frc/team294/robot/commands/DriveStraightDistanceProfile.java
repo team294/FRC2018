@@ -65,8 +65,7 @@ public class DriveStraightDistanceProfile extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		final double currentDistanceInches = encoderTicksToInches((Robot.driveTrainSubsystem.getLeftEncoderPosition()
-				+ Robot.driveTrainSubsystem.getRightEncoderPosition()) / 2.0);
+		final double currentDistanceInches = encoderTicksToInches(Robot.driveTrainSubsystem.getLeftEncoderPosition());
 
 		distErr = trapezoid.getCurrentPosition() - currentDistanceInches;
 		SmartDashboard.putNumber("Distance Error", distanceTravel - currentDistanceInches);
