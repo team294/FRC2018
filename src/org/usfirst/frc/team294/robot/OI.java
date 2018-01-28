@@ -35,7 +35,7 @@ public class OI {
 		SmartDashboard.putData("Start Shifter", new PnuematicShift()); //Adds a start Button
 	}
 	
-	public int readAutoColumn() {
+	public int readAutoRow() {
 		return chooser_autoColumn.getSelected();
 	}
 	

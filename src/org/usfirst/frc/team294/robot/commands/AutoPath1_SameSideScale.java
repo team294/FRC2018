@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoPath1_SameSideScale extends CommandGroup {
 
     public AutoPath1_SameSideScale(int startPosition) {
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

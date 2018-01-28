@@ -39,30 +39,30 @@ public class Robot extends TimedRobot {
 		/*
 		 * auto-config for autonomous
 		 */
-		m_chooser.addDefault("Default Auto", new RunDriveTrain());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+//		m_chooser.addDefault("Default Auto", new RunDriveTrain());
+//		// chooser.addObject("My Auto", new MyAutoCommand());
+//		SmartDashboard.putData("Auto mode", m_chooser);
 		
 		// array chooses which auto program to use based on selected auto path and field layout
-		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath3_SameSideSwitch();
-		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath3_SameSideSwitch();
-		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
-		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath2_OppositeSideScale();
-
-		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath1_SameSideScale();
-		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath2_OppositeSideScale();
-		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
-		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath2_OppositeSideScale();
-
-		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath5_SwitchFromMiddle();
-		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath5_SwitchFromMiddle();
-		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath5_SwitchFromMiddle();
-		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath5_SwitchFromMiddle();
-		
-		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath3_SameSideSwitch();
-		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath3_SameSideSwitch();
-		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
-		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath4_OppositeSideSwitch();
+//		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath3_SameSideSwitch();
+//		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath3_SameSideSwitch();
+//		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
+//		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath2_OppositeSideScale();
+//
+//		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath1_SameSideScale();
+//		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath2_OppositeSideScale();
+//		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
+//		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath2_OppositeSideScale();
+//
+//		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath5_SwitchFromMiddle();
+//		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath5_SwitchFromMiddle();
+//		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath5_SwitchFromMiddle();
+//		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath5_SwitchFromMiddle();
+//		
+//		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath3_SameSideSwitch();
+//		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath3_SameSideSwitch();
+//		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
+//		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath4_OppositeSideSwitch();
 
 	}
 
@@ -163,7 +163,7 @@ public class Robot extends TimedRobot {
 			fieldLayout = RobotMap.AutoFieldLayout.RR.ordinal();
 
 		int programSelected;
-		autoSelect = m_oi.readAutoColumn();
+		autoSelect = m_oi.readAutoRow();
 			
 		int startPosition = m_oi.readStartPosition(); 
 		
@@ -179,19 +179,19 @@ public class Robot extends TimedRobot {
 
 		switch (programSelected) {
 		case 1 :
-			m_autonomousCommand = new AutoPath1_SameSideScale(startPosition)
+			m_autonomousCommand = new AutoPath1_SameSideScale(startPosition);
 			break;
 		case 2 : 
-			m_autonomousCommand = new AutoPath2_OppositeSideScale(m_oi.chooser_startPosition);
+			m_autonomousCommand = new AutoPath2_OppositeSideScale(startPosition);
 			break;
 		case 3 :
-			m_autonomousCommand = new AutoPath3_SameSideSwitch(m_oi.chooser_startPosition);
+			m_autonomousCommand = new AutoPath3_SameSideSwitch(startPosition);
 			break;
 		case 4 :
-			m_autonomousCommand = new AutoPath4_OppositeSideSwitch(m_oi.chooser_startPosition);
+			m_autonomousCommand = new AutoPath4_OppositeSideSwitch(startPosition);
 			break;
 		case 5 :
-			m_autonomousCommand = new AutoPath5_SwitchFromMiddle(m_oi.chooser_startPosition);
+			m_autonomousCommand = new AutoPath5_SwitchFromMiddle(allianceSwitchLeft);
 
 			
 		}
