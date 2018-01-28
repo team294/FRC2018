@@ -8,6 +8,7 @@ public class FileLog {
 	
 	private FileWriter fileWriter;
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+	private String fileName;
 
 	/**
 	 * Creates a new log file called "/home/lvuser/logfile.date.time.txt"
@@ -21,16 +22,7 @@ public class FileLog {
 	 * @param filename Path and name of log file.  ".date.time.txt" will automatically be added to the end of the file name.
 	 */
 	public FileLog(String filename) {
-		final SimpleDateFormat fileDateFormat = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
-
-		try {
-			fileWriter = new FileWriter(filename + "." + fileDateFormat.format(System.currentTimeMillis()) + ".txt", true);
-			fileWriter.write("----------------------------\n");
-			fileWriter.write(dateFormat.format(System.currentTimeMillis()) + ",  FileLog open.\n");
-			fileWriter.flush();
-		} catch (IOException exception) {
-			System.out.println("Could not open log file: " + exception);
-		}
+		this.fileName = filename;
 	}
 	
 	/**
@@ -38,7 +30,18 @@ public class FileLog {
 	 * @param msg
 	 */
 	public void writeLog(String msg) {
-		if (fileWriter == null) return;
+		if (fileWriter == null) {
+			final SimpleDateFormat fileDateFormat = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
+
+			try {
+				fileWriter = new FileWriter(fileName + "." + fileDateFormat.format(System.currentTimeMillis()) + ".txt", true);
+				fileWriter.write("----------------------------\n");
+				fileWriter.write(dateFormat.format(System.currentTimeMillis()) + ",  FileLog open.\n");
+				fileWriter.flush();
+			} catch (IOException exception) {
+				System.out.println("Could not open log file: " + exception);
+			}
+		}
 		try {
 			fileWriter.write(dateFormat.format(System.currentTimeMillis()) + ", " + msg + "\n");
 			fileWriter.flush();
