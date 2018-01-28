@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -30,7 +31,7 @@ public class ProtoArmMotor extends Subsystem {
 	public static int potValue = 0;
 	public static Preferences robotPrefs;
 	
-	public static final double DEGREES_PER_CLICK = 0.5; //TODO: calibrate value
+	public static final double DEGREES_PER_CLICK = 2; //TODO: calibrate value
 	
 //	public static int countAtZeroDegrees;
     // Put methods for controlling this subsystem
@@ -40,15 +41,18 @@ public class ProtoArmMotor extends Subsystem {
 	public ProtoArmMotor() {		
 		robotPrefs = Preferences.getInstance();
 		
-		armMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
 //		armMotor.set(ControlMode.Position, 3);
 		armMotor.set(ControlMode.PercentOutput,0);
 		armMotor.setNeutralMode(NeutralMode.Brake);
 		armMotor.configForwardLimitSwitchSource( LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0);
 		armMotor.configReverseLimitSwitchSource( LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0);
 		armMotor.overrideLimitSwitchesEnable(true);  			//  pass false to force disable limit switch
+		
+		armMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
+		//armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 1, 0x00, 0x00, 0x00);
+		armMotor.selectProfileSlot(0, 0);
 		armMotor.config_kF(0, 0.0, 10);
-        armMotor.config_kP(0, 0.1, 10);
+        armMotor.config_kP(0, 0.001, 10);
         armMotor.config_kI(0, 0.0, 10);
         armMotor.config_kD(0, 0.0, 10);
 	}
@@ -64,16 +68,17 @@ public class ProtoArmMotor extends Subsystem {
 	}
     
     public static void setArmPosition(double position) {
-    	armMotor.set(ControlMode.Position, position);
+    	armMotor.set(ControlMode.Position, position * 32);
     }
 
-/** returns armPot corrected for zero degree reference
- * The reference value for the arm position at zero degrees is set in the Shuffleboard network table/preferences section
- * Set the arm to the zero position, set the countAtZeroDegrees to 0.  The value at that time read should then be entered into the countAtZeroDegree field.
- * The Arm Pot Value will now be calibrated and read 0
-**/
+	/** returns armPot corrected for zero degree reference
+	 * The reference value for the arm position at zero degrees is set in the Shuffleboard network table/preferences section
+	 * Set the arm to the zero position, set the countAtZeroDegrees to 0.  The value at that time read should then be entered into the countAtZeroDegree field.
+	 * The Arm Pot Value will now be calibrated and read 0
+	**/
     public int getArmPot () {				
-    	potValue = armMotor.getSelectedSensorPosition(0)- robotPrefs.getInt("countAtZeroDegrees", 500);
+    	potValue = armMotor.getSelectedSensorPosition(0); //- robotPrefs.getInt("countAtZeroDegrees", 500);
+    	//potValue = armMotor.getSensorCollection().getAnalogIn();
     	SmartDashboard.putNumber("Arm Pot Value", potValue);
     	return (potValue); 
     }   
