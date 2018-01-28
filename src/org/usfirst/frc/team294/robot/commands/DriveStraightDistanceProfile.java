@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveStraightDistanceProfile extends Command {
 
 	private double distErr = 0;
-	private double distanceTravel, percentPower;
+	private double distanceTravel, percentPower, currentDistance;
 	private ToleranceChecker tolCheck;
 	private boolean success;
 	private double distSpeedControl;
@@ -59,17 +59,23 @@ public class DriveStraightDistanceProfile extends Command {
 		tolCheck = new ToleranceChecker(1, 5);
 		Robot.driveTrainSubsystem.zeroLeftEncoder();
 		Robot.driveTrainSubsystem.zeroRightEncoder();
-		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 84, 180, .01);
+		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 50, 80, .01);
 		angleBase = Robot.driveTrainSubsystem.getGyroRotation();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		final double currentDistanceInches = encoderTicksToInches(Robot.driveTrainSubsystem.getLeftEncoderPosition());
-
+		this.currentDistance = currentDistanceInches;
 		distErr = trapezoid.getCurrentPosition() - currentDistanceInches;
 		SmartDashboard.putNumber("Distance Error", distanceTravel - currentDistanceInches);
 		success = tolCheck.success(Math.abs(distanceTravel - currentDistanceInches));
+
+		SmartDashboard.putNumber("Distance Calculated", trapezoid.getCurrentPosition());
+		SmartDashboard.putNumber("Set Distance", distanceTravel);
+		SmartDashboard.putNumber("Actual Distance", currentDistance);
+		SmartDashboard.putNumber("Actual Velocity", distSpeedControl);
+		
 		if (!success) {
 			distSpeedControl = distErr * kPdist + (distErr - prevDistErr) * kDdist;
 			SmartDashboard.putNumber("SpeedControl", distSpeedControl);
@@ -98,6 +104,11 @@ public class DriveStraightDistanceProfile extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
+		if(success) {
+			SmartDashboard.putNumber("fDistance Calculated", trapezoid.getCurrentPosition());
+			SmartDashboard.putNumber("fSet Distance", distanceTravel);
+			SmartDashboard.putNumber("fActual Distance", currentDistance);
+		}
 		return success;
 	}
 

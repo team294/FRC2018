@@ -1,5 +1,7 @@
 package org.usfirst.frc.team294.utilities;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class ProfileGenerator {
 	
 	public double currentPosition;
@@ -20,9 +22,9 @@ public class ProfileGenerator {
 
 	//Function to update equations for when we increment them, function to say hey we're done
 	public ProfileGenerator(double initialPosition, double finalPosition, double initialVelocity, double maxVelocity, double maxAcceleration, double threshold) {
-		// TODO Auto-generated constructor stub
 		this.currentPosition = initialPosition;
-		this.finalPosition = Math.abs(finalPosition);
+		this.finalPosition = finalPosition;
+		// TODO may not work in reverse
 		directionSign = this.finalPosition/finalPosition;
 		this.currentVelocity = initialVelocity;
 		this.maxVelocity = maxVelocity;
@@ -42,9 +44,10 @@ public class ProfileGenerator {
 		currentVelocity = currentVelocity + currentAcceleration*dt;
 		
 		if(currentVelocity > maxVelocity) currentVelocity = maxVelocity;
-		currentPosition = currentPosition + currentVelocity*dt + .5*currentAcceleration*dt*dt;
+		currentPosition = currentPosition + currentVelocity*dt;
 		if(currentPosition > finalPosition) currentPosition = finalPosition;
-		
+		SmartDashboard.putNumber("Profile Position", currentPosition);
+		SmartDashboard.putNumber("Profile Velocity", currentVelocity);
 		return currentPosition*directionSign;
 	}
 
