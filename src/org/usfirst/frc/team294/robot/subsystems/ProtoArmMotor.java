@@ -48,10 +48,11 @@ public class ProtoArmMotor extends Subsystem {
 		armMotor.configForwardLimitSwitchSource( LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0);
 		armMotor.configReverseLimitSwitchSource( LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0);
 		armMotor.overrideLimitSwitchesEnable(true);  			//  pass false to force disable limit switch
-		
+		armMotor.config_kF(0, 0.0, 10);
+        armMotor.config_kP(0, 0.1, 10);
+        armMotor.config_kI(0, 0.0, 10);
+        armMotor.config_kD(0, 0.0, 10);
 	}
-	
-	
 	
 	public static void setArmMotorToPercentPower(double percent) {
 		if (percent > .7) percent = .7;						//  Can be +/- 1  after testing
@@ -64,12 +65,7 @@ public class ProtoArmMotor extends Subsystem {
 	}
     
     public static void setArmPosition(double position) {
-    	armMotor.set(ControlMode.Position, position);;
-    	armMotor.config_kF(0, 0.0, 10);
-        armMotor.config_kP(0, 0.1, 10);
-        armMotor.config_kI(0, 0.0, 10);
-        armMotor.config_kD(0, 0.0, 10);
-
+    	armMotor.set(ControlMode.Position, position);
     }
 
 /** returns armPot corrected for zero degree reference
