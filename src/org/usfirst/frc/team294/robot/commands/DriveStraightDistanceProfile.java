@@ -82,6 +82,7 @@ public class DriveStraightDistanceProfile extends Command {
 			prevDistErr = distErr;
 			distSpeedControl = distSpeedControl > 1 ? 1 : distSpeedControl;
 			distSpeedControl = distSpeedControl < -1 ? -1 : distSpeedControl;
+			// TODO change this to max percent power, instead of scaling power
 			distSpeedControl *= percentPower;
 			if (distSpeedControl > 0) {
 				distSpeedControl = (distSpeedControl < minSpeed) ? minSpeed : distSpeedControl;
