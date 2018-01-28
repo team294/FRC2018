@@ -24,8 +24,6 @@ public class ProtoArmPiston extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	
-	DigitalInput limitswitch = new DigitalInput(RobotMap.pistonRetractedLimitSwitch);
 			
 	private final DoubleSolenoid armPiston = new DoubleSolenoid(RobotMap.pneumaticArmPistonIn,RobotMap.pneumaticArmPistonOut);
 	private final DigitalInput armRetracted = new DigitalInput(RobotMap.pistonRetractedLimitSwitch);
