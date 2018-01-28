@@ -59,7 +59,7 @@ public class DriveStraightDistanceProfile extends Command {
 		tolCheck = new ToleranceChecker(1, 5);
 		Robot.driveTrainSubsystem.zeroLeftEncoder();
 		Robot.driveTrainSubsystem.zeroRightEncoder();
-		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 50, 80, .01);
+		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 50, 80);
 		angleBase = Robot.driveTrainSubsystem.getGyroRotation();
 	}
 
