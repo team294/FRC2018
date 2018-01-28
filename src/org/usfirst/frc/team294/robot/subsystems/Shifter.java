@@ -19,7 +19,7 @@ public class Shifter extends Subsystem {
 	//Also do this on the shifter? Is there a situation in which we need to know this?
 
 //    private final DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterSolenoidFwd, RobotMap.shifterSolenoidRev);
-	private final DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.pnuematicShifter,3);
+	private final DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.pnuematicShifterLow,RobotMap.pnuematicShifterHigh);
 
     /**
      * Shift the gears down
@@ -55,14 +55,14 @@ public class Shifter extends Subsystem {
 	 * Shift the gears up
 	 */
 	public void shiftUp() {
-		shifter.set(Value.kForward);
+		shifter.set(Value.kForward); // kForward is high gear 
 	}
 	
 	/**
 	 * Set the gear piston to in
 	 */
 	public void shiftDown() {
-		shifter.set(Value.kReverse);		
+		shifter.set(Value.kReverse); // KReverse is low gear 
 	}
 
 	/**
