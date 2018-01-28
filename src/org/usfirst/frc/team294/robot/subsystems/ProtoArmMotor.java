@@ -47,10 +47,11 @@ public class ProtoArmMotor extends Subsystem {
 		armMotor.configForwardLimitSwitchSource( LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0);
 		armMotor.configReverseLimitSwitchSource( LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen,0);
 		armMotor.overrideLimitSwitchesEnable(true);  			//  pass false to force disable limit switch
-		
+		armMotor.config_kF(0, 0.0, 10);
+        armMotor.config_kP(0, 0.1, 10);
+        armMotor.config_kI(0, 0.0, 10);
+        armMotor.config_kD(0, 0.0, 10);
 	}
-	
-	
 	
 	public static void setArmMotorToPercentPower(double percent) {
 		if (percent > .7) percent = .7;						//  Can be +/- 1  after testing
@@ -61,7 +62,11 @@ public class ProtoArmMotor extends Subsystem {
 				armMotor.getOutputCurrent() + " A, Bus at " + armMotor.getBusVoltage() + " V");
 		SmartDashboard.putNumber("Arm Motor Percent", percent);
 	}
-		
+    
+    public static void setArmPosition(double position) {
+    	armMotor.set(ControlMode.Position, position);
+    }
+
 /** returns armPot corrected for zero degree reference
  * The reference value for the arm position at zero degrees is set in the Shuffleboard network table/preferences section
  * Set the arm to the zero position, set the countAtZeroDegrees to 0.  The value at that time read should then be entered into the countAtZeroDegree field.
@@ -70,8 +75,9 @@ public class ProtoArmMotor extends Subsystem {
     public int getArmPot () {				
     	potValue = armMotor.getSelectedSensorPosition(0)- robotPrefs.getInt("countAtZeroDegrees", 500);
     	SmartDashboard.putNumber("Arm Pot Value", potValue);
-    	return (potValue ); 
-    }    	
+    	return (potValue); 
+    }   
+    
     public double getArmDegrees () {
     	double armAngle = getArmPot() * DEGREES_PER_CLICK;
     	SmartDashboard.putNumber("Arm angle Value", armAngle);
@@ -80,13 +86,12 @@ public class ProtoArmMotor extends Subsystem {
     
     public void setArmAngle (double angle) {
     	double encoderDegrees = angle / DEGREES_PER_CLICK;
-    	//setPosition(encoderDegrees); TODO: merge with branch for set position
+    	setArmPosition(encoderDegrees);
     }
     
-    public double setArmFromSmartDashboard() {
+    public void setArmFromSmartDashboard() {
     	double angle = SmartDashboard.getNumber("set Arm Angle", 0);
     	setArmAngle(angle);
-    	return angle;
     }
     
     public void initDefaultCommand() {

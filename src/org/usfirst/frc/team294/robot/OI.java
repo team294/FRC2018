@@ -21,12 +21,10 @@ public class OI {
 		
 		SmartDashboard.putData("Extend Arm", new ArmExtend()); //Adds a extend button
 		
-		SmartDashboard.putData("Start Arm Motor", new ArmMotorControl());
-		
+		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
+				
 		SmartDashboard.putData("Set Arm Position", new SetArmFromSmartDashboard());
 		SmartDashboard.putNumber("set Arm Angle", 0);
-			
-//		SmartDashboard.putData("Start Arm", new ArmMotorControl()); // Adds a start Button
 
 		Button leftTrigger = new JoystickButton(leftJoystick, 1);
 		Button rightTrigger = new JoystickButton(rightJoystick, 1);
