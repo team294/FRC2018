@@ -19,14 +19,21 @@ public class DriveStraightDistanceGyroAngle extends Command {
 	private ToleranceChecker tolCheck;
 	private boolean success;
 	private double distSpeedControl;
-	private final double kPdist = 0.06, kDdist = 0.24;
+	
+	private final double 
+			kPdist = 0.05, 
+			kDdist = 0.37,
+			kIdist = 0.00; // not used
+	
 	private double prevDistErr;
 	private double angleErr;
 	private double intErr = 0;
 	private double prevAngleErr;
+	
 	private double kPangle = .06;
 	private double kIangle = .002;
 	private double kDangle = .1;
+	
 	private double curve;
 	private double minSpeed = .1;
 	private double angleTurn; // in degrees
@@ -64,8 +71,8 @@ public class DriveStraightDistanceGyroAngle extends Command {
 	protected void execute() {
 		SmartDashboard.putNumber("Left Encoder Values", Robot.driveTrainSubsystem.getLeftEncoderPosition());
 		SmartDashboard.putNumber("Right Encoder Values", Robot.driveTrainSubsystem.getRightEncoderPosition());
-		final double currentDistanceInches = encoderTicksToInches((Robot.driveTrainSubsystem.getLeftEncoderPosition()
-				+ Robot.driveTrainSubsystem.getRightEncoderPosition()) / 2.0);
+		final double currentDistanceInches = encoderTicksToInches((Robot.driveTrainSubsystem.getLeftEncoderPosition()));
+			//	+ Robot.driveTrainSubsystem.getRightEncoderPosition()) / 2.0);
 
 		distErr = distanceTravel - currentDistanceInches;
 		SmartDashboard.putNumber("Distance Error", distErr);
