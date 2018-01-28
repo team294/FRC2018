@@ -19,6 +19,7 @@ public class ProfileGenerator {
 	public double threshold;
 	
 	private double directionSign;
+	public FileLog fileLog;
 
 	//Function to update equations for when we increment them, function to say hey we're done
 	public ProfileGenerator(double initialPosition, double finalPosition, double initialVelocity, double maxVelocity, double maxAcceleration, double threshold) {
@@ -33,6 +34,7 @@ public class ProfileGenerator {
 		this.dt = 0.02;
 		this.threshold = threshold;
 		//this.totalTime = totalTime;
+		fileLog = new FileLog();
 	}
 
 	public double getCurrentPosition(){
