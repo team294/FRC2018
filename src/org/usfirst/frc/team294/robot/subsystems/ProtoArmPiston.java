@@ -25,30 +25,29 @@ public class ProtoArmPiston extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	
+	DigitalInput limitswitch = new DigitalInput(RobotMap.pistonRetractedLimitSwitch);
+			
 	private final DoubleSolenoid armPiston = new DoubleSolenoid(RobotMap.pneumaticArmPistonIn,RobotMap.pneumaticArmPistonOut);
 	private final DigitalInput armRetracted = new DigitalInput(RobotMap.pistonRetractedLimitSwitch);
 	
-	public void potAngleTest() {      // TODO calculate angle from pot data
-		double potAngle = ProtoArmMotor.potValue;
-		SmartDashboard.putNumber("Pot Angle raw count", potAngle);
-	}
 	
 	public boolean isArmRetracked() {
 		boolean retract = false;
 		retract = armRetracted.get();
 		SmartDashboard.putBoolean("Arm Retracted", retract);
-		return(retract);
+		return(retract); 
 	}
 	
 
 	
 	public void extendPiston() {
 		armPiston.set(Value.kForward); // kForward is  extend
+		isArmRetracked(); //should go somewhere else
 	}
 	
 	public void retractPiston() {
 		armPiston.set(Value.kReverse); // kReverse is  retract
+		isArmRetracked();
 	}
 
 	
