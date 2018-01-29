@@ -30,6 +30,9 @@ public class DriveStraightDistanceProfile extends Command {
 	private double angleErr;
 	private double intErr = 0;
 	private double prevAngleErr;
+	private double prevDistanceTicks;
+	private double prevX;
+	private double prevY;
 	
 	private double kPangle = .06;
 	private double kIangle = .002;
@@ -67,11 +70,13 @@ public class DriveStraightDistanceProfile extends Command {
 		Robot.driveTrainSubsystem.zeroRightEncoder();
 		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 120, 120);
 		angleBase = Robot.driveTrainSubsystem.getGyroRotation();
+		prevDistanceTicks = 0;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		final double currentDistanceInches = encoderTicksToInches(Robot.driveTrainSubsystem.getLeftEncoderPosition());
+		double currentDistanceTicks = (Robot.driveTrainSubsystem.getLeftEncoderPosition()+Robot.driveTrainSubsystem.getRightEncoderPosition())/2;
+		double currentDistanceInches = encoderTicksToInches(currentDistanceTicks);
 		this.currentDistance = currentDistanceInches;
 		distErr = trapezoid.getCurrentPosition() - currentDistanceInches;
 		success = tolCheck.success(Math.abs(distanceTravel - currentDistanceInches));
@@ -98,12 +103,23 @@ public class DriveStraightDistanceProfile extends Command {
 			curve = (distanceTravel - currentDistanceInches >= 0) ? curve : -curve;
 			Robot.driveTrainSubsystem.driveAtCurve(distSpeedControl, curve);
 
+			double diffTicks = currentDistanceTicks - prevDistanceTicks;
+			double diffInches = this.encoderTicksToInches(diffTicks);
+			
+			Robot.driveTrainSubsystem.addFieldPositionX(diffInches*Math.cos(Robot.driveTrainSubsystem.getGyroRotation()));
+			Robot.driveTrainSubsystem.addFieldPositionY(diffInches*Math.sin(Robot.driveTrainSubsystem.getGyroRotation()));
+			
+			prevDistanceTicks = currentDistanceTicks;
+			this.prevX = Robot.driveTrainSubsystem.getFieldPositionX();
+			this.prevY = Robot.driveTrainSubsystem.getFieldPositionY();
 		}
 
 		SmartDashboard.putNumber("Distance Calculated", trapezoid.getCurrentPosition());
 		SmartDashboard.putNumber("Distance Error", distanceTravel - currentDistanceInches);
 		SmartDashboard.putNumber("Actual Distance", currentDistance);
 		SmartDashboard.putNumber("Actual Percent Power", distSpeedControl);
+		SmartDashboard.putNumber("Field X", prevX);
+		SmartDashboard.putNumber("Field Y", prevY);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
