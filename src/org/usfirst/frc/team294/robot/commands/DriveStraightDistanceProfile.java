@@ -23,7 +23,7 @@ public class DriveStraightDistanceProfile extends Command {
 	
 	private final double 
 			kPdist = 0.05, 
-			kDdist = 0.37,
+			kDdist = 0.5,
 			kIdist = 0.00; // not used
 	
 	private double prevDistErr;
@@ -65,7 +65,7 @@ public class DriveStraightDistanceProfile extends Command {
 		tolCheck = new ToleranceChecker(1, 5);
 		Robot.driveTrainSubsystem.zeroLeftEncoder();
 		Robot.driveTrainSubsystem.zeroRightEncoder();
-		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 80, 80);
+		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 120, 120);
 		angleBase = Robot.driveTrainSubsystem.getGyroRotation();
 	}
 
