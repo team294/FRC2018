@@ -51,6 +51,9 @@ public class DriveTrain extends Subsystem {
 		
 		leftMotor2.clearStickyFaults(0);
 		rightMotor2.clearStickyFaults(0);
+		
+		zeroLeftEncoder();
+		zeroRightEncoder();
 
 		try {
 			/* Communicate w/navX MXP via the MXP SPI Bus. */
@@ -161,6 +164,14 @@ public class DriveTrain extends Subsystem {
 		setRightMotors(0);
 	}
 
+	// Periodic is called once every scheduler cycle (20ms)
+	public void periodic() {
+		// Display info on Dashboard
+		getGyroRotation();
+		getLeftEncoderPosition();
+		getRightEncoderPosition();
+	}
+	
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithJoystick());
 	}
