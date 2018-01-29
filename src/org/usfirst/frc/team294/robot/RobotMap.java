@@ -19,9 +19,13 @@ public class RobotMap {
 	public static int pneumaticArmPistonOut = 2;
 	public static int pistonRetractedLimitSwitch = 0; // Are some of these analog ins for the limit switches? Need to separate
 	
+	// Arm angle thresholds
+	public static double lowThreshold; // Low threshold for ground pickup
+	public static double highThreshold; // High threshold for scoring
+	
 	// Arm angle constants
-	public static double degreesToTicks = 0.5;
-	public static double ticksToDegrees = 2.0; // Need to calibrate these values
+	public static double degreesPerTicks = 9.0 / 5.0;
+	public static double ticksPerDegrees = 5.0 / 9.0; // Need to calibrate these values
 	public static double armLowPosition;
 	public static double armHighPosition;
 	
