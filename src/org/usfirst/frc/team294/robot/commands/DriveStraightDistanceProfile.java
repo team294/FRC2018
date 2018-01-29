@@ -34,9 +34,9 @@ public class DriveStraightDistanceProfile extends Command {
 	private double prevX;
 	private double prevY;
 	
-	private double kPangle = .06;
+	private double kPangle = 0.11;//.06;
+	private double kDangle = .2;
 	private double kIangle = .002;
-	private double kDangle = .1;
 	
 	private double curve;
 	private double minSpeed = .1;
@@ -69,7 +69,6 @@ public class DriveStraightDistanceProfile extends Command {
 		Robot.driveTrainSubsystem.zeroLeftEncoder();
 		Robot.driveTrainSubsystem.zeroRightEncoder();
 		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 120, 120);
-		angleBase = Robot.driveTrainSubsystem.getGyroRotation();
 		prevDistanceTicks = 0;
 	}
 
