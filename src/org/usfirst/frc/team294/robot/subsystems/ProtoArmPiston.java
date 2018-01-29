@@ -27,16 +27,18 @@ public class ProtoArmPiston extends Subsystem {
 			
 	private final DoubleSolenoid armPiston = new DoubleSolenoid(RobotMap.pneumaticArmPistonIn,RobotMap.pneumaticArmPistonOut);
 	private final DigitalInput armRetracted = new DigitalInput(RobotMap.pistonRetractedLimitSwitch);
-	
+		
+	public ProtoArmPiston() {
+		super();
+		
+		// We will need code for the pot here at some point
+	}
 	
 	public boolean isArmRetracked() {
-		boolean retract = false;
-		retract = armRetracted.get();
+		boolean retract = armRetracted.get();
 		SmartDashboard.putBoolean("Arm Retracted", retract);
 		return(retract); 
 	}
-	
-
 	
 	public void extendPiston() {
 		armPiston.set(Value.kForward); // kForward is  extend
@@ -48,11 +50,9 @@ public class ProtoArmPiston extends Subsystem {
 		isArmRetracked();
 	}
 
-	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	
     }
 }
 

@@ -19,13 +19,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * A Subsystem to control the Drive Train
  */
 public class DriveTrain extends Subsystem {
+	// Talon hardware objects
 	private final WPI_TalonSRX rightMotor1 = new WPI_TalonSRX(RobotMap.rightMotor1); 
 	private final WPI_TalonSRX rightMotor2 = new WPI_TalonSRX(RobotMap.rightMotor2);
 	private final WPI_TalonSRX rightMotor3 = new WPI_TalonSRX(RobotMap.rightMotor3);
 	private final WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.leftMotor1); 
 	private final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.leftMotor2);
 	private final WPI_TalonSRX leftMotor3 = new WPI_TalonSRX(RobotMap.leftMotor3);
+	
 	public final DifferentialDrive robotDrive = new DifferentialDrive(rightMotor2, leftMotor2);
+	
 	// NavX. Create the object , in the DriveTrain() constructor, so that we can catch
 	// errors.
 	private AHRS ahrs;
@@ -33,6 +36,7 @@ public class DriveTrain extends Subsystem {
 
 	// Track left and right encoder zeros here to minimize latency in Talons.
 	private double leftEncoderZero = 0, rightEncoderZero = 0;
+	
 	public DriveTrain() {// initialize Followers
 		// motor2 are the main motors, and motor 1 and 3 are the followers.
 		leftMotor1.set(ControlMode.Follower, RobotMap.leftMotor2);
@@ -67,16 +71,16 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	/**
-	 * Zero the gyro position.
+	 * Zeros the gyro position in software
 	 */
-	public void zeroGyroRoataion() {
+	public void zeroGyroRotation() {
 		// set yawZero to gryo angle
 		yawZero = ahrs.getAngle();
 	}
 	
 	/**
-	 * Get the rotation of the gyro.
-	 * @return Current angle from 0 to 360 degrees.
+	 * Gets the rotation of the gyro
+	 * @return Current angle from 0 to 360 degrees
 	 */
 	public double getGyroRotation() {
 		double angle = ahrs.getAngle() - yawZero;
@@ -85,19 +89,20 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("NavX Angle", angle);
 		return angle;
 	}
+	
 	public void tankDrive(double powerLeft, double powerRight) {
 		this.robotDrive.tankDrive(powerLeft, powerRight);
 	}
 	
 	/**
-	 * Zeros the left encoder position.
+	 * Zeros the left encoder position in software
 	 */
 	public void zeroLeftEncoder() {
 		leftEncoderZero = leftMotor2.getSelectedSensorPosition(0);
 	}
 	
 	/**
-	 * Zeros the right encoder position.
+	 * Zeros the right encoder position in software
 	 */
 	public void zeroRightEncoder() {
 		rightEncoderZero = rightMotor2.getSelectedSensorPosition(0);

@@ -12,12 +12,12 @@ public class ArmExtend extends Command {
     public ArmExtend() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires (Robot.protoArmPistonSubsystem);
+    	requires (Robot.protoArmPiston);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.protoArmPistonSubsystem.extendPiston();
+    	Robot.protoArmPiston.extendPiston();
     	
     }
 

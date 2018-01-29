@@ -18,11 +18,11 @@ import org.usfirst.frc.team294.robot.subsystems.Shifter;
 
 public class Robot extends TimedRobot {
 	
-	public static DriveTrain driveTrainSubsystem = new DriveTrain();
-	public static Shifter shifterSubsystem = new Shifter();
-	public static ProtoArmPiston protoArmPistonSubsystem = new ProtoArmPiston();
-	public static ProtoArmMotor ProtoArmMotorSubsystem = new ProtoArmMotor();
-	public static OI m_oi;
+	public static DriveTrain driveTrain;
+	public static Shifter shifter;
+	public static ProtoArmPiston protoArmPiston;
+	public static ProtoArmMotor protoArmMotor;
+	public static OI oi;
 	
 	public static boolean allianceSwitchLeft = false;
 	public static boolean scaleLeft = false;
@@ -32,8 +32,8 @@ public class Robot extends TimedRobot {
 	public static int countAtZeroDegrees; 	// Arm potentiometer position at O degrees
 	
 
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	//Command m_autonomousCommand;
+	//SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -41,16 +41,20 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		m_oi = new OI();
+		driveTrain = new DriveTrain();
+		shifter = new Shifter();
+		protoArmPiston = new ProtoArmPiston();
+		protoArmMotor = new ProtoArmMotor();
+		oi = new OI();
 		
 		readPreferences();		// Read preferences next, so that subsystems can use the preference values.
 
 		/*
 		 * auto-config for autonomous
 		 */
-		m_chooser.addDefault("Default Auto", new DriveWithJoystick());
+		//m_chooser.addDefault("Default Auto", new DriveWithJoystick());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		//SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
@@ -67,10 +71,7 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		
-		
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 	}
 
 	/**
@@ -87,10 +88,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 
-		
 		if(gameData.charAt(0) == 'L')
 		{
 			SmartDashboard.putBoolean("Close Switch Left", true);
@@ -141,11 +140,11 @@ public class Robot extends TimedRobot {
 		}
 		
 		
-		m_autonomousCommand = m_chooser.getSelected();
+		//m_autonomousCommand = m_chooser.getSelected();
     
-		this.driveTrainSubsystem.zeroLeftEncoder();
-		this.driveTrainSubsystem.zeroRightEncoder();
-		this.driveTrainSubsystem.zeroGyroRoataion();
+		driveTrain.zeroLeftEncoder();
+		driveTrain.zeroRightEncoder();
+		driveTrain.zeroGyroRotation();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -154,9 +153,9 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
+		/*if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
-		}
+		}*/
 	}
 
 	/**
@@ -173,9 +172,9 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
+		/*if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
-		}
+		}*/
 	}
 
 	/**
