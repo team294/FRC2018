@@ -1,33 +1,34 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.OI;
 import org.usfirst.frc.team294.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ShiftHigh extends Command {
-
-    public ShiftHigh() {
+public class ArmMotorControl extends Command {
+	
+    public ArmMotorControl() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shifter);
+    	requires(Robot.protoArmMotor);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shifter.shiftUp();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	double armVal = OI.armJoystick.getY();
+    	Robot.protoArmMotor.setArmMotorToPercentPower(armVal);
+    	Robot.protoArmMotor.updateSmartDashboard();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
