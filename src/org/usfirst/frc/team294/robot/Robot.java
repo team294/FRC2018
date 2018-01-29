@@ -2,6 +2,7 @@
 package org.usfirst.frc.team294.robot;
 
 
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
@@ -199,23 +200,24 @@ public class Robot extends TimedRobot {
 		switch (programSelected) {
 		case 1 :
 			m_autonomousCommand = new AutoPath1_SameSideScale(startPosition);
+			log.writeLogEcho("Ran Auto Path 1 (same side scale)");
 			break;
 		case 2 : 
 			m_autonomousCommand = new AutoPath2_OppositeSideScale(startPosition);
+			log.writeLogEcho("Ran Auto Path 2 (opposite side scale)");
 			break;
 		case 3 :
 			m_autonomousCommand = new AutoPath3_SameSideSwitch(startPosition);
+			log.writeLogEcho("Ran Auto Path 3 (same side switch)");
 			break;
 		case 4 :
 			m_autonomousCommand = new AutoPath4_OppositeSideSwitch(startPosition);
+			log.writeLogEcho("Ran Auto Path 4 (opposite side switch)");
 			break;
 		case 5 :
 			m_autonomousCommand = new AutoPath5_SwitchFromMiddle(allianceSwitchLeft);
-
-			
+			log.writeLogEcho("Ran Auto Path 5 (switch from middle)");
 		}
-		
-	// NOTE: NEED TO FIX COMMANDS AND COMMAND SEQUENCES (deleted AutoPath1_SameSideScale command but left sequence)
 		
 //		m_autonomousCommand = autoCommandArray[autoSelect][fieldLayout];
 		SmartDashboard.putString("Auto path", m_autonomousCommand.getName());
