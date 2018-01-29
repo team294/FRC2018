@@ -4,6 +4,7 @@ package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; 				//remove the ones that are not used.
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -13,6 +14,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
+import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
+import org.usfirst.frc.team294.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team294.robot.subsystems.Shifter;
+import org.usfirst.frc.team294.utilities.FileLog;
 
 
 public class Robot extends TimedRobot {
@@ -22,6 +27,9 @@ public class Robot extends TimedRobot {
 	public static boolean allianceSwitchLeft = false;
 	public static boolean scaleLeft = false;
 	public static boolean opponentSwitchLeft = false;
+	public static FileLog log;
+	public static Preferences robotPrefs;
+	public static int countAtZeroDegrees; 	// Arm potentiometer position at O degrees
 	
 //	public static Command[][] autoCommandArray = { {new PnuematicShift(), new RunDriveTrain()} };
 	public static Command[][] autoCommandArray = new Command[RobotMap.AUTO_COLS][RobotMap.AUTO_FIELD_LAYOUTS];
@@ -35,7 +43,13 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		// Create the log file
+		log = new FileLog();
+		
+		// Create the OI
 		m_oi = new OI();
+		readPreferences();		// Read preferences next, so that subsystems can use the preference values.
+
 		/*
 		 * auto-config for autonomous
 		 */
@@ -64,6 +78,9 @@ public class Robot extends TimedRobot {
 //		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
 //		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath4_OppositeSideSwitch();
 
+		m_chooser.addDefault("Default Auto", new DriveWithJoystick());
+		// chooser.addObject("My Auto", new MyAutoCommand());
+		SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
@@ -95,6 +112,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		log.writeLogEcho("Autonomous mode started.");
 		
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -151,6 +169,7 @@ public class Robot extends TimedRobot {
 		}
 		
 		
+
 		int fieldLayout, autoSelect;
 
 		if (gameData.startsWith("LL")) 
@@ -206,6 +225,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Start Position", m_oi.readStartPosition());
 		
 
+		m_autonomousCommand = m_chooser.getSelected();
+    
+		Robot.driveTrainSubsystem.zeroLeftEncoder();
+		Robot.driveTrainSubsystem.zeroRightEncoder();
+		Robot.driveTrainSubsystem.zeroGyroRoataion();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -238,6 +262,7 @@ public class Robot extends TimedRobot {
 		}
 		
 		
+		log.writeLogEcho("Teleop mode started.");
 	}
 
 	/**
@@ -253,5 +278,19 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	}
+	
+	public void readPreferences() {
+		//TODO:  Create function to read and set defaults for one number preference, then move most prefs
+		//  to calling this function.  This will eliminate much of the duplicate code below.
+
+		//TODO:  For each robot preference:  Use more descriptive names?
+		robotPrefs = Preferences.getInstance();
+
+		if (robotPrefs.getDouble("countAtZeroDegrees", 0) == 0) {		//  If field was not set up, set up field
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
+			robotPrefs.putInt("countAtZeroDegrees", 500); //this needs to be changed when we find the new value
+		}
+		countAtZeroDegrees = robotPrefs.getInt("countAtZeroDegrees", 500);
 	}
 }
