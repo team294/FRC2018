@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
+import org.usfirst.frc.team294.robot.commands.autoroutines.AutoTest1;
 import org.usfirst.frc.team294.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team294.robot.subsystems.Shifter;
 import org.usfirst.frc.team294.utilities.FileLog;
@@ -85,6 +86,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		
 		log.writeLogEcho("Autonomous mode started.");
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -145,7 +147,7 @@ public class Robot extends TimedRobot {
 		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
 		 * ExampleCommand(); break; }
 		 */
-
+		m_autonomousCommand = new AutoTest1();
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();

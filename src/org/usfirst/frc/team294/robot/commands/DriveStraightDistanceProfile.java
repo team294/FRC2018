@@ -56,7 +56,7 @@ public class DriveStraightDistanceProfile extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
+		//distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
 		distErr = 0;
 		prevDistErr = 0;
 		angleErr = 0;
@@ -71,7 +71,7 @@ public class DriveStraightDistanceProfile extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		final double currentDistanceInches = encoderTicksToInches(Robot.driveTrainSubsystem.getLeftEncoderPosition());
+		final double currentDistanceInches = encoderTicksToInches(Robot.driveTrainSubsystem.getRightEncoderPosition());
 		this.currentDistance = currentDistanceInches;
 		distErr = trapezoid.getCurrentPosition() - currentDistanceInches;
 		success = tolCheck.success(Math.abs(distanceTravel - currentDistanceInches));
@@ -97,7 +97,6 @@ public class DriveStraightDistanceProfile extends Command {
 			curve = (curve < -0.5) ? -0.5 : curve;
 			curve = (distanceTravel - currentDistanceInches >= 0) ? curve : -curve;
 			Robot.driveTrainSubsystem.driveAtCurve(distSpeedControl, curve);
-
 		}
 
 		SmartDashboard.putNumber("Distance Calculated", trapezoid.getCurrentPosition());
@@ -118,10 +117,12 @@ public class DriveStraightDistanceProfile extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+Robot.driveTrainSubsystem.driveAtCurve(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		end();
 	}
 }

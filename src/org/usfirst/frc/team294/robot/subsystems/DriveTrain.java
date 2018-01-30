@@ -50,7 +50,7 @@ public class DriveTrain extends Subsystem {
 
 		leftMotor2.clearStickyFaults(0);
 		rightMotor2.clearStickyFaults(0);
-
+		robotDrive.setSafetyEnabled(false); // Maybe Bad????????? Check Later
 		try {
 			/* Communicate w/navX MXP via the MXP SPI Bus. */
 			/* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
