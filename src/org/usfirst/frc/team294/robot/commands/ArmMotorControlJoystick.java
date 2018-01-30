@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmMotorControl extends Command {
+public class ArmMotorControlJoystick extends Command {
 	
-    public ArmMotorControl() {
+    public ArmMotorControlJoystick() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.protoArmMotor);
