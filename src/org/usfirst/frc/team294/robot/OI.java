@@ -3,8 +3,10 @@ package org.usfirst.frc.team294.robot;
 import org.usfirst.frc.team294.robot.commands.ShiftLow;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units;
+import org.usfirst.frc.team294.utilities.EllipseGenerator;
 import org.usfirst.frc.team294.robot.commands.ShiftHigh;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
+import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceEllipse;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceGyroAngle;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
 import edu.wpi.first.wpilibj.Joystick;
@@ -29,5 +31,6 @@ public class OI {
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
 		SmartDashboard.putData("DriveStraightDistanceProfile",new DriveStraightDistanceProfile(0,0));
 		SmartDashboard.putNumber("DistToTravelDSDG", 150);
+		SmartDashboard.putData(" ProfileTest", new DriveStraightDistanceEllipse(100, 1000, 0));
 	}
 }

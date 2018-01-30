@@ -84,8 +84,8 @@ public class DriveStraightDistanceEllipse extends Command {
 		double currentDistanceInches = encoderTicksToInches(currentDistanceTicks);
 		this.currentDistance = currentDistanceInches;
 //		distErr = trapezoid.getCurrentPosition() - currentDistanceInches;
-		distErr = ellipse.getCurrentPosition() - currentDistanceInches;
-		success = tolCheck.success(Math.abs(distanceTravel - currentDistanceInches));
+		distErr = ellipse.getDistErr();
+		success = tolCheck.success(Math.abs(distErr));
 		
 		if (!success) {
 			distSpeedControl = distErr * kPdist + (distErr - prevDistErr) * kDdist;
@@ -98,16 +98,16 @@ public class DriveStraightDistanceEllipse extends Command {
 			} else {
 				distSpeedControl = (distSpeedControl > -minSpeed) ? -minSpeed : distSpeedControl;
 			}
-			angleErr = angleBase - Robot.driveTrainSubsystem.getGyroRotation();
+			angleErr = ellipse.getAngleErr();
 			angleErr = (angleErr > 180) ? angleErr - 360 : angleErr;
 			intErr = intErr + angleErr * 0.02;
-			double dErr = angleErr - prevAngleErr;
+			double dAngleErr = angleErr - prevAngleErr;
 			prevAngleErr = angleErr;
-			curve = angleErr * kPangle + intErr * kIangle + dErr * kDangle;
-			curve = (curve > 0.5) ? 0.5 : curve;
-			curve = (curve < -0.5) ? -0.5 : curve;
-			curve = (distanceTravel - currentDistanceInches >= 0) ? curve : -curve;
-			Robot.driveTrainSubsystem.driveAtCurve(distSpeedControl, curve);
+			curve = angleErr * kPangle + intErr * kIangle + dAngleErr * kDangle;
+			//curve = (curve > 0.5) ? 0.5 : curve;
+			//curve = (curve < -0.5) ? -0.5 : curve;
+			//curve = (distErr >= 0) ? curve : -curve;
+			//Robot.driveTrainSubsystem.driveAtCurve(distSpeedControl, curve);
 
 			double diffTicks = currentDistanceTicks - prevDistanceTicks;
 			double diffInches = this.encoderTicksToInches(diffTicks);
@@ -126,6 +126,8 @@ public class DriveStraightDistanceEllipse extends Command {
 		SmartDashboard.putNumber("Actual Percent Power", distSpeedControl);
 		SmartDashboard.putNumber("Field X", prevX);
 		SmartDashboard.putNumber("Field Y", prevY);
+		SmartDashboard.putNumber("profile x", ellipse.profileX);
+		SmartDashboard.putNumber("Profile Y", ellipse.profileY );
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

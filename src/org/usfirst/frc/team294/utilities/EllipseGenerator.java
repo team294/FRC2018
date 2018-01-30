@@ -2,7 +2,20 @@ package org.usfirst.frc.team294.utilities;
 
 import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+/**
+ * coordinates system:
+ * trig degrees, started at 90
+ * x,y:
+ *     +
+ *     y
+ *     y
+ *  -xx xx+
+ *     y
+ *     y
+ *     -
+ * @author team
+ *
+ */
 public class EllipseGenerator {
 	
 	private double finalX = 0;
@@ -25,8 +38,10 @@ public class EllipseGenerator {
 	private double t2 = 0;
 	private double A = 0;
 	private double B = 0;
-	private double profileX = 0;
-	private double profileY = 0;
+	public double profileX = 0;
+	public double profileY = 0;
+	private double distErr, angleErr; 
+
 
 	//public double totalTime;
 		
@@ -100,9 +115,16 @@ public class EllipseGenerator {
 		profileX = A*(1+Math.cos(currT));
 		profileY = B*Math.sin(currT);
 		profileA = Math.atan((finalY-prevY)/(finalX-prevX))*180/Math.PI;
+		profileA = -(profileA - 90);
 		prevX = profileX;
 		prevY = profileY;
-			
+		distErr = Math.sqrt(Math.pow(profileX-Robot.driveTrainSubsystem.getFieldPositionX(), 2)+ (Math.pow(profileY-Robot.driveTrainSubsystem.getFieldPositionY(), 2)));
+		angleErr = (profileA - Robot.driveTrainSubsystem.getGyroRotation());
+		double direction = Math.signum((profileX-Robot.driveTrainSubsystem.getFieldPositionX()) * Math.cos(profileA) + (profileY-Robot.driveTrainSubsystem.getFieldPositionY()) * Math.sin(profileA));
+		distErr *= direction;
+		if( Math.abs(distErr) > 5) {
+			angleErr = -(Math.atan2(profileY-Robot.driveTrainSubsystem.getFieldPositionY(), profileX-Robot.driveTrainSubsystem.getFieldPositionX()) - 90) - Robot.driveTrainSubsystem.getGyroRotation();
+		}
 	}
 	
 	public  double getArc(double t1, double t2)
@@ -139,5 +161,28 @@ public class EllipseGenerator {
 		}
 		return t;	
 	}
+	
+	public double getDistErr()
+	{
+		// length of vector from current robot x/y to profileX/Y
+		// sign needs to determine if you've overshot, dot the vector in x/y with velocity?
+		
+		
+		
+		return distErr;
+	}
+	
+	public double getAngleErr()
+	{
+		//field absolute angle to next point minus current angle ( -90 because of orientation difference)
+		//atan((cmd y - real y)/(cmd x - real x))
+		//except when close to end, just return command angle ( -90 because of orientation difference)
+		
+		
+		return angleErr;
+	}
+	
+	
+	
 	
 }
