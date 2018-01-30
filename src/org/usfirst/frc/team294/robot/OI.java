@@ -25,6 +25,8 @@ public class OI {
 				
 		SmartDashboard.putData("Set Arm Position", new SetArmFromSmartDashboard());
 		SmartDashboard.putNumber("set Arm Angle", 0);
+		
+		SmartDashboard.putData("Move Piston Within Parameters", new MovePiston());
 
 		Button leftTrigger = new JoystickButton(leftJoystick, 1);
 		Button rightTrigger = new JoystickButton(rightJoystick, 1);
