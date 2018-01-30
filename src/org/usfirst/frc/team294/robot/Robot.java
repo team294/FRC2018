@@ -19,6 +19,7 @@ import org.usfirst.frc.team294.utilities.FileLog;
 
 public class Robot extends TimedRobot {
 	
+	// Subsystem objects
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
 	public static ProtoArmPiston protoArmPiston;
@@ -30,7 +31,10 @@ public class Robot extends TimedRobot {
 	public static boolean opponentSwitchLeft = false;
 	public static FileLog log;
 	public static Preferences robotPrefs;
-	public static int countAtZeroDegrees; 	// Arm potentiometer position at O degrees
+	
+	// 
+	public static int armCalZero; 	// Arm potentiometer position at O degrees
+	public static int armCal90Deg;	// Arm potentiometer position at 90 degrees
 	
 
 	//Command m_autonomousCommand;
@@ -208,10 +212,11 @@ public class Robot extends TimedRobot {
 		//TODO:  For each robot preference:  Use more descriptive names?
 		robotPrefs = Preferences.getInstance();
 
-		if (robotPrefs.getDouble("countAtZeroDegrees", 0) == 0) {		//  If field was not set up, set up field
+		if (robotPrefs.getDouble("calibrationZeroDegrees", 0) == 0) {		//  If field was not set up, set up field
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
-			robotPrefs.putInt("countAtZeroDegrees", 500); //this needs to be changed when we find the new value
+			robotPrefs.putInt("calibrationZeroDegrees", -245); // Value may need to be changed based on specifics of robot
 		}
-		countAtZeroDegrees = robotPrefs.getInt("countAtZeroDegrees", 500);
+		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
+		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
 	}
 }
