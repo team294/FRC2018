@@ -141,6 +141,8 @@ public class Robot extends TimedRobot {
 		this.driveTrainSubsystem.zeroLeftEncoder();
 		this.driveTrainSubsystem.zeroRightEncoder();
 		this.driveTrainSubsystem.zeroGyroRoataion();
+		this.driveTrainSubsystem.setFieldPositionX(0);
+		this.driveTrainSubsystem.setFieldPositionY(0);
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
@@ -171,7 +173,11 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
-		Robot.driveTrainSubsystem.zeroGyroRoataion(); // todo remove later
+		
+		this.driveTrainSubsystem.zeroGyroRoataion(); // todo remove later
+		this.driveTrainSubsystem.setFieldPositionX(0); // todo remove later
+		this.driveTrainSubsystem.setFieldPositionY(0); // todo remove later
+		
 		log.writeLogEcho("Teleop mode started.");
 	}
 

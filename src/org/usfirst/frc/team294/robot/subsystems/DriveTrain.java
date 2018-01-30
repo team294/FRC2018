@@ -32,6 +32,9 @@ public class DriveTrain extends Subsystem {
 	// errors.
 	private AHRS ahrs;
 	private double yawZero = 0;
+	
+	private double fieldX;
+	private double fieldY;
 
 	// Track left and right encoder zeros here to minimize latency in Talons.
 	private double leftEncoderZero = 0, rightEncoderZero = 0;
@@ -64,6 +67,30 @@ public class DriveTrain extends Subsystem {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 		}
 		ahrs.zeroYaw();
+	}
+	
+	public void setFieldPositionX(double x) {
+		this.fieldX = x;
+	}
+	
+	public void setFieldPositionY(double y) {
+		this.fieldY = y;
+	}
+	
+	public void addFieldPositionX(double x) {
+		this.fieldX += x;
+	}
+	
+	public void addFieldPositionY(double y) {
+		this.fieldY += y;
+	}
+	
+	public double getFieldPositionX() {
+		return this.fieldX;
+	}
+	
+	public double getFieldPositionY() {
+		return this.fieldY;
 	}
 
 	/**
