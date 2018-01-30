@@ -29,9 +29,17 @@ public class RobotMap {
 	public static double armLowPosition;
 	public static double armHighPosition;
 	
+	
 	public enum ArmPositions {
 		Low, High, UltraHigh, WayTooHigh
 	}
+	
+	// Arm angle zones
+	public static double Ang0 = -30; // arm cannot extend downward past this angle
+	public static double Ang1 = -20; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
+	public static double Ang2 = 60; // arm cannot extend between Ang1 and Ang2
+	public static double Ang3 = 95; // both pistons can be extended between Ang2 and Ang 3
+	public static double Ang4 = 110; // arm cannot extend upward past this angle
 	
 	public static double getArmAngle(ArmPositions position) {
 		if (position == ArmPositions.Low) return armLowPosition;

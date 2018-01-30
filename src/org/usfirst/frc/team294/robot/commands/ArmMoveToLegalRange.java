@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,17 +10,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ArmMoveToLegalRange extends Command {
 
-	private double Ang0; // arm cannot extend downward past this angle
-	private double Ang1; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
-	private double Ang2; // arm cannot extend between Ang1 and Ang2
-	private double Ang3; // both pistons can be extended between Ang2 and Ang 3
-	private double Ang4; // arm cannot extend upward past this angle
-	private double currentAng = Robot.protoArmMotor.getArmDegrees();
-	private double destAng;
-	private boolean currentPiston; // true = extended, false = retracted
-	private boolean pistonFinal;
-	private boolean isLegal = false;
-
+	private double currentAng;
+	
 	public ArmMoveToLegalRange() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);\
@@ -28,8 +20,9 @@ public class ArmMoveToLegalRange extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		currentAng = (currentAng < Ang0) ? Ang0 : currentAng;
-		currentAng = (currentAng > Ang4) ? Ang4 : currentAng;
+		currentAng = Robot.protoArmMotor.getArmDegrees();
+		currentAng = (currentAng < RobotMap.Ang0) ? RobotMap.Ang0 : currentAng;
+		currentAng = (currentAng > RobotMap.Ang4) ? RobotMap.Ang4 : currentAng;
 		Robot.protoArmMotor.setArmAngle(currentAng);
 	}
 
@@ -39,7 +32,7 @@ public class ArmMoveToLegalRange extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (Ang0 < currentAng) || (currentAng < Ang4);
+		return (RobotMap.Ang0 <= Robot.protoArmMotor.getArmDegrees()) && (Robot.protoArmMotor.getArmDegrees() <= RobotMap.Ang4);
 	}
 
 	// Called once after isFinished returns true
