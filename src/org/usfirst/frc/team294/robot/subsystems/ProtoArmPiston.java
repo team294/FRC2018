@@ -34,7 +34,7 @@ public class ProtoArmPiston extends Subsystem {
 		// We will need code for the pot here at some point
 	}
 	
-	public boolean isArmRetracked() {
+	public boolean isArmRetracted() {
 		boolean retract = armRetracted.get();
 		SmartDashboard.putBoolean("Arm Retracted", retract);
 		return(retract); 
@@ -42,12 +42,12 @@ public class ProtoArmPiston extends Subsystem {
 	
 	public void extendPiston() {
 		armPiston.set(Value.kForward); // kForward is  extend
-		isArmRetracked(); //should go somewhere else
+		isArmRetracted(); //should go somewhere else
 	}
 	
 	public void retractPiston() {
 		armPiston.set(Value.kReverse); // kReverse is  retract
-		isArmRetracked();
+		isArmRetracted();
 	}
 
     public void initDefaultCommand() {
