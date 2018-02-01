@@ -18,17 +18,17 @@ public class OI {
 
 	public static Joystick armJoystick = new Joystick(2); // Arm Joystick is in port 2
 	
-	SendableChooser<Integer> chooser_autoColumn = new SendableChooser<>();
+	SendableChooser<Integer> chooser_autoPlan = new SendableChooser<>();
 	SendableChooser<Integer> chooser_startPosition = new SendableChooser<>();
 
 	public OI() {
-		// Initialize our auto column chooser
-		chooser_autoColumn.addDefault("Closest, far/far = scale", 0);
-		chooser_autoColumn.addObject("Closest, far/far = switch front", 1);
-		chooser_autoColumn.addObject("Closest, far/far = switch back", 2);
-		chooser_autoColumn.addObject("Scale only", 3);
-		chooser_autoColumn.addObject("Switch only", 4);
-		SmartDashboard.putData("Auto Column Selection", chooser_autoColumn);
+		// Initialize our auto plan chooser
+		chooser_autoPlan.addDefault("Closest, far/far = scale", 0);
+		chooser_autoPlan.addObject("Closest, far/far = switch front", 1);
+		chooser_autoPlan.addObject("Closest, far/far = switch back", 2);
+		chooser_autoPlan.addObject("Scale only", 3);
+		chooser_autoPlan.addObject("Switch only (middle)", 4);
+		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
 		
 		// Initialize our position chooser
 		chooser_startPosition.addDefault("- choose from below -", 0);
@@ -55,8 +55,8 @@ public class OI {
 
 	}
 	
-	public int readAutoRow() {
-		return chooser_autoColumn.getSelected();
+	public int readAutoPlan() {
+		return chooser_autoPlan.getSelected();
 	}
 	
 	public int readStartPosition() {

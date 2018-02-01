@@ -141,7 +141,7 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putBoolean("Alliance Color", false);
 		}
 		
-		int fieldLayout, autoSelect;
+		int fieldLayout, autoPlan;
 
 		if (gameData.startsWith("LL")) 
 			fieldLayout = RobotMap.AutoFieldLayout.LL.ordinal();
@@ -153,17 +153,17 @@ public class Robot extends TimedRobot {
 			fieldLayout = RobotMap.AutoFieldLayout.RR.ordinal();
 
 		int programSelected;
-		autoSelect = oi.readAutoRow();
+		autoPlan = oi.readAutoPlan();
 			
 		int startPosition = oi.readStartPosition(); 
 		
 		
 		if (startPosition == 1) {
-			programSelected = RobotMap.startingLeftAutoPrograms[autoSelect][fieldLayout];
+			programSelected = RobotMap.startingLeftAutoPrograms[autoPlan][fieldLayout];
 		} else if (startPosition == 2) {
-			programSelected = RobotMap.startingMiddleAutoPrograms[autoSelect][fieldLayout];
+			programSelected = RobotMap.startingMiddleAutoPrograms[autoPlan][fieldLayout];
 		} else {
-			programSelected = RobotMap.startingRightAutoPrograms[autoSelect][fieldLayout];
+			programSelected = RobotMap.startingRightAutoPrograms[autoPlan][fieldLayout];
 			
 		}
 
@@ -187,6 +187,7 @@ public class Robot extends TimedRobot {
 		case 5 :
 			autonomousCommand = new AutoPath5_SwitchFromMiddle(allianceSwitchLeft);
 			log.writeLogEcho("Ran Auto Path 5 (switch from middle), left = " + allianceSwitchLeft);
+			break;
 		case 6 :
 			autonomousCommand = new AutoPath6_OppositeSideSwitchFront(startPosition);
 			log.writeLogEcho("Ran Auto Path 6 (opposite side switch front), side = " + startPosition);
@@ -194,10 +195,10 @@ public class Robot extends TimedRobot {
 		}
 		
 		SmartDashboard.putString("Auto path", autonomousCommand.getName());
-		SmartDashboard.putNumber("Field selection", fieldLayout);
-		SmartDashboard.putNumber("Column Selected", autoSelect);
-		
-		SmartDashboard.putNumber("Start Position", oi.readStartPosition());
+		SmartDashboard.putNumber("Auto program #", programSelected);
+		SmartDashboard.putNumber("Auto field selection", fieldLayout);
+		SmartDashboard.putNumber("Auto plan selected", autoPlan);
+		SmartDashboard.putNumber("Auto start position", startPosition);
 		
 		// schedule the autonomous command
 		if (autonomousCommand != null) {
