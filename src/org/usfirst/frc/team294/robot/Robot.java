@@ -1,8 +1,6 @@
 
 package org.usfirst.frc.team294.robot;
 
-
-
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
@@ -17,20 +15,28 @@ import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team294.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team294.robot.subsystems.ProtoArmMotor;
+import org.usfirst.frc.team294.robot.subsystems.ProtoArmPiston;
 import org.usfirst.frc.team294.robot.subsystems.Shifter;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 
 public class Robot extends TimedRobot {
-	public static final DriveTrain driveTrainSubsystem = new DriveTrain();
-	public static final Shifter shifterSubsystem = new Shifter();
+	// Subsystem objects
+	public static DriveTrain driveTrain;
+	public static Shifter shifter;
+	public static ProtoArmPiston protoArmPiston;
+	public static ProtoArmMotor protoArmMotor;
 	public static OI oi;
+	
 	public static boolean allianceSwitchLeft = false;
 	public static boolean scaleLeft = false;
 	public static boolean opponentSwitchLeft = false;
 	public static FileLog log;
 	public static Preferences robotPrefs;
-	public static int countAtZeroDegrees; 	// Arm potentiometer position at O degrees
+	
+	public static int armCalZero; 	// Arm potentiometer position at O degrees
+	public static int armCal90Deg;	// Arm potentiometer position at 90 degrees
 	
 	Command autonomousCommand;
 	
@@ -40,6 +46,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+
+		driveTrain = new DriveTrain();
+		shifter = new Shifter();
+		protoArmPiston = new ProtoArmPiston();
+		protoArmMotor = new ProtoArmMotor();
+
 		// Create the log file
 		log = new FileLog();
 		
@@ -61,7 +73,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-			
 	}
 
 	/**
@@ -79,11 +90,8 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		log.writeLogEcho("Autonomous mode started.");
 		
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		
-		
-		
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
+
 		if(gameData.charAt(0) == 'L')
 		{
 			SmartDashboard.putBoolean("Close Switch Left", true);
@@ -191,10 +199,6 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putNumber("Start Position", oi.readStartPosition());
 		
-		Robot.driveTrainSubsystem.zeroLeftEncoder();
-		Robot.driveTrainSubsystem.zeroRightEncoder();
-		Robot.driveTrainSubsystem.zeroGyroRotation();
-
 		// schedule the autonomous command
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
@@ -218,7 +222,6 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		
 		
 		log.writeLogEcho("Teleop mode started.");
 	}
@@ -245,10 +248,11 @@ public class Robot extends TimedRobot {
 		//TODO:  For each robot preference:  Use more descriptive names?
 		robotPrefs = Preferences.getInstance();
 
-		if (robotPrefs.getDouble("countAtZeroDegrees", 0) == 0) {		//  If field was not set up, set up field
+		if (robotPrefs.getDouble("calibrationZeroDegrees", 0) == 0) {		//  If field was not set up, set up field
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
-			robotPrefs.putInt("countAtZeroDegrees", 500); //this needs to be changed when we find the new value
+			robotPrefs.putInt("calibrationZeroDegrees", -245); // Value may need to be changed based on specifics of robot
 		}
-		countAtZeroDegrees = robotPrefs.getInt("countAtZeroDegrees", 500);
+		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
+		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
 	}
 }
