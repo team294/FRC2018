@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot;
 
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units;
+import org.usfirst.frc.team294.robot.commands.autoroutines.AutoTest1;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -16,6 +17,7 @@ public class OI {
 	public static Joystick armJoystick = new Joystick(2); // Arm Joystick is in port 2
 
 	{
+		SmartDashboard.putData("AutoTest1",new AutoTest1());
 		SmartDashboard.putData("Start Drive Train", new DriveWithJoystick()); // Adds a start Button
 		SmartDashboard.putData("Drive Straight Gyro Angle", new DriveStraightDistanceGyroAngle(150, .75, 0));
 		SmartDashboard.putData("Retract Arm", new ArmRetract()); // Adds a retract Button

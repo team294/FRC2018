@@ -12,6 +12,7 @@ public class AutoTest1 extends CommandGroup {
 
     public AutoTest1() {
 
+    	
     	addSequential(new DriveStraightDistanceProfile(100,0));
     	addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
     	addSequential(new DriveStraightDistanceProfile(40,-90));

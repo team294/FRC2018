@@ -6,6 +6,7 @@ import org.omg.PortableServer.ImplicitActivationPolicyOperations;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.utilities.ToleranceChecker;
+import org.usfirst.frc.team294.utilities.VelocityChecker;
 import org.usfirst.frc.team294.utilities.ProfileGenerator;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,6 +35,7 @@ public class DriveStraightDistanceProfile extends Command {
 	private double kPangle = .06;
 	private double kIangle = .002;
 	private double kDangle = .1;
+	private final VelocityChecker velCheck = new VelocityChecker(1);
 	
 	private double curve;
 	private double minSpeed = .1;
@@ -57,6 +59,7 @@ public class DriveStraightDistanceProfile extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		//distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
+		Robot.log.writeLog("DriveStraightdistanceProfile instantiated");
 		distErr = 0;
 		prevDistErr = 0;
 		angleErr = 0;
@@ -65,7 +68,7 @@ public class DriveStraightDistanceProfile extends Command {
 		tolCheck = new ToleranceChecker(1, 5);
 		Robot.driveTrain.zeroLeftEncoder();
 		Robot.driveTrain.zeroRightEncoder();
-		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 80, 80);
+		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 120, 120);
 		angleBase = Robot.driveTrain.getGyroRotation();
 	}
 
@@ -78,7 +81,7 @@ public class DriveStraightDistanceProfile extends Command {
 		
 		if (!success) {
 			distSpeedControl = distErr * kPdist + (distErr - prevDistErr) * kDdist;
-			prevDistErr = distErr;
+
 			//distSpeedControl = distSpeedControl > percentPower ? percentPower : distSpeedControl;
 			//distSpeedControl = distSpeedControl < -percentPower ? -percentPower : distSpeedControl;
 			// TODO change this to max percent power, instead of scaling power
@@ -97,8 +100,9 @@ public class DriveStraightDistanceProfile extends Command {
 			curve = (curve < -0.5) ? -0.5 : curve;
 			curve = (distanceTravel - currentDistanceInches >= 0) ? curve : -curve;
 			Robot.driveTrain.driveAtCurve(distSpeedControl, curve);
+			prevDistErr = distErr;
+			velCheck.addValue(distSpeedControl);
 		}
-
 		SmartDashboard.putNumber("Distance Calculated", trapezoid.getCurrentPosition());
 		SmartDashboard.putNumber("Distance Error", distanceTravel - currentDistanceInches);
 		SmartDashboard.putNumber("Actual Distance", currentDistance);
@@ -112,17 +116,19 @@ public class DriveStraightDistanceProfile extends Command {
 			SmartDashboard.putNumber("fSet Distance", distanceTravel);
 			SmartDashboard.putNumber("fActual Distance", currentDistance);
 		}
-		return success;
+		return velCheck.getAverage()<.01|success;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
+		Robot.log.writeLog("DriveStraightDistanceProfile ended, distError: "+distErr+", velCheck: "+velCheck.getAverage());
 Robot.driveTrain.driveAtCurve(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		Robot.log.writeLog("DriveStraightdistanceProfile interrupted");
 		end();
 	}
 }

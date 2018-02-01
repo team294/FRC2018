@@ -1,6 +1,9 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import java.util.Arrays;
+
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.utilities.VelocityChecker;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,9 +18,9 @@ public class TurnGyro extends Command {
 
 	private double percentSpeed, amountTurn;
 	private final Units turnUnits;
-	private boolean useSDashTemp = false;
 	private double prevError = 0, integratedError = 0, derivativeError = 0, distError = 0;
-	private final double dt = .02;
+	private static final double dt = .02;
+	private final VelocityChecker velCheck = new VelocityChecker(1);
 	private final double 
 			kPdist = 0.04, // Proportional Term
 			kDdist = 0.0036, 	// Derivative Value
@@ -28,14 +31,7 @@ public class TurnGyro extends Command {
 		this.turnUnits = turnUnits;
 		requires(Robot.driveTrain);
 	}
-	public TurnGyro() {
-		this(0,null);
-		useSDashTemp = true;
-	}
 	private double getDegreesTurn() {
-		if(useSDashTemp) {
-			return SmartDashboard.getNumber("Gyro Turn Angle Input", 180);
-		}
 		switch (turnUnits) {
 		case Radians:
 			return Math.toDegrees(amountTurn);
@@ -51,6 +47,7 @@ public class TurnGyro extends Command {
 		integratedError = 0;
 		derivativeError = 0;
 		distError = 0;
+		Robot.log.writeLog("Turn Gyro initialized");
 		//Robot.driveTrain.zeroGyroRoataion();
 	}
 
@@ -68,23 +65,26 @@ public class TurnGyro extends Command {
 		percentSpeed = percentSpeed > -.2 && percentSpeed < 0 ? -.2 : percentSpeed;
 		Robot.driveTrain.tankDrive(percentSpeed, -percentSpeed);
 		prevError = distError;
+		velCheck.addValue(distError-prevError);
 		SmartDashboard.putNumber("Gyro Turn Dist Err:", distError);
 		SmartDashboard.putNumber("Gyro Turn Perc Speed:", percentSpeed);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Math.abs(distError) <= 1;
+		return velCheck.getAverage()<1|Math.abs(distError) <= 1 ;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
+		Robot.log.writeLog("Turn Gyro ended with average of: "+velCheck.getAverage()+", and a distErr of: "+distError);
 		Robot.driveTrain.tankDrive(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		Robot.log.writeLog("Turn Gyro interrupted.");
 		end();
 	}
 }

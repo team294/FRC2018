@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.2323869610935857,
+  "dividerPosition": 0.23879040667361837,
   "tabPane": [
     {
       "title": "Tab 1",
@@ -75,10 +75,8 @@
                 },
                 {
                   "_type": "Graph",
-                  "_source0": "network_table:///SmartDashboard/Actual Percent Power",
-                  "_title": "SmartDashboard/Actual Percent Power",
-                  "Visible time": 3.0,
-                  "SmartDashboard/Actual Percent Power visible": true
+                  "_title": "Graph (no sources)",
+                  "Visible time": 10.0
                 }
               ]
             }
@@ -108,6 +106,28 @@
                   "_title": "SmartDashboard/DistToTravelDSDG"
                 }
               ]
+            }
+          },
+          "4,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/AutoTest1",
+              "_title": "SmartDashboard/AutoTest1"
+            }
+          },
+          "4,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TGVelTime",
+              "_title": "SmartDashboard/TGVelTime"
             }
           }
         }
