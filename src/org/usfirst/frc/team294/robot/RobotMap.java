@@ -32,7 +32,6 @@ public class RobotMap {
 	
 	// Arm angle constants
 	public static double degreesPerTicks = 9.0 / 5.0;
-	public static double ticksPerDegrees = 5.0 / 9.0; // Need to calibrate these values
 	public static double armLowPosition;
 	public static double armHighPosition;
 	

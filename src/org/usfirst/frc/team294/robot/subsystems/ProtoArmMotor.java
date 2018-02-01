@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
 
+import org.usfirst.frc.team294.robot.OI;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.UpdateArmSmartDashboard;
@@ -28,11 +29,7 @@ public class ProtoArmMotor extends Subsystem {
 	private final WPI_TalonSRX armMotor = new WPI_TalonSRX(RobotMap.armMotor);
 		
 	private double DEGREES_PER_TICK = RobotMap.degreesPerTicks;
-	private double TICKS_PER_DEGREE = RobotMap.ticksPerDegrees;
-	private double armZeroDegreesCalibration = Robot.armCalZero;
-	private double arm90DegreesCalibration = Robot.armCal90Deg;
-	
-	//TODO: Add code for arm angles from preferences in Robot.java
+	private double TICKS_PER_DEGREE = 1.0/RobotMap.degreesPerTicks;	
 	
 	public ProtoArmMotor() {		
 		
@@ -59,6 +56,7 @@ public class ProtoArmMotor extends Subsystem {
 	
 	public void calibrate() {
 		//yeah we're gonna fill this out later with uhhhhh something
+		//Probably won't need something, Shuffleboard and robot prefs can be used instead.
 	}
 	
 	
@@ -82,19 +80,19 @@ public class ProtoArmMotor extends Subsystem {
 	 * <b>To reset:</b> Set the arm to the zero position, set the countAtZeroDegrees to 0.
 	 * The value at that read should then be entered into the countAtZeroDegree field.
 	**/
-    public double getArmPot() {				
-    	double potValue = armMotor.getSelectedSensorPosition(0) - (-245);//armZeroDegreesCalibration; //Removed zero for testing purposes
+    public double getArmPot() {	
+    	double potValue = getArmPotRaw() - (Robot.armCalZero);//armZeroDegreesCalibration; //Removed zero for testing purposes
     	//int potValue = armMotor.getSensorCollection().getAnalogIn();
     	SmartDashboard.putNumber("Arm Pot Value", potValue);
     	return (potValue); 
     }
     
     /**
-     * Returns the raw value of the pot on arm, without adjusting for level. Also updates SmartDashboard.
+     * Returns the raw value of the pot on arm, without adjusting for level. Also updates SmartDashboard. Needed for calibration of 0. 
      * @return raw value, probably a large negative number
      */
     public double getArmPotRaw() {
-    	double potVal = armMotor.getSelectedSensorPosition(0);
+    	double potVal = armMotor.getSelectedSensorPosition(0); 
     	SmartDashboard.putNumber("Arm Pot Raw", potVal);
     	return potVal;
     }
@@ -108,6 +106,21 @@ public class ProtoArmMotor extends Subsystem {
     	double armAngle = getArmPot() * DEGREES_PER_TICK;
     	SmartDashboard.putNumber("Arm angle Value", armAngle);
     	return (armAngle);
+    }
+    
+    public void armPositionJoystick() {
+    	double armAdjustment =  OI.armJoystick.getY();
+    	if(armAdjustment < 0.2 && armAdjustment > -0.2) armAdjustment = 0;
+    	else if(armAdjustment >= 0.2 && armAdjustment < 0.4) armAdjustment = 2;
+    	else if(armAdjustment >= 0.4 && armAdjustment < 0.7) armAdjustment = 4;
+    	else if(armAdjustment >= 0.7 && armAdjustment <= 1) armAdjustment = 8;
+    	else if(armAdjustment <= -0.2 && armAdjustment > -0.4) armAdjustment = -2;
+    	else if(armAdjustment <= -0.4 && armAdjustment > -0.7) armAdjustment = -4;
+    	else if(armAdjustment <= -0.7 && armAdjustment >= -1) armAdjustment = -8;
+    	armAdjustment += armMotor.getClosedLoopTarget(0);
+    	SmartDashboard.putNumber("Joystick Value",OI.armJoystick.getY());
+    	SmartDashboard.putNumber("Target Position",armMotor.getClosedLoopTarget(0));
+    	setArmPosition(armAdjustment);
     }
     
     /**
@@ -126,7 +139,7 @@ public class ProtoArmMotor extends Subsystem {
 	 * @param position desired position, in pot ticks
 	 */
     private void setArmPosition(double position) {
-    	position += (-245); //armZeroDegreesCalibration;
+    	position += (Robot.armCalZero); //armZeroDegreesCalibration;
     	armMotor.set(ControlMode.Position, position);
     }
     
@@ -149,6 +162,7 @@ public class ProtoArmMotor extends Subsystem {
     	return voltage;
     }
     
+    
     /**
      * Updates pot and angle measurements on the SmartDashboard
      */
@@ -162,6 +176,7 @@ public class ProtoArmMotor extends Subsystem {
     
     public void periodic() {
     	updateSmartDashboard();
+    	//armPositionJoystick();
     }
     
     public void initDefaultCommand() {

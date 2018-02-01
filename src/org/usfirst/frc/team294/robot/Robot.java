@@ -34,7 +34,6 @@ public class Robot extends TimedRobot {
 	
 	// 
 	public static int armCalZero; 	// Arm potentiometer position at O degrees
-	public static int armCal90Deg;	// Arm potentiometer position at 90 degrees
 	
 
 	//Command m_autonomousCommand;
@@ -217,6 +216,5 @@ public class Robot extends TimedRobot {
 			robotPrefs.putInt("calibrationZeroDegrees", -245); // Value may need to be changed based on specifics of robot
 		}
 		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
-		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
 	}
 }
