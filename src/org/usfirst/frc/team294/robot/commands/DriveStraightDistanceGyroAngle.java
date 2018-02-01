@@ -41,7 +41,7 @@ public class DriveStraightDistanceGyroAngle extends Command {
 	public DriveStraightDistanceGyroAngle(double distanceTravel, double percentPower, double angleTurn) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.driveTrainSubsystem);
+		requires(Robot.driveTrain);
 		this.distanceTravel = distanceTravel;
 		this.percentPower = percentPower;
 		this.angleTurn = angleTurn;
@@ -63,16 +63,16 @@ public class DriveStraightDistanceGyroAngle extends Command {
 		success = false;
 		distSpeedControl = 0;
 		tolCheck = new ToleranceChecker(1, 5);
-		Robot.driveTrainSubsystem.zeroLeftEncoder();
-		Robot.driveTrainSubsystem.zeroRightEncoder();
+		Robot.driveTrain.zeroLeftEncoder();
+		Robot.driveTrain.zeroRightEncoder();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		SmartDashboard.putNumber("Left Encoder Values", Robot.driveTrainSubsystem.getLeftEncoderPosition());
-		SmartDashboard.putNumber("Right Encoder Values", Robot.driveTrainSubsystem.getRightEncoderPosition());
-		final double currentDistanceInches = encoderTicksToInches((Robot.driveTrainSubsystem.getLeftEncoderPosition()));
-			//	+ Robot.driveTrainSubsystem.getRightEncoderPosition()) / 2.0);
+		SmartDashboard.putNumber("Left Encoder Values", Robot.driveTrain.getLeftEncoderPosition());
+		SmartDashboard.putNumber("Right Encoder Values", Robot.driveTrain.getRightEncoderPosition());
+		final double currentDistanceInches = encoderTicksToInches((Robot.driveTrain.getLeftEncoderPosition()));
+			//	+ Robot.driveTrain.getRightEncoderPosition()) / 2.0);
 
 		distErr = distanceTravel - currentDistanceInches;
 		SmartDashboard.putNumber("Distance Error", distErr);
@@ -89,7 +89,7 @@ public class DriveStraightDistanceGyroAngle extends Command {
 			} else {
 				distSpeedControl = (distSpeedControl > -minSpeed) ? -minSpeed : distSpeedControl;
 			}
-			angleErr = angleTurn - Robot.driveTrainSubsystem.getGyroRotation();
+			angleErr = angleTurn - Robot.driveTrain.getGyroRotation();
 			angleErr = (angleErr > 180) ? angleErr - 360 : angleErr;
 			intErr = intErr + angleErr * 0.02;
 			double dErr = angleErr - prevAngleErr;
@@ -98,7 +98,7 @@ public class DriveStraightDistanceGyroAngle extends Command {
 			curve = (curve > 0.5) ? 0.5 : curve;
 			curve = (curve < -0.5) ? -0.5 : curve;
 			curve = (distErr >= 0) ? curve : -curve;
-			Robot.driveTrainSubsystem.driveAtCurve(distSpeedControl, curve);
+			Robot.driveTrain.driveAtCurve(distSpeedControl, curve);
 
 		}
 	}

@@ -26,9 +26,7 @@ public class DriveTrain extends Subsystem {
 	private final WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.leftMotor1);
 	private final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.leftMotor2);
 	private final WPI_TalonSRX leftMotor3 = new WPI_TalonSRX(RobotMap.leftMotor3);
-	public final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor2, rightMotor2);
-	// NavX. Create the object , in the DriveTrain() constructor, so that we can
-	// catch
+	public final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor2,rightMotor2); //MAYBE CHANGE merge conflicts??
 	// errors.
 	private AHRS ahrs;
 	private double yawZero = 0;
@@ -38,7 +36,6 @@ public class DriveTrain extends Subsystem {
 
 	// Track left and right encoder zeros here to minimize latency in Talons.
 	private double leftEncoderZero = 0, rightEncoderZero = 0;
-
 	public DriveTrain() {// initialize Followers
 		// motor2 are the main motors, and motor 1 and 3 are the followers.
 		leftMotor1.set(ControlMode.Follower, RobotMap.leftMotor2);
@@ -53,8 +50,9 @@ public class DriveTrain extends Subsystem {
 
 		leftMotor2.clearStickyFaults(0);
 		rightMotor2.clearStickyFaults(0);
-		//robotDrive.setSafetyEnabled(false); // Maybe Bad????????? Check Later
-		//EDIT: is bad don't do
+		
+		zeroLeftEncoder();
+		zeroRightEncoder();
 		try {
 			/* Communicate w/navX MXP via the MXP SPI Bus. */
 			/* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
@@ -95,18 +93,17 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * Zero the gyro position.
+	 * Zeros the gyro position in software
 	 */
-	public void zeroGyroRoataion() {
+	public void zeroGyroRotation() {
 		// set yawZero to gryo angle
 		yawZero = ahrs.getAngle();
 		// System.err.println("PLZ Never Zero the Gyro Rotation it is not good");
 	}
 
 	/**
-	 * Get the rotation of the gyro. Uses normal people degrees.
-	 * 
-	 * @return Current angle from 0 to 360 degrees.
+	 * Gets the rotation of the gyro
+	 * @return Current angle from 0 to 360 degrees
 	 */
 	public double getGyroRotation() {
 		double angle = ahrs.getAngle() - yawZero;
@@ -116,20 +113,19 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("NavX Angle", angle);
 		return angle;
 	}
-
 	public void tankDrive(double powerLeft, double powerRight) {
 		this.robotDrive.tankDrive(powerLeft, powerRight);
 	}
 
 	/**
-	 * Zeros the left encoder position.
+	 * Zeros the left encoder position in software
 	 */
 	public void zeroLeftEncoder() {
 		leftEncoderZero = leftMotor2.getSelectedSensorPosition(0);
 	}
 
 	/**
-	 * Zeros the right encoder position.
+	 * Zeros the right encoder position in software
 	 */
 	public void zeroRightEncoder() {
 		rightEncoderZero = rightMotor2.getSelectedSensorPosition(0);
@@ -198,6 +194,14 @@ public class DriveTrain extends Subsystem {
 		setRightMotors(0);
 	}
 
+	// Periodic is called once every scheduler cycle (20ms)
+	public void periodic() {
+		// Display info on Dashboard
+		getGyroRotation();
+		getLeftEncoderPosition();
+		getRightEncoderPosition();
+	}
+	
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithJoystick());
 	}

@@ -1,7 +1,6 @@
 
 package org.usfirst.frc.team294.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; //remove the ones that are not used.
@@ -12,24 +11,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team294.robot.commands.autoroutines.AutoTest1;
 import org.usfirst.frc.team294.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team294.robot.subsystems.ProtoArmMotor;
+import org.usfirst.frc.team294.robot.subsystems.ProtoArmPiston;
 import org.usfirst.frc.team294.robot.subsystems.Shifter;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 public class Robot extends TimedRobot {
-	public static final DriveTrain driveTrainSubsystem = new DriveTrain();
-	public static final Shifter shifterSubsystem = new Shifter();
-	public static OI m_oi;
+	
+	// Subsystem objects
+	public static DriveTrain driveTrain;
+	public static Shifter shifter;
+	public static ProtoArmPiston protoArmPiston;
+	public static ProtoArmMotor protoArmMotor;
+	public static OI oi;
+	
 	public static boolean allianceSwitchLeft = false;
 	public static boolean scaleLeft = false;
 	public static boolean opponentSwitchLeft = false;
-
-	public static Preferences robotPrefs;
-	public static int countAtZeroDegrees; 	// Arm potentiometer position at O degrees
-
 	public static FileLog log;
+	public static Preferences robotPrefs;
+	public static String gameData;
+	// 
+	public static int armCalZero; 	// Arm potentiometer position at O degrees
+	public static int armCal90Deg;	// Arm potentiometer position at 90 degrees
+	
 
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	//Command m_autonomousCommand;
+	//SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -37,20 +45,25 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+
+		
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		driveTrain = new DriveTrain();
+		shifter = new Shifter();
+		protoArmPiston = new ProtoArmPiston();
+		protoArmMotor = new ProtoArmMotor();
+		oi = new OI();
+
 		// Create the log file
 		log = new FileLog();
-		
-		// Create the OI
-		m_oi = new OI();
-
-		readPreferences(); // Read preferences next, so that subsystems can use the preference values.
+		readPreferences();		// Read preferences next, so that subsystems can use the preference values.
 
 		/*
 		 * auto-config for autonomous
 		 */
-		m_chooser.addDefault("Default Auto", new DriveWithJoystick());
+		//m_chooser.addDefault("Default Auto", new DriveWithJoystick());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		//SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
@@ -66,10 +79,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-
 	}
 
 	/**
@@ -86,12 +95,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		
-		log.writeLogEcho("Autonomous mode started.");
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
 
-		if (gameData.charAt(0) == 'L') {
+		if(gameData.charAt(0) == 'L')
+		{
 			SmartDashboard.putBoolean("Close Switch Left", true);
 			SmartDashboard.putBoolean("Close Switch Right", false);
 			allianceSwitchLeft = true;
@@ -135,21 +141,16 @@ public class Robot extends TimedRobot {
 		} else {
 			SmartDashboard.putBoolean("Alliance Color", false);
 		}
-
-		m_autonomousCommand = m_chooser.getSelected();
-
-		this.driveTrainSubsystem.zeroLeftEncoder();
-		this.driveTrainSubsystem.zeroRightEncoder();
-		this.driveTrainSubsystem.zeroGyroRoataion();
-		this.driveTrainSubsystem.setFieldPositionX(0);
-		this.driveTrainSubsystem.setFieldPositionY(0);
+		driveTrain.zeroLeftEncoder();
+		driveTrain.zeroRightEncoder();
+		driveTrain.zeroGyroRotation();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
 		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
 		 * ExampleCommand(); break; }
 		 */
-		m_autonomousCommand = new AutoTest1();
+		Command m_autonomousCommand = new AutoTest1();
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
@@ -170,13 +171,13 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
+		/*if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
-		}
+		}*/
 		
-		this.driveTrainSubsystem.zeroGyroRoataion(); // todo remove later
-		this.driveTrainSubsystem.setFieldPositionX(0); // todo remove later
-		this.driveTrainSubsystem.setFieldPositionY(0); // todo remove later
+		this.driveTrain.zeroGyroRotation(); // todo remove later
+		this.driveTrain.setFieldPositionX(0); // todo remove later
+		this.driveTrain.setFieldPositionY(0); // todo remove later
 		
 		log.writeLogEcho("Teleop mode started.");
 	}
@@ -205,10 +206,11 @@ public class Robot extends TimedRobot {
 		// TODO: For each robot preference: Use more descriptive names?
 		robotPrefs = Preferences.getInstance();
 
-		if (robotPrefs.getDouble("countAtZeroDegrees", 0) == 0) { // If field was not set up, set up field
+		if (robotPrefs.getDouble("calibrationZeroDegrees", 0) == 0) {		//  If field was not set up, set up field
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
-			robotPrefs.putInt("countAtZeroDegrees", 500); // this needs to be changed when we find the new value
+			robotPrefs.putInt("calibrationZeroDegrees", -245); // Value may need to be changed based on specifics of robot
 		}
-		countAtZeroDegrees = robotPrefs.getInt("countAtZeroDegrees", 500);
+		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
+		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
 	}
 }

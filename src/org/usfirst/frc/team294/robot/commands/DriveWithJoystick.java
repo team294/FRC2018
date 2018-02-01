@@ -18,7 +18,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class DriveWithJoystick extends Command {
 	public DriveWithJoystick() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.driveTrainSubsystem);
+		requires(Robot.driveTrain);
 	}
 
 	// Called just before this Command runs the first time
@@ -30,21 +30,21 @@ public class DriveWithJoystick extends Command {
 	@Override
 	protected void execute() {
 //		if(Math.abs(OI.leftJoystick.getY())>.15) {//Dead Zone of 15%
-//			Robot.driveTrainSubsystem.setLeftMotors(OI.leftJoystick.getY()); //sets power of left motors based off of 
+//			Robot.driveTrain.setLeftMotors(OI.leftJoystick.getY()); //sets power of left motors based off of 
 //		}else {
-//			Robot.driveTrainSubsystem.setLeftMotors(0);
+//			Robot.driveTrain.setLeftMotors(0);
 //		}
 //		if(Math.abs(OI.rightJoystick.getY())>.15) {
-//			Robot.driveTrainSubsystem.setRightMotors(OI.rightJoystick.getY());
+//			Robot.driveTrain.setRightMotors(OI.rightJoystick.getY());
 //		}else {
-//			Robot.driveTrainSubsystem.setRightMotors(0);
+//			Robot.driveTrain.setRightMotors(0);
 //		}
 		double leftVal = OI.leftJoystick.getY();
 		double rightVal = OI.rightJoystick.getY();
-		Robot.driveTrainSubsystem.getGyroRotation();
-		Robot.driveTrainSubsystem.tankDrive(-leftVal, -rightVal);
-		Robot.driveTrainSubsystem.getLeftEncoderPosition();
-		Robot.driveTrainSubsystem.getRightEncoderPosition();
+		Robot.driveTrain.getGyroRotation();
+		Robot.driveTrain.tankDrive(-leftVal, -rightVal);
+		Robot.driveTrain.getLeftEncoderPosition();
+		Robot.driveTrain.getRightEncoderPosition();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -56,7 +56,7 @@ public class DriveWithJoystick extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.driveTrainSubsystem.stopAllMotors();
+		Robot.driveTrain.stopAllMotors();
 	}
 
 	// Called when another command which requires one or more of the same

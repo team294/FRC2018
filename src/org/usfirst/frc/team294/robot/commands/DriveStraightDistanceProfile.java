@@ -41,7 +41,7 @@ public class DriveStraightDistanceProfile extends Command {
 	private ProfileGenerator trapezoid;
 	
 	public DriveStraightDistanceProfile(double distanceTravel, double angleBase) {
-		requires(Robot.driveTrainSubsystem);
+		requires(Robot.driveTrain);
 		this.distanceTravel = distanceTravel;
 		this.angleBase = angleBase;
 	}
@@ -63,15 +63,15 @@ public class DriveStraightDistanceProfile extends Command {
 		success = false;
 		distSpeedControl = 0;
 		tolCheck = new ToleranceChecker(1, 5);
-		Robot.driveTrainSubsystem.zeroLeftEncoder();
-		Robot.driveTrainSubsystem.zeroRightEncoder();
+		Robot.driveTrain.zeroLeftEncoder();
+		Robot.driveTrain.zeroRightEncoder();
 		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 80, 80);
-		angleBase = Robot.driveTrainSubsystem.getGyroRotation();
+		angleBase = Robot.driveTrain.getGyroRotation();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		final double currentDistanceInches = encoderTicksToInches(Robot.driveTrainSubsystem.getRightEncoderPosition());
+		final double currentDistanceInches = encoderTicksToInches(Robot.driveTrain.getRightEncoderPosition());
 		this.currentDistance = currentDistanceInches;
 		distErr = trapezoid.getCurrentPosition() - currentDistanceInches;
 		success = tolCheck.success(Math.abs(distanceTravel - currentDistanceInches));
@@ -87,7 +87,7 @@ public class DriveStraightDistanceProfile extends Command {
 			} else {
 				distSpeedControl = (distSpeedControl > -minSpeed) ? -minSpeed : distSpeedControl;
 			}
-			angleErr = angleBase - Robot.driveTrainSubsystem.getGyroRotation();
+			angleErr = angleBase - Robot.driveTrain.getGyroRotation();
 			angleErr = (angleErr > 180) ? angleErr - 360 : angleErr;
 			intErr = intErr + angleErr * 0.02;
 			double dErr = angleErr - prevAngleErr;
@@ -96,7 +96,7 @@ public class DriveStraightDistanceProfile extends Command {
 			curve = (curve > 0.5) ? 0.5 : curve;
 			curve = (curve < -0.5) ? -0.5 : curve;
 			curve = (distanceTravel - currentDistanceInches >= 0) ? curve : -curve;
-			Robot.driveTrainSubsystem.driveAtCurve(distSpeedControl, curve);
+			Robot.driveTrain.driveAtCurve(distSpeedControl, curve);
 		}
 
 		SmartDashboard.putNumber("Distance Calculated", trapezoid.getCurrentPosition());
@@ -117,7 +117,7 @@ public class DriveStraightDistanceProfile extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-Robot.driveTrainSubsystem.driveAtCurve(0, 0);
+Robot.driveTrain.driveAtCurve(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same

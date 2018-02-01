@@ -12,12 +12,12 @@ public class ShiftLow extends Command {
     public ShiftLow() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shifterSubsystem);
+    	requires(Robot.shifter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shifterSubsystem.shiftDown();
+    	Robot.shifter.shiftDown();
     }
 
     // Called repeatedly when this Command is scheduled to run

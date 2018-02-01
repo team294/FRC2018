@@ -26,7 +26,7 @@ public class TurnGyro extends Command {
 	public TurnGyro(double amountTurn, Units turnUnits) {// TODO FIX NEGATIVIZATION
 		this.amountTurn = amountTurn;
 		this.turnUnits = turnUnits;
-		requires(Robot.driveTrainSubsystem);
+		requires(Robot.driveTrain);
 	}
 	public TurnGyro() {
 		this(0,null);
@@ -51,22 +51,22 @@ public class TurnGyro extends Command {
 		integratedError = 0;
 		derivativeError = 0;
 		distError = 0;
-		//Robot.driveTrainSubsystem.zeroGyroRoataion();
+		//Robot.driveTrain.zeroGyroRoataion();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		SmartDashboard.putNumber("Gyro Levels:", Robot.driveTrainSubsystem.getGyroRotation());
-		distError = getDegreesTurn() - Robot.driveTrainSubsystem.getGyroRotation();
+		SmartDashboard.putNumber("Gyro Levels:", Robot.driveTrain.getGyroRotation());
+		distError = getDegreesTurn() - Robot.driveTrain.getGyroRotation();
 		distError = distError < -180 ? distError + 360 : distError;
 		distError = distError > 180 ? distError - 360 : distError;
 		integratedError += distError * dt;
 		derivativeError = (distError - prevError) / dt;
 		percentSpeed = distError * kPdist + integratedError * kIdist + derivativeError * kDdist;
-		//Robot.driveTrainSubsystem.tankDrive(-percentSpeed, percentSpeed);
+		//Robot.driveTrain.tankDrive(-percentSpeed, percentSpeed);
 		percentSpeed = percentSpeed < .2 && percentSpeed > 0 ? .2 : percentSpeed;
 		percentSpeed = percentSpeed > -.2 && percentSpeed < 0 ? -.2 : percentSpeed;
-		Robot.driveTrainSubsystem.tankDrive(percentSpeed, -percentSpeed);
+		Robot.driveTrain.tankDrive(percentSpeed, -percentSpeed);
 		prevError = distError;
 		SmartDashboard.putNumber("Gyro Turn Dist Err:", distError);
 		SmartDashboard.putNumber("Gyro Turn Perc Speed:", percentSpeed);
@@ -79,7 +79,7 @@ public class TurnGyro extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.driveTrainSubsystem.tankDrive(0, 0);
+		Robot.driveTrain.tankDrive(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same

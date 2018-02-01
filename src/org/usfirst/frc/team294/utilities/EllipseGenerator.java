@@ -118,12 +118,12 @@ public class EllipseGenerator {
 		profileA = -(profileA - 90);
 		prevX = profileX;
 		prevY = profileY;
-		distErr = Math.sqrt(Math.pow(profileX-Robot.driveTrainSubsystem.getFieldPositionX(), 2)+ (Math.pow(profileY-Robot.driveTrainSubsystem.getFieldPositionY(), 2)));
-		angleErr = (profileA - Robot.driveTrainSubsystem.getGyroRotation());
-		double direction = Math.signum((profileX-Robot.driveTrainSubsystem.getFieldPositionX()) * Math.cos(profileA) + (profileY-Robot.driveTrainSubsystem.getFieldPositionY()) * Math.sin(profileA));
+		distErr = Math.sqrt(Math.pow(profileX-Robot.driveTrain.getFieldPositionX(), 2)+ (Math.pow(profileY-Robot.driveTrain.getFieldPositionY(), 2)));
+		angleErr = (profileA - Robot.driveTrain.getGyroRotation());
+		double direction = Math.signum((profileX-Robot.driveTrain.getFieldPositionX()) * Math.cos(profileA) + (profileY-Robot.driveTrain.getFieldPositionY()) * Math.sin(profileA));
 		distErr *= direction;
 		if( Math.abs(distErr) > 5) {
-			angleErr = -(Math.atan2(profileY-Robot.driveTrainSubsystem.getFieldPositionY(), profileX-Robot.driveTrainSubsystem.getFieldPositionX()) - 90) - Robot.driveTrainSubsystem.getGyroRotation();
+			angleErr = -(Math.atan2(profileY-Robot.driveTrain.getFieldPositionY(), profileX-Robot.driveTrain.getFieldPositionX()) - 90) - Robot.driveTrain.getGyroRotation();
 		}
 	}
 	
