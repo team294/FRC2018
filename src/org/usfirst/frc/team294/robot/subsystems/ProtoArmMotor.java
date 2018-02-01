@@ -30,6 +30,7 @@ public class ProtoArmMotor extends Subsystem {
 	private double DEGREES_PER_TICK = RobotMap.degreesPerTicks;
 	private double TICKS_PER_DEGREE = RobotMap.ticksPerDegrees;
 	private double armZeroDegreesCalibration = Robot.armCalZero;
+	private double arm90DegreesCalibration = Robot.armCal90Deg;
 	
 	//TODO: Add code for arm angles from preferences in Robot.java
 	
@@ -55,6 +56,11 @@ public class ProtoArmMotor extends Subsystem {
         armMotor.configPeakOutputForward(0.8, 10);
         armMotor.configPeakOutputReverse(-0.5, 10);
 	}
+	
+	public void calibrate() {
+		//yeah we're gonna fill this out later with uhhhhh something
+	}
+	
 	
 	/**
 	 * Controls the arm based on Percent VBUS

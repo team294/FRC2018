@@ -13,11 +13,18 @@ public class RobotMap {
 	public static int armMotor = 30;
 	
 	// Pneumatic addresses
-	public static int pnuematicShifterLow = 1;
 	public static int pnuematicShifterHigh = 0;
-	public static int pneumaticArmPistonIn = 3;
-	public static int pneumaticArmPistonOut = 2;
-	public static int pistonRetractedLimitSwitch = 0; // Are some of these analog ins for the limit switches? Need to separate
+	public static int pnuematicShifterLow = 1;
+	public static int pneumaticArmPistonMajorOut = 2;
+	public static int pneumaticArmPistonMajorIn = 3;
+	public static int pneumaticArmPistonMinorOut = 4;
+	public static int pneumaticArmPistonMinorIn = 5;
+
+	// Digital Input addresses
+	public static int majorPistonRetractedLimitSwitch = 0;
+	public static int majorPistonExtendedLimitSwitch = 1;
+	public static int minorPistonRetractedLimitSwitch = 2;
+	public static int minorPistonExtendedLimitSwitch = 3;
 	
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup
@@ -45,5 +52,9 @@ public class RobotMap {
 		if (position == ArmPositions.Low) return armLowPosition;
 		if (position == ArmPositions.High) return armHighPosition;
 		else return armLowPosition;
+	}
+	
+	public enum PistonPositions {
+		Extended, Retracted, Moving, Null
 	}
 }
