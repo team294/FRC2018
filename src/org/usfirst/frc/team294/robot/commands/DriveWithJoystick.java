@@ -30,19 +30,19 @@ public class DriveWithJoystick extends Command {
 	@Override
 	protected void execute() {
 //		if(Math.abs(OI.leftJoystick.getY())>.15) {//Dead Zone of 15%
-//			Robot.driveTrainSubsystem.setLeftMotors(OI.leftJoystick.getY()); //sets power of left motors based off of 
+//			Robot.driveTrain.setLeftMotors(OI.leftJoystick.getY()); //sets power of left motors based off of 
 //		}else {
-//			Robot.driveTrainSubsystem.setLeftMotors(0);
+//			Robot.driveTrain.setLeftMotors(0);
 //		}
 //		if(Math.abs(OI.rightJoystick.getY())>.15) {
-//			Robot.driveTrainSubsystem.setRightMotors(OI.rightJoystick.getY());
+//			Robot.driveTrain.setRightMotors(OI.rightJoystick.getY());
 //		}else {
-//			Robot.driveTrainSubsystem.setRightMotors(0);
+//			Robot.driveTrain.setRightMotors(0);
 //		}
 		double leftVal = OI.leftJoystick.getY();
 		double rightVal = OI.rightJoystick.getY();
 		Robot.driveTrain.getGyroRotation();
-		Robot.driveTrain.tankDrive(leftVal, rightVal);
+		Robot.driveTrain.tankDrive(-leftVal, -rightVal);
 		Robot.driveTrain.getLeftEncoderPosition();
 		Robot.driveTrain.getRightEncoderPosition();
 	}

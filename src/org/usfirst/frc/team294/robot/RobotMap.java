@@ -12,6 +12,11 @@ public class RobotMap {
 	public static int rightMotor3 = 22;
 	public static int armMotor = 30;
 	
+	//Drive Train Constants
+	public static final double wheelCircumference = 4.0 * Math.PI;
+	public static final double encoderTicksPerRevolution = 4096.0;
+	public static final double driveTrainDistanceFudgeFactor = 0.96824; //TODO: store in robot preferences
+	
 	// Pneumatic addresses
 	public static int pnuematicShifterLow = 1;
 	public static int pnuematicShifterHigh = 0;

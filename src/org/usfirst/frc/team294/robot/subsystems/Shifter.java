@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Gear shifter for the drive train
  */
 public class Shifter extends Subsystem {
+
 	
 	private final DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.pnuematicShifterLow, RobotMap.pnuematicShifterHigh);
 
@@ -30,27 +31,27 @@ public class Shifter extends Subsystem {
 	 * Shift the gears up
 	 */
 	public void shiftUp() {
-		shifter.set(Value.kForward); // kForward is high gear 
+		shifter.set(Value.kReverse); // kReverse is high gear
 	}
-	
+
 	/**
 	 * Set the gear piston to in
 	 */
 	public void shiftDown() {
-		shifter.set(Value.kReverse); // KReverse is low gear 
+		shifter.set(Value.kForward); // KForward is low gear
 	}
 
 	/**
 	 * Returns the state of the shifter
+	 * 
 	 * @return true for high gear, false for low
 	 */
 	public boolean isShifterInHighGear() {
 		return shifter.get().equals(Value.kForward);
 	}
 
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
 }
-
