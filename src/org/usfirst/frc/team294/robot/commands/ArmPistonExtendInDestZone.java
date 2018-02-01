@@ -35,12 +35,12 @@ public class ArmPistonExtendInDestZone extends Command {
 	protected void execute() {
 		if (destAng < RobotMap.Ang3 && destAng > RobotMap.Ang2) {
 			if (currentAng < RobotMap.Ang3 && currentAng > RobotMap.Ang2) {
-				Robot.protoArmPiston.extendPiston();
+				Robot.protoArmPiston.extendMajorPiston();
 				done = true;
 			}
 		} else if (destAng < RobotMap.Ang1 && destAng > RobotMap.Ang0) {
 			if (currentAng < RobotMap.Ang1 && currentAng > RobotMap.Ang0) {
-				Robot.protoArmPiston.extendPiston();
+				Robot.protoArmPiston.extendMajorPiston();
 				done = true;
 			}
 		}

@@ -23,7 +23,7 @@ public class ArmPiston10InchRetract extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		if (currentAng >= RobotMap.Ang3 || currentAng <= RobotMap.Ang2 || !extendPistonAtEnd) {
-			Robot.protoArmPiston.retractPiston();
+			Robot.protoArmPiston.retractMajorPiston();
 		}
 
 	}
@@ -35,7 +35,7 @@ public class ArmPiston10InchRetract extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return true;
+		return Robot.protoArmPiston.getMajor() == RobotMap.PistonPositions.Retracted;
 	}
 
 	// Called once after isFinished returns true
