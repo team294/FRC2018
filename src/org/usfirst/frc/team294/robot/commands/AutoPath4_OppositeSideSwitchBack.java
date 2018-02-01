@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoPath4_OppositeSideSwitch extends CommandGroup {
+public class AutoPath4_OppositeSideSwitchBack extends CommandGroup {
 
-    public AutoPath4_OppositeSideSwitch(int startPosition) {
+    public AutoPath4_OppositeSideSwitchBack(int startPosition) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

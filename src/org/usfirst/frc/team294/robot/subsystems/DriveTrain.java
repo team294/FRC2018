@@ -69,7 +69,7 @@ public class DriveTrain extends Subsystem {
 	/**
 	 * Zero the gyro position.
 	 */
-	public void zeroGyroRoataion() {
+	public void zeroGyroRotation() {
 		// set yawZero to gryo angle
 		yawZero = ahrs.getAngle();
 	}

@@ -24,7 +24,7 @@ import org.usfirst.frc.team294.utilities.FileLog;
 public class Robot extends TimedRobot {
 	public static final DriveTrain driveTrainSubsystem = new DriveTrain();
 	public static final Shifter shifterSubsystem = new Shifter();
-	public static OI m_oi;
+	public static OI oi;
 	public static boolean allianceSwitchLeft = false;
 	public static boolean scaleLeft = false;
 	public static boolean opponentSwitchLeft = false;
@@ -32,11 +32,7 @@ public class Robot extends TimedRobot {
 	public static Preferences robotPrefs;
 	public static int countAtZeroDegrees; 	// Arm potentiometer position at O degrees
 	
-//	public static Command[][] autoCommandArray = { {new PnuematicShift(), new RunDriveTrain()} };
-	public static Command[][] autoCommandArray = new Command[RobotMap.AUTO_COLS][RobotMap.AUTO_FIELD_LAYOUTS];
-
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	Command autonomousCommand;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -48,40 +44,8 @@ public class Robot extends TimedRobot {
 		log = new FileLog();
 		
 		// Create the OI
-		m_oi = new OI();
+		oi = new OI();
 		readPreferences();		// Read preferences next, so that subsystems can use the preference values.
-
-		/*
-		 * auto-config for autonomous
-		 */
-//		m_chooser.addDefault("Default Auto", new RunDriveTrain());
-//		// chooser.addObject("My Auto", new MyAutoCommand());
-//		SmartDashboard.putData("Auto mode", m_chooser);
-		
-		// array chooses which auto program to use based on selected auto path and field layout
-//		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath3_SameSideSwitch();
-//		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath3_SameSideSwitch();
-//		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
-//		autoCommandArray[RobotMap.AutoPath.SwitchPriority.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath2_OppositeSideScale();
-//
-//		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath1_SameSideScale();
-//		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath2_OppositeSideScale();
-//		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
-//		autoCommandArray[RobotMap.AutoPath.BothSwitchesMiddle.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath2_OppositeSideScale();
-//
-//		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath5_SwitchFromMiddle();
-//		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath5_SwitchFromMiddle();
-//		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath5_SwitchFromMiddle();
-//		autoCommandArray[RobotMap.AutoPath.ScaleOnly.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath5_SwitchFromMiddle();
-//		
-//		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.LL.ordinal()] = new AutoPath3_SameSideSwitch();
-//		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.LR.ordinal()] = new AutoPath3_SameSideSwitch();
-//		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.RL.ordinal()] = new AutoPath1_SameSideScale();
-//		autoCommandArray[RobotMap.AutoPath.ScalePriority.ordinal()][RobotMap.AutoFieldLayout.RR.ordinal()] = new AutoPath4_OppositeSideSwitch();
-
-		m_chooser.addDefault("Default Auto", new DriveWithJoystick());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
@@ -169,8 +133,6 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putBoolean("Alliance Color", false);
 		}
 		
-		
-
 		int fieldLayout, autoSelect;
 
 		if (gameData.startsWith("LL")) 
@@ -183,9 +145,9 @@ public class Robot extends TimedRobot {
 			fieldLayout = RobotMap.AutoFieldLayout.RR.ordinal();
 
 		int programSelected;
-		autoSelect = m_oi.readAutoRow();
+		autoSelect = oi.readAutoRow();
 			
-		int startPosition = m_oi.readStartPosition(); 
+		int startPosition = oi.readStartPosition(); 
 		
 		
 		if (startPosition == 1) {
@@ -199,49 +161,43 @@ public class Robot extends TimedRobot {
 
 		switch (programSelected) {
 		case 1 :
-			m_autonomousCommand = new AutoPath1_SameSideScale(startPosition);
-			log.writeLogEcho("Ran Auto Path 1 (same side scale)");
+			autonomousCommand = new AutoPath1_SameSideScale(startPosition);
+			log.writeLogEcho("Ran Auto Path 1 (same side scale), side = " + startPosition);
 			break;
 		case 2 : 
-			m_autonomousCommand = new AutoPath2_OppositeSideScale(startPosition);
-			log.writeLogEcho("Ran Auto Path 2 (opposite side scale)");
+			autonomousCommand = new AutoPath2_OppositeSideScale(startPosition);
+			log.writeLogEcho("Ran Auto Path 2 (opposite side scale), side = " + startPosition);
 			break;
 		case 3 :
-			m_autonomousCommand = new AutoPath3_SameSideSwitch(startPosition);
-			log.writeLogEcho("Ran Auto Path 3 (same side switch)");
+			autonomousCommand = new AutoPath3_SameSideSwitch(startPosition);
+			log.writeLogEcho("Ran Auto Path 3 (same side switch), side = " + startPosition);
 			break;
 		case 4 :
-			m_autonomousCommand = new AutoPath4_OppositeSideSwitch(startPosition);
-			log.writeLogEcho("Ran Auto Path 4 (opposite side switch)");
+			autonomousCommand = new AutoPath4_OppositeSideSwitchBack(startPosition);
+			log.writeLogEcho("Ran Auto Path 4 (opposite side switch back), side = " + startPosition);
 			break;
 		case 5 :
-			m_autonomousCommand = new AutoPath5_SwitchFromMiddle(allianceSwitchLeft);
-			log.writeLogEcho("Ran Auto Path 5 (switch from middle)");
+			autonomousCommand = new AutoPath5_SwitchFromMiddle(allianceSwitchLeft);
+			log.writeLogEcho("Ran Auto Path 5 (switch from middle), left = " + allianceSwitchLeft);
+		case 6 :
+			autonomousCommand = new AutoPath6_OppositeSideSwitchFront(startPosition);
+			log.writeLogEcho("Ran Auto Path 6 (opposite side switch front), side = " + startPosition);
+			break;
 		}
 		
-//		m_autonomousCommand = autoCommandArray[autoSelect][fieldLayout];
-		SmartDashboard.putString("Auto path", m_autonomousCommand.getName());
+		SmartDashboard.putString("Auto path", autonomousCommand.getName());
 		SmartDashboard.putNumber("Field selection", fieldLayout);
 		SmartDashboard.putNumber("Column Selected", autoSelect);
 		
-		SmartDashboard.putNumber("Start Position", m_oi.readStartPosition());
+		SmartDashboard.putNumber("Start Position", oi.readStartPosition());
 		
-
-		m_autonomousCommand = m_chooser.getSelected();
-    
 		Robot.driveTrainSubsystem.zeroLeftEncoder();
 		Robot.driveTrainSubsystem.zeroRightEncoder();
-		Robot.driveTrainSubsystem.zeroGyroRoataion();
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+		Robot.driveTrainSubsystem.zeroGyroRotation();
 
-		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		// schedule the autonomous command
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
 		}
 	}
 
@@ -259,8 +215,8 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
 		}
 		
 		

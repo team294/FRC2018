@@ -5,13 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoPath5_SwitchFromMiddle extends CommandGroup {
+public class AutoPath6_OppositeSideSwitchFront extends CommandGroup {
 
-	/**
-	 * Robot starts in the middle and puts cube on switch.
-	 * @param goLeft true = put cube on left plate, false = put cube on right plate
-	 */
-    public AutoPath5_SwitchFromMiddle(boolean goLeft) {
+    public AutoPath6_OppositeSideSwitchFront(int startPosition) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
