@@ -57,6 +57,7 @@ public class ProtoArmMotor extends Subsystem {
 	public void calibrate() {
 		//yeah we're gonna fill this out later with uhhhhh something
 		//Probably won't need something, Shuffleboard and robot prefs can be used instead.
+		// No, this will be used for calibrating the arm between robots
 	}
 	
 	
@@ -110,17 +111,13 @@ public class ProtoArmMotor extends Subsystem {
     
     public void armPositionJoystick() {
     	double armAdjustment =  OI.armJoystick.getY();
-    	if(armAdjustment < 0.2 && armAdjustment > -0.2) armAdjustment = 0;
-    	else if(armAdjustment >= 0.2 && armAdjustment < 0.4) armAdjustment = 2;
-    	else if(armAdjustment >= 0.4 && armAdjustment < 0.7) armAdjustment = 4;
-    	else if(armAdjustment >= 0.7 && armAdjustment <= 1) armAdjustment = 8;
-    	else if(armAdjustment <= -0.2 && armAdjustment > -0.4) armAdjustment = -2;
-    	else if(armAdjustment <= -0.4 && armAdjustment > -0.7) armAdjustment = -4;
-    	else if(armAdjustment <= -0.7 && armAdjustment >= -1) armAdjustment = -8;
-    	armAdjustment += armMotor.getClosedLoopTarget(0);
-    	SmartDashboard.putNumber("Joystick Value",OI.armJoystick.getY());
-    	SmartDashboard.putNumber("Target Position",armMotor.getClosedLoopTarget(0));
-    	setArmPosition(armAdjustment);
+    	double currTarget = armMotor.getClosedLoopTarget(0);
+    	armAdjustment = (Math.abs(armAdjustment) < 0.2) ? 0 : armAdjustment * 1.8;
+    	if (currTarget > -150 && armAdjustment > 0) armAdjustment = 0;
+    	if (currTarget < -300 && armAdjustment < 0) armAdjustment = 0;
+    	SmartDashboard.putNumber("Joystick Value", armAdjustment);
+    	SmartDashboard.putNumber("Target Position", currTarget);
+    	setArmPositionRaw(currTarget + armAdjustment);
     }
     
     /**
@@ -131,15 +128,23 @@ public class ProtoArmMotor extends Subsystem {
     	// TODO: add checks to make sure arm does not go outside of safe areas
     	// TODO: integrate checks with piston to avoid penalties for breaking frame perimeter
     	double encoderDegrees = angle * TICKS_PER_DEGREE;
-    	setArmPosition(encoderDegrees);
+    	setArmPositionScaled(encoderDegrees);
     }
     
 	/**
-	 * Sets the position of the arm based on potentiometer ticks
+	 * Sets the position of the arm based on scaled potentiometer ticks, and converts to raw (subtracts position at 0)
 	 * @param position desired position, in pot ticks
 	 */
-    private void setArmPosition(double position) {
+    private void setArmPositionScaled(double position) {
     	position += (Robot.armCalZero); //armZeroDegreesCalibration;
+    	armMotor.set(ControlMode.Position, position);
+    }
+    
+    /**
+     * Sets the (raw) position of the arm based on raw potentiometer ticks, with no adjustment for zero calibration
+     * @param position desired position, in scaled pot ticks
+     */
+    private void setArmPositionRaw(double position) {
     	armMotor.set(ControlMode.Position, position);
     }
     
@@ -176,7 +181,6 @@ public class ProtoArmMotor extends Subsystem {
     
     public void periodic() {
     	updateSmartDashboard();
-    	//armPositionJoystick();
     }
     
     public void initDefaultCommand() {
