@@ -21,9 +21,9 @@ public class VelocityChecker {
 
 	/**
 	 * Creates VelocityChecker object to return the running average velocity for the last N samples.
-	 * Note 1:  If less than N samples have been added, then the average velocity with be erroneously high.
+	 * Note 1:  If fewer than N samples have been added, then the average velocity with be erroneously high.
 	 * Note 2:  addValue(velocity) must be called to add samples.
-	 * @param secs Length of time to compute the running average.
+	 * @param size the number of elements in the array
 	 */
 	public static VelocityChecker getBySize(int size) {
 		VelocityChecker temp = new VelocityChecker();
