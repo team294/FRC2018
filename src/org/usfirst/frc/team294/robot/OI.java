@@ -52,6 +52,10 @@ public class OI {
 		Button rightTrigger = new JoystickButton(rightJoystick, 1);
 		leftTrigger.whenPressed(new ShiftLow());
 		rightTrigger.whenPressed(new ShiftHigh());
+		
+		SmartDashboard.putData("Photo Switch", new ReadPhotoSwitch()); // For use with the intake
+		SmartDashboard.putData("Pick Up Cube", new CubePickUp(-50));
+		SmartDashboard.putData("Push Out Cube", new CubePushOut());
 
 	}
 	
