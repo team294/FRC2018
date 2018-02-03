@@ -2,6 +2,8 @@ package org.usfirst.frc.team294.utilities;
 
 import java.util.Arrays;
 
+import org.usfirst.frc.team294.robot.Robot;
+
 public class VelocityChecker {
 	private double[] histArray;
 	private int histArrayIndex = 0;
@@ -47,6 +49,13 @@ public class VelocityChecker {
 	public void clearHistory() {
 		Arrays.fill(histArray, Double.MAX_VALUE); // Dont forget, histArray is filled with big numbers to skew avergae
 													// at start
+	}
+	
+	/**
+	 * Dumps the HistArray to standard out and the file log
+	 */
+	public void dumpArray() {
+		Robot.log.writeLogEcho("Hist Array dump: "+Arrays.toString(histArray));
 	}
 
 	/**
