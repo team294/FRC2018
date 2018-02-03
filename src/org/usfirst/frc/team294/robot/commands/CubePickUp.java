@@ -22,14 +22,14 @@ public class CubePickUp extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.claw.setClawMotorToPercentPower(percent);
-    	Robot.claw.extendPiston();
+    	Robot.claw.extendPiston();		// rename to openClaw
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if (Robot.inputs.isObjectPresent()) {
-    		Robot.claw.retractPiston();
-    		//wait(250);
+    		Robot.claw.retractPiston();		// rename to clawClose
+    		//wait(250);               SEE example for timeout and use isFinished to stop motors
     		Robot.claw.setClawMotorToPercentPower(0);
     	}
     	
