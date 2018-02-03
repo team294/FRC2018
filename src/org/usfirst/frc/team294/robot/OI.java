@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-	
-
 
 public class OI {
 	public static Joystick leftJoystick = new Joystick(0); // Left Joystick is in port 0
