@@ -23,25 +23,32 @@ public class Claw extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	public void extendPiston() {
+	public void openClaw() {
 		clawPiston.set(Value.kForward); // kForward is extend
 	}
 
-	public void retractPiston() {
+	public void closeClaw() {
 		clawPiston.set(Value.kReverse); // kReverse is retract
 	}
 
-	public void setClawMotorToPercentPower(double percent) {
-		clawMotorLeft.set(ControlMode.PercentOutput, (percent * .8));
-		clawMotorRight.set(ControlMode.PercentOutput, percent);
-		System.out.println("Left Claw motor " + clawMotorLeft.getDeviceID() + " set to percent " + percent + ", output "
+	public void setClawMotorToPercentPower(double leftPercent, double rightPercent) {
+		clawMotorLeft.set(ControlMode.PercentOutput, leftPercent);
+		clawMotorRight.set(ControlMode.PercentOutput, rightPercent);
+		System.out.println("Left Claw motor " + clawMotorLeft.getDeviceID() + " set to percent " + leftPercent + ", output "
 				+ clawMotorLeft.getMotorOutputVoltage() + " V," + clawMotorLeft.getOutputCurrent() + " A, Bus at "
 				+ clawMotorLeft.getBusVoltage() + " V");
-		System.out.println("Right Claw motor " + clawMotorRight.getDeviceID() + " set to percent " + percent
+		System.out.println("Right Claw motor " + clawMotorRight.getDeviceID() + " set to percent " + rightPercent
 				+ ", output " + clawMotorRight.getMotorOutputVoltage() + " V," + clawMotorRight.getOutputCurrent()
 				+ " A, Bus at " + clawMotorRight.getBusVoltage() + " V");
-		SmartDashboard.putNumber("Claw Motors Percent", percent);
+		SmartDashboard.putNumber("Left Claw Motor Percent:", leftPercent);
+		SmartDashboard.putNumber("Right Claw Motor Percent:", rightPercent);
 	}
+
+	/* public double getClawMotorPower() {
+		double voltage = (clawMotorLeft.getMotorOutputPercent() + clawMotorRight.getMotorOutputPercent()) / 2;
+		SmartDashboard.putNumber("Arm Motor Output Voltage", voltage);
+		return voltage;
+	} */
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

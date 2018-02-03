@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CubePushOut extends Command {
 
+	private double leftPercent = 50;
+	private double rightPercent = 50;
+	
     public CubePushOut() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -17,8 +20,8 @@ public class CubePushOut extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.claw.extendPiston();
-    	Robot.claw.setClawMotorToPercentPower(50);
+    	Robot.claw.openClaw();
+    	Robot.claw.setClawMotorToPercentPower(leftPercent, rightPercent);
     }
 
     // Called repeatedly when this Command is scheduled to run

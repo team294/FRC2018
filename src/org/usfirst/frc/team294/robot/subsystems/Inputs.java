@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 public class Inputs extends Subsystem {
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitch);
+	private final DigitalInput bumpSwitch = new DigitalInput(RobotMap.bumpSwitch);
 
 	public Inputs() {
 		super();
@@ -26,5 +27,9 @@ public class Inputs extends Subsystem {
 
 	public boolean isObjectPresent() {
 		return photoSwitch.get();
+	}
+	
+	public boolean isCubeFullyIn() {
+		return bumpSwitch.get();
 	}
 }
