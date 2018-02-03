@@ -46,7 +46,7 @@ public class ProtoArmMotor extends Subsystem {
 		//armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00, 0x00); // Change parameter to 1 for non-continuous
 		armMotor.selectProfileSlot(0, 0);
 		armMotor.config_kF(0, 0.0, 10);
-        armMotor.config_kP(0, 50.0, 10);
+        armMotor.config_kP(0, 80.0, 10); //old term 50, 50 works
         armMotor.config_kI(0, 0.0, 10);
         armMotor.config_kD(0, 0.0, 10);
         armMotor.configClosedloopRamp(0.25, 10);
@@ -58,6 +58,7 @@ public class ProtoArmMotor extends Subsystem {
 		//yeah we're gonna fill this out later with uhhhhh something
 		//Probably won't need something, Shuffleboard and robot prefs can be used instead.
 		// No, this will be used for calibrating the arm between robots
+		//But you can also use Shuffleboard and Robotprefs to  calibrate the arm between different robots, no need for a method to do it
 	}
 	
 	
@@ -112,12 +113,24 @@ public class ProtoArmMotor extends Subsystem {
     public void armPositionJoystick() {
     	double armAdjustment =  OI.armJoystick.getY();
     	double currTarget = armMotor.getClosedLoopTarget(0);
-    	armAdjustment = (Math.abs(armAdjustment) < 0.2) ? 0 : armAdjustment * 1.8;
+    	armAdjustment = (Math.abs(armAdjustment) < 0.1) ? 0.0 : armAdjustment * 1.0; //1.8 works
     	if (currTarget > -150 && armAdjustment > 0) armAdjustment = 0;
     	if (currTarget < -300 && armAdjustment < 0) armAdjustment = 0;
     	SmartDashboard.putNumber("Joystick Value", armAdjustment);
     	SmartDashboard.putNumber("Target Position", currTarget);
+    	//currTarget += armAdjustment;
     	setArmPositionRaw(currTarget + armAdjustment);
+    }
+    
+    public void armAdjustJoystickButtons() {
+    	boolean armButton2 = OI.armJoystick.getRawButton(2);
+    	boolean armButton3 = OI.armJoystick.getRawButton(3);
+    	if(armButton2 == armButton3) {
+    		armButton2 = false;
+    		armButton3 = false;
+    	}
+    	if(armButton2) setArmAngle(getArmDegrees() - 5);
+    	if(armButton3) setArmAngle(getArmDegrees() + 5);
     }
     
     /**
