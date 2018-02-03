@@ -46,7 +46,7 @@ public class ProtoArmMotor extends Subsystem {
 		//armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00, 0x00); // Change parameter to 1 for non-continuous
 		armMotor.selectProfileSlot(0, 0);
 		armMotor.config_kF(0, 0.0, 10);
-        armMotor.config_kP(0, 80.0, 10); //old term 50, 50 works
+        armMotor.config_kP(0, 90.0, 10); //old term 50, 50 works
         armMotor.config_kI(0, 0.0, 10);
         armMotor.config_kD(0, 0.0, 10);
         armMotor.configClosedloopRamp(0.25, 10);
