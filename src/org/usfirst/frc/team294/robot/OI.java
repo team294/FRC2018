@@ -5,9 +5,13 @@ import org.usfirst.frc.team294.robot.commands.TurnGyro.Units;
 import org.usfirst.frc.team294.robot.commands.autoroutines.AutoTest1;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+	
+
 
 public class OI {
 	public static Joystick leftJoystick = new Joystick(0); // Left Joystick is in port 0
@@ -15,9 +19,27 @@ public class OI {
 	public static Joystick rightJoystick = new Joystick(1); // Right Joystick is in port 1
 
 	public static Joystick armJoystick = new Joystick(2); // Arm Joystick is in port 2
+	SendableChooser<Integer> chooser_autoPlan = new SendableChooser<>();
+	SendableChooser<Integer> chooser_startPosition = new SendableChooser<>();
 
 	{
 		SmartDashboard.putData("AutoTest1",new AutoTest1());
+	
+		// Initialize our auto plan chooser
+		chooser_autoPlan.addDefault("Closest, far/far = scale", 0);
+		chooser_autoPlan.addObject("Closest, far/far = switch front", 1);
+		chooser_autoPlan.addObject("Closest, far/far = switch back", 2);
+		chooser_autoPlan.addObject("Scale only", 3);
+		chooser_autoPlan.addObject("Switch only (middle)", 4);
+		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
+		
+		// Initialize our position chooser
+		chooser_startPosition.addDefault("- choose from below -", 0);
+		chooser_startPosition.addObject("Left", 1);
+		chooser_startPosition.addObject("Middle", 2);
+		chooser_startPosition.addObject("Right", 3);
+		SmartDashboard.putData("Start Position Selection", chooser_startPosition);
+	
 		SmartDashboard.putData("Start Drive Train", new DriveWithJoystick()); // Adds a start Button
 		SmartDashboard.putData("Drive Straight Gyro Angle", new DriveStraightDistanceGyroAngle(150, .75, 0));
 		SmartDashboard.putData("Retract Arm", new ArmRetract()); // Adds a retract Button
@@ -33,5 +55,14 @@ public class OI {
 		SmartDashboard.putData("DriveStraightDistanceProfile", new DriveStraightDistanceProfile(0, 0));
 		SmartDashboard.putNumber("DistToTravelDSDG", 150);
 		SmartDashboard.putData(" ProfileTest", new DriveStraightDistanceEllipse(100, 1000, 0));
+
+	}
+	
+	public int readAutoPlan() {
+		return chooser_autoPlan.getSelected();
+	}
+	
+	public int readStartPosition() {
+		return chooser_startPosition.getSelected();
 	}
 }

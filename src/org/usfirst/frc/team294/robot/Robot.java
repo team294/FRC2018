@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team294.robot;
 
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; //remove the ones that are not used.
@@ -8,6 +9,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.*;
+import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team294.robot.commands.autoroutines.AutoTest1;
 import org.usfirst.frc.team294.robot.subsystems.DriveTrain;
@@ -17,7 +22,6 @@ import org.usfirst.frc.team294.robot.subsystems.Shifter;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 public class Robot extends TimedRobot {
-	
 	// Subsystem objects
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
@@ -31,14 +35,11 @@ public class Robot extends TimedRobot {
 	public static FileLog log;
 	public static Preferences robotPrefs;
 	public static String gameData;
-	// 
 	public static int armCalZero; 	// Arm potentiometer position at O degrees
 	public static int armCal90Deg;	// Arm potentiometer position at 90 degrees
 	
-
-	//Command m_autonomousCommand;
-	//SendableChooser<Command> m_chooser = new SendableChooser<>();
-
+	Command autonomousCommand;
+	
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -52,18 +53,12 @@ public class Robot extends TimedRobot {
 		shifter = new Shifter();
 		protoArmPiston = new ProtoArmPiston();
 		protoArmMotor = new ProtoArmMotor();
-		oi = new OI();
 
 		// Create the log file
 		log = new FileLog();
+		// Create the OI
+		oi = new OI();
 		readPreferences();		// Read preferences next, so that subsystems can use the preference values.
-
-		/*
-		 * auto-config for autonomous
-		 */
-		//m_chooser.addDefault("Default Auto", new DriveWithJoystick());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		//SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
@@ -151,9 +146,69 @@ public class Robot extends TimedRobot {
 		 * ExampleCommand(); break; }
 		 */
 		Command m_autonomousCommand = new AutoTest1();
-		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		
+		int fieldLayout, autoPlan;
+
+		if (gameData.startsWith("LL")) 
+			fieldLayout = RobotMap.AutoFieldLayout.LL.ordinal();
+		else if (gameData.startsWith("LR"))
+			fieldLayout = RobotMap.AutoFieldLayout.LR.ordinal();
+		else if (gameData.startsWith("RL"))
+			fieldLayout = RobotMap.AutoFieldLayout.RL.ordinal();
+		else
+			fieldLayout = RobotMap.AutoFieldLayout.RR.ordinal();
+
+		int programSelected;
+		autoPlan = oi.readAutoPlan();
+			
+		int startPosition = oi.readStartPosition(); 
+		
+		
+		if (startPosition == 1) {
+			programSelected = RobotMap.startingLeftAutoPrograms[autoPlan][fieldLayout];
+		} else if (startPosition == 2) {
+			programSelected = RobotMap.startingMiddleAutoPrograms[autoPlan][fieldLayout];
+		} else {
+			programSelected = RobotMap.startingRightAutoPrograms[autoPlan][fieldLayout];
+			
+		}
+
+		switch (programSelected) {
+		case 1 :
+			autonomousCommand = new AutoPath1_SameSideScale(startPosition);
+			log.writeLogEcho("Ran Auto Path 1 (same side scale), side = " + startPosition);
+			break;
+		case 2 : 
+			autonomousCommand = new AutoPath2_OppositeSideScale(startPosition);
+			log.writeLogEcho("Ran Auto Path 2 (opposite side scale), side = " + startPosition);
+			break;
+		case 3 :
+			autonomousCommand = new AutoPath3_SameSideSwitch(startPosition);
+			log.writeLogEcho("Ran Auto Path 3 (same side switch), side = " + startPosition);
+			break;
+		case 4 :
+			autonomousCommand = new AutoPath4_OppositeSideSwitchBack(startPosition);
+			log.writeLogEcho("Ran Auto Path 4 (opposite side switch back), side = " + startPosition);
+			break;
+		case 5 :
+			autonomousCommand = new AutoPath5_SwitchFromMiddle(allianceSwitchLeft);
+			log.writeLogEcho("Ran Auto Path 5 (switch from middle), left = " + allianceSwitchLeft);
+			break;
+		case 6 :
+			autonomousCommand = new AutoPath6_OppositeSideSwitchFront(startPosition);
+			log.writeLogEcho("Ran Auto Path 6 (opposite side switch front), side = " + startPosition);
+			break;
+		}
+		
+		SmartDashboard.putString("Auto path", autonomousCommand.getName());
+		SmartDashboard.putNumber("Auto program #", programSelected);
+		SmartDashboard.putNumber("Auto field selection", fieldLayout);
+		SmartDashboard.putNumber("Auto plan selected", autoPlan);
+		SmartDashboard.putNumber("Auto start position", startPosition);
+		
+		// schedule the autonomous command
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
 		}
 	}
 
@@ -171,9 +226,9 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		/*if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
-		}*/
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
+		}
 		
 		this.driveTrain.zeroGyroRotation(); // todo remove later
 		this.driveTrain.setFieldPositionX(0); // todo remove later
