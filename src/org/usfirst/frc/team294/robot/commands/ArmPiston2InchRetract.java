@@ -25,7 +25,7 @@ public class ArmPiston2InchRetract extends Command {
 	protected void initialize() {
 		if ((currentAng >= RobotMap.Ang1 && currentAng <= RobotMap.Ang2) || currentAng >= RobotMap.Ang3
 				|| !extendPistonAtEnd) {
-			Robot.protoArmPiston.retractPiston();
+			Robot.protoArmPiston.retractMinorPiston();
 		}
 	}
 
