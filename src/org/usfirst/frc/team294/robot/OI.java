@@ -55,7 +55,8 @@ public class OI {
 		
 		SmartDashboard.putData("Photo Switch", new ReadPhotoSwitch()); // For use with the intake
 		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
-		SmartDashboard.putData("Push Out Cube", new CubePushOut());
+		SmartDashboard.putData("Release Cube", new CubeLetGo());
+		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
 
 	}
 	
