@@ -21,16 +21,17 @@ public class ArmMoveToEdge extends Command {
 	protected void initialize() {
 		double currentAngle = Robot.protoArmMotor.getArmDegrees();
 		if ((currentAngle >= RobotMap.minAngle) && (currentAngle <= RobotMap.lowerBound)) {
-			if(destAngle>=RobotMap.lowerBound) {
+			if (destAngle >= RobotMap.lowerBound) {
 				Robot.protoArmMotor.setArmAngle(RobotMap.lowerBound);
-			}
-			else Robot.protoArmMotor.setArmAngle(destAngle);
+			} else
+				Robot.protoArmMotor.setArmAngle(destAngle);
 		} else if ((currentAngle >= RobotMap.middleBound) && (currentAngle <= RobotMap.upperBound)) {
-			if(destAngle>=RobotMap.upperBound) {
-			Robot.protoArmMotor.setArmAngle(RobotMap.upperBound);
-			}
-			else if(destAngle<=RobotMap.middleBound)Robot.protoArmMotor.setArmAngle(RobotMap.middleBound);
-			else Robot.protoArmMotor.setArmAngle(RobotMap.middleBound);
+			if (destAngle >= RobotMap.upperBound) {
+				Robot.protoArmMotor.setArmAngle(RobotMap.upperBound);
+			} else if (destAngle <= RobotMap.middleBound)
+				Robot.protoArmMotor.setArmAngle(RobotMap.middleBound);
+			else
+				Robot.protoArmMotor.setArmAngle(RobotMap.middleBound);
 		}
 	}
 
