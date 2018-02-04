@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CubePushOut extends Command {
 
-	private double leftPercent = 50;
+	private double leftPercent = 50; // may want to have different speeds
 	private double rightPercent = 50;
 	
     public CubePushOut() {

@@ -9,15 +9,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CubePickUp extends Command {
 
-	private double leftPercent;
-	private double rightPercent;
+	private double leftPercent = -50;
+	private double rightPercent = -50;
 
-	public CubePickUp(double leftPercent, double rightPercent) {
+	public CubePickUp() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.claw);
-		this.leftPercent = leftPercent;
-		this.rightPercent = rightPercent;
+		//this.leftPercent = leftPercent;
+		//this.rightPercent = rightPercent;
 	}
 
 	// Called just before this Command runs the first time
@@ -30,22 +30,16 @@ public class CubePickUp extends Command {
 	protected void execute() {
 		if (Robot.inputs.isObjectPresent()) {
 			Robot.claw.closeClaw();
-			/*
-			 * try { Thread.sleep(200); } catch (InterruptedException e) { // TODO
-			 * Auto-generated catch block e.printStackTrace(); // autocorrected from error }
-			 * setTimeout(2);
-			 */
-			/* if(Robot.inputs.isCubeFullyIn()) {
+			if (!Robot.inputs.isCubeFullyIn()) {
 				end();
+			} else { // add a timeOut so motors don't run for too long
 			}
-			else {
-			}*/ 
 		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return !Robot.inputs.isCubeFullyIn();
 	}
 
 	// Called once after isFinished returns true

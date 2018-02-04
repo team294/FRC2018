@@ -54,7 +54,7 @@ public class OI {
 		rightTrigger.whenPressed(new ShiftHigh());
 		
 		SmartDashboard.putData("Photo Switch", new ReadPhotoSwitch()); // For use with the intake
-		SmartDashboard.putData("Pick Up Cube", new CubePickUp(-50, -50));
+		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
 		SmartDashboard.putData("Push Out Cube", new CubePushOut());
 
 	}
