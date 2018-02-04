@@ -88,16 +88,12 @@ public class DriveStraightDistanceProfile extends Command {
 		if (!success) {
 			distSpeedControl = distErr * kPdist + ((distErr - prevDistErr) * kDdist) + (kFdist * trapezoid.getCurrentVelocity());
 
-			// distSpeedControl = distSpeedControl > percentPower ? percentPower :
-			// distSpeedControl;
-			// distSpeedControl = distSpeedControl < -percentPower ? -percentPower :
-			// distSpeedControl;
-			// TODO change this to max percent power, instead of scaling power
 			if (distSpeedControl > 0) {
 				distSpeedControl = (distSpeedControl < minSpeed) ? minSpeed : distSpeedControl;
 			} else {
 				distSpeedControl = (distSpeedControl > -minSpeed) ? -minSpeed : distSpeedControl;
 			}
+
 			angleErr = angleBase - Robot.driveTrain.getGyroRotation();
 			angleErr = (angleErr > 180) ? angleErr - 360 : angleErr;
 			intErr = intErr + angleErr * 0.02;
@@ -106,7 +102,8 @@ public class DriveStraightDistanceProfile extends Command {
 			curve = angleErr * kPangle + intErr * kIangle + dErr * kDangle;
 			curve = (curve > 0.5) ? 0.5 : curve;
 			curve = (curve < -0.5) ? -0.5 : curve;
-			//curve = (targetDistance - currentDistanceInches >= 0) ? curve : -curve;
+			//curve = (targetDistance - currentDistanceInches >= 0) ? curve : -curve;	// Swap curve correction when in reverse
+			
 			Robot.driveTrain.driveAtCurve(distSpeedControl, curve);
 			velCheck.addValue(targetDistance - currentDistanceInches);
 			prevDistErr = distErr;
