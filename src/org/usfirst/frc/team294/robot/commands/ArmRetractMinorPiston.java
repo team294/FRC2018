@@ -8,25 +8,17 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmPiston2InchRetract extends Command {
+public class ArmRetractMinorPiston extends Command {
 
-	private double currentAng;
-
-	private boolean extendPistonAtEnd; // true = extend, false = retract
-
-	public ArmPiston2InchRetract(boolean extendPistonAtEnd) {
+	public ArmRetractMinorPiston() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.protoArmPiston);
-		this.extendPistonAtEnd = extendPistonAtEnd;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if ((currentAng >= RobotMap.Ang1 && currentAng <= RobotMap.Ang2) || currentAng >= RobotMap.Ang3
-				|| !extendPistonAtEnd) {
-			Robot.protoArmPiston.retractMinorPiston();
-		}
+		Robot.protoArmPiston.retractMinorPiston();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

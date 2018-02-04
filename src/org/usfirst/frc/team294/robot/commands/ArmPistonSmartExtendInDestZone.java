@@ -8,39 +8,38 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmPistonExtendInDestZone extends Command {
+public class ArmPistonSmartExtendInDestZone extends Command {
 
 	private double currentAng = Robot.protoArmMotor.getArmDegrees();
 	private double destAng;
-	private boolean extendPistonAtEnd; // true = extend, false = retract
 	private boolean done = false;
 
-	public ArmPistonExtendInDestZone(boolean extendPistonAtEnd, double destAng) {
+	public ArmPistonSmartExtendInDestZone(double destAng) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.protoArmPiston);
-		this.extendPistonAtEnd = extendPistonAtEnd;
 		this.destAng = destAng;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (!extendPistonAtEnd || !((destAng < RobotMap.Ang3 && destAng > RobotMap.Ang2)
-				|| (destAng < RobotMap.Ang1 && destAng > RobotMap.Ang0))) {
+		if (!((destAng < RobotMap.upperBound && destAng > RobotMap.middleBound)
+				|| (destAng < RobotMap.lowerBound && destAng > RobotMap.minAngle))) {
 			done = true;
 		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (destAng < RobotMap.Ang3 && destAng > RobotMap.Ang2) {
-			if (currentAng < RobotMap.Ang3 && currentAng > RobotMap.Ang2) {
+		if (destAng < RobotMap.upperBound && destAng > RobotMap.middleBound) {
+			if (currentAng < RobotMap.upperBound && currentAng > RobotMap.middleBound) {
+				Robot.protoArmPiston.extendMinorPiston();
 				Robot.protoArmPiston.extendMajorPiston();
 				done = true;
 			}
-		} else if (destAng < RobotMap.Ang1 && destAng > RobotMap.Ang0) {
-			if (currentAng < RobotMap.Ang1 && currentAng > RobotMap.Ang0) {
-				Robot.protoArmPiston.extendMajorPiston();
+		} else if (destAng < RobotMap.lowerBound && destAng > RobotMap.minAngle) {
+			if (currentAng < RobotMap.lowerBound && currentAng > RobotMap.minAngle) {
+				Robot.protoArmPiston.extendMinorPiston();
 				done = true;
 			}
 		}

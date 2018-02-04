@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmMoveToDestAngle extends Command {
-
+public class ArmMoveToEdge extends Command {
 	private double destAngle;
 
-	public ArmMoveToDestAngle(double destAngle) {
+	public ArmMoveToEdge(double destAngle) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.protoArmMotor);
@@ -20,19 +19,28 @@ public class ArmMoveToDestAngle extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		destAngle = (destAngle > RobotMap.maxAngle) ? RobotMap.maxAngle : destAngle;
-		destAngle = (destAngle < RobotMap.minAngle) ? RobotMap.minAngle : destAngle;
-		Robot.protoArmMotor.setArmAngle(destAngle);
+		double currentAngle = Robot.protoArmMotor.getArmDegrees();
+		if ((currentAngle >= RobotMap.minAngle) && (currentAngle <= RobotMap.lowerBound)) {
+			if(destAngle>=RobotMap.lowerBound) {
+				Robot.protoArmMotor.setArmAngle(RobotMap.lowerBound);
+			}
+			else Robot.protoArmMotor.setArmAngle(destAngle);
+		} else if ((currentAngle >= RobotMap.middleBound) && (currentAngle <= RobotMap.upperBound)) {
+			if(destAngle>=RobotMap.upperBound) {
+			Robot.protoArmMotor.setArmAngle(RobotMap.upperBound);
+			}
+			else if(destAngle<=RobotMap.middleBound)Robot.protoArmMotor.setArmAngle(RobotMap.middleBound);
+			else Robot.protoArmMotor.setArmAngle(RobotMap.middleBound);
+		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	// Called once after isFinished returns true

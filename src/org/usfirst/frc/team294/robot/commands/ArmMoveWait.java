@@ -25,8 +25,8 @@ public class ArmMoveWait extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		currentPiston = Robot.protoArmPiston.getMajor() == RobotMap.PistonPositions.Retracted;
-		destAng = (destAng > RobotMap.Ang4) ? RobotMap.Ang4 : destAng;
-		destAng = (destAng < RobotMap.Ang0) ? RobotMap.Ang0 : destAng;
+		destAng = (destAng > RobotMap.maxAngle) ? RobotMap.maxAngle : destAng;
+		destAng = (destAng < RobotMap.minAngle) ? RobotMap.minAngle : destAng;
 		Robot.protoArmMotor.setArmAngle(destAng);
 	}
 

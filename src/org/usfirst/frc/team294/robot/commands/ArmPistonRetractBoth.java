@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class PistonLogicCommandSequenceB extends CommandGroup {
+public class ArmPistonRetractBoth extends CommandGroup {
 
-    public PistonLogicCommandSequenceB() {
+    public ArmPistonRetractBoth() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

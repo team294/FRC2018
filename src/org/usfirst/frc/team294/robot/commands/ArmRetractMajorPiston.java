@@ -8,23 +8,18 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmPiston10InchRetract extends Command {
+public class ArmRetractMajorPiston extends Command {
 
-	private double currentAng = Robot.protoArmMotor.getArmDegrees();
-	private boolean extendPistonAtEnd; // true = extend, false = retract
 
-	public ArmPiston10InchRetract(boolean extendPistonAtEnd) {
+	public ArmRetractMajorPiston(boolean extendPistonAtEnd) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.protoArmPiston);
-		this.extendPistonAtEnd = extendPistonAtEnd;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (currentAng >= RobotMap.Ang3 || currentAng <= RobotMap.Ang2 || !extendPistonAtEnd) {
-			Robot.protoArmPiston.retractMajorPiston();
-		}
+		Robot.protoArmPiston.retractMajorPiston();
 
 	}
 

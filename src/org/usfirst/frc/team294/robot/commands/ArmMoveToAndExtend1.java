@@ -1,20 +1,19 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class ArmPistonSmartMoveB extends CommandGroup {
+public class ArmMoveToAndExtend1 extends CommandGroup {
+	double destAngle;
+	boolean finalPistonPosition;
+	double currentAngle = Robot.protoArmMotor.getArmDegrees();
 
-	/**
-	 * Moves the arm and extends/retracts the pistons as needed.
-	 * This sub-sequence assumes that we are not moving the arm out of
-	 * the HigH or Low regions.
-	 * @param destAngle Desired arm angle to go to (0 = horizontal, 90 = vertical up)
-	 * @param extendPistonAtEnd true = extend piston (when legal), false = retract piston
-	 */
-    public ArmPistonSmartMoveB(double destAngle, boolean extendPistonAtEnd) {
+	public ArmMoveToAndExtend1(double destAngle, boolean finalPistonPosition) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -31,5 +30,19 @@ public class ArmPistonSmartMoveB extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	requires(Robot.protoArmMotor);
+    	addSequential(new ArmMoveToLegalRange());
+    	if (RobotMap.getArmZone(currentAngle) == RobotMap.getArmZone(destAngle)) {
+    		addParallel(new ArmMoveToDestAngle(destAngle));
+    		if(finalPistonPosition) {
+    		addSequential(new ArmPistonSmartExtend());
+    		}
+    		}
+    	else {
+    		addParallel(new ArmMoveToEdge(destAngle));
+    		//addSequential();
+    		
+    		
+    	}
     }
 }

@@ -21,8 +21,8 @@ public class ArmMoveToLegalRange extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		currentAng = Robot.protoArmMotor.getArmDegrees();
-		currentAng = (currentAng < RobotMap.Ang0) ? RobotMap.Ang0 : currentAng;
-		currentAng = (currentAng > RobotMap.Ang4) ? RobotMap.Ang4 : currentAng;
+		currentAng = (currentAng < RobotMap.minAngle) ? RobotMap.minAngle : currentAng;
+		currentAng = (currentAng > RobotMap.maxAngle) ? RobotMap.maxAngle : currentAng;
 		Robot.protoArmMotor.setArmAngle(currentAng);
 	}
 
@@ -32,7 +32,7 @@ public class ArmMoveToLegalRange extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (RobotMap.Ang0 <= Robot.protoArmMotor.getArmDegrees()) && (Robot.protoArmMotor.getArmDegrees() <= RobotMap.Ang4);
+		return (RobotMap.minAngle <= Robot.protoArmMotor.getArmDegrees()) && (Robot.protoArmMotor.getArmDegrees() <= RobotMap.maxAngle);
 	}
 
 	// Called once after isFinished returns true

@@ -13,7 +13,6 @@ public class RobotMap {
 	public static final int armMotor = 30;
 	
 	// Pneumatic addresses
-<<<<<<< HEAD
 	public static int pnuematicShifterHigh = 0;
 	public static int pnuematicShifterLow = 1;
 	public static int pneumaticArmPistonMajorOut = 2;
@@ -26,13 +25,6 @@ public class RobotMap {
 	public static int majorPistonExtendedLimitSwitch = 1;
 	public static int minorPistonRetractedLimitSwitch = 2;
 	public static int minorPistonExtendedLimitSwitch = 3;
-=======
-	public static final int pnuematicShifterLow = 1;
-	public static final int pnuematicShifterHigh = 0;
-	public static final int pneumaticArmPistonIn = 3;
-	public static final int pneumaticArmPistonOut = 2;
-	public static final int pistonRetractedLimitSwitch = 0; // Are some of these analog ins for the limit switches? Need to separate
->>>>>>> refs/remotes/origin/master
 	
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup
@@ -47,27 +39,40 @@ public class RobotMap {
 	
 	public enum ArmPositions {
 		Low, High, UltraHigh, WayTooHigh
-	}
-	
-	// Arm angle zones
-	public static double Ang0 = -30; // arm cannot extend downward past this angle
-	public static double Ang1 = -20; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
-	public static double Ang2 = 60; // arm cannot extend between Ang1 and Ang2
-	public static double Ang3 = 95; // both pistons can be extended between Ang2 and Ang 3
-	public static double Ang4 = 110; // arm cannot extend upward past this angle
+	} // Enum for preset positions to use in the code (e.g. placing on scale low, switch, pickup, etc.
 	
 	public static double getArmAngle(ArmPositions position) {
 		if (position == ArmPositions.Low) return armLowPosition;
 		if (position == ArmPositions.High) return armHighPosition;
 		else return armLowPosition;
 	}
-<<<<<<< HEAD
+	
+	// Arm angle zone boundaries
+	public static double minAngle = -30; // arm cannot extend downward past this angle
+	public static double lowerBound = -20; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
+	public static double middleBound = 60; // arm cannot extend between Ang1 and Ang2
+	public static double upperBound = 95; // both pistons can be extended between Ang2 and Ang 3
+	public static double maxAngle = 110; // arm cannot extend upward past this angle
+	
+	public enum ArmZones {
+		Low, Middle, High, Backwards
+	}
+	
+	/**
+	 * Returns the zone of the arm based on the arm angle
+	 * @param angle
+	 * @return RobotMap.ArmZones
+	 */
+	public static ArmZones getArmZone(double angle) {
+		if (angle < lowerBound) return ArmZones.Low;
+		if (angle >= upperBound) return ArmZones.Backwards;
+		if (angle > middleBound) return ArmZones.High;
+		return ArmZones.Middle;
+	}
 	
 	public enum PistonPositions {
 		Extended, Retracted, Moving, Null
 	}
-=======
-
 
 	// Auto path selections
 	public static final int AUTO_PLANS = 5;
@@ -110,5 +115,4 @@ public class RobotMap {
 			
 	};
 	
->>>>>>> refs/remotes/origin/master
 }
