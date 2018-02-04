@@ -44,6 +44,12 @@ public class DriveTrain extends Subsystem {
 		rightMotor3.set(ControlMode.Follower, RobotMap.rightMotor2);
 		leftMotor2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		rightMotor2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		
+		// Enable voltage compensation on drive motors (to account for battery voltage droop)
+		leftMotor2.enableVoltageCompensation(true);
+		rightMotor2.enableVoltageCompensation(true);
+		leftMotor2.configVoltageCompSaturation(11.0, 0);
+		rightMotor2.configVoltageCompSaturation(11.0, 0);
 
 		leftMotor2.setSensorPhase(true);
 		// leftMotor2.setInverted(true); // This might need to be changed to rightmotor2

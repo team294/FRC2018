@@ -23,8 +23,10 @@ public class DriveStraightDistanceProfile extends Command {
 	private boolean success;
 	private double distSpeedControl;
 
-	private final double kPdist = 0.05, kDdist = 0.37, kIdist = 0.00; // not used
-
+	private final double kPdist = .08, kDdist = .2, kIdist = 0.00, kFdist = .006; // not used
+//	private final double kPdist = .05, kDdist = 0, kIdist = 0.00, kFdist = .009; // not used
+						//old kPdist = .05, .2	 old kDdist = .37   old kFdist = .008
+	
 	private double prevDistErr;
 	private double angleErr;
 	private double intErr = 0;
@@ -70,7 +72,7 @@ public class DriveStraightDistanceProfile extends Command {
 		velCheck.clearHistory();
 		Robot.driveTrain.zeroLeftEncoder();
 		Robot.driveTrain.zeroRightEncoder();
-		trapezoid = new ProfileGenerator(0.0, targetDistance, 0, 120, 120);
+		trapezoid = new ProfileGenerator(0.0, targetDistance, 0, 80, 90);
 		angleBase = Robot.driveTrain.getGyroRotation();
 	}
 
@@ -78,12 +80,13 @@ public class DriveStraightDistanceProfile extends Command {
 	protected void execute() {
 		final double currentDistanceInches = encoderTicksToInches(Robot.driveTrain.getRightEncoderPosition());
 		this.currentDistance = currentDistanceInches;
+		trapezoid.updateProfileCalcs();
 		MPCurrentDistance = trapezoid.getCurrentPosition();
 		distErr = MPCurrentDistance - currentDistanceInches;
 		success = tolCheck.success(Math.abs(targetDistance - currentDistanceInches));
 
 		if (!success) {
-			distSpeedControl = distErr * kPdist + (distErr - prevDistErr) * kDdist;
+			distSpeedControl = distErr * kPdist + ((distErr - prevDistErr) * kDdist) + (kFdist * trapezoid.getCurrentVelocity());
 
 			// distSpeedControl = distSpeedControl > percentPower ? percentPower :
 			// distSpeedControl;
@@ -103,14 +106,14 @@ public class DriveStraightDistanceProfile extends Command {
 			curve = angleErr * kPangle + intErr * kIangle + dErr * kDangle;
 			curve = (curve > 0.5) ? 0.5 : curve;
 			curve = (curve < -0.5) ? -0.5 : curve;
-			curve = (targetDistance - currentDistanceInches >= 0) ? curve : -curve;
+			//curve = (targetDistance - currentDistanceInches >= 0) ? curve : -curve;
 			Robot.driveTrain.driveAtCurve(distSpeedControl, curve);
 			velCheck.addValue(targetDistance - currentDistanceInches);
 			prevDistErr = distErr;
 		}
 
-		//Robot.log.writeLog("DSDProfile,currentDistance,"+currentDistance+",MPCurrentDistance,"+MPCurrentDistance+",distSpeedControl,"+distSpeedControl
-		//+",tolCheckerValue,"+tolCheck.success()+",velCheckAverage,"+velCheck.getAverage());
+		Robot.log.writeLog("DSDProfile,currentDistance,"+currentDistance+",MPCurrentDistance,"+MPCurrentDistance+",distSpeedControl,"+distSpeedControl
+				+",MPVelocity,"+trapezoid.getCurrentVelocity()+",tolCheckerValue,"+tolCheck.success()+",velCheckAverage,"+velCheck.getAverage());
 
 		SmartDashboard.putNumber("Distance Calculated", MPCurrentDistance);
 		SmartDashboard.putNumber("Distance Error", targetDistance - currentDistanceInches);
@@ -125,7 +128,7 @@ public class DriveStraightDistanceProfile extends Command {
 			SmartDashboard.putNumber("fSet Distance", targetDistance);
 			SmartDashboard.putNumber("fActual Distance", currentDistance);
 		}
-		return velCheck.getAverage() < 1 || success;
+		return Math.abs(velCheck.getAverage()) < 1 || success;
 	}
 
 	// Called once after isFinished returns true

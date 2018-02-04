@@ -6,8 +6,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ProfileGenerator {
 	
-	public double currentPosition;
-	public double finalPosition;
+	public double currentMPDistance;  // Current distance travelled in positive motion profile (always positive)
+	public double targetMPDistance;	  // Target total distance in positive motion profile
+	
+	public double initialPosition;   // Initial position in user coords
+	public double finalPosition;	// Final position in user coords
 
 	public double currentVelocity;
 	public double maxVelocity;
@@ -18,7 +21,7 @@ public class ProfileGenerator {
 	public double dt;
 	public double totalTime;
 		
-	private double directionSign;
+	private double directionSign;  // +1 if finalPoistion>InitialPosition, -1 if not
 	
 	private long startTime, currentTime;
 
@@ -32,15 +35,17 @@ public class ProfileGenerator {
 	 */
 	public ProfileGenerator(double initialPosition, double finalPosition, double initialVelocity, 
 			double maxVelocity, double maxAcceleration) {
-		this.currentPosition = initialPosition;
+		this.initialPosition = initialPosition;
 		this.finalPosition = finalPosition;
-		// TODO may not work in reverse
-		directionSign = this.finalPosition/finalPosition;
+		
+		currentMPDistance = 0;
+		targetMPDistance = Math.abs(finalPosition-initialPosition);
+		
+		directionSign = Math.signum(finalPosition - initialPosition);
+
 		this.currentVelocity = initialVelocity;
-		this.maxVelocity = maxVelocity;
-		//this.currentAcceleration = currentAcceleration;
-		this.maxAcceleration = maxAcceleration;
-		//this.totalTime = totalTime;
+		this.maxVelocity = Math.abs(maxVelocity);
+		this.maxAcceleration = maxAcceleration;	
 		
 		// Save starting time
 		startTime = System.currentTimeMillis();
@@ -52,28 +57,37 @@ public class ProfileGenerator {
 	/**
 	 * Call this method once per scheduler cycle.  This method calculates the distance that
 	 * the robot should have traveled at this point in time, per the motion profile.
-	 * @return Current target position for the robot, in inches
+	 * Also calculates velocity in in/s
 	 */
-	public double getCurrentPosition(){
+	public void updateProfileCalcs(){
 		long tempTime = System.currentTimeMillis();
 		dt = ((double)(tempTime - currentTime))/1000.0;
 		currentTime = tempTime;		
 		
 		double stoppingDistance = 0.5*currentVelocity*currentVelocity/maxAcceleration;
-		if(finalPosition - currentPosition < stoppingDistance) currentAcceleration = -maxAcceleration;
+		if(targetMPDistance - currentMPDistance < stoppingDistance) currentAcceleration = -maxAcceleration;
 		else if(currentVelocity < maxVelocity) currentAcceleration = maxAcceleration;
 		else currentAcceleration = 0;
 		
 		currentVelocity = currentVelocity + currentAcceleration*dt;
 		
 		if(currentVelocity > maxVelocity) currentVelocity = maxVelocity;
-		currentPosition = currentPosition + currentVelocity*dt;
-		if(currentPosition > finalPosition) currentPosition = finalPosition;
-		SmartDashboard.putNumber("Profile Position", currentPosition);
+		currentMPDistance = currentMPDistance + currentVelocity*dt;
+		if(currentMPDistance > targetMPDistance) currentMPDistance = targetMPDistance;
+		SmartDashboard.putNumber("Profile Position", currentMPDistance);
 		SmartDashboard.putNumber("Profile Velocity", currentVelocity);
-		Robot.log.writeLog("Profile generator,time since start," + getTimeSinceProfileStart() + ",dt," + dt +
-				",current pos," + currentPosition*directionSign + ",current vel," + currentVelocity);
-		return currentPosition*directionSign;
+		//Robot.log.writeLog("Profile generator,time since start," + getTimeSinceProfileStart() + ",dt," + dt +
+				//",current pos," + currentMPDistance*directionSign + ",current vel," + currentVelocity);
+		
+	}
+
+	/**
+	 * Current target position for the robot, in inches
+	 * @return Current target position for the robot, in inches
+	 */
+	public double getCurrentPosition(){
+		return currentMPDistance*directionSign + initialPosition;
+		
 	}
 
 	/**
@@ -85,19 +99,10 @@ public class ProfileGenerator {
 	}
 	
 	/**
-	 * Returns current velocity.  Don hacked this code, so please verify.
-	 * @return Current velocity for profile calculation
+	 * Returns current velocity in in/s
+	 * @return Current velocity for profile calculation in in/s
 	 */
 	public double getCurrentVelocity(){
-		// TODO Verify this code!
-//		double stoppingDistance = 0.5*currentVelocity*currentVelocity/maxAcceleration;
-//		if(finalPosition - currentPosition < stoppingDistance) currentAcceleration = -maxAcceleration;
-//		else if(currentVelocity < maxVelocity) currentAcceleration = maxAcceleration;
-//		else currentAcceleration = 0;
-//		currentVelocity = currentVelocity + currentAcceleration*dt;
-//		if(Math.abs(currentVelocity) > Math.abs(maxVelocity)) currentVelocity = maxVelocity;
-//		currentPosition = currentPosition + currentVelocity*dt + .5*currentAcceleration*dt*dt;
-//		if(Math.abs(currentPosition) > Math.abs(finalPosition)) currentPosition = finalPosition;
-		return currentVelocity;
+		return currentVelocity * directionSign;
 	}
 }
