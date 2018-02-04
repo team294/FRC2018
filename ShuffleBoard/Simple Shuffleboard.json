@@ -1,5 +1,5 @@
 {
-  "dividerPosition": 0.23879040667361837,
+  "dividerPosition": 0.2386961093585699,
   "tabPane": [
     {
       "title": "Tab 1",
@@ -128,6 +128,39 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/TGVelTime",
               "_title": "SmartDashboard/TGVelTime"
+            }
+          },
+          "4,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Turn heckla small",
+              "_title": "/SmartDashboard/Turn heckla small"
+            }
+          },
+          "4,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/DriveStraightDistanceProfile",
+              "_title": "SmartDashboard/DriveStraightDistanceProfile"
+            }
+          },
+          "5,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Actual Distance",
+              "_title": "/SmartDashboard/Actual Distance"
             }
           }
         }
