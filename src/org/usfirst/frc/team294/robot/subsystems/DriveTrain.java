@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -19,24 +20,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * A Subsystem to control the Drive Train
  */
 public class DriveTrain extends Subsystem {
-	// Talon hardware objects
-	private final WPI_TalonSRX rightMotor1 = new WPI_TalonSRX(RobotMap.rightMotor1); 
+	private final WPI_TalonSRX rightMotor1 = new WPI_TalonSRX(RobotMap.rightMotor1);
 	private final WPI_TalonSRX rightMotor2 = new WPI_TalonSRX(RobotMap.rightMotor2);
 	private final WPI_TalonSRX rightMotor3 = new WPI_TalonSRX(RobotMap.rightMotor3);
-	private final WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.leftMotor1); 
+	private final WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.leftMotor1);
 	private final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.leftMotor2);
 	private final WPI_TalonSRX leftMotor3 = new WPI_TalonSRX(RobotMap.leftMotor3);
-	
-	public final DifferentialDrive robotDrive = new DifferentialDrive(rightMotor2, leftMotor2);
-	
-	// NavX. Create the object , in the DriveTrain() constructor, so that we can catch
+	public final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor2,rightMotor2); //MAYBE CHANGE merge conflicts??
 	// errors.
 	private AHRS ahrs;
 	private double yawZero = 0;
+	
+	private double fieldX;
+	private double fieldY;
 
 	// Track left and right encoder zeros here to minimize latency in Talons.
 	private double leftEncoderZero = 0, rightEncoderZero = 0;
-	
 	public DriveTrain() {// initialize Followers
 		// motor2 are the main motors, and motor 1 and 3 are the followers.
 		leftMotor1.set(ControlMode.Follower, RobotMap.leftMotor2);
@@ -47,14 +46,13 @@ public class DriveTrain extends Subsystem {
 		rightMotor2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
 		leftMotor2.setSensorPhase(true);
-//		leftMotor2.setInverted(true); // This might need to be changed to rightmotor2
-		
+		// leftMotor2.setInverted(true); // This might need to be changed to rightmotor2
+
 		leftMotor2.clearStickyFaults(0);
 		rightMotor2.clearStickyFaults(0);
 		
 		zeroLeftEncoder();
 		zeroRightEncoder();
-
 		try {
 			/* Communicate w/navX MXP via the MXP SPI Bus. */
 			/* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
@@ -63,55 +61,77 @@ public class DriveTrain extends Subsystem {
 			 * details.
 			 */
 
-			// TODO: Verify navX comms works using 2017 robot configuration (via USB?)
-			// ahrs = new AHRS(SPI.Port.kMXP); // Code from 2016 robot (navX plugged
-			// directly into RoboRio SPI port)
-			ahrs = new AHRS(SerialPort.Port.kMXP);
+			ahrs = new AHRS(I2C.Port.kMXP);
 		} catch (RuntimeException ex) {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 		}
 		ahrs.zeroYaw();
 	}
 	
+	public void setFieldPositionX(double x) {
+		this.fieldX = x;
+	}
+	
+	public void setFieldPositionY(double y) {
+		this.fieldY = y;
+	}
+	
+	public void addFieldPositionX(double x) {
+		this.fieldX += x;
+	}
+	
+	public void addFieldPositionY(double y) {
+		this.fieldY += y;
+	}
+	
+	public double getFieldPositionX() {
+		return this.fieldX;
+	}
+	
+	public double getFieldPositionY() {
+		return this.fieldY;
+	}
+
 	/**
 	 * Zeros the gyro position in software
 	 */
 	public void zeroGyroRotation() {
 		// set yawZero to gryo angle
 		yawZero = ahrs.getAngle();
+		// System.err.println("PLZ Never Zero the Gyro Rotation it is not good");
 	}
-	
+
 	/**
 	 * Gets the rotation of the gyro
 	 * @return Current angle from 0 to 360 degrees
 	 */
 	public double getGyroRotation() {
 		double angle = ahrs.getAngle() - yawZero;
-		// Angle will be in terms of raw gyro units (-inf,inf), so you need to convert to [0,360]
+		// Angle will be in terms of raw gyro units (-inf,inf), so you need to convert
+		// to [0,360]
 		angle = angle % 360;
 		SmartDashboard.putNumber("NavX Angle", angle);
 		return angle;
 	}
-	
 	public void tankDrive(double powerLeft, double powerRight) {
 		this.robotDrive.tankDrive(powerLeft, powerRight);
 	}
-	
+
 	/**
 	 * Zeros the left encoder position in software
 	 */
 	public void zeroLeftEncoder() {
 		leftEncoderZero = leftMotor2.getSelectedSensorPosition(0);
 	}
-	
+
 	/**
 	 * Zeros the right encoder position in software
 	 */
 	public void zeroRightEncoder() {
 		rightEncoderZero = rightMotor2.getSelectedSensorPosition(0);
 	}
-	
-	/** 
+
+	/**
 	 * Get the position of the left encoder
 	 * @return encoder position
 	 */
@@ -120,7 +140,7 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Left Encoder Position", position);
 		return position;
 	}
-	
+
 	/**
 	 * Get the position of the right encoder
 	 * @return encoder position
@@ -130,11 +150,15 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Right Encoder Position", position);
 		return position;
 	}
-	
+
 	/**
 	 * Sets the robot to drive at a curve.
-	 * @param speedPct Percent output of motor -1.0 to 1.0
-	 * @param curve the rate at which the robot will curve -1.0 to 1.0. Clockwise is positive.
+	 * 
+	 * @param speedPct
+	 *            Percent output of motor -1.0 to 1.0
+	 * @param curve
+	 *            the rate at which the robot will curve -1.0 to 1.0. Clockwise is
+	 *            positive.
 	 */
 	public void driveAtCurve(double speedPct, double curve) {
 		robotDrive.curvatureDrive(speedPct, curve, false);
@@ -142,7 +166,9 @@ public class DriveTrain extends Subsystem {
 
 	/**
 	 * Set the percent output of the left motor.
-	 * @param powerPct Percent of power -1.0 to 1.0
+	 * 
+	 * @param powerPct
+	 *            Percent of power -1.0 to 1.0
 	 */
 	public void setLeftMotors(double speedPct) {
 		leftMotor2.set(ControlMode.PercentOutput, -speedPct);
@@ -150,7 +176,9 @@ public class DriveTrain extends Subsystem {
 
 	/**
 	 * Set the percent output of the right motor.
-	 * @param powerPct Percent of power -1.0 to 1.0
+	 * 
+	 * @param powerPct
+	 *            Percent of power -1.0 to 1.0
 	 */
 	public void setRightMotors(double speedPct) {
 		rightMotor2.set(ControlMode.PercentOutput, speedPct);
