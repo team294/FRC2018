@@ -1,8 +1,8 @@
 package org.usfirst.frc.team294.robot;
 
 import org.usfirst.frc.team294.robot.commands.*;
+import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoTest1;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -26,11 +26,12 @@ public class OI {
 		SmartDashboard.putData("AutoTest1",new AutoTest1());
 	
 		// Initialize our auto plan chooser
-		chooser_autoPlan.addDefault("Closest, far/far = scale", 0);
-		chooser_autoPlan.addObject("Closest, far/far = switch front", 1);
-		chooser_autoPlan.addObject("Closest, far/far = switch back", 2);
-		chooser_autoPlan.addObject("Scale only", 3);
-		chooser_autoPlan.addObject("Switch only (middle)", 4);
+		chooser_autoPlan.addDefault("do Closest, if both far do scale", 0);
+		chooser_autoPlan.addObject("do Closest, if both far do switch from front", 1);
+		chooser_autoPlan.addObject("do closest, if both far do switch from back", 2);
+		chooser_autoPlan.addObject("do Scale only", 3);
+		chooser_autoPlan.addObject("do Switch only from middle", 4);
+		chooser_autoPlan.addObject("Go to baseline", 5);
 		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
 		
 		// Initialize our position chooser

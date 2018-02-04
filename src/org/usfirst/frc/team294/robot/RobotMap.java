@@ -64,25 +64,28 @@ public class RobotMap {
 	}
 	
 	// Columns in Array are in order of LL, LR, RL, RR
-	public static int[][] startingLeftAutoPrograms = { { 3, 3, 1, 2},  // Plan 1
-			{ 3, 3, 1, 6},  // Plan 2
-			{ 3, 3, 1, 4},  // Plan 3
-			{ 1, 2, 1, 2},  // Plan 4
-			{ 5, 5, 5, 5}   // Plan 5
+	public static int[][] startingLeftAutoPrograms = { { 3, 3, 1, 2},  // Plan 0
+			{ 3, 3, 1, 6},  // Plan 1
+			{ 3, 3, 1, 4},  // Plan 2
+			{ 1, 2, 1, 2},  // Plan 3
+			{ 5, 5, 5, 5},  // Plan 4
+			{ 7, 7, 7, 7}	// Plan 5
 	};
 	
-	public static int[][] startingMiddleAutoPrograms = { { 5, 5, 5, 5},  // Plan 1
+	public static int[][] startingMiddleAutoPrograms = { { 5, 5, 5, 5},  // Plan 0
+			{ 5, 5, 5, 5},  // Plan 1
 			{ 5, 5, 5, 5},  // Plan 2
 			{ 5, 5, 5, 5},  // Plan 3
 			{ 5, 5, 5, 5},  // Plan 4
-			{ 5, 5, 5, 5}   // Plan 5			
+			{ 7, 7, 7, 7}   // Plan 5			
 	};
 	
-	public static int[][] startingRightAutoPrograms = { { 2, 1, 3, 3},  // Plan 1
-			{ 6, 1, 3, 3},  // Plan 2
-			{ 4, 1, 3, 3},  // Plan 3
-			{ 2, 1, 2, 1},  // Plan 4
-			{ 5, 5, 5, 5}   // Plan 5
+	public static int[][] startingRightAutoPrograms = { { 2, 1, 3, 3},  // Plan 0
+			{ 6, 1, 3, 3},  // Plan 1
+			{ 4, 1, 3, 3},  // Plan 2
+			{ 2, 1, 2, 1},  // Plan 3
+			{ 5, 5, 5, 5},  // Plan 4
+			{ 7, 7, 7, 7}	// Plan 5
 			
 	};
 	

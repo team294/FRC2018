@@ -139,7 +139,6 @@ public class DriveTrain extends Subsystem {
 
 	/**
 	 * Get the position of the left encoder
-	 * 
 	 * @return encoder position
 	 */
 	public double getLeftEncoderPosition() {
@@ -150,7 +149,6 @@ public class DriveTrain extends Subsystem {
 
 	/**
 	 * Get the position of the right encoder
-	 * 
 	 * @return encoder position
 	 */
 	public double getRightEncoderPosition() {
