@@ -14,6 +14,7 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
+import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 public class Robot extends TimedRobot {
