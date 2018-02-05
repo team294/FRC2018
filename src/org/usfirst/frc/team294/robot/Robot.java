@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team294.robot;
 
-
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; //remove the ones that are not used.
@@ -13,44 +13,51 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
+import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 public class Robot extends TimedRobot {
+
 	// Subsystem objects
+	public static Inputs inputs;
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
 	public static ProtoArmPiston protoArmPiston;
 	public static ProtoArmMotor protoArmMotor;
+	public static Claw claw;
 	public static OI oi;
-	
+
 	public static boolean allianceSwitchLeft = false;
 	public static boolean scaleLeft = false;
 	public static boolean opponentSwitchLeft = false;
 	public static FileLog log;
 	public static Preferences robotPrefs;
-	public static String gameData;
-	public static int armCalZero; 	// Arm potentiometer position at O degrees
-	public static int armCal90Deg;	// Arm potentiometer position at 90 degrees
-	
+
+	public static int armCalZero; // Arm potentiometer position at O degrees
+	public static int armCal90Deg; // Arm potentiometer position at 90 degrees
+
 	Command autonomousCommand;
-	
+
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
+		inputs = new Inputs();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		protoArmPiston = new ProtoArmPiston();
 		protoArmMotor = new ProtoArmMotor();
+		claw = new Claw();
 
 		// Create the log file
 		log = new FileLog();
+
 		// Create the OI
 		oi = new OI();
-		readPreferences();		// Read preferences next, so that subsystems can use the preference values.
+		readPreferences(); // Read preferences next, so that subsystems can use the preference values.
 	}
 
 	/**
@@ -82,41 +89,44 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		log.writeLogEcho("Auto mode started.");
+		log.writeLogEcho("Autonomous mode started.");
 
-		// In competitions, game data is not available until autonomousInit, so
-		// read game data here.
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 
-		if(gameData.charAt(0) == 'L')
-		{
+		if (gameData.charAt(0) == 'L') {
 			SmartDashboard.putBoolean("Close Switch Left", true);
 			SmartDashboard.putBoolean("Close Switch Right", false);
 			allianceSwitchLeft = true;
+			// Put left auto code here
 		} else {
 			SmartDashboard.putBoolean("Close Switch Right", true);
 			SmartDashboard.putBoolean("Close Switch Left", false);
 			allianceSwitchLeft = false;
+			// Put right auto code here
 		}
 
 		if (gameData.charAt(1) == 'L') {
 			SmartDashboard.putBoolean("Scale Left", true);
 			SmartDashboard.putBoolean("Scale Right", false);
 			scaleLeft = true;
+			// Put left auto code here
 		} else {
 			SmartDashboard.putBoolean("Scale Right", true);
 			SmartDashboard.putBoolean("Scale Left", false);
 			scaleLeft = false;
+			// Put right auto code here
 		}
 
 		if (gameData.charAt(2) == 'L') {
 			SmartDashboard.putBoolean("Far Switch Left", true);
 			SmartDashboard.putBoolean("Far Switch Right", false);
 			opponentSwitchLeft = true;
+			// Put left auto code here
 		} else {
 			SmartDashboard.putBoolean("Far Switch Right", true);
 			SmartDashboard.putBoolean("Far Switch Left", false);
 			opponentSwitchLeft = false;
+			// Put right auto code here
 		}
 
 		DriverStation.Alliance color;
@@ -127,19 +137,10 @@ public class Robot extends TimedRobot {
 		} else {
 			SmartDashboard.putBoolean("Alliance Color", false);
 		}
-		driveTrain.zeroLeftEncoder();
-		driveTrain.zeroRightEncoder();
-		driveTrain.zeroGyroRotation();
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
-		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-		 * ExampleCommand(); break; }
-		 */
 
 		int fieldLayout, autoPlan;
 
-		if (gameData.startsWith("LL")) 
+		if (gameData.startsWith("LL"))
 			fieldLayout = RobotMap.AutoFieldLayout.LL.ordinal();
 		else if (gameData.startsWith("LR"))
 			fieldLayout = RobotMap.AutoFieldLayout.LR.ordinal();
@@ -150,54 +151,51 @@ public class Robot extends TimedRobot {
 
 		int programSelected;
 		autoPlan = oi.readAutoPlan();
-			
-		int startPosition = oi.readStartPosition(); 
-		
+
+		int startPosition = oi.readStartPosition();
+
 		if (startPosition == 1) {
 			programSelected = RobotMap.startingLeftAutoPrograms[autoPlan][fieldLayout];
 		} else if (startPosition == 2) {
 			programSelected = RobotMap.startingMiddleAutoPrograms[autoPlan][fieldLayout];
 		} else {
 			programSelected = RobotMap.startingRightAutoPrograms[autoPlan][fieldLayout];
+
 		}
 
 		switch (programSelected) {
-		case 1 :
+		case 1:
 			autonomousCommand = new AutoPath1_SameSideScale(startPosition);
 			log.writeLogEcho("Ran Auto Path 1 (same side scale), side = " + startPosition);
 			break;
-		case 2 : 
+		case 2:
 			autonomousCommand = new AutoPath2_OppositeSideScale(startPosition);
 			log.writeLogEcho("Ran Auto Path 2 (opposite side scale), side = " + startPosition);
 			break;
-		case 3 :
+		case 3:
 			autonomousCommand = new AutoPath3_SameSideSwitch(startPosition);
 			log.writeLogEcho("Ran Auto Path 3 (same side switch), side = " + startPosition);
 			break;
-		case 4 :
+		case 4:
 			autonomousCommand = new AutoPath4_OppositeSideSwitchBack(startPosition);
 			log.writeLogEcho("Ran Auto Path 4 (opposite side switch back), side = " + startPosition);
 			break;
-		case 5 :
+		case 5:
 			autonomousCommand = new AutoPath5_SwitchFromMiddle(allianceSwitchLeft);
 			log.writeLogEcho("Ran Auto Path 5 (switch from middle), left = " + allianceSwitchLeft);
 			break;
-		case 6 :
+		case 6:
 			autonomousCommand = new AutoPath6_OppositeSideSwitchFront(startPosition);
 			log.writeLogEcho("Ran Auto Path 6 (opposite side switch front), side = " + startPosition);
 			break;
-		case 7 :
-			autonomousCommand = new AutoPath7_Baseline(startPosition);
-			log.writeLogEcho("Ran Auto Path 7 (baseline), side = " + startPosition);
-			break;
 		}
-		
+
 		SmartDashboard.putString("Auto path", autonomousCommand.getName());
 		SmartDashboard.putNumber("Auto program #", programSelected);
 		SmartDashboard.putNumber("Auto field selection", fieldLayout);
 		SmartDashboard.putNumber("Auto plan selected", autoPlan);
 		SmartDashboard.putNumber("Auto start position", startPosition);
-		
+
 		// schedule the autonomous command
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
@@ -221,11 +219,7 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		
-		driveTrain.zeroGyroRotation(); // todo remove later
-		driveTrain.setFieldPositionX(0); // todo remove later
-		driveTrain.setFieldPositionY(0); // todo remove later
-		
+
 		log.writeLogEcho("Teleop mode started.");
 	}
 
@@ -253,9 +247,10 @@ public class Robot extends TimedRobot {
 		// TODO: For each robot preference: Use more descriptive names?
 		robotPrefs = Preferences.getInstance();
 
-		if (robotPrefs.getDouble("calibrationZeroDegrees", 0) == 0) {		//  If field was not set up, set up field
+		if (robotPrefs.getDouble("calibrationZeroDegrees", 0) == 0) { // If field was not set up, set up field
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
-			robotPrefs.putInt("calibrationZeroDegrees", -245); // Value may need to be changed based on specifics of robot
+			robotPrefs.putInt("calibrationZeroDegrees", -245); // Value may need to be changed based on specifics of
+																// robot
 		}
 		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
 		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
