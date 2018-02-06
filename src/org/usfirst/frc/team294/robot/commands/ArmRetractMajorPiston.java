@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmRetractMajorPiston extends Command {
 
 
-	public ArmRetractMajorPiston(boolean extendPistonAtEnd) {
+	public ArmRetractMajorPiston() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.protoArmPiston);
