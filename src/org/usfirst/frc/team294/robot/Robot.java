@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team294.robot;
 
+import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
@@ -35,6 +36,9 @@ public class Robot extends TimedRobot {
 	public static FileLog log;
 	public static Preferences robotPrefs;
 	
+	public NetworkTableInstance networkTables;
+	public NetworkTable coDisplay;
+	
 	public static int armCalZero; 	// Arm potentiometer position at O degrees
 	public static int armCal90Deg;	// Arm potentiometer position at 90 degrees
 	
@@ -55,6 +59,10 @@ public class Robot extends TimedRobot {
 		// Create the log file
 		log = new FileLog();
 		
+		// Network Tables for driver's display
+		networkTables = NetworkTableInstance.getDefault();
+		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
+				
 		// Create the OI
 		oi = new OI();
 		readPreferences();		// Read preferences next, so that subsystems can use the preference values.

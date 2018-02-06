@@ -10,7 +10,6 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix-sources.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar" sourcepath="/CTRE_Phoenix.sources"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/team/rxtx-2.1-7-bins-r2/rxtx-2.1-7-bins-r2/RXTXcomm.jar"/>
 	<classpathentry kind="var" path="rxtx"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

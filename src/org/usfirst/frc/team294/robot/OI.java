@@ -35,11 +35,11 @@ public class OI {
 		chooser_startPosition.addObject("Right", 3);
 		SmartDashboard.putData("Start Position Selection", chooser_startPosition);
 	
-		SmartDashboard.putData("Start Drive Train", new DriveWithJoystick()); // Adds a start Button
+		SmartDashboard.putData("Start Drive Train", new DriveWithJoystick());
 		
-		SmartDashboard.putData("Retract Arm", new ArmRetract()); // Adds a retract Button
+		SmartDashboard.putData("Retract Arm", new ArmRetract());
 		
-		SmartDashboard.putData("Extend Arm", new ArmExtend()); //Adds a extend button
+		SmartDashboard.putData("Extend Arm", new ArmExtend());
 		
 		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
 				
