@@ -15,7 +15,7 @@ public class ArmMoveWait extends Command {
 	private boolean currentPiston;
 	private boolean extendPistonAtEnd;
 
-	public ArmMoveWait(double distAng, boolean extendPistonAtEnd) {
+	public ArmMoveWait(double destAng, boolean extendPistonAtEnd) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		this.destAng = destAng;

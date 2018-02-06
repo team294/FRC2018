@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class ArmMoveAndPistonNotCrossing extends CommandGroup {
+public class ArmMoveWithPiston extends CommandGroup {
 	double destAngle;
 	boolean finalPistonPosition;
 	double currentAngle = Robot.protoArmMotor.getArmDegrees();
 
-	public ArmMoveAndPistonNotCrossing(double destAngle, boolean finalPistonPosition) {
+	public ArmMoveWithPiston(double destAngle, boolean finalPistonPosition) {
 		// destAngle = SmartDashboard.getNumber("Desired Arm Angle (Piston Version)",
 		// 0);
 		// requires(Robot.protoArmMotor);
