@@ -1,7 +1,6 @@
 
 package org.usfirst.frc.team294.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; //remove the ones that are not used.
@@ -13,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
-import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.utilities.FileLog;
 
@@ -137,6 +135,17 @@ public class Robot extends TimedRobot {
 		} else {
 			SmartDashboard.putBoolean("Alliance Color", false);
 		}
+		driveTrain.zeroLeftEncoder();
+		driveTrain.zeroRightEncoder();
+		driveTrain.zeroGyroRotation();
+		/*
+		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
+		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
+		 * ExampleCommand(); break; }
+		*/
+		  
+		
 
 		int fieldLayout, autoPlan;
 
@@ -188,7 +197,13 @@ public class Robot extends TimedRobot {
 			autonomousCommand = new AutoPath6_OppositeSideSwitchFront(startPosition);
 			log.writeLogEcho("Ran Auto Path 6 (opposite side switch front), side = " + startPosition);
 			break;
+		case 7:
+		 	autonomousCommand = new AutoPath7_Baseline(startPosition);
+			log.writeLogEcho("Ran Auto Path 7 (baseline), side = " + startPosition);
+			break;
 		}
+		
+		
 
 		SmartDashboard.putString("Auto path", autonomousCommand.getName());
 		SmartDashboard.putNumber("Auto program #", programSelected);
@@ -219,6 +234,9 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		driveTrain.zeroGyroRotation(); // todo remove later
+		driveTrain.setFieldPositionX(0); // todo remove later
+		driveTrain.setFieldPositionY(0); // todo remove later	
 
 		log.writeLogEcho("Teleop mode started.");
 	}
