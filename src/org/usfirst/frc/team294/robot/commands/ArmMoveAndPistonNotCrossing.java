@@ -9,16 +9,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class ArmMoveToAndExtend1 extends CommandGroup {
+public class ArmMoveAndPistonNotCrossing extends CommandGroup {
 	double destAngle;
 	boolean finalPistonPosition;
 	double currentAngle = Robot.protoArmMotor.getArmDegrees();
-	
 
-
-	public ArmMoveToAndExtend1(double destAngle, boolean finalPistonPosition) {
-		//destAngle = SmartDashboard.getNumber("Desired Arm Angle (Piston Version)", 0);
-		//requires(Robot.protoArmMotor);
+	public ArmMoveAndPistonNotCrossing(double destAngle, boolean finalPistonPosition) {
+		// destAngle = SmartDashboard.getNumber("Desired Arm Angle (Piston Version)",
+		// 0);
+		// requires(Robot.protoArmMotor);
 		addSequential(new ArmMoveToLegalRange());
 		if (RobotMap.getArmZone(currentAngle) == RobotMap.getArmZone(destAngle)) {
 			addParallel(new ArmMoveToDestAngle(destAngle));
@@ -26,7 +25,7 @@ public class ArmMoveToAndExtend1 extends CommandGroup {
 				addSequential(new ArmPistonSmartExtend());
 			}
 		} else {
-			addParallel(new (destAngle));
+			addParallel(new destAngle());
 			addSequential(new ArmPistonRetractBoth());
 			addParallel(new ArmMoveToDestAngle(destAngle));
 			addSequential(new ArmPistonSmartExtendInDestZone(destAngle));

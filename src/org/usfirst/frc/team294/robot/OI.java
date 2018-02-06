@@ -45,7 +45,7 @@ public class OI {
 		
 		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControlJoystick());
 		
-		SmartDashboard.putData("Move arm to angle and set piston state", new ArmMoveToAndExtend1(90,true));
+		SmartDashboard.putData("Move arm to angle and set piston state", new ArmMoveAndPistonNotCrossing(90,true));
 				
 		SmartDashboard.putData("Set Arm Position", new SetArmFromSmartDashboard());
 		
