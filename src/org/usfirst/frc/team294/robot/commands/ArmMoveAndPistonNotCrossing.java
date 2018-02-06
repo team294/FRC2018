@@ -25,7 +25,7 @@ public class ArmMoveAndPistonNotCrossing extends CommandGroup {
 				addSequential(new ArmPistonSmartExtend());
 			}
 		} else {
-			addParallel(new destAngle());
+			addParallel(new ArmMoveToEdge(destAngle));
 			addSequential(new ArmPistonRetractBoth());
 			addParallel(new ArmMoveToDestAngle(destAngle));
 			addSequential(new ArmPistonSmartExtendInDestZone(destAngle));
