@@ -44,8 +44,13 @@ public class OI {
 		SmartDashboard.putData("Extend Arm", new ArmExtend()); //Adds a extend button
 		
 		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControlJoystick());
+		
+		SmartDashboard.putData("Move arm to angle and set piston state", new ArmMoveAndPistonNotCrossing(90,true));
 				
 		SmartDashboard.putData("Set Arm Position", new SetArmFromSmartDashboard());
+		
+		SmartDashboard.putNumber("set Arm Angle Piston Extend and Retract", 90);
+
 		SmartDashboard.putNumber("set Arm Angle", 0);
 		
 		SmartDashboard.putData("Move Piston Within Parameters", new ArmMoveToLegalRange());
