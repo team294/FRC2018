@@ -1,8 +1,8 @@
 package org.usfirst.frc.team294.robot;
 
 import org.usfirst.frc.team294.robot.commands.*;
+import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoTest1;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;

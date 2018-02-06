@@ -11,19 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
-import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath1_SameSideScale;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath2_OppositeSideScale;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath3_SameSideSwitch;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath4_OppositeSideSwitchBack;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath5_SwitchFromMiddle;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath6_OppositeSideSwitchFront;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath7_Baseline;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoTest1;
-import org.usfirst.frc.team294.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team294.robot.subsystems.ProtoArmMotor;
-import org.usfirst.frc.team294.robot.subsystems.ProtoArmPiston;
-import org.usfirst.frc.team294.robot.subsystems.Shifter;
+
+import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 public class Robot extends TimedRobot {
@@ -92,41 +81,41 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		log.writeLogEcho("Auto mode started.");
+
+		// In competitions, game data is not available until autonomousInit, so
+		// read game data here.
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		if (gameData.charAt(0) == 'L') {
+
+		if(gameData.charAt(0) == 'L')
+		{
 			SmartDashboard.putBoolean("Close Switch Left", true);
 			SmartDashboard.putBoolean("Close Switch Right", false);
 			allianceSwitchLeft = true;
-			// Put left auto code here
 		} else {
 			SmartDashboard.putBoolean("Close Switch Right", true);
 			SmartDashboard.putBoolean("Close Switch Left", false);
 			allianceSwitchLeft = false;
-			// Put right auto code here
 		}
 
 		if (gameData.charAt(1) == 'L') {
 			SmartDashboard.putBoolean("Scale Left", true);
 			SmartDashboard.putBoolean("Scale Right", false);
 			scaleLeft = true;
-			// Put left auto code here
 		} else {
 			SmartDashboard.putBoolean("Scale Right", true);
 			SmartDashboard.putBoolean("Scale Left", false);
 			scaleLeft = false;
-			// Put right auto code here
 		}
 
 		if (gameData.charAt(2) == 'L') {
 			SmartDashboard.putBoolean("Far Switch Left", true);
 			SmartDashboard.putBoolean("Far Switch Right", false);
 			opponentSwitchLeft = true;
-			// Put left auto code here
 		} else {
 			SmartDashboard.putBoolean("Far Switch Right", true);
 			SmartDashboard.putBoolean("Far Switch Left", false);
 			opponentSwitchLeft = false;
-			// Put right auto code here
 		}
 
 		DriverStation.Alliance color = DriverStation.getInstance().getAlliance();
@@ -145,9 +134,9 @@ public class Robot extends TimedRobot {
 		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
 		 * ExampleCommand(); break; }
 		 */
-		Command m_autonomousCommand = null;
 
 		int fieldLayout, autoPlan;
+
 		if (gameData.startsWith("LL"))
 			fieldLayout = RobotMap.AutoFieldLayout.LL.ordinal();
 		else if (gameData.startsWith("LR"))
@@ -161,7 +150,6 @@ public class Robot extends TimedRobot {
 		autoPlan = oi.readAutoPlan();
 
 		int startPosition = oi.readStartPosition();
-
 		if (startPosition == 1) {
 			programSelected = RobotMap.startingLeftAutoPrograms[autoPlan][fieldLayout];
 		} else if (startPosition == 2) {
@@ -170,6 +158,8 @@ public class Robot extends TimedRobot {
 			programSelected = RobotMap.startingRightAutoPrograms[autoPlan][fieldLayout];
 
 		}
+
+		
 		switch (programSelected) {
 		case 1:
 			autonomousCommand = new AutoPath1_SameSideScale(startPosition);
@@ -230,11 +220,10 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-
-		this.driveTrain.zeroGyroRotation(); // todo remove later
-		this.driveTrain.setFieldPositionX(0); // todo remove later
-		this.driveTrain.setFieldPositionY(0); // todo remove later
-
+		driveTrain.zeroGyroRotation(); // todo remove later
+		driveTrain.setFieldPositionX(0); // todo remove later
+		driveTrain.setFieldPositionY(0); // todo remove later
+		
 		log.writeLogEcho("Teleop mode started.");
 	}
 
