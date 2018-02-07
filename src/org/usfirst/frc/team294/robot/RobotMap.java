@@ -11,24 +11,66 @@ public class RobotMap {
 	public static final int rightMotor2 = 21;
 	public static final int rightMotor3 = 22;
 	public static final int armMotor = 30;
+	public static final int clawMotorLeft = 40;
+	public static final int clawMotorRight = 41;
+
+	
 	
 	// Pneumatic addresses
 	public static int pnuematicShifterHigh = 0;
 	public static int pnuematicShifterLow = 1;
 	public static int pneumaticArmPistonMajorOut = 2;
 	public static int pneumaticArmPistonMajorIn = 3;
-	public static int pneumaticArmPistonMinorOut = 4;
-	public static int pneumaticArmPistonMinorIn = 5;
+	public static int pneumaticArmPistonMinorOut = 6;
+	public static int pneumaticArmPistonMinorIn = 7;
+	public static final int pneumaticClawPistonIn = 4;
+	public static final int pneumaticClawPistonOut = 5;
+
 
 	// Digital Input addresses
 	public static int majorPistonRetractedLimitSwitch = 0;
 	public static int majorPistonExtendedLimitSwitch = 1;
-	public static int minorPistonRetractedLimitSwitch = 2;
-	public static int minorPistonExtendedLimitSwitch = 3;
+	public static int minorPistonRetractedLimitSwitch = 5;
+	public static int minorPistonExtendedLimitSwitch = 6;
+	public static int photoSwitch = 3;
+	public static int bumpSwitch = 4;	
+
 	
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup
 	public static double highThreshold; // High threshold for scoring
+
+	
+	
+		
+		//Drive Train Constants
+		public static final double wheelCircumference = 4.0 * Math.PI;
+		public static final double encoderTicksPerRevolution = 4096.0;
+		public static final double driveTrainDistanceFudgeFactor = 0.96824; //TODO: store in robot preferences
+		
+	
+		
+		// RoboRIO digital I/O addresses
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// Arm angle constants
 	public static double degreesPerTicks = 9.0 / 5.0;
