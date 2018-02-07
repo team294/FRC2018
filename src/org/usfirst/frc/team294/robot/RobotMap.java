@@ -30,10 +30,10 @@ public class RobotMap {
 	// Digital Input addresses
 	public static int majorPistonRetractedLimitSwitch = 0;
 	public static int majorPistonExtendedLimitSwitch = 1;
-	public static int minorPistonRetractedLimitSwitch = 5;
-	public static int minorPistonExtendedLimitSwitch = 6;
-	public static int photoSwitch = 3;
+	public static int minorPistonRetractedLimitSwitch = 2;
+	public static int minorPistonExtendedLimitSwitch = 3;
 	public static int bumpSwitch = 4;	
+	public static int photoSwitch = 5;
 
 	
 	// Arm angle thresholds
