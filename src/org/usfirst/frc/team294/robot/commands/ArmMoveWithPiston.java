@@ -14,12 +14,10 @@ public class ArmMoveWithPiston extends CommandGroup {
 	boolean finalPistonPosition;
 	double currentAngle = Robot.protoArmMotor.getArmDegrees();
 
-	public ArmMoveWithPiston() {
+	public ArmMoveWithPiston(double destAngle, boolean finalPistonPosition) {
 		// destAngle = SmartDashboard.getNumber("Desired Arm Angle (Piston Version)",
 		// 0);
 		// requires(Robot.protoArmMotor);
-		finalPistonPosition = true;
-		double destAngle = Robot.protoArmMotor.getCurrentArmTarget();
 		addSequential(new ArmMoveToLegalRange());
 		if (RobotMap.getArmZone(currentAngle) == RobotMap.getArmZone(destAngle)) {
 			addParallel(new ArmMoveToDestAngle(destAngle));

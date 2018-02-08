@@ -3,7 +3,7 @@ package org.usfirst.frc.team294.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ *							THIS IS NOT USED - REPLACED BY ArmMoveWithPiston
  */
 public class ArmControl extends CommandGroup {
 
@@ -20,7 +20,7 @@ public class ArmControl extends CommandGroup {
         // Command1 and Command2 will run in parallel.
   //  	addParallel(new ProtoArmPiston());
     	//addParallel(new ArmMotorControl());
-    	addParallel(new ArmMoveWithPiston());
+    	//addParallel(new ArmMoveWithPiston());
     	//addParallel(new ArmIncrementAngleButton());
         // A command group will require all of the subsystems that each member
         // would require.

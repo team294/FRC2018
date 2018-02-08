@@ -52,9 +52,9 @@ public class OI {
 		SmartDashboard.putData("Joystick Increment with Y-Axis", new ArmMoveWithJoystick());
 		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementRaiseAngleButton());
 
-		//SmartDashboard.putData("Move arm to angle and set piston state", new ArmMoveWithPiston(90,true));
+		SmartDashboard.putData("Move arm to angle and set piston state", new ArmMoveWithPiston(90,true));
 		
-		SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
+		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
 				
 		SmartDashboard.putData("Set Arm Position", new SetArmFromSmartDashboard());
 		
