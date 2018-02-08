@@ -110,7 +110,7 @@ public class ProtoArmMotor extends Subsystem {
     	return (armAngle);
     }
     
-    public void armPositionJoystick() {
+    public void armPositionJoystick() {						//  This is not working and difficult to use.  Using armAdjustJoystickButtons is better
     	double armAdjustment =  OI.armJoystick.getY();
     	double currTarget = armMotor.getClosedLoopTarget(0);
     	armAdjustment = (Math.abs(armAdjustment) < 0.1) ? 0.0 : armAdjustment * 1.0; //1.8 works
