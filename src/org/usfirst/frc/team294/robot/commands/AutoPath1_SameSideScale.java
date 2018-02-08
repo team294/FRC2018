@@ -5,9 +5,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class ArmControl extends CommandGroup {
+public class AutoPath1_SameSideScale extends CommandGroup {
 
-    public ArmControl() {
+    public AutoPath1_SameSideScale(int startPosition) {
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -18,10 +19,7 @@ public class ArmControl extends CommandGroup {
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
-  //  	addParallel(new ProtoArmPiston());
-    	addParallel(new ArmMotorControl());
-    	addParallel(new ArmMoveWithPiston());
-    	addParallel(new ArmMotorControlJoystick());
+
         // A command group will require all of the subsystems that each member
         // would require.
         // e.g. if Command1 requires chassis, and Command2 requires arm,
