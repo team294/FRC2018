@@ -48,12 +48,13 @@ public class OI {
 		SmartDashboard.putData("Extend Arm", new ArmExtend()); //Adds a extend button
 		
 
-		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
+		//SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
 		SmartDashboard.putData("Joystick Increment with Y-Axis", new ArmMoveWithJoystick());
-		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementAngleButton());
+		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementRaiseAngleButton());
 
-		SmartDashboard.putData("Move arm to angle and set piston state", new ArmMoveWithPiston(90,true));
-
+		//SmartDashboard.putData("Move arm to angle and set piston state", new ArmMoveWithPiston(90,true));
+		
+		SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
 				
 		SmartDashboard.putData("Set Arm Position", new SetArmFromSmartDashboard());
 		
@@ -67,6 +68,10 @@ public class OI {
 		Button rightTrigger = new JoystickButton(rightJoystick, 1);
 		leftTrigger.whenPressed(new ShiftLow());
 		rightTrigger.whenPressed(new ShiftHigh());
+		Button armButton2 = new JoystickButton(armJoystick,2);
+    	Button armButton3 = new JoystickButton(armJoystick,3);
+    	armButton2.whenPressed(new ArmIncrementLowerAngleButton());
+    	armButton3.whenPressed(new ArmIncrementRaiseAngleButton());
 		
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
 		SmartDashboard.putData("DriveStraightDistanceProfile", new DriveStraightDistanceProfile(24, 0));

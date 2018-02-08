@@ -19,9 +19,9 @@ public class ArmControl extends CommandGroup {
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
   //  	addParallel(new ProtoArmPiston());
-    	addParallel(new ArmMotorControl());
+    	//addParallel(new ArmMotorControl());
     	addParallel(new ArmMoveWithPiston());
-    	addParallel(new ArmMotorControlJoystick());
+    	//addParallel(new ArmIncrementAngleButton());
         // A command group will require all of the subsystems that each member
         // would require.
         // e.g. if Command1 requires chassis, and Command2 requires arm,

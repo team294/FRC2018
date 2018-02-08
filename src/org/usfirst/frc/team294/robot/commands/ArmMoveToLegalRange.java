@@ -4,6 +4,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -23,6 +24,7 @@ public class ArmMoveToLegalRange extends Command {
 		currentAng = Robot.protoArmMotor.getArmDegrees();
 		currentAng = (currentAng < RobotMap.minAngle) ? RobotMap.minAngle : currentAng;
 		currentAng = (currentAng > RobotMap.maxAngle) ? RobotMap.maxAngle : currentAng;
+		SmartDashboard.putNumber("Desired Angle", currentAng);
 		Robot.protoArmMotor.setArmAngle(currentAng);
 	}
 

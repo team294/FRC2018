@@ -90,6 +90,17 @@ public class ProtoArmMotor extends Subsystem {
     }
     
     /**
+     * Returns the angle value that the arm is trying to move to in degrees
+     * @return desired degree of arm angle
+     */
+    public double getCurrentArmTarget() {
+    	double currTarget = armMotor.getClosedLoopTarget(0);
+    	currTarget *= DEGREES_PER_TICK;
+		SmartDashboard.putNumber("Desired Angle of Arm in Degrees", currTarget);
+    	return currTarget;
+    }
+    
+    /**
      * Returns the raw value of the pot on arm, without adjusting for level. Also updates SmartDashboard. Needed for calibration of 0. 
      * @return raw value, probably a large negative number
      */
@@ -122,15 +133,12 @@ public class ProtoArmMotor extends Subsystem {
     	setArmPositionRaw(currTarget + armAdjustment);
     }
     
-    public void armAdjustJoystickButtons() {
-    	boolean armButton2 = OI.armJoystick.getRawButton(2);
-    	boolean armButton3 = OI.armJoystick.getRawButton(3);
-    	if(armButton2 == armButton3) {
-    		armButton2 = false;
-    		armButton3 = false;
-    	}
-    	if(armButton2) setArmAngle(getArmDegrees() - 5);
-    	if(armButton3) setArmAngle(getArmDegrees() + 5);
+    public void armAdjustJoystickButtonLower() {
+    	setArmAngle(getArmDegrees() - 7);
+    }
+    
+    public void armAdjustJoystickButtonRaise() {
+    	setArmAngle(getArmDegrees() + 7);
     }
     
     /**
