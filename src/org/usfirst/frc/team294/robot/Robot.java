@@ -16,11 +16,14 @@ import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.utilities.FileLog;
 
 public class Robot extends TimedRobot {
+
 	// Subsystem objects
+	public static Inputs inputs;
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
 	public static ProtoArmPiston protoArmPiston;
 	public static ProtoArmMotor protoArmMotor;
+	public static Claw claw;
 	public static OI oi;
 
 	public static boolean allianceSwitchLeft = false;
@@ -41,12 +44,16 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		inputs = new Inputs();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		protoArmPiston = new ProtoArmPiston();
 		protoArmMotor = new ProtoArmMotor();
+		claw = new Claw();
+
 		// Create the log file
 		log = new FileLog();
+
 		// Create the OI
 		oi = new OI();
 		readPreferences(); // Read preferences next, so that subsystems can use the preference values.
@@ -81,41 +88,44 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		log.writeLogEcho("Auto mode started.");
+		log.writeLogEcho("Autonomous mode started.");
 
-		// In competitions, game data is not available until autonomousInit, so
-		// read game data here.
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 
-		if(gameData.charAt(0) == 'L')
-		{
+		if (gameData.charAt(0) == 'L') {
 			SmartDashboard.putBoolean("Close Switch Left", true);
 			SmartDashboard.putBoolean("Close Switch Right", false);
 			allianceSwitchLeft = true;
+			// Put left auto code here
 		} else {
 			SmartDashboard.putBoolean("Close Switch Right", true);
 			SmartDashboard.putBoolean("Close Switch Left", false);
 			allianceSwitchLeft = false;
+			// Put right auto code here
 		}
 
 		if (gameData.charAt(1) == 'L') {
 			SmartDashboard.putBoolean("Scale Left", true);
 			SmartDashboard.putBoolean("Scale Right", false);
 			scaleLeft = true;
+			// Put left auto code here
 		} else {
 			SmartDashboard.putBoolean("Scale Right", true);
 			SmartDashboard.putBoolean("Scale Left", false);
 			scaleLeft = false;
+			// Put right auto code here
 		}
 
 		if (gameData.charAt(2) == 'L') {
 			SmartDashboard.putBoolean("Far Switch Left", true);
 			SmartDashboard.putBoolean("Far Switch Right", false);
 			opponentSwitchLeft = true;
+			// Put left auto code here
 		} else {
 			SmartDashboard.putBoolean("Far Switch Right", true);
 			SmartDashboard.putBoolean("Far Switch Left", false);
 			opponentSwitchLeft = false;
+			// Put right auto code here
 		}
 
 		DriverStation.Alliance color = DriverStation.getInstance().getAlliance();
@@ -133,7 +143,9 @@ public class Robot extends TimedRobot {
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
 		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
 		 * ExampleCommand(); break; }
-		 */
+		*/
+		  
+		
 
 		int fieldLayout, autoPlan;
 
@@ -150,6 +162,7 @@ public class Robot extends TimedRobot {
 		autoPlan = oi.readAutoPlan();
 
 		int startPosition = oi.readStartPosition();
+		
 		if (startPosition == 1) {
 			programSelected = RobotMap.startingLeftAutoPrograms[autoPlan][fieldLayout];
 		} else if (startPosition == 2) {
@@ -222,8 +235,8 @@ public class Robot extends TimedRobot {
 		}
 		driveTrain.zeroGyroRotation(); // todo remove later
 		driveTrain.setFieldPositionX(0); // todo remove later
-		driveTrain.setFieldPositionY(0); // todo remove later
-		
+		driveTrain.setFieldPositionY(0); // todo remove later	
+
 		log.writeLogEcho("Teleop mode started.");
 	}
 
