@@ -5,10 +5,10 @@ public class RobotMap {
 
 	// Hardware CAN addresses
 	public static final int leftMotor1 = 10;
-	public static final int leftMotor2 = 11;
+	public static final int leftMotor2 = 11;  	// Master
 	public static final int leftMotor3 = 12;
 	public static final int rightMotor1 = 20; 
-	public static final int rightMotor2 = 21;
+	public static final int rightMotor2 = 21;	// Master
 	public static final int rightMotor3 = 22;
 	public static final int armMotor = 30;
 	public static final int clawMotorLeft = 40;
@@ -27,7 +27,7 @@ public class RobotMap {
 	public static final int pneumaticClawPistonOut = 5;
 
 
-	// Digital Input addresses
+	// Digital Input/Output addresses
 	public static int majorPistonRetractedLimitSwitch = 0;
 	public static int majorPistonExtendedLimitSwitch = 1;
 	public static int minorPistonRetractedLimitSwitch = 2;
@@ -40,8 +40,6 @@ public class RobotMap {
 	public static double lowThreshold; // Low threshold for ground pickup
 	public static double highThreshold; // High threshold for scoring
 
-	
-	
 		
 		//Drive Train Constants
 		public static final double wheelCircumference = 4.0 * Math.PI;
@@ -49,28 +47,7 @@ public class RobotMap {
 		public static final double driveTrainDistanceFudgeFactor = 0.96824; //TODO: store in robot preferences
 		
 	
-		
-		// RoboRIO digital I/O addresses
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	// Arm angle constants
 	public static double degreesPerTicks = 9.0 / 5.0;
@@ -82,23 +59,21 @@ public class RobotMap {
 		Low, High, UltraHigh, WayTooHigh
 	} // Enum for preset positions to use in the code (e.g. placing on scale low, switch, pickup, etc.
 	
-	public static double getArmAngle(ArmPositions position) {
-		if (position == ArmPositions.Low) return armLowPosition;
-		if (position == ArmPositions.High) return armHighPosition;
-		else return armLowPosition;
-	}
 	
-	// Arm angle zone boundaries
+	// Arm angle zone boundaries   THESE ARE NUMBERS JUST FOR TEST ON PROTO ARM
 	public static double minAngle = -37; // arm cannot extend downward past this angle
 	public static double lowerBound = -25; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
 	public static double middleBound = 30; // arm cannot extend between Ang1 and Ang2
 	public static double upperBound = 100; // both pistons can be extended between Ang2 and Ang 3
 	public static double maxAngle = 130; // arm cannot extend upward past this angle
 	
+	
 	public enum ArmZones {
 		Low, Middle, High, Backwards
 	}
-	
+
+	/*****************************************/
+	//   WHY IS THIS IN MAP??  SHOULDN'T BE IN THE SUBSYSTEM?
 	/**
 	 * Returns the zone of the arm based on the arm angle
 	 * @param angle
@@ -110,6 +85,12 @@ public class RobotMap {
 		if (angle > middleBound) return ArmZones.High;
 		return ArmZones.Middle;
 	}
+	public static double getArmAngle(ArmPositions position) {
+		if (position == ArmPositions.Low) return armLowPosition;
+		if (position == ArmPositions.High) return armHighPosition;
+		else return armLowPosition;
+	}
+/***********************************************/
 	
 	public enum PistonPositions {
 		Extended, Retracted, Moving, Null
