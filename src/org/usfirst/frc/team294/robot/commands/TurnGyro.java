@@ -19,7 +19,7 @@ public class TurnGyro extends Command {
 	private double angleSpeedControl, amountTurn;
 	private double prevAngleError = 0, integratedError = 0, derivativeError = 0, angleError = 0;
 	private static final double dt = .02;
-	private final VelocityChecker velCheck = new VelocityChecker(0.5);
+	private final VelocityChecker velCheck = new VelocityChecker(1);
 	private final double kPdist = 0.04, // Proportional Term
 			kDdist = 0.0036, // Derivative Value
 			kIdist = 0; // Integral Term

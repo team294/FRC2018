@@ -119,6 +119,7 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("NavX Angle", angle);
 		return angle;
 	}
+	
 	public void tankDrive(double powerLeft, double powerRight) {
 		this.robotDrive.tankDrive(powerLeft, powerRight);
 	}
@@ -201,7 +202,7 @@ public class DriveTrain extends Subsystem {
 	// Periodic is called once every scheduler cycle (20ms)
 	public void periodic() {
 		// Display info on Dashboard
-		getGyroRotation();
+		//getGyroRotation();
 		getLeftEncoderPosition();
 		getRightEncoderPosition();
 	}

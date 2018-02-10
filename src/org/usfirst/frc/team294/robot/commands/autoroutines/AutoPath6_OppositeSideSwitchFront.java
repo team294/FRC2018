@@ -29,17 +29,17 @@ public class AutoPath6_OppositeSideSwitchFront extends CommandGroup {
 		// arm.
 		switch (startPosition) {
 		case 1:
-			addSequential(new DriveStraightDistanceProfile(100, 0));
+			addSequential(new DriveStraightDistanceProfile(40, 0));
 			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(150, 90));
+			addSequential(new DriveStraightDistanceProfile(175, 90));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(30, 0));
 			// arm code 
 			break;
-		case 2:
-			addSequential(new DriveStraightDistanceProfile(100, 0));
+		case 3:
+			addSequential(new DriveStraightDistanceProfile(40, 0));
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(150, -90));
+			addSequential(new DriveStraightDistanceProfile(175, -90));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(30, 0));
 			// arm code 
