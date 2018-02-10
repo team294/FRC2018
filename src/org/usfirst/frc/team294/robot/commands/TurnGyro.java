@@ -19,9 +19,9 @@ public class TurnGyro extends Command {
 	private double angleSpeedControl, amountTurn;
 	private double prevAngleError = 0, integratedError = 0, derivativeError = 0, angleError = 0;
 	private static final double dt = .02;
-	private final VelocityChecker velCheck = new VelocityChecker(1);
-	private final double kPdist = 0.04, // Proportional Term
-			kDdist = 0.0036, // Derivative Value
+	private final VelocityChecker velCheck = new VelocityChecker(.75);
+	private final double kPdist = 0.058, // Proportional Term
+			kDdist = 0.0038, // Derivative Value
 			kIdist = 0; // Integral Term
 
 	public TurnGyro(double amountTurn, Units turnUnits) {
@@ -60,8 +60,8 @@ public class TurnGyro extends Command {
 		derivativeError = (angleError - prevAngleError) / dt;
 		angleSpeedControl = angleError * kPdist + integratedError * kIdist + derivativeError * kDdist;
 		// Robot.driveTrain.tankDrive(-percentSpeed, percentSpeed);
-		angleSpeedControl = angleSpeedControl < .2 && angleSpeedControl > 0 ? .2 : angleSpeedControl;
-		angleSpeedControl = angleSpeedControl > -.2 && angleSpeedControl < 0 ? -.2 : angleSpeedControl;
+		angleSpeedControl = angleSpeedControl < .4 && angleSpeedControl > 0 ? .4 : angleSpeedControl;
+		angleSpeedControl = angleSpeedControl > -.4 && angleSpeedControl < 0 ? -.4 : angleSpeedControl;
 		Robot.driveTrain.tankDrive(angleSpeedControl, -angleSpeedControl);
 		velCheck.addValue(angleError - prevAngleError);
 		prevAngleError = angleError;
@@ -71,7 +71,8 @@ public class TurnGyro extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return velCheck.getAverage() < 1 || Math.abs(angleError) <= 1;
+//		return velCheck.getAverage() < 1 || Math.abs(angleError) <= 1;
+		return velCheck.getAverage() < 1;
 	}
 
 	// Called once after isFinished returns true

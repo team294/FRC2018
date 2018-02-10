@@ -212,6 +212,8 @@ public class Robot extends TimedRobot {
 
 		// schedule the autonomous command
 		if (autonomousCommand != null) {
+			Command shiftLow = new ShiftLow();
+			shiftLow.start();
 			autonomousCommand.start();
 		}
 	}
