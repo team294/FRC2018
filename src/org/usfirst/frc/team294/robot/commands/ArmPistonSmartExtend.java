@@ -21,14 +21,14 @@ public class ArmPistonSmartExtend extends Command {
 	protected void initialize() {
 		double currentAngle = Robot.protoArmMotor.getArmDegrees();
 		if (currentAngle <= RobotMap.lowerBound && currentAngle >= RobotMap.minAngle) {
-			Robot.protoArmPiston.extendMinorPiston();
-			Robot.protoArmPiston.retractMajorPiston();
+			Robot.protoArmPiston.setMinor(PistonPositions.Extended);
+			Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
 		} else if (currentAngle <= RobotMap.upperBound && currentAngle >= RobotMap.middleBound) {
-			Robot.protoArmPiston.extendMinorPiston();
-			Robot.protoArmPiston.extendMajorPiston();
+			Robot.protoArmPiston.setMinor(RobotMap.PistonPositions.Extended);
+			Robot.protoArmPiston.setMajor(RobotMap.PistonPositions.Extended);
 		} else {
-			Robot.protoArmPiston.retractMinorPiston();
-			Robot.protoArmPiston.retractMajorPiston();
+			Robot.protoArmPiston.setMinor(PistonPositions.Retracted);
+			Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
 		}
 	}
 

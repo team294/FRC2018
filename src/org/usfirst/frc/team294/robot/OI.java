@@ -54,7 +54,7 @@ public class OI {
 		SmartDashboard.putData("Move arm to angle and set piston state", new ArmMoveWithPiston(90,true));
 		
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
-		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());  //TODO Fix me
+		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControlJoystick());
 				
 		SmartDashboard.putData("Set Arm Position", new SetArmFromSmartDashboard());
 		
