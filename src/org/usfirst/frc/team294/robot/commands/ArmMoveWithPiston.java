@@ -14,10 +14,17 @@ public class ArmMoveWithPiston extends CommandGroup {
 	boolean finalPistonPosition;
 	double currentAngle = Robot.protoArmMotor.getArmDegrees();
 
+	/**
+	 * Moves the arm and adjusts the pistion in/out as needed to stay in legal volume.
+	 * @param destAngle Desired destination angle, in degrees.  0 is horizontal, + is up, - is down.
+	 * @param finalPistonPosition true = extend piston by end of arm movement, false = retract piston
+	 */
 	public ArmMoveWithPiston(double destAngle, boolean finalPistonPosition) {
 		 destAngle = SmartDashboard.getNumber("Desired Arm Angle (Piston Version)",0);
 		// requires(Robot.protoArmMotor);
-		addSequential(new ArmMoveToLegalRange());
+		
+		 addSequential(new ArmMoveToLegalRange());
+		
 		if (RobotMap.getArmZone(currentAngle) == RobotMap.getArmZone(destAngle)) {
 			addParallel(new ArmMoveToDestAngle(destAngle));
 			if (finalPistonPosition) {
