@@ -15,7 +15,7 @@ public class ArmMoveWithPiston extends CommandGroup {
 	double currentAngle = Robot.protoArmMotor.getArmDegrees();
 
 	/**
-	 * Moves the arm and adjusts the pistion in/out as needed to stay in legal volume.
+	 * Moves the arm and adjusts the piston in/out as needed to stay in legal volume.
 	 * @param destAngle Desired destination angle, in degrees.  0 is horizontal, + is up, - is down.
 	 * @param finalPistonPosition true = extend piston by end of arm movement, false = retract piston
 	 */
