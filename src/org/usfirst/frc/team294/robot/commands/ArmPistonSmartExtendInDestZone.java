@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -33,13 +34,13 @@ public class ArmPistonSmartExtendInDestZone extends Command {
 	protected void execute() {
 		if (destAng < RobotMap.upperBound && destAng > RobotMap.middleBound) {
 			if (currentAng < RobotMap.upperBound && currentAng > RobotMap.middleBound) {
-				Robot.protoArmPiston.extendMinorPiston();
-				Robot.protoArmPiston.extendMajorPiston();
+				Robot.protoArmPiston.setMinor(PistonPositions.Extended);
+				Robot.protoArmPiston.setMajor(PistonPositions.Extended);
 				done = true;
 			}
 		} else if (destAng < RobotMap.lowerBound && destAng > RobotMap.minAngle) {
 			if (currentAng < RobotMap.lowerBound && currentAng > RobotMap.minAngle) {
-				Robot.protoArmPiston.extendMinorPiston();
+				Robot.protoArmPiston.setMinor(PistonPositions.Extended);
 				done = true;
 			}
 		}

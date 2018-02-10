@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -29,14 +30,14 @@ public class ArmMoveToAndExtend extends Command {
     	if(destAngle > RobotMap.maxAngle)destAngle = RobotMap.maxAngle;
     	if(destAngle < RobotMap.minAngle)destAngle = RobotMap.minAngle;
     	if(!finalPistonPosition) {
-    		Robot.protoArmPiston.retractMajorPiston();
-    		Robot.protoArmPiston.retractMinorPiston();
+    		Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
+    		Robot.protoArmPiston.setMinor(PistonPositions.Retracted);
     		pistonDone=true;
     	}
     	if (!((destAngle < RobotMap.upperBound && destAngle > RobotMap.middleBound)
 				|| (destAngle < RobotMap.lowerBound && destAngle > RobotMap.minAngle))) {
-    		Robot.protoArmPiston.retractMajorPiston();
-    		Robot.protoArmPiston.retractMinorPiston();
+    		Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
+    		Robot.protoArmPiston.setMinor(PistonPositions.Retracted);
     		pistonDone = true;
 		}
     	Robot.protoArmMotor.setArmAngle(destAngle);
@@ -47,13 +48,13 @@ public class ArmMoveToAndExtend extends Command {
     	currentAngle = Robot.protoArmMotor.getArmDegrees();
     	if (destAngle < RobotMap.upperBound && destAngle > RobotMap.middleBound && !pistonDone) {
 			if (currentAngle < RobotMap.upperBound && currentAngle > RobotMap.middleBound) {
-				Robot.protoArmPiston.extendMinorPiston();
-				Robot.protoArmPiston.extendMajorPiston();
+				Robot.protoArmPiston.setMinor(RobotMap.PistonPositions.Extended);
+				Robot.protoArmPiston.setMajor(RobotMap.PistonPositions.Extended);
 				pistonDone = true;
 			}
 		} else if (destAngle < RobotMap.lowerBound && destAngle > RobotMap.minAngle && !pistonDone) {
 			if (currentAngle < RobotMap.lowerBound && currentAngle > RobotMap.minAngle) {
-				Robot.protoArmPiston.extendMinorPiston();
+				Robot.protoArmPiston.setMinor(RobotMap.PistonPositions.Extended);
 				pistonDone = true;
 			}
 		}
