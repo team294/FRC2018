@@ -10,8 +10,8 @@ public class RobotMap {
 	public static final int rightMotor1 = 20; 
 	public static final int rightMotor2 = 21;	// Master
 	public static final int rightMotor3 = 22;
-	public static final int armMotor = 30;
-	
+	public static final int armMotor1 = 30;
+	public static final int armMotor2 = 31;
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
 

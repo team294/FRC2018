@@ -24,34 +24,40 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
  */
 public class ProtoArmMotor extends Subsystem {
 
-	private final WPI_TalonSRX armMotor = new WPI_TalonSRX(RobotMap.armMotor);
+	private final WPI_TalonSRX armMotor1 = new WPI_TalonSRX(RobotMap.armMotor1);
+	private final WPI_TalonSRX armMotor2 = new WPI_TalonSRX(RobotMap.armMotor2);
 
-	private double DEGREES_PER_TICK = RobotMap.degreesPerTicks;
-	private double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
+	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks;
+	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
 
-	//TODO add second arm motor for competition bot
+	private final double MAX_UP_PERCENT_POWER = 0.8;
+	private final double MAX_DOWN_PERCENT_POWER = -0.5;
+
 	public ProtoArmMotor() {
 
 		// armMotor.set(ControlMode.Position, 3);
-		armMotor.set(ControlMode.PercentOutput, 0);
-		armMotor.setNeutralMode(NeutralMode.Brake);
-		armMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-		armMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-		armMotor.overrideLimitSwitchesEnable(true); // pass false to force disable limit switch
+		armMotor1.set(ControlMode.PercentOutput, 0);
+		armMotor2.set(ControlMode.Follower, RobotMap.armMotor1);
+		armMotor1.setNeutralMode(NeutralMode.Brake);
+		armMotor1.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
+				0);
+		armMotor1.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
+				0);
+		armMotor1.overrideLimitSwitchesEnable(true); // pass false to force disable limit switch
 
 		// Closed-loop control structures
-		armMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
-		armMotor.setSensorPhase(true);
+		armMotor1.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
+		armMotor1.setSensorPhase(true);
 		// armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00,
 		// 0x00); // Change parameter to 1 for non-continuous
-		armMotor.selectProfileSlot(0, 0);
-		armMotor.config_kF(0, 0.0, 10);
-		armMotor.config_kP(0, 90.0, 10); // old term 50, 50 works
-		armMotor.config_kI(0, 0.0, 10);
-		armMotor.config_kD(0, 0.0, 10);
-		armMotor.configClosedloopRamp(0.25, 10);
-		armMotor.configPeakOutputForward(0.8, 10);
-		armMotor.configPeakOutputReverse(-0.5, 10);
+		armMotor1.selectProfileSlot(0, 0);
+		armMotor1.config_kF(0, 0.0, 10);
+		armMotor1.config_kP(0, 90.0, 10); // old term 50, 50 works
+		armMotor1.config_kI(0, 0.0, 10);
+		armMotor1.config_kD(0, 0.0, 10);
+		armMotor1.configClosedloopRamp(0.25, 10);
+		armMotor1.configPeakOutputForward(MAX_UP_PERCENT_POWER, 10);
+		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
 	}
 
 	public void calibrate() {
@@ -70,16 +76,16 @@ public class ProtoArmMotor extends Subsystem {
 	 *            voltage, minimum -0.3 and maximum 0.7
 	 */
 	public void setArmMotorToPercentPower(double percent) {
-		if (percent > .7)
-			percent = .7; // Can be +/- 1 after testing
-		if (percent < -.3)
-			percent = -.3;
+		if (percent > MAX_UP_PERCENT_POWER)
+			percent = MAX_UP_PERCENT_POWER; // Can be +/- 1 after testing
+		if (percent < MAX_DOWN_PERCENT_POWER)
+			percent = MAX_DOWN_PERCENT_POWER;
 		if (percent < .1 && percent > -.1)
 			percent = 0;
-		armMotor.set(ControlMode.PercentOutput, percent);
-		System.out.println("Arm motor " + armMotor.getDeviceID() + " set to percent " + percent + ", output "
-				+ armMotor.getMotorOutputVoltage() + " V," + armMotor.getOutputCurrent() + " A, Bus at "
-				+ armMotor.getBusVoltage() + " V");
+		armMotor1.set(ControlMode.PercentOutput, percent);
+		System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
+				+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
+				+ armMotor1.getBusVoltage() + " V");
 		SmartDashboard.putNumber("Arm Motor Percent", percent);
 	}
 
@@ -88,9 +94,8 @@ public class ProtoArmMotor extends Subsystem {
 	 * Also updates Smart Dashboard. </br>
 	 * The reference value for the arm position at zero degrees is set in the
 	 * Shuffleboard network table/preferences section.</br>
-	 * <b>To reset:</b> Set the arm to the zero position, set the countAtZeroDegrees
-	 * to 0. The value at that read should then be entered into the
-	 * countAtZeroDegree field.
+	 * <b>To reset:</b> Set the arm to the zero position, set the armCalZero to 0.
+	 * The value at that read should then be entered into the armCalZero field.
 	 **/
 	public double getArmPot() {
 		double potValue = getArmPotRaw() - (Robot.armCalZero);// armZeroDegreesCalibration; //Removed zero for testing
@@ -106,7 +111,7 @@ public class ProtoArmMotor extends Subsystem {
 	 * @return desired degree of arm angle
 	 */
 	public double getCurrentArmTarget() {
-		double currTarget = armMotor.getClosedLoopTarget(0);
+		double currTarget = armMotor1.getClosedLoopTarget(0) - (Robot.armCalZero);
 		currTarget *= DEGREES_PER_TICK;
 		SmartDashboard.putNumber("Desired Angle of Arm in Degrees", currTarget);
 		return currTarget;
@@ -119,7 +124,7 @@ public class ProtoArmMotor extends Subsystem {
 	 * @return raw value, probably a large negative number
 	 */
 	public double getArmPotRaw() {
-		double potVal = armMotor.getSelectedSensorPosition(0);
+		double potVal = armMotor1.getSelectedSensorPosition(0);
 		SmartDashboard.putNumber("Arm Pot Raw", potVal);
 		return potVal;
 	}
@@ -140,7 +145,7 @@ public class ProtoArmMotor extends Subsystem {
 	public void armPositionJoystick() { // This is not working and difficult to use. Using armAdjustJoystickButtons is
 										// better
 		double armAdjustment = OI.armJoystick.getY();
-		double currTarget = armMotor.getClosedLoopTarget(0);
+		double currTarget = armMotor1.getClosedLoopTarget(0);
 		armAdjustment = (Math.abs(armAdjustment) < 0.1) ? 0.0 : armAdjustment * 1.0; // 1.8 works
 		if (currTarget > -150 && armAdjustment > 0)
 			armAdjustment = 0;
@@ -183,7 +188,7 @@ public class ProtoArmMotor extends Subsystem {
 	 */
 	private void setArmPositionScaled(double position) {
 		position += (Robot.armCalZero); // armZeroDegreesCalibration;
-		armMotor.set(ControlMode.Position, position);
+		armMotor1.set(ControlMode.Position, position);
 	}
 
 	/**
@@ -194,7 +199,7 @@ public class ProtoArmMotor extends Subsystem {
 	 *            desired position, in scaled pot ticks
 	 */
 	private void setArmPositionRaw(double position) {
-		armMotor.set(ControlMode.Position, position);
+		armMotor1.set(ControlMode.Position, position);
 	}
 
 	/**
@@ -212,9 +217,9 @@ public class ProtoArmMotor extends Subsystem {
 	 * @return voltage
 	 */
 	public double getOutputVoltage() {
-		double voltage = armMotor.getMotorOutputVoltage();
-		SmartDashboard.putNumber("Arm Motor Output Voltage", voltage);
-		return voltage;
+		double voltageLeft = armMotor1.getMotorOutputVoltage();
+		SmartDashboard.putNumber("Left Arm Motor Output Voltage", voltageLeft);
+		return voltageLeft;
 	}
 
 	/**
@@ -224,8 +229,8 @@ public class ProtoArmMotor extends Subsystem {
 		getArmPot();
 		getArmDegrees();
 		getOutputVoltage();
-		SmartDashboard.putNumber("Arm Motor Error", armMotor.getClosedLoopError(0));
-		SmartDashboard.putNumber("Arm Motor Target", armMotor.getClosedLoopTarget(0));
+		SmartDashboard.putNumber("Arm Motor Error", armMotor1.getClosedLoopError(0));
+		SmartDashboard.putNumber("Arm Motor Target", armMotor1.getClosedLoopTarget(0));
 	}
 
 	public void periodic() {
