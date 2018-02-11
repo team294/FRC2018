@@ -88,6 +88,20 @@ public class ProtoArmPiston extends Subsystem {
 	 * @return
 	 */
 	public PistonPositions getMajor() {
+		switch (majorPosition) {
+		case Extended : 
+			SmartDashboard.putString("Major Piston", "Extended");
+			break;
+		case Retracted : 
+			SmartDashboard.putString("Major Piston", "Retracted");
+			break;
+		case Moving : 
+			SmartDashboard.putString("Major Piston", "Moving");
+			break;
+		case Null : 
+			SmartDashboard.putString("Major Piston", "Null");
+			break;
+		}
 		return majorPosition;
 	}
 

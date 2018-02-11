@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot;
 
+import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import org.usfirst.frc.team294.robot.commands.*;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -51,7 +52,10 @@ public class OI {
 		SmartDashboard.putData("Joystick Increment with Y-Axis", new ArmMoveWithJoystick());
 		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementRaiseAngleButton());
 
-		SmartDashboard.putData("Move arm to angle and set piston state", new ArmMoveWithPiston(90,true));
+		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
+		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
+
+		SmartDashboard.putData("Move arm to angle and set piston state", new ArmMoveWithPiston(90.0,true));
 		
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
 		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControlJoystick());
@@ -82,6 +86,10 @@ public class OI {
 		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
+		
+		SmartDashboard.putData("Extend", new ArmPistonSmartExtendInDestZone(90));
+
+
 
 	}
 	

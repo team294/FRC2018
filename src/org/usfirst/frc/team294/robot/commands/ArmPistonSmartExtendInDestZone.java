@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ArmPistonSmartExtendInDestZone extends Command {
 
-	private double currentAng = Robot.protoArmMotor.getArmDegrees();
+	private double currentAng;
 	private double destAng;
 	private boolean done = false;
 
@@ -24,14 +24,22 @@ public class ArmPistonSmartExtendInDestZone extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (!((destAng < RobotMap.upperBound && destAng > RobotMap.middleBound)
-				|| (destAng < RobotMap.lowerBound && destAng > RobotMap.minAngle))) {
-			done = true;
-		}
+
+		// if (destAng > RobotMap.upperBound || (destAng < RobotMap.middleBound &&
+		// destAng > RobotMap.lowerBound)) {
+		//done = true;
+		// currentAng = Robot.protoArmMotor.getArmDegrees();
 	}
+
+//}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		
+		if (destAng > RobotMap.upperBound || (destAng < RobotMap.middleBound && destAng > RobotMap.lowerBound)) {
+			done = true;
+		}
+			currentAng = Robot.protoArmMotor.getArmDegrees();
 		if (destAng < RobotMap.upperBound && destAng > RobotMap.middleBound) {
 			if (currentAng < RobotMap.upperBound && currentAng > RobotMap.middleBound) {
 				Robot.protoArmPiston.setMinor(PistonPositions.Extended);
@@ -41,6 +49,7 @@ public class ArmPistonSmartExtendInDestZone extends Command {
 		} else if (destAng < RobotMap.lowerBound && destAng > RobotMap.minAngle) {
 			if (currentAng < RobotMap.lowerBound && currentAng > RobotMap.minAngle) {
 				Robot.protoArmPiston.setMinor(PistonPositions.Extended);
+				// Robot.protoArmPiston.setMajor(PistonPositions.Extended);
 				done = true;
 			}
 		}

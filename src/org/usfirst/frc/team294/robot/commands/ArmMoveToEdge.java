@@ -3,6 +3,7 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.RobotMap.ArmZones;
+import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,6 +17,7 @@ public class ArmMoveToEdge extends Command {
 	public ArmMoveToEdge(double destAngle) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		this.destAngle = destAngle;
 		requires(Robot.protoArmMotor);
 	}
 
@@ -27,6 +29,7 @@ public class ArmMoveToEdge extends Command {
 			if (destAngle >= RobotMap.lowerBound) {
 				// We are moving from Low zone to another zone, so move to edge of Low zone
 				Robot.protoArmMotor.setArmAngle(RobotMap.lowerBound);
+				Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
 			} else {
 				// We aren't leaving Low zone, so just go to destAngle
 				Robot.protoArmMotor.setArmAngle(destAngle);
@@ -35,9 +38,11 @@ public class ArmMoveToEdge extends Command {
 			if (destAngle >= RobotMap.upperBound) {
 				// We are moving from High zone to Backward zone, so move to high edge of High zone
 				Robot.protoArmMotor.setArmAngle(RobotMap.upperBound);
+				Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
 			} else if (destAngle <= RobotMap.middleBound) {
 				// We are moving from High zone to a lower zone, so move to low edge of High zone
-				Robot.protoArmMotor.setArmAngle(RobotMap.middleBound);
+				Robot.protoArmMotor.setArmAngle(RobotMap.middleBound); 
+				Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
 			}
 			else {
 				// We aren't leaving High zone, so just go to destAngle				
@@ -45,11 +50,12 @@ public class ArmMoveToEdge extends Command {
 			}
 		} else if(RobotMap.getArmZone(currentAngle) == ArmZones.Backwards) {
 			// We are in Middle or Backwards zone, so just go to the dest angle				
-			if(RobotMap.getArmZone(destAngle) == ArmZones.Backwards || RobotMap.getArmZone(destAngle) == ArmZones.High) {
+			if(RobotMap.getArmZone(destAngle).equals(ArmZones.Backwards) || RobotMap.getArmZone(destAngle).equals(ArmZones.High)) {
 				Robot.protoArmMotor.setArmAngle(destAngle);
 			}
 			else {
 				Robot.protoArmMotor.setArmAngle(RobotMap.middleBound);
+				Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
 			}
 		} else if(RobotMap.getArmZone(currentAngle) == ArmZones.Middle) {
 			// We are in Middle Zone 

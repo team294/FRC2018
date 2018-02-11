@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,11 +12,13 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmMoveToDestAngle extends Command {
 
 	private double destAngle;
+	private double currentAngle = Robot.protoArmMotor.getArmDegrees();
 
 	public ArmMoveToDestAngle(double destAngle) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.protoArmMotor);
+		this.destAngle = destAngle;
 	}
 
 	// Called just before this Command runs the first time
@@ -27,12 +30,12 @@ public class ArmMoveToDestAngle extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		
+		Robot.protoArmMotor.setArmAngle(destAngle);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		//TODO Tolerance Checking
+		// TODO Tolerance Checking
 		return true;
 	}
 
