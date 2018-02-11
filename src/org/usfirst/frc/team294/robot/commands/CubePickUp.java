@@ -32,7 +32,7 @@ public class CubePickUp extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (Robot.inputs.isObjectPresent()) {
+		if (Robot.inputs.isObjectPresentClaw()) {
 			Robot.claw.closeClaw();
 			if (timeClawClosed == 1000) {
 				timeClawClosed = Timer.getFPGATimestamp();

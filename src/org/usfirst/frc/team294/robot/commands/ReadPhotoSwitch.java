@@ -18,13 +18,16 @@ public class ReadPhotoSwitch extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.inputs.isObjectPresent();
+		Robot.inputs.isObjectPresentClaw();
+		Robot.inputs.isObjectPresentIntake();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.inputs.isObjectPresent();
-		SmartDashboard.putBoolean("Object Present: ", Robot.inputs.isObjectPresent());
+		Robot.inputs.isObjectPresentClaw();
+		Robot.inputs.isObjectPresentIntake();
+		SmartDashboard.putBoolean("Object Present (Claw): ", Robot.inputs.isObjectPresentClaw());
+		SmartDashboard.putBoolean("Object Present (Intake): ", Robot.inputs.isObjectPresentIntake());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

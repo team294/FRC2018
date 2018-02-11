@@ -10,8 +10,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
  *
  */
 public class Inputs extends Subsystem {
-	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitch);
+	
+	private final DigitalInput photoSwitchClaw = new DigitalInput(RobotMap.photoSwitchClaw);
 	private final DigitalInput bumpSwitch = new DigitalInput(RobotMap.bumpSwitch);
+	private final DigitalInput photoSwitchIntake = new DigitalInput(RobotMap.photoSwitchIntake);
 
 	public Inputs() {
 		super();
@@ -24,9 +26,13 @@ public class Inputs extends Subsystem {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 	}
-
-	public boolean isObjectPresent() {
-		return photoSwitch.get();
+	
+	public boolean isObjectPresentIntake() {
+		return photoSwitchIntake.get();
+	}
+	
+	public boolean isObjectPresentClaw() {
+		return photoSwitchClaw.get();
 	}
 	
 	public boolean isCubeFullyIn() {

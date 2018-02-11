@@ -13,16 +13,21 @@ public class CubeShootOut extends Command {
 	private double leftPercent = 100; // may want to have different speeds
 	private double rightPercent = 100;
 	private double timeShot = 1000;
+	private double lastIntakeLeftPercent = Robot.intake.readLeftIntakeMotor();
+	private double lastIntakeRightPercent = Robot.intake.readRightIntakeMotor();
 
 	public CubeShootOut() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.claw);
+		requires(Robot.intake);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.claw.setClawMotorToPercentPower(leftPercent, rightPercent);
+		Robot.intake.setIntakeMotorToPercentPower(leftPercent, rightPercent);
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -36,7 +41,7 @@ public class CubeShootOut extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if ((!Robot.inputs.isObjectPresent() && Timer.getFPGATimestamp() >= timeShot + 2) || Timer.getFPGATimestamp() >= timeShot + 3) {
+		if ((!Robot.inputs.isObjectPresentClaw() && Timer.getFPGATimestamp() >= timeShot + 2) || Timer.getFPGATimestamp() >= timeShot + 3) {
 			end();
 			timeShot = 1000;
 			return true;
@@ -48,11 +53,12 @@ public class CubeShootOut extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.claw.setClawMotorToPercentPower(0, 0);
+		Robot.intake.setIntakeMotorToPercentPower(lastIntakeLeftPercent, lastIntakeRightPercent);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.claw.setClawMotorToPercentPower(0, 0);
+		end();
 	}
 }

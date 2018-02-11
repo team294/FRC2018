@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
 	public static ProtoArmPiston protoArmPiston;
 	public static ProtoArmMotor protoArmMotor;
 	public static Claw claw;
+	public static Intake intake;
 	public static OI oi;
 
 	public static boolean allianceSwitchLeft = false;

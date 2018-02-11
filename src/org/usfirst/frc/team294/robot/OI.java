@@ -66,6 +66,7 @@ public class OI {
 		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
+		SmartDashboard.putData("Toggle Intake", new ToggleIntake());
 
 	}
 	

@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Claw extends Subsystem {
 
-	private final DoubleSolenoid clawPiston = new DoubleSolenoid(RobotMap.pneumaticClawPistonIn,
+	private final  DoubleSolenoid clawPiston = new DoubleSolenoid(RobotMap.pneumaticClawPistonIn,
 			RobotMap.pneumaticClawPistonOut);
 
 	private final WPI_TalonSRX clawMotorLeft = new WPI_TalonSRX(RobotMap.clawMotorLeft);
@@ -42,6 +42,7 @@ public class Claw extends Subsystem {
 				+ " A, Bus at " + clawMotorRight.getBusVoltage() + " V");
 		SmartDashboard.putNumber("Left Claw Motor Percent:", leftPercent);
 		SmartDashboard.putNumber("Right Claw Motor Percent:", rightPercent);
+		
 	}
 
 	/* public double getClawMotorPower() {
