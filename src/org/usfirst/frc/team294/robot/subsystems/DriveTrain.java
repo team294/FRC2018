@@ -39,6 +39,12 @@ public class DriveTrain extends Subsystem {
 	private double leftEncoderZero = 0, rightEncoderZero = 0;
 	public DriveTrain() {// initialize Followers
 		// motor2 are the main motors, and motor 1 and 3 are the followers.
+		leftMotor2.setInverted(true); 
+		rightMotor2.setInverted(true);
+		leftMotor1.setInverted(true); 
+		rightMotor1.setInverted(true);
+		leftMotor3.setInverted(true); 
+		rightMotor3.setInverted(true);
 		leftMotor1.set(ControlMode.Follower, RobotMap.leftMotor2);
 		leftMotor3.set(ControlMode.Follower, RobotMap.leftMotor2);
 		rightMotor1.set(ControlMode.Follower, RobotMap.rightMotor2);
@@ -52,8 +58,7 @@ public class DriveTrain extends Subsystem {
 		leftMotor2.configVoltageCompSaturation(11.0, 0);
 		rightMotor2.configVoltageCompSaturation(11.0, 0);
 
-		leftMotor2.setSensorPhase(true);
-		// leftMotor2.setInverted(true); // This might need to be changed to rightmotor2
+		rightMotor2.setSensorPhase(true);
 
 		leftMotor2.clearStickyFaults(0);
 		rightMotor2.clearStickyFaults(0);

@@ -29,15 +29,15 @@ public class AutoPath3_SameSideSwitch extends CommandGroup {
 		// arm.
 		switch (startPosition) {
 		case 1:
-			addSequential(new DriveStraightDistanceProfile(162, 0));
+			addSequential(new DriveStraightDistanceProfile(154, 0));
 			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
-			addSequential( new DriveStraightDistanceProfile(30, 90));
+			addSequential( new DriveStraightDistanceProfile(26, 90));
 			// arm command 
 			break;
 		case 3 : 
-			addSequential(new DriveStraightDistanceProfile(162, 0));
+			addSequential(new DriveStraightDistanceProfile(154, 0)); // it should go 157", but due to inconsistency we made it go 154"
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
-			addSequential( new DriveStraightDistanceProfile(30,  -90));
+			addSequential( new DriveStraightDistanceProfile(26,  -90));
 			// arm command 
 			break;
 

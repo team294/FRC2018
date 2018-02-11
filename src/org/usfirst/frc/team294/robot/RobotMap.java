@@ -15,7 +15,7 @@ public class RobotMap {
 	// Drive Train Constants
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
-	public static final double wheelCircumference = 4.0 * Math.PI;
+	public static final double wheelCircumference = 6.18 * Math.PI; //4actually a 6PI wheel diameter
 	public static final double encoderTicksPerRevolution = 4096.0;
 	public static final double driveTrainDistanceFudgeFactor = 1;//0.96824; // TODO: store in robot preferences
 

@@ -10,37 +10,39 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoPath1_SameSideScale extends CommandGroup {
 
 	public AutoPath1_SameSideScale(int startPosition) {
-
-		// Add Commands here:
-		// e.g. addSequential(new Command1());
-		// addSequential(new Command2());
-		// these will run in order.
-
-		// To run multiple commands at the same time,
-		// use addParallel()
-		// e.g. addParallel(new Command1());
-		// addSequential(new Command2());
-		// Command1 and Command2 will run in parallel.
-
-		// A command group will require all of the subsystems that each member
-		// would require.
-		// e.g. if Command1 requires chassis, and Command2 requires arm,
-		// a CommandGroup containing them would require both the chassis and the
-		// arm.
 		switch (startPosition) {
 		case 1:
-			addSequential(new DriveStraightDistanceProfile(300, 0));
-			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
-			addSequential( new DriveStraightDistanceProfile(25, 90));
+			addSequential(new DriveStraightDistanceProfile(252,  5)); //265
+			addSequential(new TurnGyro(45 , TurnGyro.Units.Degrees));
 			// put arm command here
 			break;
 		case 3:
-			addSequential( new DriveStraightDistanceProfile(300,  0));
-			addSequential(new TurnGyro(-90 , TurnGyro.Units.Degrees));
-			addSequential( new DriveStraightDistanceProfile(25, -90));
-			// put arm command here 
-			break;
+////			addSequential(new TurnGyro(-15 , TurnGyro.Units.Degrees));
+//			addSequential(new DriveStraightDistanceProfile(252,  -5)); //265
+//			addSequential(new TurnGyro(-45 , TurnGyro.Units.Degrees));
+//			// Score Cube
+//			addSequential(new TurnGyro(-120, TurnGyro.Units.Degrees));
+//			addSequential(new DriveStraightDistanceProfile(50, -120));
+//			addSequential(new TurnGyro(-180, TurnGyro.Units.Degrees));
+//			addSequential(new DriveStraightDistanceProfile(20, -180));
+//			// Grab Cube
+//			addSequential(new DriveStraightDistanceProfile(-20, -115));
+//			addSequential(new DriveStraightDistanceProfile(-20, -225));
+//			// Score Cube 2 Backwards
+			
+			addSequential(new DriveStraightDistanceProfile(-252, -5));
+			addSequential(new TurnGyro(-45, TurnGyro.Units.Degrees));
+			// Score Cube
+			addSequential(new TurnGyro(45, TurnGyro.Units.Degrees));
+			addSequential(new DriveStraightDistanceProfile(30, 45));
+			addSequential(new DriveStraightDistanceProfile(15, 0));
+			// Grab cube
+			addSequential(new DriveStraightDistanceProfile(-20, 45));
+//			addSequential(new TurnGyro(-45, TurnGyro.Units.Degrees));
+			addSequential(new DriveStraightDistanceProfile(-60, -45));
+			// Dunk cube
 
+			break;
 		}
 	}
 }

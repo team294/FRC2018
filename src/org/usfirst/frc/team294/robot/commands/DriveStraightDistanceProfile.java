@@ -81,12 +81,13 @@ public class DriveStraightDistanceProfile extends Command {
 		Robot.driveTrain.zeroLeftEncoder();
 		Robot.driveTrain.zeroRightEncoder();
 		trapezoid = new ProfileGenerator(0.0, targetDistance, 0, MPSpeed, MPAccel);
-		angleBase = Robot.driveTrain.getGyroRotation();
+		// angleBase = Robot.driveTrain.getGyroRotation();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		final double currentDistanceInches = encoderTicksToInches(Robot.driveTrain.getRightEncoderPosition());
+		final double currentDistanceInches = encoderTicksToInches(
+				(Robot.driveTrain.getRightEncoderPosition() + Robot.driveTrain.getRightEncoderPosition()) / 2.0);
 		this.currentDistance = currentDistanceInches;
 		trapezoid.updateProfileCalcs();
 		MPCurrentDistance = trapezoid.getCurrentPosition();
@@ -136,8 +137,7 @@ public class DriveStraightDistanceProfile extends Command {
 			SmartDashboard.putNumber("fSet Distance", targetDistance);
 			SmartDashboard.putNumber("fActual Distance", currentDistance);
 		}
-//		return Math.abs(velCheck.getAverage()) < 1 || success;
-		return success;
+		return Math.abs(velCheck.getAverage()) < 1 || success;
 	}
 
 	// Called once after isFinished returns true

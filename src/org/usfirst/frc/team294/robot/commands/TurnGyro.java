@@ -19,8 +19,8 @@ public class TurnGyro extends Command {
 	private double angleSpeedControl, amountTurn;
 	private double prevAngleError = 0, integratedError = 0, derivativeError = 0, angleError = 0;
 	private static final double dt = .02;
-	private final VelocityChecker velCheck = new VelocityChecker(.75);
-	private final double kPdist = 0.058, // Proportional Term
+	private final VelocityChecker velCheck = new VelocityChecker(.8);
+	private final double kPdist = 0.045, // Proportional Term
 			kDdist = 0.0038, // Derivative Value
 			kIdist = 0; // Integral Term
 
@@ -71,7 +71,7 @@ public class TurnGyro extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-//		return velCheck.getAverage() < 1 || Math.abs(angleError) <= 1;
+		// return velCheck.getAverage() < 1 || Math.abs(angleError) <= 1;
 		return velCheck.getAverage() < 1;
 	}
 
