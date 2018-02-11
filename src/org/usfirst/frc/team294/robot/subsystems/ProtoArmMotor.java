@@ -3,7 +3,6 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.UpdateArmSmartDashboard;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -78,7 +77,6 @@ public class ProtoArmMotor extends Subsystem {
 	**/
     public double getArmPot() {				
     	double potValue = armMotor.getSelectedSensorPosition(0) - (-245);//armZeroDegreesCalibration; //Removed zero for testing purposes
-    	//int potValue = armMotor.getSensorCollection().getAnalogIn();
     	SmartDashboard.putNumber("Arm Pot Value", potValue);
     	return (potValue); 
     }

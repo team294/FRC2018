@@ -5,9 +5,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoPath2_OppositeSideScale extends CommandGroup {
+public class AutoSameSideScale extends CommandGroup {
 
-    public AutoPath2_OppositeSideScale(int startPosition) {
+    public AutoSameSideScale(int startPosition) {
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
