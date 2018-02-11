@@ -43,6 +43,12 @@ public class CubePickUp extends Command {
 			 * motors don't run for too long }
 			 */
 		}
+		
+		if(Robot.inputs.isCubeFullyIn()) {
+			//turns off intake motors when cube is secured in claw
+			//May need to adjust this depending on reliability of bump switch
+			Robot.intake.setIntakeMotorToPercentPower(0, 0);
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

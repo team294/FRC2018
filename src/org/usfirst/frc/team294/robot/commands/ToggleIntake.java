@@ -27,10 +27,15 @@ public class ToggleIntake extends Command {
     // Called just before this Command runs the first time
 	//sets left and right last percent values to the previously used motor power percent
     protected void initialize() {
-    	if (Robot.intake.readLeftIntakeMotor() != 0 && Robot.intake.readRightIntakeMotor() != 0) {
-    		lastLeftPercent = Robot.intake.readLeftIntakeMotor();
-    		lastRightPercent = Robot.intake.readRightIntakeMotor();
+    	if (Robot.intake.lastLeftPercent != 0) {
+    		lastLeftPercent = Robot.intake.lastLeftPercent;
+    		lastRightPercent = Robot.intake.lastRightPercent;
     	}
+    	if (Robot.intake.lastRightPercent != 0) {
+    		lastLeftPercent = Robot.intake.lastLeftPercent;
+    		lastRightPercent = Robot.intake.lastRightPercent;
+    	}
+
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -13,8 +13,6 @@ public class CubeShootOut extends Command {
 	private double leftPercent = 100; // may want to have different speeds
 	private double rightPercent = 100;
 	private double timeShot = 1000;
-	private double lastIntakeLeftPercent = Robot.intake.readLeftIntakeMotor();
-	private double lastIntakeRightPercent = Robot.intake.readRightIntakeMotor();
 
 	public CubeShootOut() {
 		// Use requires() here to declare subsystem dependencies
@@ -53,7 +51,8 @@ public class CubeShootOut extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.claw.setClawMotorToPercentPower(0, 0);
-		Robot.intake.setIntakeMotorToPercentPower(lastIntakeLeftPercent, lastIntakeRightPercent);
+		//sets intake motor back to its most recent non-zero, inward speed
+		Robot.intake.setIntakeMotorToPercentPower(Robot.intake.lastLeftPercent, Robot.intake.lastRightPercent);
 	}
 
 	// Called when another command which requires one or more of the same
