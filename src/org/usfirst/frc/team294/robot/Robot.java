@@ -1,4 +1,5 @@
 
+
 package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
 	public static boolean opponentSwitchLeft = false;
 	public static FileLog log;
 	public static Preferences robotPrefs;
+
 
 	public static int armCalZero; // Arm potentiometer position at O degrees
 	public static int armCal90Deg; // Arm potentiometer position at 90 degrees
@@ -271,6 +273,5 @@ public class Robot extends TimedRobot {
 																// robot
 		}
 		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
-		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
 	}
 }

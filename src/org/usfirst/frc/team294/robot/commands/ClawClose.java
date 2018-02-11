@@ -1,25 +1,26 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ArmRetract extends Command {
-
-    public ArmRetract() {
+public class ClawClose extends Command {
+	
+	/**
+	 * Manually closes claw
+	 */
+    public ClawClose() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires (Robot.protoArmPiston);
-    	
+    	requires(Robot.claw);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
+    	Robot.claw.closeClaw();
     }
 
     // Called repeatedly when this Command is scheduled to run

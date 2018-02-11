@@ -1,15 +1,15 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.OI;
 import org.usfirst.frc.team294.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ArmMotorControl extends Command {
-	
-    public ArmMotorControl() {
+public class ArmMoveWithJoystick extends Command {
+
+    public ArmMoveWithJoystick() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.protoArmMotor);
@@ -21,9 +21,7 @@ public class ArmMotorControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double armVal = OI.armJoystick.getY();
-    	Robot.protoArmMotor.setArmMotorToPercentPower(armVal);
-    	Robot.protoArmMotor.updateSmartDashboard();
+    	Robot.protoArmMotor.armPositionJoystick();
     }
 
     // Make this return true when this Command no longer needs to run execute()

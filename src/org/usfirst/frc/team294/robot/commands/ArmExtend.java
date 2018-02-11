@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -17,7 +18,7 @@ public class ArmExtend extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.protoArmPiston.extendPiston();
+    	Robot.protoArmPiston.setMajor(RobotMap.PistonPositions.Extended);
     	
     }
 

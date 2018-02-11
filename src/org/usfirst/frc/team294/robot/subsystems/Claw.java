@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -24,7 +25,12 @@ public class Claw extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	public void openClaw() {
-		clawPiston.set(Value.kForward); // kForward is extend
+		double currentAngle = Robot.protoArmMotor.getArmDegrees();
+		if (currentAngle <= RobotMap.angleClawCloseHigh && currentAngle >= RobotMap.angleClawCloseLow) {
+		}
+		else {
+			clawPiston.set(Value.kForward); // kForward is extend
+		}
 	}
 
 	public void closeClaw() {

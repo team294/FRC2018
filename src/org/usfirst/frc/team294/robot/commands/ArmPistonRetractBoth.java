@@ -3,11 +3,11 @@ package org.usfirst.frc.team294.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *							THIS IS NOT USED - REPLACED BY ArmMoveWithPiston
+ *
  */
-public class ArmControl extends CommandGroup {
+public class ArmPistonRetractBoth extends CommandGroup {
 
-    public ArmControl() {
+    public ArmPistonRetractBoth() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -18,14 +18,13 @@ public class ArmControl extends CommandGroup {
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
-  //  	addParallel(new ProtoArmPiston());
-    	//addParallel(new ArmMotorControl());
-    	//addParallel(new ArmMoveWithPiston());
-    	//addParallel(new ArmIncrementAngleButton());
+
         // A command group will require all of the subsystems that each member
         // would require.
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    addParallel(new ArmRetractMinorPiston());
+    addSequential(new ArmRetractMajorPiston());
     }
 }
