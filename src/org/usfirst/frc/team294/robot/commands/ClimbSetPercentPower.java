@@ -19,7 +19,7 @@ public class ClimbSetPercentPower extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.climb.setClimbMotor2(percentPower);
+    	Robot.climb.setClimbMotors(percentPower);
     }
 
     // Called repeatedly when this Command is scheduled to run

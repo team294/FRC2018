@@ -33,8 +33,12 @@ public class Climb extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
-	//Sets the climb motor based on a percent power parameter
-	public void setClimbMotor2(double percentPower) {
+	
+	/**
+	 * Sets the climb motor based on a percent power parameter
+	 * @param percentPower -1 to +1 
+	 */
+	public void setClimbMotors(double percentPower) {
 		climbMotor2.set(ControlMode.PercentOutput, percentPower);
 	}
 

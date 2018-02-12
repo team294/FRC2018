@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
 		protoArmPiston = new ProtoArmPiston();
 		protoArmMotor = new ProtoArmMotor();
 		claw = new Claw();
+		climb = new Climb();
 
 		// Create the log file
 		log = new FileLog();
