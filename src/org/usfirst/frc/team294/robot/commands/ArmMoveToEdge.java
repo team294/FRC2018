@@ -29,7 +29,6 @@ public class ArmMoveToEdge extends Command {
 			if (destAngle >= RobotMap.lowerBound) {
 				// We are moving from Low zone to another zone, so move to edge of Low zone
 				Robot.armMotor.setArmAngle(RobotMap.lowerBound);
-				Robot.armPiston.setMajor(PistonPositions.Retracted);
 			} else {
 				// We aren't leaving Low zone, so just go to destAngle
 				Robot.armMotor.setArmAngle(destAngle);
@@ -38,11 +37,9 @@ public class ArmMoveToEdge extends Command {
 			if (destAngle >= RobotMap.upperBound) {
 				// We are moving from High zone to Backward zone, so move to high edge of High zone
 				Robot.armMotor.setArmAngle(RobotMap.upperBound);
-				Robot.armPiston.setMajor(PistonPositions.Retracted);
 			} else if (destAngle <= RobotMap.middleBound) {
 				// We are moving from High zone to a lower zone, so move to low edge of High zone
 				Robot.armMotor.setArmAngle(RobotMap.middleBound); 
-				Robot.armPiston.setMajor(PistonPositions.Retracted);
 			}
 			else {
 				// We aren't leaving High zone, so just go to destAngle				
@@ -55,8 +52,7 @@ public class ArmMoveToEdge extends Command {
 			}
 			else {
 				Robot.armMotor.setArmAngle(RobotMap.middleBound);
-				Robot.armPiston.setMajor(PistonPositions.Retracted);
-			}
+				}
 		} else if(RobotMap.getArmZone(currentAngle) == ArmZones.Middle) {
 			// We are in Middle Zone 
 			if (!(RobotMap.getArmZone(destAngle) == ArmZones.Backwards)) {

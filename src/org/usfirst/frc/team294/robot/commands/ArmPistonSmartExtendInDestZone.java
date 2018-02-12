@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.ArmZones;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -12,14 +13,16 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmPistonSmartExtendInDestZone extends Command {
 
 	private double currentAng;
-	private double destAng;
-	private boolean done = false;
-
+	private ArmZones destZone;
+	private boolean done;
+	
 	public ArmPistonSmartExtendInDestZone(double destAng) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.armPiston);
-		this.destAng = destAng;
+		destZone = RobotMap.getArmZone(destAng);
+		if (destAng > RobotMap.upperBound || (destAng < RobotMap.middleBound && destAng > RobotMap.lowerBound)) done = true;
+		else done = false;
 	}
 
 	// Called just before this Command runs the first time
@@ -29,29 +32,18 @@ public class ArmPistonSmartExtendInDestZone extends Command {
 		// destAng > RobotMap.lowerBound)) {
 		//done = true;
 		// currentAng = Robot.protoArmMotor.getArmDegrees();
+		done = false;
 	}
 
 //}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		currentAng = Robot.armMotor.getArmDegrees();
 		
-		if (destAng > RobotMap.upperBound || (destAng < RobotMap.middleBound && destAng > RobotMap.lowerBound)) {
+		if (!done && RobotMap.getArmZone(currentAng) == destZone) {
+			Robot.armPiston.smartExtend();
 			done = true;
-		}
-			currentAng = Robot.armMotor.getArmDegrees();
-		if (destAng < RobotMap.upperBound && destAng > RobotMap.middleBound) {
-			if (currentAng < RobotMap.upperBound && currentAng > RobotMap.middleBound) {
-				Robot.armPiston.setMinor(PistonPositions.Extended);
-				Robot.armPiston.setMajor(PistonPositions.Extended);
-				done = true;
-			}
-		} else if (destAng < RobotMap.lowerBound && destAng > RobotMap.minAngle) {
-			if (currentAng < RobotMap.lowerBound && currentAng > RobotMap.minAngle) {
-				Robot.armPiston.setMinor(PistonPositions.Extended);
-				// Robot.protoArmPiston.setMajor(PistonPositions.Extended);
-				done = true;
-			}
 		}
 	}
 

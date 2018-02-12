@@ -19,35 +19,33 @@ public class ArmPistonSmartRetract extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.armPiston);
-		requires(Robot.armMotor);
 		this.pistonFinal = pistonFinal;
 		this.destAngle = destAngle;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		this.retract = false;
-		double currentAngle = Robot.armMotor.getArmDegrees();
-		double destAngle = Robot.armMotor.getCurrentArmTarget();
-		if (RobotMap.getArmZone(currentAngle) == ArmZones.Middle
-				|| RobotMap.getArmZone(currentAngle) == ArmZones.Backwards
-				|| RobotMap.getArmZone(currentAngle) != RobotMap.getArmZone(destAngle) || !pistonFinal) {
-			// If arm is in the middle or backwards zone set pistons to retracted
-			Robot.armPiston.setMinor(PistonPositions.Retracted);
-			Robot.armPiston.setMajor(PistonPositions.Retracted);
-			retract = true;
-		}
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		this.retract = false;
+		ArmZones currentZone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
+		ArmZones destZone = RobotMap.getArmZone(destAngle);
+		if (currentZone == ArmZones.Middle || currentZone == ArmZones.Backwards 
+				|| currentZone != destZone || !pistonFinal) {
+			// If arm is in the middle or backwards zone set pistons to retracted
+			Robot.armPiston.smartRetract();
+			retract = true;
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		if (!retract)
 			return true;
-		else if (retract && Robot.armPiston.getMajor() == PistonPositions.Retracted)
+		else if ( Robot.armPiston.getMajor() == PistonPositions.Retracted)
 			// && Robot.protoArmPiston.getMinor() == PistonPositions.Retracted)
 			return true;
 		return false; // changed to true for testing with one piston TODO

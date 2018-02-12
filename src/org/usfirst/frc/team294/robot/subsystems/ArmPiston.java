@@ -1,7 +1,10 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.ArmZones;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -150,6 +153,25 @@ public class ArmPiston extends Subsystem {
 		// into danger zones with faulty hardware
 	}
 
+	public void smartExtend() {
+		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
+		if (zone == ArmZones.Low) {
+			setMajor(PistonPositions.Retracted);
+			setMinor(PistonPositions.Extended);
+		} else if (zone == ArmZones.High) {
+			setMajor(PistonPositions.Extended);
+			setMinor(PistonPositions.Extended);
+		} else {
+			setMajor(PistonPositions.Retracted);
+			setMinor(PistonPositions.Retracted);
+		}
+	}
+	
+	public void smartRetract() {
+		setMajor(PistonPositions.Retracted);
+		setMinor(PistonPositions.Retracted);
+	}
+	
 	public void periodic() {
 		updateSmartDashboard();
 		updateState();

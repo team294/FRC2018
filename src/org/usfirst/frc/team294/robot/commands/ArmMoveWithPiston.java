@@ -31,11 +31,11 @@ public class ArmMoveWithPiston extends CommandGroup {
 		// requires(Robot.protoArmMotor);
 
 		addSequential(new ArmMoveToLegalRange());
-		addParallel(new ArmPistonSmartRetract(destAngle, finalPistonPosition));
-		addSequential(new ArmMoveToEdge(destAngle));
+		addParallel(new ArmMoveToEdge(destAngle));
+		addSequential(new ArmPistonSmartRetract(destAngle, finalPistonPosition));
+		addParallel(new ArmPistonSmartExtendInDestZone(destAngle));
 		addSequential(new ArmMoveToDestAngle(destAngle));
-		// if(finalPistonPosition) {
-		addSequential(new ArmPistonSmartExtendInDestZone(destAngle));
+		
 		// }
 
 		/*
