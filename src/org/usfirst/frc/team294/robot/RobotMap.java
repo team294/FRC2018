@@ -13,9 +13,10 @@ public class RobotMap {
 	public static final int armMotor = 30;
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
+	public static final int intakeMotorLeft = 50;
+	public static final int intakeMotorRight = 51;
 	public static final int climbMotor1 = 60;
 	public static final int climbMotor2 = 61;
-
 	
 	
 	//Drive Train Constants
@@ -30,12 +31,23 @@ public class RobotMap {
 	public static final int pneumaticArmPistonOut = 2;
 	public static final int pneumaticClawPistonIn = 4;
 	public static final int pneumaticClawPistonOut = 5;
+	public static final int pneumaticIntakePistonIn = 6;
+	public static final int pneumaticIntakePistonOut = 7;
 	public static final int pistonRetractedLimitSwitch = 0; // Are some of these analog ins for the limit switches? Need to separate
 	
 	
 	// RoboRIO digital I/O addresses
-	public static int photoSwitch = 3;
+	public static int photoSwitchClaw = 3;
 	public static int bumpSwitch = 4;
+	public static int photoSwitchIntake = 5;
+	
+	//intake motor speeds
+	public static double intakePercentIn = .7; //need to be tested
+	public static double intakePercentOut = -0.3;
+	
+	//claw motor speeds
+	public static double clawPercentIn = .7; //need to be tested
+	public static double clawPercentOut = -0.3;
 	
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup
