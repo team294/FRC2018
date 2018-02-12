@@ -66,7 +66,10 @@ public class OI {
 		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
-
+		
+		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(50)); 
+		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-50));
+		SmartDashboard.putData("Stop Climb Motor", new ClimbSetPercentPower(0));
 	}
 	
 	public int readAutoPlan() {
