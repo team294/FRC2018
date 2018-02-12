@@ -62,15 +62,27 @@ public class Claw extends Subsystem {
 		
 	}
 	
+	/**
+	 * Reads the value of the bump switch
+	 * @return true = object is pressing bump switch
+	 */
 	public boolean getBumpSwitch() {
 		return bumpSwitch.get();
+	}
+	
+	/**
+	 * Reads the value of the photo switch
+	 * @return true = object is breaking the photo beam
+	 */
+	public boolean getPhotoSwitch() {
+		return photoSwitch.get();
 	}
 	
 	/**
 	 * closes the intake jaws if the photo switch is triggered
 	 * @return true if closed, false if opened
 	 */
-	public boolean smartCloseClaw() {
+	public boolean clawCloseIfPhotoSwitch() {
 		// if object is detected with photoSwitch, close the intake
 		if (photoSwitch.get()) {
 			closeClaw();

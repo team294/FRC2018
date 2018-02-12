@@ -1,7 +1,6 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.subsystems.Inputs;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,16 +17,12 @@ public class ReadPhotoSwitch extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.inputs.isObjectPresentClaw();
-		Robot.inputs.isObjectPresentIntake();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.inputs.isObjectPresentClaw();
-		Robot.inputs.isObjectPresentIntake();
-		SmartDashboard.putBoolean("Object Present (Claw): ", Robot.inputs.isObjectPresentClaw());
-		SmartDashboard.putBoolean("Object Present (Intake): ", Robot.inputs.isObjectPresentIntake());
+		SmartDashboard.putBoolean("Object Present (Claw): ", Robot.claw.getPhotoSwitch());
+		SmartDashboard.putBoolean("Object Present (Intake): ", Robot.intake.getPhotoSwitch());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

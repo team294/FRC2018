@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,13 +23,13 @@ public class IntakeShootOut extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeMotorToPercentPower(leftPercent, rightPercent);
+    	Robot.intake.setIntakeMotorPercent(leftPercent);
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.setIntakeMotorToPercentPower(leftPercent, rightPercent);
+    	Robot.intake.setIntakeMotorPercent(leftPercent);
 		if (timeShot == 1000) {
 			timeShot = Timer.getFPGATimestamp();
 		} else {
@@ -37,7 +38,7 @@ public class IntakeShootOut extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if ((!Robot.inputs.isObjectPresentIntake() && Timer.getFPGATimestamp() >= timeShot + 2) || Timer.getFPGATimestamp() >= timeShot + 3) {
+    	if ((!Robot.claw.getPhotoSwitch() && Timer.getFPGATimestamp() >= timeShot + 2) || Timer.getFPGATimestamp() >= timeShot + 3) {
 			end();
 			timeShot = 1000;
 			return true;
@@ -48,7 +49,7 @@ public class IntakeShootOut extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.setIntakeMotorToPercentPower(Robot.intake.lastLeftPercent, Robot.intake.lastRightPercent);
+    	Robot.intake.setIntakeMotorPercent(RobotMap.intakePercentOut);
     }
 
     // Called when another command which requires one or more of the same

@@ -32,7 +32,7 @@ public class CubePickUp extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (Robot.inputs.isObjectPresentClaw()) {
+		if (Robot.claw.getPhotoSwitch()) {
 			Robot.claw.closeClaw();
 			if (timeClawClosed == 1000) {
 				timeClawClosed = Timer.getFPGATimestamp();
@@ -44,16 +44,16 @@ public class CubePickUp extends Command {
 			 */
 		}
 		
-		if(Robot.inputs.isCubeFullyIn()) {
+		if(Robot.claw.getBumpSwitch()) {
 			//turns off intake motors when cube is secured in claw
 			//May need to adjust this depending on reliability of bump switch
-			Robot.intake.setIntakeMotorToPercentPower(0, 0);
+			Robot.intake.setIntakeMotorPercent(0);
 		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (!Robot.inputs.isCubeFullyIn() || Timer.getFPGATimestamp() >= timeClawClosed + 1) {
+		if (!Robot.claw.getBumpSwitch() || Timer.getFPGATimestamp() >= timeClawClosed + 1) {
 			end();
 			timeClawClosed = 1000;
 			return true;

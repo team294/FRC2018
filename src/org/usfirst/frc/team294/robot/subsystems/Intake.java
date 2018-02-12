@@ -35,19 +35,19 @@ public class Intake extends Subsystem {
 		intakePiston.set(Value.kReverse); // kReverse is retract
 	}
 
-	/*public void setIntakeMotorToPercentPower(double leftPercent, double rightPercent) {
-		intakeMotorLeft.set(ControlMode.PercentOutput, leftPercent);
-		intakeMotorRight.set(ControlMode.PercentOutput, rightPercent);
-		System.out.println("Left Intake motor " + intakeMotorLeft.getDeviceID() + " set to percent " + leftPercent
-				+ ", output " + intakeMotorLeft.getMotorOutputVoltage() + " V," + intakeMotorLeft.getOutputCurrent()
-				+ " A, Bus at " + intakeMotorLeft.getBusVoltage() + " V");
-		System.out.println("Right Intake motor " + intakeMotorRight.getDeviceID() + " set to percent " + rightPercent
-				+ ", output " + intakeMotorRight.getMotorOutputVoltage() + " V," + intakeMotorRight.getOutputCurrent()
-				+ " A, Bus at " + intakeMotorRight.getBusVoltage() + " V");
-		SmartDashboard.putNumber("Left Intake Motor Percent:", leftPercent);
-		SmartDashboard.putNumber("Right Intake Motor Percent:", rightPercent);
-	}
-	*/
+//	public void setIntakeMotorToPercentPower(double leftPercent, double rightPercent) {
+//		intakeMotorLeft.set(ControlMode.PercentOutput, leftPercent);
+//		intakeMotorRight.set(ControlMode.PercentOutput, rightPercent);
+//		System.out.println("Left Intake motor " + intakeMotorLeft.getDeviceID() + " set to percent " + leftPercent
+//				+ ", output " + intakeMotorLeft.getMotorOutputVoltage() + " V," + intakeMotorLeft.getOutputCurrent()
+//				+ " A, Bus at " + intakeMotorLeft.getBusVoltage() + " V");
+//		System.out.println("Right Intake motor " + intakeMotorRight.getDeviceID() + " set to percent " + rightPercent
+//				+ ", output " + intakeMotorRight.getMotorOutputVoltage() + " V," + intakeMotorRight.getOutputCurrent()
+//				+ " A, Bus at " + intakeMotorRight.getBusVoltage() + " V");
+//		SmartDashboard.putNumber("Left Intake Motor Percent:", leftPercent);
+//		SmartDashboard.putNumber("Right Intake Motor Percent:", rightPercent);
+//	}
+	
 	
 	/**
 	 * sets the intake motors to a percentage
@@ -94,6 +94,14 @@ public class Intake extends Subsystem {
 		setIntakeMotorPercent(0.0); 
 	}
 	
+	/**
+	 * Reads the value of the photo switch
+	 * @return true = object is breaking the photo beam
+	 */
+	public boolean getPhotoSwitch() {
+		return photoSwitch.get();
+	}
+
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());

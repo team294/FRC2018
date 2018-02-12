@@ -7,27 +7,28 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ResetIntakeTo50 extends Command {
-
-    public ResetIntakeTo50() {
+public class ClimbSetPercentPower extends Command {
+	private double percentPower; 
+    public ClimbSetPercentPower(double percentPower) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	this.percentPower = percentPower;
+    	requires(Robot.climb);
+    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.climb.setClimbMotors(percentPower);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.setIntakeMotorToPercentPower(-50, -50);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if (Robot.intake.readLeftIntakeMotor() == -50 && Robot.intake.readRightIntakeMotor() == -50) {
-    	return true;
-        } else return false;
+        return true;
     }
 
     // Called once after isFinished returns true
