@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team294.robot;
 
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
@@ -93,8 +94,9 @@ public class OI {
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
 		
 		SmartDashboard.putData("Extend", new ArmPistonSmartExtendInDestZone(90));
-
-
+		
+		SmartDashboard.putData("Open Claw", new ClawOpen());
+		SmartDashboard.putData("Close Claw", new ClawClose());
 
 	}
 	

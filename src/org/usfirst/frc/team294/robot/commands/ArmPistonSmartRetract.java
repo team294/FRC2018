@@ -25,15 +25,6 @@ public class ArmPistonSmartRetract extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		/*this.retract = false;
-		ArmZones currentZone = RobotMap.getArmZone(Robot.protoArmMotor.getArmDegrees());
-		ArmZones destZone = RobotMap.getArmZone(destAngle);
-		if (currentZone == ArmZones.Middle || currentZone == ArmZones.Backwards 
-				|| currentZone != destZone || !pistonFinal) {
-			// If arm is in the middle or backwards zone set pistons to retracted
-			Robot.protoArmPiston.smartRetract();
-			retract = true;
-		}*/
 	}
 
 	// Called repeatedly when this Command is scheduled to run

@@ -68,11 +68,14 @@ public class RobotMap {
 	public static double upperBound = 130; // both pistons can be extended between Ang2 and Ang 3
 	public static double maxAngle = 150; // arm cannot extend upward past this angle
 	
-	
 	public enum ArmZones {
 		Low, Middle, High, Backwards
 	}
 
+	// arm angles where claw pistons cannot be opened
+	public static double angleClawCloseLow = -20;
+	public static double angleClawCloseHigh = -10;
+	
 	/*****************************************/
 	//   WHY IS THIS IN MAP??  SHOULDN'T BE IN THE SUBSYSTEM?
 	/**
