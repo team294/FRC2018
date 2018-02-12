@@ -17,8 +17,7 @@ public class ArmIncrementRaiseAngleButton extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armMotor.armAdjustJoystickButtonRaise();
-  //TODO FIx
+    	Robot.protoArmMotor.armAdjustJoystickButtonRaise();
     }
 
     // Called repeatedly when this Command is scheduled to run

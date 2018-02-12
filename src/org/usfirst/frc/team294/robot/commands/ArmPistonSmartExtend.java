@@ -14,21 +14,21 @@ public class ArmPistonSmartExtend extends Command {
 	public ArmPistonSmartExtend() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.armPiston);
+		requires(Robot.protoArmPiston);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		double currentAngle = Robot.armMotor.getArmDegrees();
+		double currentAngle = Robot.protoArmMotor.getArmDegrees();
 		if (currentAngle <= RobotMap.lowerBound && currentAngle >= RobotMap.minAngle) {
-			Robot.armPiston.setMinor(PistonPositions.Extended);
-			Robot.armPiston.setMajor(PistonPositions.Retracted);
+			Robot.protoArmPiston.setMinor(PistonPositions.Extended);
+			Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
 		} else if (currentAngle <= RobotMap.upperBound && currentAngle >= RobotMap.middleBound) {
-			Robot.armPiston.setMinor(RobotMap.PistonPositions.Extended);
-			Robot.armPiston.setMajor(RobotMap.PistonPositions.Extended);
+			Robot.protoArmPiston.setMinor(RobotMap.PistonPositions.Extended);
+			Robot.protoArmPiston.setMajor(RobotMap.PistonPositions.Extended);
 		} else {
-			Robot.armPiston.setMinor(PistonPositions.Retracted);
-			Robot.armPiston.setMajor(PistonPositions.Retracted);
+			Robot.protoArmPiston.setMinor(PistonPositions.Retracted);
+			Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
 		}
 	}
 
@@ -38,16 +38,16 @@ public class ArmPistonSmartExtend extends Command {
 
 	// Make this return true when this Command no longer needs to run execute
 	protected boolean isFinished() {
-		double currentAngle = Robot.armMotor.getArmDegrees();
+		double currentAngle = Robot.protoArmMotor.getArmDegrees();
 		if (currentAngle <= RobotMap.lowerBound && currentAngle >= RobotMap.minAngle) {
-			return (Robot.armPiston.getMajor() == PistonPositions.Retracted)
-					&& (Robot.armPiston.getMinor() == PistonPositions.Extended);
+			return (Robot.protoArmPiston.getMajor() == PistonPositions.Retracted)
+					&& (Robot.protoArmPiston.getMinor() == PistonPositions.Extended);
 		} else if (currentAngle <= RobotMap.upperBound && currentAngle >= RobotMap.middleBound) {
-			return (Robot.armPiston.getMajor() == PistonPositions.Extended)
-					&& (Robot.armPiston.getMinor() == PistonPositions.Extended);
+			return (Robot.protoArmPiston.getMajor() == PistonPositions.Extended)
+					&& (Robot.protoArmPiston.getMinor() == PistonPositions.Extended);
 		} else {
-			return (Robot.armPiston.getMajor() == PistonPositions.Retracted)
-					&& !(Robot.armPiston.getMinor() == PistonPositions.Retracted);
+			return (Robot.protoArmPiston.getMajor() == PistonPositions.Retracted)
+					&& !(Robot.protoArmPiston.getMinor() == PistonPositions.Retracted);
 		}
 	}
 

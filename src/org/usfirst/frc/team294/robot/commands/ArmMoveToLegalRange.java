@@ -16,16 +16,16 @@ public class ArmMoveToLegalRange extends Command {
 	public ArmMoveToLegalRange() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);\
-		requires(Robot.armMotor);
+		requires(Robot.protoArmMotor);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		currentAng = Robot.armMotor.getArmDegrees();
-		currentAng = (currentAng < RobotMap.minAngle) ? RobotMap.minAngle + 5 : currentAng;// the fives are for buffer zone
-		currentAng = (currentAng > RobotMap.maxAngle) ? RobotMap.maxAngle - 5: currentAng;
+		currentAng = Robot.protoArmMotor.getArmDegrees();
+		currentAng = (currentAng < RobotMap.minAngle) ? RobotMap.minAngle : currentAng;
+		currentAng = (currentAng > RobotMap.maxAngle) ? RobotMap.maxAngle : currentAng;
 		SmartDashboard.putNumber("Desired Angle", currentAng);
-		Robot.armMotor.setArmAngle(currentAng);
+		Robot.protoArmMotor.setArmAngle(currentAng);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -34,8 +34,7 @@ public class ArmMoveToLegalRange extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (RobotMap.minAngle <= Robot.armMotor.getArmDegrees()) && (Robot.armMotor.getArmDegrees() <= RobotMap.maxAngle); 
-
+		return (RobotMap.minAngle <= Robot.protoArmMotor.getArmDegrees()) && (Robot.protoArmMotor.getArmDegrees() <= RobotMap.maxAngle);
 	}
 
 	// Called once after isFinished returns true
