@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmMoveToDestAngle extends Command {
 
 	private double destAngle;
-	private double currentAngle = Robot.protoArmMotor.getArmDegrees();
+	private double currentAngle = Robot.armMotor.getArmDegrees();
 
 	public ArmMoveToDestAngle(double destAngle) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.protoArmMotor);
+		requires(Robot.armMotor);
 		this.destAngle = destAngle;
 	}
 
@@ -25,12 +25,12 @@ public class ArmMoveToDestAngle extends Command {
 	protected void initialize() {
 		destAngle = (destAngle > RobotMap.maxAngle) ? RobotMap.maxAngle : destAngle;
 		destAngle = (destAngle < RobotMap.minAngle) ? RobotMap.minAngle : destAngle;
-		Robot.protoArmMotor.setArmAngle(destAngle);
+		Robot.armMotor.setArmAngle(destAngle);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.protoArmMotor.setArmAngle(destAngle);
+		Robot.armMotor.setArmAngle(destAngle);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

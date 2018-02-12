@@ -22,8 +22,8 @@ public class Robot extends TimedRobot {
 	public static Inputs inputs;
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
-	public static ProtoArmPiston protoArmPiston;
-	public static ProtoArmMotor protoArmMotor;
+	public static ArmPiston armPiston;
+	public static ArmMotor armMotor;
 	public static Claw claw;
 	public static OI oi;
 
@@ -48,8 +48,8 @@ public class Robot extends TimedRobot {
 		inputs = new Inputs();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
-		protoArmPiston = new ProtoArmPiston();
-		protoArmMotor = new ProtoArmMotor();
+		armPiston = new ArmPiston();
+		armMotor = new ArmMotor();
 		claw = new Claw();
 
 		// Create the log file

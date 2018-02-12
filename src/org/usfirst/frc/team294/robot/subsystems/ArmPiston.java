@@ -1,7 +1,10 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.ArmZones;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -12,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Subsystem controlling the two pistons on the arm
  */
-public class ProtoArmPiston extends Subsystem {
+public class ArmPiston extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -32,7 +35,7 @@ public class ProtoArmPiston extends Subsystem {
 	private PistonPositions majorPosition = PistonPositions.Null;
 	private PistonPositions minorPosition = PistonPositions.Null;
 
-	public ProtoArmPiston() {
+	public ArmPiston() {
 		super();
 	}
 
@@ -61,10 +64,14 @@ public class ProtoArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMajor(RobotMap.PistonPositions position) {
-		if (position == RobotMap.PistonPositions.Extended)
+		if (position == RobotMap.PistonPositions.Extended) {
+			SmartDashboard.putString("Set Major Piston Posistion", "Extended");
 			armPistonMajor.set(Value.kForward);
-		if (position == RobotMap.PistonPositions.Retracted)
+		}
+		if (position == RobotMap.PistonPositions.Retracted) {
 			armPistonMajor.set(Value.kReverse);
+			SmartDashboard.putString("Set Major Piston Posistion", "Retracted");
+		}
 	}
 
 	/**
@@ -148,6 +155,25 @@ public class ProtoArmPiston extends Subsystem {
 		// set the position to null?
 		// That would indicate faulty hardware, and we wouldn't want to move the arm
 		// into danger zones with faulty hardware
+	}
+	
+	public void smartExtend() {
+		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
+		if (zone == ArmZones.Low) {
+			setMajor(PistonPositions.Retracted);
+			setMinor(PistonPositions.Extended);
+		} else if (zone == ArmZones.High) {
+			setMajor(PistonPositions.Extended);
+			setMinor(PistonPositions.Extended);
+		} else {
+			setMajor(PistonPositions.Retracted);
+			setMinor(PistonPositions.Retracted);
+		}
+	}
+	
+	public void smartRetract() {
+		setMajor(PistonPositions.Retracted);
+		setMinor(PistonPositions.Retracted);
 	}
 
 	public void periodic() {

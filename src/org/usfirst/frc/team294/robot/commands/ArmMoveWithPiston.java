@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ArmMoveWithPiston extends CommandGroup {
 	double destAngle;
 	boolean finalPistonPosition;
-	double currentAngle = Robot.protoArmMotor.getArmDegrees();
+	double currentAngle = Robot.armMotor.getArmDegrees();
 
 	/**
 	 * Moves the arm and adjusts the piston in/out as needed to stay in legal
@@ -26,28 +26,12 @@ public class ArmMoveWithPiston extends CommandGroup {
 	 *            piston
 	 */
 	public ArmMoveWithPiston(double destAngle, boolean finalPistonPosition) {
-		// destAngle = SmartDashboard.getNumber("Desired Arm Angle (Piston Version)",
-		// 0);
-		// requires(Robot.protoArmMotor);
 
 		addSequential(new ArmMoveToLegalRange());
-		addParallel(new ArmPistonSmartRetract(destAngle, finalPistonPosition));
-		addSequential(new ArmMoveToEdge(destAngle));
+		addParallel(new ArmMoveToEdge(destAngle));
+		addSequential(new ArmPistonSmartRetract(destAngle, finalPistonPosition));
+		addParallel(new ArmPistonSmartExtendInDestZone(destAngle));
 		addSequential(new ArmMoveToDestAngle(destAngle));
-		// if(finalPistonPosition) {
-		addSequential(new ArmPistonSmartExtendInDestZone(destAngle));
-		// }
-
-		/*
-		 * if (RobotMap.getArmZone(currentAngle) == RobotMap.getArmZone(destAngle)) {
-		 * addParallel(new ArmMoveToDestAngle(destAngle)); if (finalPistonPosition) {
-		 * addSequential(new ArmPistonSmartExtend()); } } else { addParallel(new
-		 * ArmMoveToEdge(destAngle)); addSequential(new ArmPistonRetractBoth());
-		 * addParallel(new ArmMoveToDestAngle(destAngle)); addSequential(new
-		 * ArmPistonSmartExtendInDestZone(destAngle));
-		 * 
-		 * }
-		 */
 
 	}
 }
