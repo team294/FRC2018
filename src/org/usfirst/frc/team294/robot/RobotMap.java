@@ -13,6 +13,9 @@ public class RobotMap {
 	public static final int armMotor = 30;
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
+	public static final int climbMotor1 = 60;
+	public static final int climbMotor2 = 61;
+
 	
 	
 	//Drive Train Constants
