@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -18,16 +19,19 @@ public class ArmIntakeCube extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	//set the claw to intake
+    	Robot.claw.openClaw();
+    	Robot.claw.setClawMotorPercent(RobotMap.clawPercentIn);
     	//actuate claw jaws
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.claw.smartCloseClaw();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false; //return once bump switch is pressed
+        return Robot.claw.getBumpSwitch(); //return once bump switch is pressed
     }
 
     // Called once after isFinished returns true

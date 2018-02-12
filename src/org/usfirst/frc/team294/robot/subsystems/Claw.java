@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Claw extends Subsystem {
 
 	private final DigitalInput bumpSwitch = new DigitalInput(RobotMap.bumpSwitch);
+	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchClaw);
 	private final  DoubleSolenoid clawPiston = new DoubleSolenoid(RobotMap.pneumaticClawPistonIn,
 			RobotMap.pneumaticClawPistonOut);
 
@@ -47,8 +48,42 @@ public class Claw extends Subsystem {
 		
 	}
 	
+	public void setClawMotorPercent(double percent) {
+		clawMotorLeft.set(ControlMode.PercentOutput, percent);
+		clawMotorRight.set(ControlMode.PercentOutput, percent);
+		System.out.println("Left Claw motor " + clawMotorLeft.getDeviceID() + " set to percent " + percent + ", output "
+				+ clawMotorLeft.getMotorOutputVoltage() + " V," + clawMotorLeft.getOutputCurrent() + " A, Bus at "
+				+ clawMotorLeft.getBusVoltage() + " V");
+		System.out.println("Right Claw motor " + clawMotorRight.getDeviceID() + " set to percent " + percent
+				+ ", output " + clawMotorRight.getMotorOutputVoltage() + " V," + clawMotorRight.getOutputCurrent()
+				+ " A, Bus at " + clawMotorRight.getBusVoltage() + " V");
+		SmartDashboard.putNumber("Left Claw Motor Percent:", percent);
+		SmartDashboard.putNumber("Right Claw Motor Percent:", percent);
+		
+	}
+	
 	public boolean getBumpSwitch() {
 		return bumpSwitch.get();
+	}
+	
+	/**
+	 * closes the intake jaws if the photo switch is triggered
+	 * @return true if closed, false if opened
+	 */
+	public boolean smartCloseClaw() {
+		// if object is detected with photoSwitch, close the intake
+		if (photoSwitch.get()) {
+			closeClaw();
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * stops the claw motors
+	 */
+	public void stop() {
+		setClawMotorPercent(0.0);
 	}
 
 	/* public double getClawMotorPower() {
