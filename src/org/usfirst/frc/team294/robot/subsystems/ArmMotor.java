@@ -22,7 +22,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 /**
  * The subsystem controlling the arm angle (but not the piston)
  */
-public class ProtoArmMotor extends Subsystem {
+public class ArmMotor extends Subsystem {
 
 	private final WPI_TalonSRX armMotor1 = new WPI_TalonSRX(RobotMap.armMotor1);
 	private final WPI_TalonSRX armMotor2 = new WPI_TalonSRX(RobotMap.armMotor2);
@@ -33,7 +33,7 @@ public class ProtoArmMotor extends Subsystem {
 	private final double MAX_UP_PERCENT_POWER = 0.8;
 	private final double MAX_DOWN_PERCENT_POWER = -0.5;
 
-	public ProtoArmMotor() {
+	public ArmMotor() {
 
 		// armMotor.set(ControlMode.Position, 3);
 		armMotor1.set(ControlMode.PercentOutput, 0);

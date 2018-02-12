@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Subsystem controlling the two pistons on the arm
  */
-public class ProtoArmPiston extends Subsystem {
+public class ArmPiston extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -32,7 +32,7 @@ public class ProtoArmPiston extends Subsystem {
 	private PistonPositions majorPosition = PistonPositions.Null;
 	private PistonPositions minorPosition = PistonPositions.Null;
 
-	public ProtoArmPiston() {
+	public ArmPiston() {
 		super();
 	}
 

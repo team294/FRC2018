@@ -15,12 +15,12 @@ public class ArmRetractMajorPiston extends Command {
 	public ArmRetractMajorPiston() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.protoArmPiston);
+		requires(Robot.armPiston);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
+		Robot.armPiston.setMajor(PistonPositions.Retracted);
 
 	}
 
@@ -31,7 +31,7 @@ public class ArmRetractMajorPiston extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.protoArmPiston.getMajor() == RobotMap.PistonPositions.Retracted;
+		return Robot.armPiston.getMajor() == RobotMap.PistonPositions.Retracted;
 	}
 
 	// Called once after isFinished returns true

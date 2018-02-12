@@ -18,7 +18,7 @@ public class ArmPistonSmartExtendInDestZone extends Command {
 	public ArmPistonSmartExtendInDestZone(double destAng) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.protoArmPiston);
+		requires(Robot.armPiston);
 		this.destAng = destAng;
 	}
 
@@ -39,16 +39,16 @@ public class ArmPistonSmartExtendInDestZone extends Command {
 		if (destAng > RobotMap.upperBound || (destAng < RobotMap.middleBound && destAng > RobotMap.lowerBound)) {
 			done = true;
 		}
-			currentAng = Robot.protoArmMotor.getArmDegrees();
+			currentAng = Robot.armMotor.getArmDegrees();
 		if (destAng < RobotMap.upperBound && destAng > RobotMap.middleBound) {
 			if (currentAng < RobotMap.upperBound && currentAng > RobotMap.middleBound) {
-				Robot.protoArmPiston.setMinor(PistonPositions.Extended);
-				Robot.protoArmPiston.setMajor(PistonPositions.Extended);
+				Robot.armPiston.setMinor(PistonPositions.Extended);
+				Robot.armPiston.setMajor(PistonPositions.Extended);
 				done = true;
 			}
 		} else if (destAng < RobotMap.lowerBound && destAng > RobotMap.minAngle) {
 			if (currentAng < RobotMap.lowerBound && currentAng > RobotMap.minAngle) {
-				Robot.protoArmPiston.setMinor(PistonPositions.Extended);
+				Robot.armPiston.setMinor(PistonPositions.Extended);
 				// Robot.protoArmPiston.setMajor(PistonPositions.Extended);
 				done = true;
 			}
