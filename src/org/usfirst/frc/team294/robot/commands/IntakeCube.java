@@ -1,15 +1,17 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * intakes a cube and closes intake jaws when appropriate
  */
-public class IntakeAutoGrab extends Command {
+public class IntakeCube extends Command {
 
-    public IntakeAutoGrab() {
+    public IntakeCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
@@ -17,17 +19,17 @@ public class IntakeAutoGrab extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.intake.setIntakeMotorPercent(RobotMap.intakePercentIn);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.smartCloseIntake();
+    
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
-        //will run constantly from initiation, may need to change this
+        return Robot.intake.smartCloseIntake();
     }
 
     // Called once after isFinished returns true
@@ -37,5 +39,6 @@ public class IntakeAutoGrab extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.intake.stop();
     }
 }

@@ -5,6 +5,7 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Claw extends Subsystem {
 
+	private final DigitalInput bumpSwitch = new DigitalInput(RobotMap.bumpSwitch);
 	private final  DoubleSolenoid clawPiston = new DoubleSolenoid(RobotMap.pneumaticClawPistonIn,
 			RobotMap.pneumaticClawPistonOut);
 
@@ -43,6 +45,10 @@ public class Claw extends Subsystem {
 		SmartDashboard.putNumber("Left Claw Motor Percent:", leftPercent);
 		SmartDashboard.putNumber("Right Claw Motor Percent:", rightPercent);
 		
+	}
+	
+	public boolean getBumpSwitch() {
+		return bumpSwitch.get();
 	}
 
 	/* public double getClawMotorPower() {

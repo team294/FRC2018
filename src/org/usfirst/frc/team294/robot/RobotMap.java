@@ -39,6 +39,10 @@ public class RobotMap {
 	public static int bumpSwitch = 4;
 	public static int photoSwitchIntake = 5;
 	
+	//intake motor speeds
+	public static double intakePercentIn = .7; //need to be tested
+	public static double intakePercentOut = -0.3;
+	
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup
 	public static double highThreshold; // High threshold for scoring

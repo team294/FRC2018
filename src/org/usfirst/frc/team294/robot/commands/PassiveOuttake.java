@@ -1,15 +1,16 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ *opens the intake jaws and sets the motors to outtake
  */
-public class IntakeAutoGrab extends Command {
+public class PassiveOuttake extends Command {
 
-    public IntakeAutoGrab() {
+    public PassiveOuttake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
@@ -17,17 +18,16 @@ public class IntakeAutoGrab extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.intake.outtake();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.smartCloseIntake();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
-        //will run constantly from initiation, may need to change this
+        return true;
     }
 
     // Called once after isFinished returns true
