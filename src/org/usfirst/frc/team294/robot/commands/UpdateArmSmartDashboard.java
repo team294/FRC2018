@@ -12,7 +12,7 @@ public class UpdateArmSmartDashboard extends Command {
     public UpdateArmSmartDashboard() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.protoArmMotor);
+    	requires(Robot.armMotor);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +21,7 @@ public class UpdateArmSmartDashboard extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.protoArmMotor.updateSmartDashboard();
+    	Robot.armMotor.updateSmartDashboard();
     }
 
     // Make this return true when this Command no longer needs to run execute()

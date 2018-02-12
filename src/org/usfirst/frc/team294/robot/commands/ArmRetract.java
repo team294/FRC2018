@@ -13,13 +13,13 @@ public class ArmRetract extends Command {
     public ArmRetract() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires (Robot.protoArmPiston);
+    	requires (Robot.armPiston);
     	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.protoArmPiston.setMajor(PistonPositions.Retracted);
+    	Robot.armPiston.setMajor(PistonPositions.Retracted);
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ArmMoveWithPiston extends CommandGroup {
 	double destAngle;
 	boolean finalPistonPosition;
-	double currentAngle = Robot.protoArmMotor.getArmDegrees();
+	double currentAngle = Robot.armMotor.getArmDegrees();
 
 	/**
 	 * Moves the arm and adjusts the piston in/out as needed to stay in legal
