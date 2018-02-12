@@ -16,6 +16,8 @@ public class RobotMap {
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
 	public static double wheelCircumference ; //set value in Robot plz dont change
+	public static final int climbMotor1 = 60;
+	public static final int climbMotor2 = 61;
 	public static final double encoderTicksPerRevolution = 4096.0;
 	public static final double driveTrainDistanceFudgeFactor = 1;//0.96824; // TODO: store in robot preferences
 

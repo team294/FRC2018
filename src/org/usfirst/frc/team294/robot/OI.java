@@ -48,7 +48,7 @@ public class OI {
 		
 		SmartDashboard.putData("Extend Arm", new ArmExtend()); //Adds a extend button
 		
-		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
+		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());  //TODO Fix me
 				
 		SmartDashboard.putData("Set Arm Position", new SetArmFromSmartDashboard());
 		SmartDashboard.putNumber("set Arm Angle", 0);
@@ -68,7 +68,10 @@ public class OI {
 		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
-
+		
+		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(.50)); 
+		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));
+		SmartDashboard.putData("Stop Climb Motor", new ClimbSetPercentPower(0));
 	}
 	
 	public int readAutoPlan() {
