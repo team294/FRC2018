@@ -74,6 +74,7 @@ public class DriveStraightDistanceEllipse extends Command {
 		tolCheck = new ToleranceChecker(1, 5);
 		Robot.driveTrain.zeroLeftEncoder();
 		Robot.driveTrain.zeroRightEncoder();
+		ellipse = new EllipseGenerator(30,30,0,0,0);
 //		trapezoid = new ProfileGenerator(0.0, distanceTravel, 0, 120, 120);
 		prevDistanceTicks = 0;
 	}
@@ -82,13 +83,15 @@ public class DriveStraightDistanceEllipse extends Command {
 	protected void execute() {
 		double currentDistanceTicks = (Robot.driveTrain.getLeftEncoderPosition()+Robot.driveTrain.getRightEncoderPosition())/2;
 		double currentDistanceInches = encoderTicksToInches(currentDistanceTicks);
+		ellipse.updateCurrentPosition();
 		this.currentDistance = currentDistanceInches;
 //		distErr = trapezoid.getCurrentPosition() - currentDistanceInches;
 		distErr = ellipse.getDistErr();
-		success = tolCheck.success(Math.abs(distErr));
+		success = false;tolCheck.success(Math.abs(distErr));
 		
 		if (!success) {
 			distSpeedControl = distErr * kPdist + (distErr - prevDistErr) * kDdist;
+			distSpeedControl *= 0.5;
 			prevDistErr = distErr;
 			//distSpeedControl = distSpeedControl > percentPower ? percentPower : distSpeedControl;
 			//distSpeedControl = distSpeedControl < -percentPower ? -percentPower : distSpeedControl;
@@ -104,16 +107,18 @@ public class DriveStraightDistanceEllipse extends Command {
 			double dAngleErr = angleErr - prevAngleErr;
 			prevAngleErr = angleErr;
 			curve = angleErr * kPangle + intErr * kIangle + dAngleErr * kDangle;
+			curve *= 10;
+			//curve *= 0.15;
 			//curve = (curve > 0.5) ? 0.5 : curve;
 			//curve = (curve < -0.5) ? -0.5 : curve;
-			//curve = (distErr >= 0) ? curve : -curve;
-			//Robot.driveTrain.driveAtCurve(distSpeedControl, curve);
+			curve = (distErr >= 0) ? curve : -curve;
+			Robot.driveTrain.driveAtCurve(distSpeedControl, curve);
 
 			double diffTicks = currentDistanceTicks - prevDistanceTicks;
 			double diffInches = this.encoderTicksToInches(diffTicks);
 			
-			Robot.driveTrain.addFieldPositionX(diffInches*Math.cos(Robot.driveTrain.getGyroRotation()));
-			Robot.driveTrain.addFieldPositionY(diffInches*Math.sin(Robot.driveTrain.getGyroRotation()));
+			Robot.driveTrain.addFieldPositionX(diffInches*Math.cos(Math.toRadians(Robot.driveTrain.getGyroRotation())));
+			Robot.driveTrain.addFieldPositionY(diffInches*Math.sin(Math.toRadians(Robot.driveTrain.getGyroRotation())));
 			
 			prevDistanceTicks = currentDistanceTicks;
 			this.prevX = Robot.driveTrain.getFieldPositionX();

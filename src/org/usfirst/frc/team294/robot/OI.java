@@ -59,7 +59,8 @@ public class OI {
 		rightTrigger.whenPressed(new ShiftHigh());
 		
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
-		SmartDashboard.putData("DriveStraightDistanceProfile", new DriveStraightDistanceProfile(200, 0));
+		SmartDashboard.putData("DriveStraightDistanceProfile", new DriveStraightDistanceProfile(30, 0));
+		SmartDashboard.putData("EllipseTest", new DriveStraightDistanceEllipse(30, 10,0));
 		SmartDashboard.putNumber("DistToTravelDSDG", 150);
 		SmartDashboard.putData(" ProfileTest", new DriveStraightDistanceEllipse(100, 1000, 0));
 		

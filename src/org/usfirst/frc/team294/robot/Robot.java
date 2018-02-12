@@ -36,13 +36,16 @@ public class Robot extends TimedRobot {
 	public static int armCal90Deg; // Arm potentiometer position at 90 degrees
 
 	private Command autonomousCommand;
-
+	public static boolean driveDirection; //true for reversed
+	
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
+		robotPrefs = Preferences.getInstance();
+		readPreferences(); // Read preferences next, so that subsystems can use the preference values.
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		inputs = new Inputs();
 		driveTrain = new DriveTrain();
@@ -56,7 +59,6 @@ public class Robot extends TimedRobot {
 
 		// Create the OI
 		oi = new OI();
-		readPreferences(); // Read preferences next, so that subsystems can use the preference values.
 	}
 
 	/**
@@ -88,6 +90,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		readPreferences();
 		log.writeLogEcho("Autonomous mode started.");
 
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -229,6 +232,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		readPreferences();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -265,7 +269,6 @@ public class Robot extends TimedRobot {
 		// below.
 
 		// TODO: For each robot preference: Use more descriptive names?
-		robotPrefs = Preferences.getInstance();
 
 		if (robotPrefs.getDouble("calibrationZeroDegrees", 0) == 0) { // If field was not set up, set up field
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
@@ -274,5 +277,8 @@ public class Robot extends TimedRobot {
 		}
 		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
 		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
+		driveDirection = robotPrefs.getBoolean("driveDirection", true);
+		RobotMap.wheelCircumference = robotPrefs.getDouble("wheelDiameter", 6.18) * Math.PI;
+		
 	}
 }

@@ -39,12 +39,18 @@ public class DriveTrain extends Subsystem {
 	private double leftEncoderZero = 0, rightEncoderZero = 0;
 	public DriveTrain() {// initialize Followers
 		// motor2 are the main motors, and motor 1 and 3 are the followers.
-		leftMotor2.setInverted(true); 
-		rightMotor2.setInverted(true);
-		leftMotor1.setInverted(true); 
-		rightMotor1.setInverted(true);
-		leftMotor3.setInverted(true); 
-		rightMotor3.setInverted(true);
+		// Robot.driveDirection is a value pulled from Robot Preferences.
+		// True means that it will drive forward correctly, and false drives it backwards.
+		// This is used when testing drivetrain code on the 2017 practice base.
+		leftMotor2.setInverted(Robot.driveDirection); 
+		rightMotor2.setInverted(Robot.driveDirection);
+		leftMotor1.setInverted(Robot.driveDirection); 
+		rightMotor1.setInverted(Robot.driveDirection);
+		leftMotor3.setInverted(Robot.driveDirection); 
+		rightMotor3.setInverted(Robot.driveDirection);
+		
+		leftMotor2.setSensorPhase(true);
+		
 		leftMotor1.set(ControlMode.Follower, RobotMap.leftMotor2);
 		leftMotor3.set(ControlMode.Follower, RobotMap.leftMotor2);
 		rightMotor1.set(ControlMode.Follower, RobotMap.rightMotor2);
@@ -58,8 +64,10 @@ public class DriveTrain extends Subsystem {
 		leftMotor2.configVoltageCompSaturation(11.0, 0);
 		rightMotor2.configVoltageCompSaturation(11.0, 0);
 
-		rightMotor2.setSensorPhase(true);
-
+		
+		SmartDashboard.putBoolean("DDirection", Robot.driveDirection);
+		System.out.println("Drive Direction: "+Robot.driveDirection);
+		
 		leftMotor2.clearStickyFaults(0);
 		rightMotor2.clearStickyFaults(0);
 		
@@ -85,18 +93,20 @@ public class DriveTrain extends Subsystem {
 	
 	public void setFieldPositionX(double x) {
 		this.fieldX = x;
+		SmartDashboard.putNumber("FieldX", fieldX);
 	}
 	
 	public void setFieldPositionY(double y) {
 		this.fieldY = y;
+		SmartDashboard.putNumber("FieldY", fieldY);
 	}
 	
 	public void addFieldPositionX(double x) {
-		this.fieldX += x;
+		setFieldPositionX(fieldX+x);
 	}
 	
 	public void addFieldPositionY(double y) {
-		this.fieldY += y;
+		setFieldPositionY(fieldY+y);
 	}
 	
 	public double getFieldPositionX() {

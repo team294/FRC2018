@@ -44,6 +44,7 @@ public class DriveStraightDistanceProfile extends Command {
 	private double angleBase;
 	private ProfileGenerator trapezoid;
 	private final double MPSpeed, MPAccel;
+	private double prevDistanceInches;
 
 	public DriveStraightDistanceProfile(double distanceTravel, double angleBase) {
 		this(distanceTravel, angleBase, 80, 80);
@@ -118,6 +119,13 @@ public class DriveStraightDistanceProfile extends Command {
 			Robot.driveTrain.driveAtCurve(distSpeedControl, curve);
 			velCheck.addValue(targetDistance - currentDistanceInches);
 			prevDistErr = distErr;
+
+			double diffInches = currentDistanceInches - prevDistanceInches;
+
+			Robot.driveTrain.addFieldPositionX(diffInches * Math.cos(Math.toRadians(Robot.driveTrain.getGyroRotation())));
+			Robot.driveTrain.addFieldPositionY(diffInches * Math.sin(Math.toRadians(Robot.driveTrain.getGyroRotation())));
+
+			prevDistanceInches = currentDistanceInches;
 		}
 
 		Robot.log.writeLog("DSDProfile,currentDistance," + currentDistance + ",MPCurrentDistance," + MPCurrentDistance

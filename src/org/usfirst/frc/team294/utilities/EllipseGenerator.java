@@ -26,7 +26,7 @@ public class EllipseGenerator {
 	private double realY = 0;
 	private double realV = 0;
 	private double realA = 90;
-	private double maxV = 10;
+	private double maxV = 5;
 	private double maxA = 10;
 	private double profileV = 0;
 	private double profileA = 0;
@@ -41,6 +41,7 @@ public class EllipseGenerator {
 	public double profileX = 0;
 	public double profileY = 0;
 	private double distErr, angleErr; 
+	private int isFinished = 0;
 
 
 	//public double totalTime;
@@ -73,14 +74,14 @@ public class EllipseGenerator {
 		
 		//Robot.log.writeLogEcho("Profile generator,init pos," + initialPosition + ",final pos," + finalPosition );
 		
-		double k = finalY/Math.tan(finalA);
+		double k = finalY/Math.tan(Math.toRadians(finalA));
 		
-		double t2  = Math.PI/2;
+		this.t2  = Math.PI/2;
 		if (Math.abs(finalA)>0.001)
 		{
 			t2 = 2*Math.atan(Math.sqrt(k)/Math.sqrt(-2*(this.finalX)+k));
 		}
-		
+		SmartDashboard.putNumber("t2", t2);
 		if(t2 < 0 || t2 > Math.PI)
 		{
 			t2 = -t2;
@@ -114,17 +115,28 @@ public class EllipseGenerator {
 		pArcLength = arcLength; 
 		profileX = A*(1+Math.cos(currT));
 		profileY = B*Math.sin(currT);
-		profileA = Math.atan((finalY-prevY)/(finalX-prevX))*180/Math.PI;
+		profileA = Math.atan((profileY-prevY)/(profileX-prevX))*180/Math.PI;//Math.atan((finalY-prevY)/(finalX-prevX))*180/Math.PI;
 		profileA = -(profileA - 90);
 		prevX = profileX;
 		prevY = profileY;
-		distErr = Math.sqrt(Math.pow(profileX-Robot.driveTrain.getFieldPositionX(), 2)+ (Math.pow(profileY-Robot.driveTrain.getFieldPositionY(), 2)));
-		angleErr = (profileA - Robot.driveTrain.getGyroRotation());
-		double direction = Math.signum((profileX-Robot.driveTrain.getFieldPositionX()) * Math.cos(profileA) + (profileY-Robot.driveTrain.getFieldPositionY()) * Math.sin(profileA));
+		distErr = Math.sqrt(Math.pow(profileX-Robot.driveTrain.getFieldPositionY(), 2)+ (Math.pow(profileY-Robot.driveTrain.getFieldPositionX(), 2)));
+		angleErr = (-(finalA-90) - Robot.driveTrain.getGyroRotation());
+		//double tempA = Math.atan((profileY-prevY)/(profileX-prevX))*180/Math.PI;
+		double direction = Math.signum((profileX-Robot.driveTrain.getFieldPositionY()) * Math.sin(Math.toRadians(profileA)) + (profileY-Robot.driveTrain.getFieldPositionX()) * Math.cos(Math.toRadians(profileA)));
 		distErr *= direction;
 		if( Math.abs(distErr) > 5) {
-			angleErr = -(Math.atan2(profileY-Robot.driveTrain.getFieldPositionY(), profileX-Robot.driveTrain.getFieldPositionX()) - 90) - Robot.driveTrain.getGyroRotation();
+			angleErr = -(Math.atan2(profileY-Robot.driveTrain.getFieldPositionX(), profileX-Robot.driveTrain.getFieldPositionY())-90) - Robot.driveTrain.getGyroRotation();
 		}
+		//ellipse angles don't match robot angles for now
+		SmartDashboard.putNumber("arcRemaining",  arcRemaining);
+		SmartDashboard.putNumber("Profile A",  profileA);
+		SmartDashboard.putNumber("Profile V", profileV);
+		SmartDashboard.putNumber("Curr T", currT);
+		SmartDashboard.putNumber("A", A);
+		SmartDashboard.putNumber("B", B);
+		SmartDashboard.putNumber("t2", t2);
+		SmartDashboard.putNumber("Dist Err", distErr);
+		SmartDashboard.putNumber("Angle Err", angleErr);
 	}
 	
 	public  double getArc(double t1, double t2)
@@ -140,6 +152,8 @@ public class EllipseGenerator {
 			//System.out.println("t="+t+",length="+length);
 			t+=dt*Math.signum(t2-t1);
 		}
+		SmartDashboard.putNumber("Arc t1", t1);
+		SmartDashboard.putNumber("Arc t2",  t2);
 		return length;
 	}
 	
