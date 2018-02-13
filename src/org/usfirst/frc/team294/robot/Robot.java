@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
 		armMotor = new ArmMotor();
 		claw = new Claw();
 		climb = new Climb();
+		intake = new Intake();
 
 		// Create the log file
 		log = new FileLog();

@@ -71,6 +71,7 @@ public class ArmMotor extends Subsystem {
 
 	/**
 	 * Controls the arm based on Percent VBUS
+	 * FOR CALIBRATION ONLY DO NOT USE AT COMPETITION *EVER*
 	 * 
 	 * @param percent
 	 *            voltage, minimum -0.3 and maximum 0.7
@@ -142,27 +143,16 @@ public class ArmMotor extends Subsystem {
 		return (armAngle);
 	}
 
-	public void armPositionJoystick() { // This is not working and difficult to use. Using armAdjustJoystickButtons is
-										// better
-		double armAdjustment = OI.armJoystick.getY();
-		double currTarget = armMotor1.getClosedLoopTarget(0);
-		armAdjustment = (Math.abs(armAdjustment) < 0.1) ? 0.0 : armAdjustment * 1.0; // 1.8 works
-		if (currTarget > -150 && armAdjustment > 0)
-			armAdjustment = 0;
-		if (currTarget < -300 && armAdjustment < 0)
-			armAdjustment = 0;
-		SmartDashboard.putNumber("Joystick Value", armAdjustment);
-		SmartDashboard.putNumber("Target Position", currTarget);
-		// currTarget += armAdjustment;
-		setArmPositionRaw(currTarget + armAdjustment);
-	}
-
 	public void armAdjustJoystickButtonLower() {
-		setArmAngle(getArmDegrees() - 7);
+		if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()-7)){
+			setArmAngle(getArmDegrees() - 7);
+		}
 	}
 
 	public void armAdjustJoystickButtonRaise() {
-		setArmAngle(getArmDegrees() + 7);
+		if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()+7)) {
+			setArmAngle(getArmDegrees() + 7);
+		}
 	}
 
 	/**

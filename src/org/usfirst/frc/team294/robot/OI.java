@@ -50,7 +50,6 @@ public class OI {
 		SmartDashboard.putData("Extend Arm", new ArmExtend()); //Adds a extend button
 		
 		//SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
-		SmartDashboard.putData("Joystick Increment with Y-Axis", new ArmMoveWithJoystick());
 		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementRaiseAngleButton());
 
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
@@ -60,6 +59,8 @@ public class OI {
 		SmartDashboard.putData("Move arm to 120 and set piston state", new ArmMoveWithPiston(120.0,true));
 		SmartDashboard.putData("Move arm to 70 and set piston state", new ArmMoveWithPiston(70.0,true));
 		SmartDashboard.putData("Move arm to -20 and set piston state", new ArmMoveWithPiston(-20.0,true));
+		SmartDashboard.putData("Move arm to -10 and set piston state", new ArmMoveWithPiston(-10.0,true));
+
 
 		
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
