@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
@@ -26,7 +25,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
  */
 public class ProtoArmMotor extends Subsystem {
 	
-	private final TalonSRX armMotor = new TalonSRX(RobotMap.armMotor1);
+	private final WPI_TalonSRX armMotor = new WPI_TalonSRX(RobotMap.armMotor);
 		
 	private double DEGREES_PER_TICK = RobotMap.degreesPerTicks;
 	private double TICKS_PER_DEGREE = RobotMap.ticksPerDegrees;

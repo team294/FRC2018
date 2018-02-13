@@ -5,7 +5,6 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -22,8 +21,8 @@ public class Intake extends Subsystem {
 	private final DoubleSolenoid intakePiston = new DoubleSolenoid(RobotMap.pneumaticIntakePistonIn,
 			RobotMap.pneumaticIntakePistonOut);
 
-	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
-	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
+	private final WPI_TalonSRX intakeMotorLeft = new WPI_TalonSRX(RobotMap.intakeMotorLeft);
+	private final WPI_TalonSRX intakeMotorRight = new WPI_TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
 
 	// Put methods for controlling this subsystem
@@ -99,9 +98,8 @@ public class Intake extends Subsystem {
 	 * Reads the value of the photo switch
 	 * @return true = object is breaking the photo beam
 	 */
-	public boolean getPhotoSwitchIntake() {
+	public boolean getPhotoSwitch() {
 		return photoSwitch.get();
-		
 	}
 
 	public void initDefaultCommand() {
