@@ -97,6 +97,9 @@ public class OI {
 		SmartDashboard.putData("Open Claw", new ClawOpen());
 		SmartDashboard.putData("Close Claw", new ClawClose());
 
+		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(.50)); 
+		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));
+		SmartDashboard.putData("Stop Climb Motor", new ClimbSetPercentPower(0));
 	}
 	
 	public int readAutoPlan() {

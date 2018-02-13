@@ -19,13 +19,14 @@ import org.usfirst.frc.team294.utilities.FileLog;
 public class Robot extends TimedRobot {
 
 	// Subsystem objects
-	public static Inputs inputs;
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
 	public static ArmPiston armPiston;
 	public static ArmMotor armMotor;
 	public static Claw claw;
+	public static Intake intake;
 	public static OI oi;
+	public static Climb climb;
 
 	public static boolean allianceSwitchLeft = false;
 	public static boolean scaleLeft = false;
@@ -45,12 +46,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		inputs = new Inputs();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		armPiston = new ArmPiston();
 		armMotor = new ArmMotor();
 		claw = new Claw();
+		climb = new Climb();
 
 		// Create the log file
 		log = new FileLog();

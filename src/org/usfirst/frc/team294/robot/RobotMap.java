@@ -14,28 +14,42 @@ public class RobotMap {
 	public static final int armMotor2 = 31;
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
+	public static final int intakeMotorLeft = 50;
+	public static final int intakeMotorRight = 51;
+	public static final int climbMotor1 = 60;
+	public static final int climbMotor2 = 61;
 
 	
 	
 	// Pneumatic addresses
 	public static final int pnuematicShifterHigh = 0;
 	public static final int pnuematicShifterLow = 1;
-	public static final int pneumaticArmPistonMajorOut = 2;
 	public static final int pneumaticArmPistonMajorIn = 3;
-	public static final int pneumaticArmPistonMinorOut = 6;
-	public static final int pneumaticArmPistonMinorIn = 7;
+	public static final int pneumaticArmPistonMajorOut = 2;
 	public static final int pneumaticClawPistonIn = 4;
 	public static final int pneumaticClawPistonOut = 5;
+	public static final int pneumaticIntakePistonIn = 6;
+	public static final int pneumaticIntakePistonOut = 7;
+	public static final int pneumaticArmPistonMinorIn = 8;
+	public static final int pneumaticArmPistonMinorOut = 9;
 
+	
+	// RoboRIO digital I/O addresses
+	public static final int majorPistonRetractedLimitSwitch = 0; 
+	public static final int majorPistonExtendedLimitSwitch = 1; 
+	public static int photoSwitchIntake = 2;
+	public static int photoSwitchClaw = 3;
+	public static int bumpSwitchClaw = 4;
+	public static final int minorPistonRetractedLimitSwitch = 5; 
+	public static final int minorPistonExtendedLimitSwitch = 6; 
 
-	// Digital Input/Output addresses
-	public static int majorPistonRetractedLimitSwitch = 0;
-	public static int majorPistonExtendedLimitSwitch = 1;
-	public static int minorPistonRetractedLimitSwitch = 2;
-	public static int minorPistonExtendedLimitSwitch = 3;
-	public static int bumpSwitch = 4;	
-	public static int photoSwitch = 5;
-
+	//intake motor speeds
+	public static double intakePercentIn = .7; //need to be tested
+	public static double intakePercentOut = -0.3;
+	
+	//claw motor speeds
+	public static double clawPercentIn = .7; //need to be tested
+	public static double clawPercentOut = -0.3;
 	
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup
