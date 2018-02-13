@@ -99,8 +99,9 @@ public class Intake extends Subsystem {
 	 * Reads the value of the photo switch
 	 * @return true = object is breaking the photo beam
 	 */
-	public boolean getPhotoSwitch() {
+	public boolean getPhotoSwitchIntake() {
 		return photoSwitch.get();
+		
 	}
 
 	public void initDefaultCommand() {
