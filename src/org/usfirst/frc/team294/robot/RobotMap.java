@@ -10,12 +10,14 @@ public class RobotMap {
 	public static final int rightMotor1 = 20; 
 	public static final int rightMotor2 = 21;
 	public static final int rightMotor3 = 22;
-	public static final int armMotor = 30;
+	public static final int armMotor1 = 30;
+	public static final int armMotor2 = 31;
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
+	public static final int intakeMotorLeft = 50;
+	public static final int intakeMotorRight = 51;
 	public static final int climbMotor1 = 60;
 	public static final int climbMotor2 = 61;
-
 	
 	
 	//Drive Train Constants
@@ -26,16 +28,32 @@ public class RobotMap {
 	// Pneumatic addresses
 	public static final int pnuematicShifterLow = 1;
 	public static final int pnuematicShifterHigh = 0;
-	public static final int pneumaticArmPistonIn = 3;
-	public static final int pneumaticArmPistonOut = 2;
+	public static final int pneumaticArmPistonMajorIn = 3;
+	public static final int pneumaticArmPistonMajorOut = 2;
 	public static final int pneumaticClawPistonIn = 4;
 	public static final int pneumaticClawPistonOut = 5;
-	public static final int pistonRetractedLimitSwitch = 0; // Are some of these analog ins for the limit switches? Need to separate
-	
+	public static final int pneumaticIntakePistonIn = 6;
+	public static final int pneumaticIntakePistonOut = 7;
+	public static final int pneumaticArmPistonMinorIn = 8;
+	public static final int pneumaticArmPistonMinorOut = 9;
+
 	
 	// RoboRIO digital I/O addresses
-	public static int photoSwitch = 3;
-	public static int bumpSwitch = 4;
+	public static final int majorPistonRetractedLimitSwitch = 0; 
+	public static final int majorPistonExtendedLimitSwitch = 1; 
+	public static int photoSwitchIntake = 2;
+	public static int photoSwitchClaw = 3;
+	public static int bumpSwitchClaw = 4;
+	public static final int minorPistonRetractedLimitSwitch = 5; 
+	public static final int minorPistonExtendedLimitSwitch = 6; 
+
+	//intake motor speeds
+	public static double intakePercentIn = .7; //need to be tested
+	public static double intakePercentOut = -0.3;
+	
+	//claw motor speeds
+	public static double clawPercentIn = .7; //need to be tested
+	public static double clawPercentOut = -0.3;
 	
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup

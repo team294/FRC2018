@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -50,6 +51,8 @@ public class CubeLetGo extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.claw.setClawMotorToPercentPower(0, 0);
+		//sets intake motor back to its most recent non-zero, inward speed
+		Robot.intake.setIntakeMotorPercent(RobotMap.intakePercentOut);
 	}
 
 	// Called when another command which requires one or more of the same
