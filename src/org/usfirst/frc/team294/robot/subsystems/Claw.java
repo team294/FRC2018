@@ -3,7 +3,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -16,13 +16,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Claw extends Subsystem {
 
-	private final DigitalInput bumpSwitch = new DigitalInput(RobotMap.bumpSwitch);
+	private final DigitalInput bumpSwitch = new DigitalInput(RobotMap.bumpSwitchClaw);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchClaw);
 	private final  DoubleSolenoid clawPiston = new DoubleSolenoid(RobotMap.pneumaticClawPistonIn,
 			RobotMap.pneumaticClawPistonOut);
 
-	private final WPI_TalonSRX clawMotorLeft = new WPI_TalonSRX(RobotMap.clawMotorLeft);
-	private final WPI_TalonSRX clawMotorRight = new WPI_TalonSRX(RobotMap.clawMotorRight);
+	private final TalonSRX clawMotorLeft = new TalonSRX(RobotMap.clawMotorLeft);
+	private final TalonSRX clawMotorRight = new TalonSRX(RobotMap.clawMotorRight);
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
