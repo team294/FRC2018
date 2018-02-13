@@ -18,12 +18,12 @@ public class RobotMap {
 	
 	
 	// Pneumatic addresses
-	public static int pnuematicShifterHigh = 0;
-	public static int pnuematicShifterLow = 1;
-	public static int pneumaticArmPistonMajorOut = 2;
-	public static int pneumaticArmPistonMajorIn = 3;
-	public static int pneumaticArmPistonMinorOut = 6;
-	public static int pneumaticArmPistonMinorIn = 7;
+	public static final int pnuematicShifterHigh = 0;
+	public static final int pnuematicShifterLow = 1;
+	public static final int pneumaticArmPistonMajorOut = 2;
+	public static final int pneumaticArmPistonMajorIn = 3;
+	public static final int pneumaticArmPistonMinorOut = 6;
+	public static final int pneumaticArmPistonMinorIn = 7;
 	public static final int pneumaticClawPistonIn = 4;
 	public static final int pneumaticClawPistonOut = 5;
 
