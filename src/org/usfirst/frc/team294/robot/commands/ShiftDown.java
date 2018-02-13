@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ShiftHigh extends Command {
+public class ShiftDown extends Command {
 
-    public ShiftHigh() {
+    public ShiftDown() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.shifter);
@@ -17,7 +17,7 @@ public class ShiftHigh extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shifter.shiftUp();
+    	Robot.shifter.shiftDown();
     }
 
     // Called repeatedly when this Command is scheduled to run

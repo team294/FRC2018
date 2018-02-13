@@ -15,8 +15,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  * The Only Command
  * runs Drive Train with Both Joysticks
  */
-public class DriveWithJoystick extends Command {
-	public DriveWithJoystick() {
+public class DriveWithJoysticks extends Command {
+	public DriveWithJoysticks() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
 	}
