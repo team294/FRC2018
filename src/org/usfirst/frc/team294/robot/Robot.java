@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
 
 
 	public static int armCalZero; // Arm potentiometer position at O degrees
-	public static int armCal90Deg; // Arm potentiometer position at 90 degrees
+	public static boolean prototypeRobot;   //  Set true if using code for prototype, false for practice and competition
 
 	Command autonomousCommand;
 
@@ -275,5 +275,9 @@ public class Robot extends TimedRobot {
 																// robot
 		}
 		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
+		
+		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false);		// true if testing code on a prototype
+		
+		
 	}
 }
