@@ -82,6 +82,7 @@ public class EllipseGenerator {
 			t2 = 2*Math.atan(Math.sqrt(k)/Math.sqrt(-2*(this.finalX)+k));
 		}
 		SmartDashboard.putNumber("t2", t2);
+		
 		/*if(t2 < 0 || t2 > Math.PI)
 		{
 			t2 = -t2;

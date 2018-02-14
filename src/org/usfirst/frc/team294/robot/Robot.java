@@ -1,3 +1,5 @@
+
+
 package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -18,12 +20,12 @@ import org.usfirst.frc.team294.utilities.FileLog;
 public class Robot extends TimedRobot {
 
 	// Subsystem objects
-	public static Inputs inputs;
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
-	public static ProtoArmPiston protoArmPiston;
-	public static ProtoArmMotor protoArmMotor;
+	public static ArmPiston armPiston;
+	public static ArmMotor armMotor;
 	public static Claw claw;
+	public static Intake intake;
 	public static OI oi;
 	public static Climb climb;
 
@@ -33,6 +35,10 @@ public class Robot extends TimedRobot {
 	public static FileLog log;
 	public static Preferences robotPrefs;
 	public static String gameData;
+
+
+
+
 	public static int armCalZero; // Arm potentiometer position at O degrees
 	public static int armCal90Deg; // Arm potentiometer position at 90 degrees
 
@@ -48,13 +54,13 @@ public class Robot extends TimedRobot {
 		robotPrefs = Preferences.getInstance();
 		readPreferences(); // Read preferences next, so that subsystems can use the preference values.
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		inputs = new Inputs();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
-		protoArmPiston = new ProtoArmPiston();
-		protoArmMotor = new ProtoArmMotor();
+		armPiston = new ArmPiston();
+		armMotor = new ArmMotor();
 		claw = new Claw();
 		climb = new Climb();
+		intake = new Intake();
 
 		// Create the log file
 		log = new FileLog();

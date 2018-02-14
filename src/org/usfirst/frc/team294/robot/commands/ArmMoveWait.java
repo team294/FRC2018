@@ -1,33 +1,42 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class ReadPhotoSwitch extends Command {
+public class ArmMoveWait extends Command {
 
-	public ReadPhotoSwitch() {
+	private double currentAng = Robot.armMotor.getArmDegrees();
+	private double destAng;
+	private boolean currentPiston;
+	private boolean extendPistonAtEnd;
+
+	public ArmMoveWait(double destAng, boolean extendPistonAtEnd) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		this.destAng = destAng;
+		this.extendPistonAtEnd = extendPistonAtEnd;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		currentPiston = Robot.armPiston.getMajor() == RobotMap.PistonPositions.Retracted;
+		destAng = (destAng > RobotMap.maxAngle) ? RobotMap.maxAngle : destAng;
+		destAng = (destAng < RobotMap.minAngle) ? RobotMap.minAngle : destAng;
+		Robot.armMotor.setArmAngle(destAng);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		SmartDashboard.putBoolean("Object Present (Claw): ", Robot.claw.getPhotoSwitch());
-		SmartDashboard.putBoolean("Object Present (Intake): ", Robot.intake.getPhotoSwitch());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return destAng == currentAng && currentPiston == extendPistonAtEnd;
 	}
 
 	// Called once after isFinished returns true
