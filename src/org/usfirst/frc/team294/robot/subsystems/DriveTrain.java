@@ -6,12 +6,12 @@ import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +38,18 @@ public class DriveTrain extends Subsystem {
 	private double leftEncoderZero = 0, rightEncoderZero = 0;
 	public DriveTrain() {// initialize Followers
 		// motor2 are the main motors, and motor 1 and 3 are the followers.
+		// Robot.driveDirection is a value pulled from Robot Preferences.
+		// True means that it will drive forward correctly, and false drives it backwards.
+		// This is used when testing drivetrain code on the 2017 practice base.
+		leftMotor2.setInverted(Robot.driveDirection); 
+		rightMotor2.setInverted(Robot.driveDirection);
+		leftMotor1.setInverted(Robot.driveDirection); 
+		rightMotor1.setInverted(Robot.driveDirection);
+		leftMotor3.setInverted(Robot.driveDirection); 
+		rightMotor3.setInverted(Robot.driveDirection);
+		
+		leftMotor2.setSensorPhase(true);
+		
 		leftMotor1.set(ControlMode.Follower, RobotMap.leftMotor2);
 		leftMotor3.set(ControlMode.Follower, RobotMap.leftMotor2);
 		rightMotor1.set(ControlMode.Follower, RobotMap.rightMotor2);
@@ -51,11 +63,15 @@ public class DriveTrain extends Subsystem {
 		leftMotor2.configVoltageCompSaturation(11.0, 0);
 		rightMotor2.configVoltageCompSaturation(11.0, 0);
 
-		leftMotor2.setSensorPhase(true);
-		// leftMotor2.setInverted(true); // This might need to be changed to rightmotor2
-
+		
+		SmartDashboard.putBoolean("DDirection", Robot.driveDirection);
+		System.out.println("Drive Direction: "+Robot.driveDirection);
+		
 		leftMotor2.clearStickyFaults(0);
 		rightMotor2.clearStickyFaults(0);
+		
+		leftMotor2.setNeutralMode(NeutralMode.Brake);
+		rightMotor2.setNeutralMode(NeutralMode.Brake);
 		
 		zeroLeftEncoder();
 		zeroRightEncoder();
@@ -76,18 +92,20 @@ public class DriveTrain extends Subsystem {
 	
 	public void setFieldPositionX(double x) {
 		this.fieldX = x;
+		SmartDashboard.putNumber("FieldX", fieldX);
 	}
 	
 	public void setFieldPositionY(double y) {
 		this.fieldY = y;
+		SmartDashboard.putNumber("FieldY", fieldY);
 	}
 	
 	public void addFieldPositionX(double x) {
-		this.fieldX += x;
+		setFieldPositionX(fieldX+x);
 	}
 	
 	public void addFieldPositionY(double y) {
-		this.fieldY += y;
+		setFieldPositionY(fieldY+y);
 	}
 	
 	public double getFieldPositionX() {
@@ -119,6 +137,7 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("NavX Angle", angle);
 		return angle;
 	}
+	
 	public void tankDrive(double powerLeft, double powerRight) {
 		this.robotDrive.tankDrive(powerLeft, powerRight);
 	}
@@ -201,7 +220,7 @@ public class DriveTrain extends Subsystem {
 	// Periodic is called once every scheduler cycle (20ms)
 	public void periodic() {
 		// Display info on Dashboard
-		getGyroRotation();
+		//getGyroRotation();
 		getLeftEncoderPosition();
 		getRightEncoderPosition();
 	}
