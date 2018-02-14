@@ -77,6 +77,8 @@ public class OI {
 	public Joystick xboxController = new Joystick(3);
 	public Joystick armJoystick = new Joystick(4); // Arm Joystick is in port 4
 	
+	private boolean driveDirection = true; // Easy switching drive direction
+	
 	SendableChooser<Integer> chooser_autoPlan = new SendableChooser<>();
 	SendableChooser<Integer> chooser_startPosition = new SendableChooser<>();
 
@@ -106,8 +108,8 @@ public class OI {
 	    		//right[i].whenPressed();  // Automatic cube pick up with vision
 	    		//left[i].whenPressed();  // Automatic cube pick up with vision
 	    	} else if (i == 3) {
-	    		//right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive direction
-	    		//left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive direction
+	    		right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive direction
+	    		left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive direction
 	    	} else if (i == 2) {
 	    		//right[i].whenPressed(); // Auto driving routines
 	    		//left[i].whenPressed(); // Auto driving routines
@@ -342,5 +344,21 @@ public class OI {
 	
 	public int readStartPosition() {
 		return chooser_startPosition.getSelected();
+	}
+	
+	/**
+	 * Sets the drive direction
+	 * @param direction false = back in the front, true = intake in the front
+	 */
+	public void setDriveDirection(boolean direction){
+		this.driveDirection = direction;
+	}
+	
+	/**
+	 * Gets the drive direction of the robot
+	 * @return false = back in the front, true = intake in the front
+	 */
+	public boolean getDriveDirection(){
+		return driveDirection;
 	}
 }
