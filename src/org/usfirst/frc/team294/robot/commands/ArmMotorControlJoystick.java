@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmMotorControl extends Command {
+public class ArmMotorControlJoystick extends Command {
 	
-    public ArmMotorControl() {
+    public ArmMotorControlJoystick() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.protoArmMotor);
+    	requires(Robot.armMotor);
     }
 
     // Called just before this Command runs the first time
@@ -21,9 +21,9 @@ public class ArmMotorControl extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double armVal = OI.armJoystick.getY();
-    	Robot.protoArmMotor.setArmMotorToPercentPower(armVal);
-    	Robot.protoArmMotor.updateSmartDashboard();
+    	double armVal = Robot.oi.armJoystick.getY();
+    	Robot.armMotor.setArmMotorToPercentPower(armVal);
+    	Robot.armMotor.updateSmartDashboard();
     }
 
     // Make this return true when this Command no longer needs to run execute()
