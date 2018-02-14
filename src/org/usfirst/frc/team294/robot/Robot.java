@@ -18,12 +18,12 @@ import org.usfirst.frc.team294.utilities.FileLog;
 public class Robot extends TimedRobot {
 
 	// Subsystem objects
-	public static Inputs inputs;
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
 	public static ProtoArmPiston protoArmPiston;
 	public static ProtoArmMotor protoArmMotor;
 	public static Claw claw;
+	public static Intake intake;
 	public static OI oi;
 	public static Climb climb;
 
@@ -44,7 +44,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		inputs = new Inputs();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		protoArmPiston = new ProtoArmPiston();
