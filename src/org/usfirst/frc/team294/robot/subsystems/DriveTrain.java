@@ -2,7 +2,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.DriveWithJoystick;
+import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -226,6 +226,6 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void initDefaultCommand() {
-		setDefaultCommand(new DriveWithJoystick());
+		setDefaultCommand(new DriveWithJoysticks());
 	}
 }
