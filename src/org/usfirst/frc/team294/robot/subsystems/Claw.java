@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Claw extends Subsystem {
 
-	private final DigitalInput bumpSwitch = new DigitalInput(RobotMap.bumpSwitch);
+	private final DigitalInput bumpSwitch = new DigitalInput(RobotMap.bumpSwitchClaw);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchClaw);
 	private final  DoubleSolenoid clawPiston = new DoubleSolenoid(RobotMap.pneumaticClawPistonIn,
 			RobotMap.pneumaticClawPistonOut);
