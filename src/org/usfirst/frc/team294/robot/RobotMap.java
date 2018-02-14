@@ -5,8 +5,12 @@ public class RobotMap {
 
 	// Hardware CAN addresses
 	public static final int leftMotor1 = 10;
-	public static final int leftMotor2 = 11;  	// Master
+	public static final int leftMotor2 = 11;
 	public static final int leftMotor3 = 12;
+	public static double wheelCircumference ; //set value in Robot plz dont change
+	public static final double encoderTicksPerRevolution = 4096.0;
+	public static final double driveTrainDistanceFudgeFactor = 1;//0.96824; // TODO: store in robot preferences
+
 	public static final int rightMotor1 = 20; 
 	public static final int rightMotor2 = 21;	// Master
 	public static final int rightMotor3 = 22;
@@ -19,8 +23,6 @@ public class RobotMap {
 	public static final int climbMotor1 = 60;
 	public static final int climbMotor2 = 61;
 
-	
-	
 	// Pneumatic addresses
 	public static final int pnuematicShifterHigh = 0;
 	public static final int pnuematicShifterLow = 1;
@@ -54,22 +56,12 @@ public class RobotMap {
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup
 	public static double highThreshold; // High threshold for scoring
-
 		
-		//Drive Train Constants
-		public static final double wheelCircumference = 4.0 * Math.PI;
-		public static final double encoderTicksPerRevolution = 4096.0;
-		public static final double driveTrainDistanceFudgeFactor = 0.96824; //TODO: store in robot preferences
-		
-	
 
-	
 	// Arm angle constants
 	public static double degreesPerTicks = 9.0 / 5.0;
 	public static double armLowPosition;
 	public static double armHighPosition;
-	
-	
 	public enum ArmPositions {
 		Low, High, UltraHigh, WayTooHigh
 	} // Enum for preset positions to use in the code (e.g. placing on scale low, switch, pickup, etc.
@@ -85,6 +77,7 @@ public class RobotMap {
 	public enum ArmZones {
 		Low, Middle, High, Backwards
 	}
+
 
 	// arm angles where claw pistons cannot be opened
 	public static double angleClawCloseLow = -20;
@@ -104,9 +97,12 @@ public class RobotMap {
 		return ArmZones.Middle;
 	}
 	public static double getArmAngle(ArmPositions position) {
-		if (position == ArmPositions.Low) return armLowPosition;
-		if (position == ArmPositions.High) return armHighPosition;
-		else return armLowPosition;
+		if (position == ArmPositions.Low)
+			return armLowPosition;
+		if (position == ArmPositions.High)
+			return armHighPosition;
+		else
+			return armLowPosition;
 	}
 /***********************************************/
 	
@@ -116,22 +112,24 @@ public class RobotMap {
 
 	// Auto path selections
 	public static final int AUTO_PLANS = 5;
+
 	public enum AutoPlan {
-		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly 
+		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly
 	}
-	
+
 	// Auto field layouts
-	public static final int AUTO_FIELD_LAYOUTS = 4;	
+	public static final int AUTO_FIELD_LAYOUTS = 4;
+
 	public enum AutoFieldLayout {
-		LL, LR, RL, RR
+		LL, LR, RL, RR;
 		// first letter is closest switch, second is scale
 	}
-	
+
 	// Starting positions
 	public enum StartingPosition {
-		Left, Middle, Right
+		Left, Middle, Right;
 	}
-	
+
 	// Columns in Array are in order of LL, LR, RL, RR
 	public static int[][] startingLeftAutoPrograms = { { 3, 3, 1, 2},  // Plan 1
 			{ 3, 3, 1, 6},  // Plan 2
@@ -152,7 +150,6 @@ public class RobotMap {
 			{ 4, 1, 3, 3},  // Plan 3
 			{ 2, 1, 2, 1},  // Plan 4
 			{ 5, 5, 5, 5}   // Plan 5
-			
 	};
-	
+
 }

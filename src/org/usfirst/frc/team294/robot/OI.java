@@ -32,6 +32,7 @@ public class OI {
 		chooser_autoPlan.addObject("do Scale only", 3);
 		chooser_autoPlan.addObject("do Switch only from middle", 4);
 		chooser_autoPlan.addObject("Go to baseline", 5);
+//		chooser_autoPlan.addObject("2Cube", 5);
 		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
 		SmartDashboard.putData("AutoTest1",new AutoTest1());
 		
@@ -84,7 +85,8 @@ public class OI {
     	armButton3.whenPressed(new ArmIncrementRaiseAngleButton());
 		
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
-		SmartDashboard.putData("DriveStraightDistanceProfile", new DriveStraightDistanceProfile(24, 0));
+		SmartDashboard.putData("DriveStraightDistanceProfile", new DriveStraightDistanceProfile(30, 0));
+		SmartDashboard.putData("EllipseTest", new DriveStraightDistanceEllipse(30, 10,0));
 		SmartDashboard.putNumber("DistToTravelDSDG", 150);
 		SmartDashboard.putData(" ProfileTest", new DriveStraightDistanceEllipse(100, 1000, 0));
 		
