@@ -1,7 +1,8 @@
 
-
 package org.usfirst.frc.team294.robot;
 
+import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; //remove the ones that are not used.
@@ -34,9 +35,12 @@ public class Robot extends TimedRobot {
 	public static FileLog log;
 	public static Preferences robotPrefs;
 
-
 	public static int armCalZero; // Arm potentiometer position at O degrees
-	public static boolean prototypeRobot;   //  Set true if using code for prototype, false for practice and competition
+	public static int armCal90Deg; // Arm potentiometer position at 90 degrees
+	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
+
+	public NetworkTableInstance networkTables;
+	public NetworkTable coDisplay;
 
 	Command autonomousCommand;
 
@@ -56,6 +60,10 @@ public class Robot extends TimedRobot {
 
 		// Create the log file
 		log = new FileLog();
+
+		// Network Tables for driver's display
+		networkTables = NetworkTableInstance.getDefault();
+		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
 
 		// Create the OI
 		oi = new OI();
@@ -147,9 +155,7 @@ public class Robot extends TimedRobot {
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
 		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
 		 * ExampleCommand(); break; }
-		*/
-		  
-		
+		 */
 
 		int fieldLayout, autoPlan;
 
@@ -206,8 +212,6 @@ public class Robot extends TimedRobot {
 			log.writeLogEcho("Ran Auto Path 7 (baseline), side = " + startPosition);
 			break;
 		}
-		
-		
 
 		SmartDashboard.putString("Auto path", autonomousCommand.getName());
 		SmartDashboard.putNumber("Auto program #", programSelected);
@@ -275,9 +279,8 @@ public class Robot extends TimedRobot {
 																// robot
 		}
 		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
-		
-		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false);		// true if testing code on a prototype
-		
-		
+
+		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype
+
 	}
 }
