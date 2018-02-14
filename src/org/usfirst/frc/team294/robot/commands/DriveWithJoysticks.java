@@ -15,8 +15,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  * The Only Command
  * runs Drive Train with Both Joysticks
  */
-public class DriveWithJoystick extends Command {
-	public DriveWithJoystick() {
+public class DriveWithJoysticks extends Command {
+	public DriveWithJoysticks() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrain);
 	}
@@ -39,12 +39,16 @@ public class DriveWithJoystick extends Command {
 //		}else {
 //			Robot.driveTrain.setRightMotors(0);
 //		}
-		double leftVal = OI.leftJoystick.getY();
-		double rightVal = OI.rightJoystick.getY();
+		double leftVal = Robot.oi.leftJoystick.getY();
+		double rightVal = Robot.oi.rightJoystick.getY();
 		Robot.driveTrain.getGyroRotation();
-		Robot.driveTrain.tankDrive(-leftVal, -rightVal);
 		Robot.driveTrain.getLeftEncoderPosition();
 		Robot.driveTrain.getRightEncoderPosition();
+		
+    	if (Robot.oi.getDriveDirection() == true)
+    		Robot.driveTrain.tankDrive(-leftVal, -rightVal);
+    	else
+    		Robot.driveTrain.tankDrive(rightVal, leftVal);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -56,13 +60,12 @@ public class DriveWithJoystick extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.driveTrain.stopAllMotors();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
-		end();
+		Robot.driveTrain.stopAllMotors();
 	}
 }
