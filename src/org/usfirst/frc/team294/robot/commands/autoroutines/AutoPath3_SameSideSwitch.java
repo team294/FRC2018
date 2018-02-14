@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoPath6_OppositeSideSwitchFront extends CommandGroup {
+public class AutoPath3_SameSideSwitch extends CommandGroup {
 
-	public AutoPath6_OppositeSideSwitchFront(int startPosition) {
+	public AutoPath3_SameSideSwitch(int startPosition) {
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());
@@ -29,20 +29,16 @@ public class AutoPath6_OppositeSideSwitchFront extends CommandGroup {
 		// arm.
 		switch (startPosition) {
 		case 1:
-			addSequential(new DriveStraightDistanceProfile(53, 0, 100, 100));
+			addSequential(new DriveStraightDistanceProfile(154, 0));
 			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(184, 90, 150, 150));
-			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(47, 0, 100, 100));
-			// arm code 
+			addSequential( new DriveStraightDistanceProfile(26, 90));
+			// arm command 
 			break;
-		case 3:
-			addSequential(new DriveStraightDistanceProfile(53, 0, 100, 100));
+		case 3 : 
+			addSequential(new DriveStraightDistanceProfile(154, 0)); // it should go 157", but due to inconsistency we made it go 154"
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(184, -90, 150, 150));
-			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(47, 0, 100, 100));
-			// arm code 
+			addSequential( new DriveStraightDistanceProfile(26,  -90));
+			// arm command 
 			break;
 
 		}
