@@ -1,29 +1,26 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ClawOpen extends Command {
-		
-	/**
-	 * Manually opens claw, but not if claw is in keep-out zone
-	 */
-    public ClawOpen() {
+public class StopAllMotors extends Command {
+
+    public StopAllMotors() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.claw);
+    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-		Robot.claw.openClaw();
-	}
-  
+    	Robot.claw.stop();
+    	Robot.intake.stop();
+    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {

@@ -53,19 +53,31 @@ public class RobotMap {
 	public static double clawPercentIn = .7; //need to be tested
 	public static double clawPercentOut = -0.3;
 	
-	// Arm angle thresholds
-	public static double lowThreshold; // Low threshold for ground pickup
-	public static double highThreshold; // High threshold for scoring
-		
+	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
+	public static double armIntakePos = 0.0;
+	public static double armSwitchPos = 0.0;
+	public static double armScaleLowPos = 0.0;
+	public static double armScaleBackwardsPos = 0.0;
 
 	// Arm angle constants
 	public static double degreesPerTicks = 9.0 / 5.0;
-	public static double armLowPosition;
-	public static double armHighPosition;
-	public enum ArmPositions {
-		Low, High, UltraHigh, WayTooHigh
-	} // Enum for preset positions to use in the code (e.g. placing on scale low, switch, pickup, etc.
 	
+	public enum ArmPositions {
+		Intake, Switch, ScaleLow, ScaleHigh
+	}
+	
+	/**
+	 * Gets the angle preset for the arm based on RobotMap.ArmPositions
+	 * @param position RobotMap.ArmPositions
+	 * @return
+	 */
+	public static double getArmAngle(ArmPositions position) {
+		if (position == ArmPositions.Intake) return armIntakePos;
+		if (position == ArmPositions.ScaleHigh) return armScaleBackwardsPos;
+		if (position == ArmPositions.ScaleLow) return armScaleLowPos;
+		if (position == ArmPositions.Switch) return armSwitchPos;
+		else return armSwitchPos;
+	}
 	
 	// Arm angle zone boundaries   THESE ARE NUMBERS JUST FOR TEST ON PROTO ARM
 	public static double minAngle = -37; // arm cannot extend downward past this angle
@@ -83,8 +95,6 @@ public class RobotMap {
 	public static double angleClawCloseLow = -20;
 	public static double angleClawCloseHigh = -10;
 	
-	/*****************************************/
-	//   WHY IS THIS IN MAP??  SHOULDN'T BE IN THE SUBSYSTEM?
 	/**
 	 * Returns the zone of the arm based on the arm angle
 	 * @param angle
@@ -96,15 +106,6 @@ public class RobotMap {
 		if (angle > middleBound) return ArmZones.High;
 		return ArmZones.Middle;
 	}
-	public static double getArmAngle(ArmPositions position) {
-		if (position == ArmPositions.Low)
-			return armLowPosition;
-		if (position == ArmPositions.High)
-			return armHighPosition;
-		else
-			return armLowPosition;
-	}
-/***********************************************/
 	
 	public enum PistonPositions {
 		Extended, Retracted, Moving, Null
