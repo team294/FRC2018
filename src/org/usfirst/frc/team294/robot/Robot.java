@@ -1,4 +1,5 @@
 
+
 package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.networktables.*;
@@ -22,8 +23,8 @@ public class Robot extends TimedRobot {
 	// Subsystem objects
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
-	public static ProtoArmPiston protoArmPiston;
-	public static ProtoArmMotor protoArmMotor;
+	public static ArmPiston armPiston;
+	public static ArmMotor armMotor;
 	public static Claw claw;
 	public static Intake intake;
 	public static OI oi;
@@ -40,7 +41,7 @@ public class Robot extends TimedRobot {
 	
 	public static int armCalZero; 	// Arm potentiometer position at O degrees
 	public static int armCal90Deg;	// Arm potentiometer position at 90 degrees
-	
+
 	Command autonomousCommand;
 
 	/**
@@ -51,10 +52,11 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
-		protoArmPiston = new ProtoArmPiston();
-		protoArmMotor = new ProtoArmMotor();
+		armPiston = new ArmPiston();
+		armMotor = new ArmMotor();
 		claw = new Claw();
 		climb = new Climb();
+		intake = new Intake();
 
 		// Create the log file
 		log = new FileLog();
@@ -281,6 +283,5 @@ public class Robot extends TimedRobot {
 																// robot
 		}
 		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
-		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
 	}
 }

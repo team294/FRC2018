@@ -12,12 +12,12 @@ public class SetArmFromSmartDashboard extends Command  {
     public SetArmFromSmartDashboard() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.protoArmMotor);
+    	requires(Robot.armMotor);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.protoArmMotor.setArmFromSmartDashboard();
+    	Robot.armMotor.setArmFromSmartDashboard();
     }
 
     // Called repeatedly when this Command is scheduled to run
