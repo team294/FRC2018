@@ -46,8 +46,8 @@ public class Claw extends Subsystem {
 	public void openClaw() {
 		double currentAngle = Robot.armMotor.getArmDegrees();
 		if (currentAngle <= RobotMap.angleClawCloseHigh && currentAngle >= RobotMap.angleClawCloseLow) {
-		}
-		else {
+			// Why do we have an if statement with no code? If the action is to be performed when the statements are false, change the if statement
+		} else {
 			clawPiston.set(Value.kForward); // kForward is extend
 		}
 	}
