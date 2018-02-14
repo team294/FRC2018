@@ -10,6 +10,7 @@ import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -22,6 +23,7 @@ public class ArmPiston extends Subsystem {
 
 	private final DoubleSolenoid armPistonMajor = new DoubleSolenoid(RobotMap.pneumaticArmPistonMajorIn,
 			RobotMap.pneumaticArmPistonMajorOut);
+	private final Solenoid armPistonMinorSingle = new Solenoid(RobotMap.pneumaticArmPistonMinorOut);
 //	private final DoubleSolenoid armPistonMinor = new DoubleSolenoid(RobotMap.pneumaticArmPistonMinorIn,
 //			RobotMap.pneumaticArmPistonMinorOut);
 	//TODO uncomment Minor Piston
@@ -80,10 +82,17 @@ public class ArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMinor(RobotMap.PistonPositions position) {
-		if (position == RobotMap.PistonPositions.Extended)
-		//	armPistonMinor.set(Value.kForward);
-		if (position == RobotMap.PistonPositions.Retracted);
-		//	armPistonMinor.set(Value.kReverse);
+		if(Robot.prototypeRobot) {
+			if (position == RobotMap.PistonPositions.Extended)
+				armPistonMinorSingle.set(true);
+			if (position == RobotMap.PistonPositions.Retracted)
+				armPistonMinorSingle.set(false);
+		} else {
+			if (position == RobotMap.PistonPositions.Extended);
+				//	armPistonMinor.set(Value.kForward);
+			if (position == RobotMap.PistonPositions.Retracted);
+				//	armPistonMinor.set(Value.kReverse);
+		}
 	}//TODO uncomment Minor Piston
 
 	/**

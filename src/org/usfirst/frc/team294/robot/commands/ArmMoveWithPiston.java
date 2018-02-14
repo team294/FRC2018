@@ -29,12 +29,13 @@ public class ArmMoveWithPiston extends CommandGroup {
 		// destAngle = SmartDashboard.getNumber("Desired Arm Angle (Piston Version)",
 		// 0);
 		// requires(Robot.protoArmMotor);
-
+		addSequential(new ArmBrake(false));
 		addSequential(new ArmMoveToLegalRange());
 		addParallel(new ArmMoveToEdge(destAngle));
 		addSequential(new ArmPistonSmartRetract(destAngle, finalPistonPosition));
 		addParallel(new ArmPistonSmartExtendInDestZone(destAngle));
 		addSequential(new ArmMoveToDestAngle(destAngle));
+		addSequential(new ArmBrake(true));
 		
 		// }
 

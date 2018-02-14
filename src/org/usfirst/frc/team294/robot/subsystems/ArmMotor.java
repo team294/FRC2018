@@ -2,6 +2,8 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.*;
@@ -22,6 +24,7 @@ public class ArmMotor extends Subsystem {
 
 	private final TalonSRX armMotor1 = new TalonSRX(RobotMap.armMotor1);
 	private final TalonSRX armMotor2 = new TalonSRX(RobotMap.armMotor2);
+	private final Solenoid diskBrake = new Solenoid(RobotMap.pnuematicArmBrake);
 
 	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks;		//  Put in robot.preferences or change proto arm to magnetic encoder
 	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
@@ -207,7 +210,15 @@ public class ArmMotor extends Subsystem {
 		SmartDashboard.putNumber("Left Arm Motor Output Voltage", voltageLeft);
 		return voltageLeft;
 	}
-
+	
+	/**
+	 * Sets arm disk brake to extended or retracted based on a boolean 
+	 * @param brakeOn     True is extended, false is retracted 
+	 */
+	public void setArmDiskBrake(boolean brakeOn) {
+		diskBrake.set(brakeOn);
+	}
+	
 	/**
 	 * Updates pot and angle measurements on the SmartDashboard
 	 */
