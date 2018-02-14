@@ -1,15 +1,11 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
-import org.usfirst.frc.team294.robot.OI;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.UpdateArmSmartDashboard;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -24,8 +20,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
  */
 public class ArmMotor extends Subsystem {
 
-	private final WPI_TalonSRX armMotor1 = new WPI_TalonSRX(RobotMap.armMotor1);
-	private final WPI_TalonSRX armMotor2 = new WPI_TalonSRX(RobotMap.armMotor2);
+	private final TalonSRX armMotor1 = new TalonSRX(RobotMap.armMotor1);
+	private final TalonSRX armMotor2 = new TalonSRX(RobotMap.armMotor2);
 
 	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks;		//  Put in robot.preferences or change proto arm to magnetic encoder
 	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
