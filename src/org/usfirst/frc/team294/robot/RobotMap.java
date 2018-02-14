@@ -26,14 +26,12 @@ public class RobotMap {
 	public static final int pnuematicShifterHigh = 0;
 	public static final int pnuematicShifterLow = 1;		// this is used for prototype drive base only!!  Change to single solenoid in prototype
 	public static final int pnuematicArmBrake = 1;		
-	public static final int pneumaticArmPistonMajorIn = 3;
 	public static final int pneumaticArmPistonMajorOut = 2;
-	public static final int pneumaticClawPistonIn = 4;
+	public static final int pneumaticArmPistonMajorIn = 3;
+	public static final int pneumaticIntakePistonGrab = 4;
 	public static final int pneumaticClawPistonOut = 5;
-//	public static final int pneumaticIntakePistonIn = 6;
-	public static final int pneumaticIntakePistonOut = 7;
-//	public static final int pneumaticArmPistonMinorIn = 8;
 	public static final int pneumaticArmPistonMinorOut = 6;
+	public static final int pneumaticIntakePistonDeploy = 7;
 	
 	
 	// RoboRIO digital I/O addresses
