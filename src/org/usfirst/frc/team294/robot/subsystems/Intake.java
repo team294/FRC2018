@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,8 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Intake extends Subsystem {
 
-	private final DoubleSolenoid intakePiston = new DoubleSolenoid(RobotMap.pneumaticIntakePistonIn,
-			RobotMap.pneumaticIntakePistonOut);
+	private final Solenoid intakePiston = new Solenoid(	RobotMap.pneumaticIntakePistonOut);
 
 	private final WPI_TalonSRX intakeMotorLeft = new WPI_TalonSRX(RobotMap.intakeMotorLeft);
 	private final WPI_TalonSRX intakeMotorRight = new WPI_TalonSRX(RobotMap.intakeMotorRight);
@@ -28,11 +28,11 @@ public class Intake extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	public void openIntake() {
-		intakePiston.set(Value.kForward); // kForward is extend
+		intakePiston.set(true); // true is extend
 	}
 
 	public void closeIntake() {
-		intakePiston.set(Value.kReverse); // kReverse is retract
+		intakePiston.set(false); // false is retract
 	}
 
 //	public void setIntakeMotorToPercentPower(double leftPercent, double rightPercent) {

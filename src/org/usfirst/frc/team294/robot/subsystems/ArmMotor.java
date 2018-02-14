@@ -26,7 +26,7 @@ public class ArmMotor extends Subsystem {
 	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks;		//  Put in robot.preferences or change proto arm to magnetic encoder
 	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
 
-	private final double MAX_UP_PERCENT_POWER = 0.8;
+	private final double MAX_UP_PERCENT_POWER = 0.8;   //  Up these speeds after testing
 	private final double MAX_DOWN_PERCENT_POWER = -0.5;
 
 	public ArmMotor() {
