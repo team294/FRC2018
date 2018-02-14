@@ -4,7 +4,6 @@ import org.usfirst.frc.team294.robot.OI.BottomKnob;
 import org.usfirst.frc.team294.robot.OI.MiddleKnob;
 import org.usfirst.frc.team294.robot.OI.TopKnob;
 import org.usfirst.frc.team294.robot.commands.*;
-import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
