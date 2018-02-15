@@ -1,5 +1,4 @@
 
-
 package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.networktables.*;
@@ -15,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
-
 import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.utilities.FileLog;
 
@@ -36,17 +34,19 @@ public class Robot extends TimedRobot {
 	public static boolean opponentSwitchLeft = false;
 	public static FileLog log;
 	public static Preferences robotPrefs;
+
+	public static int armCalZero; // Arm potentiometer position at O degrees
+	public static int armCal90Deg; // Arm potentiometer position at 90 degrees
+	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
+	public static boolean driveDirection; // true for reversed
+
 	public static String gameData;
-	
+
 	public NetworkTableInstance networkTables;
 	public NetworkTable coDisplay;
-	
-	public static int armCalZero; 	// Arm potentiometer position at O degrees
-	public static int armCal90Deg;	// Arm potentiometer position at 90 degrees
 
-	private Command autonomousCommand;
-	public static boolean driveDirection; //true for reversed
-	
+	Command autonomousCommand;
+
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -66,11 +66,11 @@ public class Robot extends TimedRobot {
 
 		// Create the log file
 		log = new FileLog();
-		
+
 		// Network Tables for driver's display
 		networkTables = NetworkTableInstance.getDefault();
 		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
-				
+
 		// Create the OI
 		oi = new OI();
 	}
@@ -160,9 +160,7 @@ public class Robot extends TimedRobot {
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
 		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
 		 * ExampleCommand(); break; }
-		*/
-		  
-		
+		 */
 
 		int fieldLayout, autoPlan;
 
@@ -179,7 +177,7 @@ public class Robot extends TimedRobot {
 		autoPlan = oi.readAutoPlan();
 
 		int startPosition = oi.readStartPosition();
-		
+
 		if (startPosition == 1) {
 			programSelected = RobotMap.startingLeftAutoPrograms[autoPlan][fieldLayout];
 		} else if (startPosition == 2) {
@@ -189,7 +187,6 @@ public class Robot extends TimedRobot {
 
 		}
 
-		
 		switch (programSelected) {
 		case 1:
 			autonomousCommand = new AutoPath1_SameSideScale(startPosition);
@@ -283,6 +280,7 @@ public class Robot extends TimedRobot {
 		// below.
 
 		// TODO: For each robot preference: Use more descriptive names?
+		robotPrefs = Preferences.getInstance();
 
 		if (robotPrefs.getDouble("calibrationZeroDegrees", 0) == 0) { // If field was not set up, set up field
 			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
@@ -290,9 +288,9 @@ public class Robot extends TimedRobot {
 																// robot
 		}
 		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
+		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype
 		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
 		driveDirection = robotPrefs.getBoolean("driveDirection", true);
 		RobotMap.wheelCircumference = robotPrefs.getDouble("wheelDiameter", 6.18) * Math.PI;
-		
 	}
 }
