@@ -7,17 +7,25 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmIncrementRaiseAngleButton extends Command {
+public class ClawSetState extends Command {
 
-    public ArmIncrementRaiseAngleButton() {
+	boolean open;
+	
+	/**
+	 * Set the state of the claw
+	 * @param open true = claw open, false = claw closed
+	 */
+    public ClawSetState(boolean open) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//requires (Robot.protoArmMotor);
+    	requires(Robot.claw);
+    	this.open = open;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armMotor.armAdjustJoystickButtonRaise();
+    	if (open) Robot.claw.openClaw();
+    	else Robot.claw.closeClaw();
     }
 
     // Called repeatedly when this Command is scheduled to run

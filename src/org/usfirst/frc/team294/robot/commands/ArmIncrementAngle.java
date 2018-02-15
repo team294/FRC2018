@@ -7,25 +7,28 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ClawSet extends Command {
+public class ArmIncrementAngle extends Command {
 
-	boolean open;
+	int difference;
+	boolean increment;
 	
-	/**
-	 * Set the state of the claw
-	 * @param open true = claw open, false = claw closed
-	 */
-    public ClawSet(boolean open) {
+    public ArmIncrementAngle(boolean increment) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.claw);
-    	this.open = open;
+    	requires(Robot.armMotor);
+    	difference = 7;
+    	this.increment = increment;
+    }
+    
+    public ArmIncrementAngle(int difference, boolean increment) {
+    	requires(Robot.armMotor);
+    	this.difference = difference;
+    	this.increment = increment;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (open) Robot.claw.openClaw();
-    	else Robot.claw.closeClaw();
+    	Robot.armMotor.armIncrement(difference, increment);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -34,7 +37,7 @@ public class ClawSet extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
