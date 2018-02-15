@@ -19,6 +19,7 @@ public class ArmPistonSmartExtend extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		// TODO: Update with arm zones
 		double currentAngle = Robot.armMotor.getArmDegrees();
 		if (currentAngle <= RobotMap.lowerBound && currentAngle >= RobotMap.minAngle) {
 			Robot.armPiston.setMinor(PistonPositions.Extended);
