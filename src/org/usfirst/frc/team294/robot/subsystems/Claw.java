@@ -8,8 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,8 +19,7 @@ public class Claw extends Subsystem {
 
 	private final DigitalInput bumpSwitch = new DigitalInput(RobotMap.bumpSwitchClaw);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchClaw);
-	private final  DoubleSolenoid clawPiston = new DoubleSolenoid(RobotMap.pneumaticClawPistonIn,
-			RobotMap.pneumaticClawPistonOut);
+	private final Solenoid clawPiston = new Solenoid(RobotMap.pneumaticClawPistonOut);
 
 	private final TalonSRX clawMotorLeft = new TalonSRX(RobotMap.clawMotorLeft);
 	private final TalonSRX clawMotorRight = new TalonSRX(RobotMap.clawMotorRight);
@@ -43,17 +41,17 @@ public class Claw extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	public void openClaw() {
+	public void openClaw() {										// this logic is funky  Clean up
 		double currentAngle = Robot.armMotor.getArmDegrees();
 		if (currentAngle <= RobotMap.angleClawCloseHigh && currentAngle >= RobotMap.angleClawCloseLow) {
 		}
 		else {
-			clawPiston.set(Value.kForward); // kForward is extend
+			clawPiston.set(true); // true is extend
 		}
 	}
 
 	public void closeClaw() {
-		clawPiston.set(Value.kReverse); // kReverse is retract
+		clawPiston.set(false); // false is retract
 	}
 
 	public void setClawMotorToPercentPower(double leftPercent, double rightPercent) {

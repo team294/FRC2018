@@ -1,15 +1,12 @@
 
 package org.usfirst.frc.team294.robot.subsystems;
 
-import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Intake extends Subsystem {
 
-	private final Solenoid intakePiston = new Solenoid(	RobotMap.pneumaticIntakePistonOut);
+	private final Solenoid intakeOpenPiston = new Solenoid(RobotMap.pneumaticIntakePistonOpen);
+	private final Solenoid intakeDeployPiston = new Solenoid(RobotMap.pneumaticIntakePistonDeploy);
 
 	private final WPI_TalonSRX intakeMotorLeft = new WPI_TalonSRX(RobotMap.intakeMotorLeft);
 	private final WPI_TalonSRX intakeMotorRight = new WPI_TalonSRX(RobotMap.intakeMotorRight);
@@ -28,29 +26,41 @@ public class Intake extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	public void openIntake() {
-		intakePiston.set(true); // true is extend
+		intakeOpenPiston.set(true); // true is open
 	}
 
 	public void closeIntake() {
-		intakePiston.set(false); // false is retract
+		intakeOpenPiston.set(false); // false is close
 	}
 
-//	public void setIntakeMotorToPercentPower(double leftPercent, double rightPercent) {
-//		intakeMotorLeft.set(ControlMode.PercentOutput, leftPercent);
-//		intakeMotorRight.set(ControlMode.PercentOutput, rightPercent);
-//		System.out.println("Left Intake motor " + intakeMotorLeft.getDeviceID() + " set to percent " + leftPercent
-//				+ ", output " + intakeMotorLeft.getMotorOutputVoltage() + " V," + intakeMotorLeft.getOutputCurrent()
-//				+ " A, Bus at " + intakeMotorLeft.getBusVoltage() + " V");
-//		System.out.println("Right Intake motor " + intakeMotorRight.getDeviceID() + " set to percent " + rightPercent
-//				+ ", output " + intakeMotorRight.getMotorOutputVoltage() + " V," + intakeMotorRight.getOutputCurrent()
-//				+ " A, Bus at " + intakeMotorRight.getBusVoltage() + " V");
-//		SmartDashboard.putNumber("Left Intake Motor Percent:", leftPercent);
-//		SmartDashboard.putNumber("Right Intake Motor Percent:", rightPercent);
-//	}
-	
-	
+	public void deployIntake() {
+		intakeDeployPiston.set(true); // true is deploy
+	}
+
+	public void retractIntake() {
+		intakeDeployPiston.set(false); // false is retract
+	}
+	// public void setIntakeMotorToPercentPower(double leftPercent, double
+	// rightPercent) {
+	// intakeMotorLeft.set(ControlMode.PercentOutput, leftPercent);
+	// intakeMotorRight.set(ControlMode.PercentOutput, rightPercent);
+	// System.out.println("Left Intake motor " + intakeMotorLeft.getDeviceID() + "
+	// set to percent " + leftPercent
+	// + ", output " + intakeMotorLeft.getMotorOutputVoltage() + " V," +
+	// intakeMotorLeft.getOutputCurrent()
+	// + " A, Bus at " + intakeMotorLeft.getBusVoltage() + " V");
+	// System.out.println("Right Intake motor " + intakeMotorRight.getDeviceID() + "
+	// set to percent " + rightPercent
+	// + ", output " + intakeMotorRight.getMotorOutputVoltage() + " V," +
+	// intakeMotorRight.getOutputCurrent()
+	// + " A, Bus at " + intakeMotorRight.getBusVoltage() + " V");
+	// SmartDashboard.putNumber("Left Intake Motor Percent:", leftPercent);
+	// SmartDashboard.putNumber("Right Intake Motor Percent:", rightPercent);
+	// }
+
 	/**
 	 * sets the intake motors to a percentage
+	 * 
 	 * @param percent
 	 */
 	public void setIntakeMotorPercent(double percent) {
@@ -68,6 +78,7 @@ public class Intake extends Subsystem {
 
 	/**
 	 * closes the intake jaws if the photo switch is triggered
+	 * 
 	 * @return true if closed, false if opened
 	 */
 	public boolean smartCloseIntake() {
@@ -78,24 +89,25 @@ public class Intake extends Subsystem {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * opens the intake jaws and sets the motors to reverse
 	 */
-	public void outtake() { 
+	public void outtake() {
 		setIntakeMotorPercent(RobotMap.intakePercentOut);
 		openIntake();
 	}
-	
+
 	/**
 	 * stops the intake motors
 	 */
 	public void stop() {
-		setIntakeMotorPercent(0.0); 
+		setIntakeMotorPercent(0.0);
 	}
-	
+
 	/**
 	 * Reads the value of the photo switch
+	 * 
 	 * @return true = object is breaking the photo beam
 	 */
 	public boolean getPhotoSwitch() {
