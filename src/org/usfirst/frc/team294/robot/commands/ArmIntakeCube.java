@@ -6,7 +6,7 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * This is a testing command. It should be replaced with a production command
+ *
  */
 public class ArmIntakeCube extends Command {
 

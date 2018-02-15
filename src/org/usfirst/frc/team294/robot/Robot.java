@@ -189,15 +189,15 @@ public class Robot extends TimedRobot {
 
 		switch (programSelected) {
 		case 1:
-			autonomousCommand = new AutoSameSideScale(startPosition);
+			autonomousCommand = new AutoPath1_SameSideScale(startPosition);
 			log.writeLogEcho("Ran Auto Path 1 (same side scale), side = " + startPosition);
 			break;
 		case 2:
-			autonomousCommand = new AutoOppositeSideScale(startPosition);
+			autonomousCommand = new AutoPath2_OppositeSideScale(startPosition);
 			log.writeLogEcho("Ran Auto Path 2 (opposite side scale), side = " + startPosition);
 			break;
 		case 3:
-			autonomousCommand = new AutoSameSideSwitch(startPosition);
+			autonomousCommand = new AutoPath3_SameSideSwitch(startPosition);
 			log.writeLogEcho("Ran Auto Path 3 (same side switch), side = " + startPosition);
 			break;
 		case 4:

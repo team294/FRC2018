@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoSameSideSwitch extends CommandGroup {
+public class ArmPistonRetractBoth extends CommandGroup {
 
-    public AutoSameSideSwitch(int startPosition) {
+    public ArmPistonRetractBoth() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -24,5 +24,7 @@ public class AutoSameSideSwitch extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    addParallel(new ArmRetractMinorPiston());
+    addSequential(new ArmRetractMajorPiston());
     }
 }
