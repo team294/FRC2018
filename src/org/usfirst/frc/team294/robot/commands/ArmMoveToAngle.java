@@ -23,7 +23,7 @@ public class ArmMoveToAngle extends Command {
     }
     
     public ArmMoveToAngle(ArmPositions position) {
-    	angle = RobotMap.getArmAngle(position);
+    	angle = position.getAngle();
     }
 
     // Called just before this Command runs the first time

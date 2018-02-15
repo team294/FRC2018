@@ -48,7 +48,7 @@ public class ArmPistonSmartRetract extends Command {
 		else if ( Robot.armPiston.getMajor() == PistonPositions.Retracted)
 			// && Robot.protoArmPiston.getMinor() == PistonPositions.Retracted)
 			return true;
-		return false; // changed to true for testing with one piston TODO
+		return false; // According to Liam, the todo is done
 	}
 
 	// Called once after isFinished returns true

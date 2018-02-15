@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,5 +50,24 @@ public class ArmMoveWithPiston extends CommandGroup {
 		 * }
 		 */
 
+	}
+	
+	/**
+	 * Moves the arm and adjusts the piston in/out as needed to stay in legal
+	 * volume.
+	 * @param position desired angle, from RobotMap.ArmPositions
+	 * @param finalPistonPosition true = extend piston by end of arm movement, false = retract
+	 */
+	public ArmMoveWithPiston(ArmPositions position, boolean finalPistonPosition) {
+		this(position.getAngle(), finalPistonPosition);
+	}
+	
+	/**
+	 * Moves the arm and adjusts the piston in/out as needed to stay in legal
+	 * volume.
+	 * @param position desired angle, from RobotMap.ArmPositions
+	 */
+	public ArmMoveWithPiston(ArmPositions position) {
+		this(position.getAngle(), true);
 	}
 }

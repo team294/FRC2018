@@ -133,18 +133,18 @@ public class OI {
 	    // Bind commands to the codriver panel switches
 	    //coP[1].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
 	    //coP[2].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
-	    coP[3].whenPressed(new StopAllMotors()); // Stop all flywheels
+	    coP[3].whenPressed(new StopIntakeAndClaw()); // Stop all flywheels
 	    //coP[4].whenPressed(new Command()); // Prepare to score cube (rev up flywheels), alternate override for arm
 	    //coP[5].whenPressed(new Command()); // Score cube
 	    //coP[6].whenPressed(new Command()); // Intake mechanism up
 	    //coP[7].whenPressed(new Command()); // Intake mechanism down
-	    coP[8].whenPressed(new ArmMoveToAngle(ArmPositions.Intake)); // Arm to intake position
+	    coP[8].whenPressed(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
 	    coP[9].whenPressed(new PassiveOuttake()); // Outtake
-	    coP[10].whenPressed(new ArmMoveToAngle(ArmPositions.ScaleHigh)); // Arm to backwards for scale
+	    coP[10].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to backwards for scale
 	    coP[11].whenPressed(new LoadCubeSequence()); // Intake sequence
 	    //coP[12].whenPressed(new Command()); // TBD
-	    coP[13].whenPressed(new ArmMoveToAngle(ArmPositions.ScaleLow)); // Arm to switch position
-	    coP[14].whenPressed(new ArmMoveToAngle(ArmPositions.Switch)); // Arm to alternate scale position
+	    coP[13].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to switch position
+	    coP[14].whenPressed(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to alternate scale position
 	    
 	    // Xbox controller buttons
 	    //xbB[1].whenPressed(new Command()); // Lower intake mechanism
@@ -155,13 +155,13 @@ public class OI {
 	    xbB[6].whenPressed(new PassiveOuttake()); // Outtake
 	    //xbB[7].whenPressed(new ClimbCommand()); // Reserved for climbing
 	    //xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
-	    xbB[9].whenPressed(new StopAllMotors()); // Stop flywheels
+	    xbB[9].whenPressed(new StopIntakeAndClaw()); // Stop flywheels
 	    //xbB[10].whenPressed(new OverrideCommand()); // Override climb OR arm
 	    
-	    xbPovUp.whenActive(new ArmMoveToAngle(ArmPositions.ScaleHigh)); // Arm to scale backwards
-	    xbPovDown.whenActive(new ArmMoveToAngle(ArmPositions.Intake)); // Arm to intake position
-	    xbPovLeft.whenActive(new ArmMoveToAngle(ArmPositions.Switch)); // Arm to switch position
-	    xbPovRight.whenActive(new ArmMoveToAngle(ArmPositions.ScaleLow)); // Arm to alternate scale position
+	    xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to scale backwards
+	    xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
+	    xbPovLeft.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to switch position
+	    xbPovRight.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to alternate scale position
 	    
 	    // Xbox triggers
 	    //xbLT.whenActive(new Command()); // Prepare to score cube (rev up flywheels), alternate climb/arm override
