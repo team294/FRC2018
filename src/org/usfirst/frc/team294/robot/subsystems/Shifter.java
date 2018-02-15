@@ -12,33 +12,34 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Shifter extends Subsystem {
 
-	
-	private final DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.pnuematicShifterLow, RobotMap.pnuematicShifterHigh);
+	private final Solenoid shifter = new Solenoid(RobotMap.pnuematicShifter);
 
 	public Shifter() {
 		super();
 	}
-	
+
 	/**
 	 * Shifts according to parameter
-	 * @param high true for high gear, false for low gear
+	 * 
+	 * @param high
+	 *            true for high gear, false for low gear
 	 */
 	public void setShift(boolean high) {
-		shifter.set(high ? Value.kForward : Value.kReverse);
+		shifter.set(high ? true : false);
 	}
-	
+
 	/**
 	 * Shift the gears up
 	 */
 	public void shiftUp() {
-		shifter.set(Value.kReverse); // kReverse is high gear
+		shifter.set(true); // true is high gear
 	}
 
 	/**
 	 * Set the gear piston to in
 	 */
 	public void shiftDown() {
-		shifter.set(Value.kForward); // KForward is low gear
+		shifter.set(false); // false is low gear
 	}
 
 	/**
@@ -46,9 +47,9 @@ public class Shifter extends Subsystem {
 	 * 
 	 * @return true for high gear, false for low
 	 */
-	public boolean isShifterInHighGear() {
-		return shifter.get().equals(Value.kForward);
-	}
+	/* public boolean isShifterInHighGear() {
+		return shifter.get() == true;
+	} */
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
