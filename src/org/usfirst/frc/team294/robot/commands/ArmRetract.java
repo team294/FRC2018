@@ -8,26 +8,18 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmPistonSetMinorState extends Command {
+public class ArmRetract extends Command {
 
-	PistonPositions state;
-	boolean moving = false;
-	
-	/**
-	 * Sets the state of the minor piston
-	 * @param state RobotMap.PistonPositions. Values other then Extended (including Null and Moving) will retract pistons
-	 */
-    public ArmPistonSetMinorState(PistonPositions state) {
+    public ArmRetract() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.armPiston);
-    	this.state = state;
+    	requires (Robot.armPiston);
+    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (state == PistonPositions.Extended) moving = Robot.armPiston.smartExtendMinor();
-    	else Robot.armPiston.setMinor(PistonPositions.Retracted);
+    	Robot.armPiston.setMajor(PistonPositions.Retracted);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,7 +28,6 @@ public class ArmPistonSetMinorState extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (moving) return Robot.armPiston.getMinor() != PistonPositions.Moving;
         return true;
     }
 

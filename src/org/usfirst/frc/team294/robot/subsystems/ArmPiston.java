@@ -65,7 +65,6 @@ public class ArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMajor(RobotMap.PistonPositions position) {
-		majorPosition = PistonPositions.Moving;
 		if (position == RobotMap.PistonPositions.Extended)
 			armPistonMajor.set(Value.kForward);
 		if (position == RobotMap.PistonPositions.Retracted)
@@ -81,7 +80,6 @@ public class ArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMinor(RobotMap.PistonPositions position) {
-		minorPosition = PistonPositions.Moving;
 		if (position == RobotMap.PistonPositions.Extended)
 		//	armPistonMinor.set(Value.kForward);
 		if (position == RobotMap.PistonPositions.Retracted);
@@ -155,61 +153,21 @@ public class ArmPiston extends Subsystem {
 		// That would indicate faulty hardware, and we wouldn't want to move the arm
 		// into danger zones with faulty hardware
 	}
-	
-	/**
-	 * Extends both pistons only if in the proper zone
-	 * @return true if pistons changed state, false if otherwise
-	 */
-	public boolean smartExtend() {
+
+	public void smartExtend() {
 		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		if (zone == ArmZones.Low) {
 			setMajor(PistonPositions.Retracted);
 			setMinor(PistonPositions.Extended);
-			return true;
 		} else if (zone == ArmZones.High) {
 			setMajor(PistonPositions.Extended);
 			setMinor(PistonPositions.Extended);
-			return true;
 		} else {
 			setMajor(PistonPositions.Retracted);
 			setMinor(PistonPositions.Retracted);
-			return false;
 		}
 	}
 	
-	/**
-	 * Extends the major piston <b>only if</b> legal to do so (i.e. in high zone)
-	 * @return true if piston extended, false otherwise
-	 */
-	public boolean smartExtendMajor() {
-		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
-		if (zone == ArmZones.High) {
-			setMajor(PistonPositions.Extended);
-			return true;
-		} else {
-			setMajor(PistonPositions.Retracted);
-			return false;
-		}
-	}
-	
-	/**
-	 * Extends the minor piston <b>only if</b> legal to do so (i.e. in high or low zone)
-	 * @return true if piston extended, false otherwise
-	 */
-	public boolean smartExtendMinor() {
-		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
-		if (zone == ArmZones.High || zone == ArmZones.Low) {
-			setMinor(PistonPositions.Extended);
-			return true;
-		} else {
-			setMinor(PistonPositions.Retracted);
-			return false;
-		}
-	}
-	
-	/**
-	 * Retracts both pistons
-	 */
 	public void smartRetract() {
 		setMajor(PistonPositions.Retracted);
 		setMinor(PistonPositions.Retracted);

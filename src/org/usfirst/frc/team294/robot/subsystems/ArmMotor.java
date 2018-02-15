@@ -143,7 +143,6 @@ public class ArmMotor extends Subsystem {
 		return (armAngle);
 	}
 
-	/*
 	public void armAdjustJoystickButtonLower() {
 		if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()-7)){
 			setArmAngle(getArmDegrees() - 7);
@@ -153,31 +152,6 @@ public class ArmMotor extends Subsystem {
 	public void armAdjustJoystickButtonRaise() {
 		if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()+7)) {
 			setArmAngle(getArmDegrees() + 7);
-		}
-	}*/
-	
-	/**
-	 * Increments or decrements the arm by 7 degrees
-	 * @param increment true for increment, false for decrement
-	 */
-	public void armIncrement(boolean increment) {
-		armIncrement(7, increment);
-	}
-	
-	/**
-	 * Increments or decrements the arm
-	 * @param difference the amount to increment/decrement by
-	 * @param increment true for increment, false for decrement
-	 */
-	public void armIncrement(int difference, boolean increment) {
-		if (increment) {
-			if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()-difference)){
-				setArmAngle(getArmDegrees() - difference);
-			}
-		} else {
-			if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()+difference)) {
-				setArmAngle(getArmDegrees() + difference);
-			}
 		}
 	}
 
