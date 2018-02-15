@@ -169,8 +169,8 @@ public class OI {
 	    
 		Button armButton2 = new JoystickButton(armJoystick,2);
     	Button armButton3 = new JoystickButton(armJoystick,3);
-    	armButton2.whenPressed(new ArmIncrementLowerAngleButton());
-    	armButton3.whenPressed(new ArmIncrementRaiseAngleButton());
+    	armButton2.whenPressed(new ArmIncrementAngle(false));
+    	armButton3.whenPressed(new ArmIncrementAngle(true));
 		
 		// Initialize our auto plan chooser
     	//  Software is okay for testing. This should be hardware switches at competition.
@@ -237,8 +237,8 @@ public class OI {
 		
 		SmartDashboard.putData("Extend", new ArmPistonSmartExtendInDestZone(90));
 		
-		SmartDashboard.putData("Open Claw", new ClawSet(true));
-		SmartDashboard.putData("Close Claw", new ClawSet(false));
+		SmartDashboard.putData("Open Claw", new ClawSetState(true));
+		SmartDashboard.putData("Close Claw", new ClawSetState(false));
 
 		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(.50)); 
 		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));
