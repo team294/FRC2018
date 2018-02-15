@@ -1,34 +1,35 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
+import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * intakes a cube and closes intake jaws when appropriate
  */
-public class ArmRetract extends Command {
+public class IntakeCube extends Command {
 
-    public ArmRetract() {
+    public IntakeCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires (Robot.armPiston);
-    	
+    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armPiston.setMajor(PistonPositions.Retracted);
+    	Robot.intake.setIntakeMotorPercent(RobotMap.intakePercentIn);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return Robot.intake.smartCloseIntake();
     }
 
     // Called once after isFinished returns true
@@ -38,5 +39,6 @@ public class ArmRetract extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.intake.stop();
     }
 }

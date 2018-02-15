@@ -1,25 +1,30 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Change the drive direction of the robot
  */
-public class ArmRetract extends Command {
+public class SwitchDriveDirection extends Command {
 
-    public ArmRetract() {
+	private boolean direction;
+	
+	/**
+	 * Change the drive direction of the robot
+	 * @param direction true to drive towards shooter, false to drive towards gears
+	 */
+    public SwitchDriveDirection(boolean direction) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires (Robot.armPiston);
-    	
+    	requires(Robot.driveTrain);
+    	this.direction = direction;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armPiston.setMajor(PistonPositions.Retracted);
+    	Robot.oi.setDriveDirection(direction);
     }
 
     // Called repeatedly when this Command is scheduled to run

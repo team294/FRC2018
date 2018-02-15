@@ -1,25 +1,24 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
+import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ *opens the intake jaws and sets the motors to outtake
  */
-public class ArmRetract extends Command {
+public class PassiveOuttake extends Command {
 
-    public ArmRetract() {
+    public PassiveOuttake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires (Robot.armPiston);
-    	
+    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armPiston.setMajor(PistonPositions.Retracted);
+    	Robot.intake.outtake(); // Sets the intake motors to reverse and opens the intake
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -1,29 +1,28 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ArmRetract extends Command {
+public class ShiftUp extends Command {
 
-    public ArmRetract() {
+    public ShiftUp() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires (Robot.armPiston);
-    	
+    	requires(Robot.shifter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armPiston.setMajor(PistonPositions.Retracted);
+    	Robot.shifter.shiftUp();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

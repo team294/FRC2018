@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team294.robot;
 
+import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; //remove the ones that are not used.
@@ -18,13 +20,14 @@ import org.usfirst.frc.team294.utilities.FileLog;
 public class Robot extends TimedRobot {
 
 	// Subsystem objects
-	public static Inputs inputs;
 	public static DriveTrain driveTrain;
 	public static Shifter shifter;
-	public static ProtoArmPiston protoArmPiston;
-	public static ProtoArmMotor protoArmMotor;
+	public static ArmPiston armPiston;
+	public static ArmMotor armMotor;
 	public static Claw claw;
+	public static Intake intake;
 	public static OI oi;
+	public static Climb climb;
 
 	public static boolean allianceSwitchLeft = false;
 	public static boolean scaleLeft = false;
@@ -34,6 +37,13 @@ public class Robot extends TimedRobot {
 
 	public static int armCalZero; // Arm potentiometer position at O degrees
 	public static int armCal90Deg; // Arm potentiometer position at 90 degrees
+	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
+	public static boolean driveDirection; // true for reversed
+
+	public static String gameData;
+
+	public NetworkTableInstance networkTables;
+	public NetworkTable coDisplay;
 
 	Command autonomousCommand;
 
@@ -43,19 +53,26 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		inputs = new Inputs();
+		robotPrefs = Preferences.getInstance();
+		readPreferences(); // Read preferences next, so that subsystems can use the preference values.
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
-		protoArmPiston = new ProtoArmPiston();
-		protoArmMotor = new ProtoArmMotor();
+		armPiston = new ArmPiston();
+		armMotor = new ArmMotor();
 		claw = new Claw();
+		climb = new Climb();
+		intake = new Intake();
 
 		// Create the log file
 		log = new FileLog();
 
+		// Network Tables for driver's display
+		networkTables = NetworkTableInstance.getDefault();
+		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
+
 		// Create the OI
 		oi = new OI();
-		readPreferences(); // Read preferences next, so that subsystems can use the preference values.
 	}
 
 	/**
@@ -87,6 +104,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		readPreferences();
 		log.writeLogEcho("Autonomous mode started.");
 
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -127,8 +145,7 @@ public class Robot extends TimedRobot {
 			// Put right auto code here
 		}
 
-		DriverStation.Alliance color;
-		color = DriverStation.getInstance().getAlliance();
+		DriverStation.Alliance color = DriverStation.getInstance().getAlliance();
 
 		if (color == DriverStation.Alliance.Blue) {
 			SmartDashboard.putBoolean("Alliance Color", true);
@@ -143,9 +160,7 @@ public class Robot extends TimedRobot {
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
 		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
 		 * ExampleCommand(); break; }
-		*/
-		  
-		
+		 */
 
 		int fieldLayout, autoPlan;
 
@@ -198,12 +213,10 @@ public class Robot extends TimedRobot {
 			log.writeLogEcho("Ran Auto Path 6 (opposite side switch front), side = " + startPosition);
 			break;
 		case 7:
-		 	autonomousCommand = new AutoPath7_Baseline(startPosition);
-			log.writeLogEcho("Ran Auto Path 7 (baseline), side = " + startPosition);
+			autonomousCommand = new AutoPath7_Baseline(startPosition);
+			log.writeLogEcho("Ran Auto Path 7 (Go to baseline), side = " + startPosition);
 			break;
 		}
-		
-		
 
 		SmartDashboard.putString("Auto path", autonomousCommand.getName());
 		SmartDashboard.putNumber("Auto program #", programSelected);
@@ -213,6 +226,8 @@ public class Robot extends TimedRobot {
 
 		// schedule the autonomous command
 		if (autonomousCommand != null) {
+			Command shiftLow = new ShiftDown();
+			shiftLow.start();
 			autonomousCommand.start();
 		}
 	}
@@ -223,10 +238,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		this.driveTrain.getGyroRotation();
 	}
 
 	@Override
 	public void teleopInit() {
+		readPreferences();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -271,6 +288,9 @@ public class Robot extends TimedRobot {
 																// robot
 		}
 		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
+		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype
 		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
+		driveDirection = robotPrefs.getBoolean("driveDirection", true);
+		RobotMap.wheelCircumference = robotPrefs.getDouble("wheelDiameter", 6.18) * Math.PI;
 	}
 }
