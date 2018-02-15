@@ -195,12 +195,12 @@ public class OI {
 	
 		SmartDashboard.putData("Start Drive Train", new DriveWithJoysticks());
 		
-		SmartDashboard.putData("Retract Arm", new ArmRetract());
+		SmartDashboard.putData("Retract Arm", new ArmPistonSetMajorState(PistonPositions.Retracted));
 		
-		SmartDashboard.putData("Extend Arm", new ArmExtend());
+		SmartDashboard.putData("Extend Arm", new ArmPistonSetMajorState(PistonPositions.Extended));
 		
 		//SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
-		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementRaiseAngleButton());
+		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementAngle(true));
 
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
