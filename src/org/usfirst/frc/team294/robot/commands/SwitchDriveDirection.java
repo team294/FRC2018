@@ -1,10 +1,6 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-<<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/SwitchDriveDirection.java
-
-=======
->>>>>>> origin/JimArm:src/org/usfirst/frc/team294/robot/commands/ArmBrake.java
 import edu.wpi.first.wpilibj.command.Command;
 
 /**

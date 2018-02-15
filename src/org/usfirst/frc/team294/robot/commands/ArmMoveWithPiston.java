@@ -1,12 +1,8 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-<<<<<<< HEAD
-=======
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
-
->>>>>>> refs/remotes/origin/Matt-Driver-Controls
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -37,11 +33,6 @@ public class ArmMoveWithPiston extends CommandGroup {
 		addSequential(new ArmPistonSmartRetract(destAngle, finalPistonPosition));
 		addParallel(new ArmPistonSmartExtendInDestZone(destAngle));
 		addSequential(new ArmMoveToDestAngle(destAngle));
-<<<<<<< HEAD
-=======
-		addSequential(new ArmBrake(true));
-		addSequential(new ArmSetMotorToZero());
->>>>>>> origin/JimArm
 		
 		// }
 
