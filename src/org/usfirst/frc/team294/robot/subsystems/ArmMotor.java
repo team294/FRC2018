@@ -3,19 +3,18 @@ package org.usfirst.frc.team294.robot.subsystems;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-/**
+/*
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-**/
+*/
 
 /**
  * The subsystem controlling the arm angle (but not the piston)
@@ -24,7 +23,6 @@ public class ArmMotor extends Subsystem {
 
 	private final TalonSRX armMotor1 = new TalonSRX(RobotMap.armMotor1);
 	private final TalonSRX armMotor2 = new TalonSRX(RobotMap.armMotor2);
-	private final Solenoid diskBrake = new Solenoid(RobotMap.pnuematicArmBrake);
 
 	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks;		//  Put in robot.preferences or change proto arm to magnetic encoder
 	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
@@ -46,7 +44,8 @@ public class ArmMotor extends Subsystem {
 
 		// Closed-loop control structures
 		armMotor1.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
-		armMotor1.setSensorPhase(true);
+		if(Robot.prototypeRobot) armMotor1.setSensorPhase(true);
+		else armMotor1.setSensorPhase(false);
 		// armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00,
 		// 0x00); // Change parameter to 1 for non-continuous
 		armMotor1.selectProfileSlot(0, 0);
@@ -211,14 +210,7 @@ public class ArmMotor extends Subsystem {
 		return voltageLeft;
 	}
 	
-	/**
-	 * Sets arm disk brake to extended or retracted based on a boolean 
-	 * @param brakeOn     True is extended, false is retracted 
-	 */
-	public void setArmDiskBrake(boolean brakeOn) {
-		diskBrake.set(brakeOn);
-	}
-	
+
 	/**
 	 * Updates pot and angle measurements on the SmartDashboard
 	 */
