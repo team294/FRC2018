@@ -1,24 +1,25 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *opens the intake jaws and sets the motors to outtake
+ *
  */
-public class PassiveOuttake extends Command {
+public class StopIntakeAndClaw extends Command {
 
-    public PassiveOuttake() {
+    public StopIntakeAndClaw() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.claw);
     	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.outtake(); // Sets the intake motors to reverse and opens the intake
+    	Robot.claw.stop();
+    	Robot.intake.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run

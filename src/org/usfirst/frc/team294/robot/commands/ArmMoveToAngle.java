@@ -2,28 +2,34 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ClawOpen extends Command {
-		
-	/**
-	 * Manually opens claw, but not if claw is in keep-out zone
-	 */
-    public ClawOpen() {
+public class ArmMoveToAngle extends Command {
+
+	double angle;
+	
+    public ArmMoveToAngle(double angle) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.claw);
+    	requires(Robot.armMotor);
+    	if (angle > RobotMap.maxAngle) angle = RobotMap.maxAngle;
+    	if (angle < RobotMap.minAngle) angle = RobotMap.minAngle;
+    	this.angle = angle;
+    }
+    
+    public ArmMoveToAngle(ArmPositions position) {
+    	angle = position.getAngle();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-		Robot.claw.openClaw();
-	}
-  
+		Robot.armMotor.setArmAngle(angle);
+    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
@@ -31,7 +37,7 @@ public class ClawOpen extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return true; // This will need some tolerance checking, probably
     }
 
     // Called once after isFinished returns true
