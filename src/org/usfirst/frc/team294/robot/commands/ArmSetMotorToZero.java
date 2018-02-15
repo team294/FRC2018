@@ -1,33 +1,22 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-<<<<<<< HEAD:src/org/usfirst/frc/team294/robot/commands/SwitchDriveDirection.java
 
-=======
->>>>>>> origin/JimArm:src/org/usfirst/frc/team294/robot/commands/ArmBrake.java
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Change the drive direction of the robot
+ *
  */
-public class SwitchDriveDirection extends Command {
+public class ArmSetMotorToZero extends Command {
 
-	private boolean direction;
-	
-	/**
-	 * Change the drive direction of the robot
-	 * @param direction true to drive towards shooter, false to drive towards gears
-	 */
-    public SwitchDriveDirection(boolean direction) {
+    public ArmSetMotorToZero() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
-    	this.direction = direction;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.oi.setDriveDirection(direction);
+    	Robot.armMotor.setArmMotorToPercentPower(0);
     }
 
     // Called repeatedly when this Command is scheduled to run

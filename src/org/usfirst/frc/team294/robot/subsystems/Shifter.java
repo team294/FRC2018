@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -13,10 +14,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Shifter extends Subsystem {
 
 	
-	private final DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.pnuematicShifterLow, RobotMap.pnuematicShifterHigh);
+	private DoubleSolenoid shifter; 
 
 	public Shifter() {
 		super();
+		if (Robot.prototypeRobot) shifter = new DoubleSolenoid(RobotMap.pnuematicShifterLow, RobotMap.pnuematicShifterHigh);
 	}
 	
 	/**
@@ -38,7 +40,7 @@ public class Shifter extends Subsystem {
 	 * Set the gear piston to in
 	 */
 	public void shiftDown() {
-		shifter.set(Value.kForward); // KForward is low gear
+		if (Robot.prototypeRobot) shifter.set(Value.kForward); // KForward is low gear
 	}
 
 	/**
