@@ -42,12 +42,12 @@ public class Claw extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	public void openClaw() {										// this logic is funky  Clean up
-		double currentAngle = Robot.armMotor.getArmDegrees();
+		/* double currentAngle = Robot.armMotor.getArmDegrees();
 		if (currentAngle <= RobotMap.angleClawCloseHigh && currentAngle >= RobotMap.angleClawCloseLow) {
 		}
-		else {
+		else { */ // no longer need keep-out zone
 			clawPiston.set(true); // true is extend
-		}
+		//}
 	}
 
 	public void closeClaw() {
