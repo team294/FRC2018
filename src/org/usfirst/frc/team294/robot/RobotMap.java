@@ -5,7 +5,7 @@ public class RobotMap {
 
 	// Hardware CAN addresses
 	public static final int leftMotor1 = 10;
-	public static final int leftMotor2 = 11;
+	public static final int leftMotor2 = 11;	// Master
 	public static final int leftMotor3 = 12;
 	public static double wheelCircumference ; //set value in Robot plz dont change
 	public static final double encoderTicksPerRevolution = 4096.0;
@@ -14,7 +14,7 @@ public class RobotMap {
 	public static final int rightMotor1 = 20; 
 	public static final int rightMotor2 = 21;	// Master
 	public static final int rightMotor3 = 22;
-	public static final int armMotor1 = 30;
+	public static final int armMotor1 = 30;		// Master
 	public static final int armMotor2 = 31;
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
@@ -27,7 +27,7 @@ public class RobotMap {
 	
 	public static final int pnuematicShifterHigh = 0;
 	public static final int pnuematicShifterLow = 1;		// this is used for prototype drive base only!!  Change to single solenoid in prototype
-	public static final int pnuematicArmBrake = 1;		
+	public static final int pnuematicArmBrake = 1;			// At this point, 2/14/18, we do not envision that a brake is required - All ArmBrake code should be commented out
 	public static final int pneumaticArmPistonMajorOut = 2;
 	public static final int pneumaticArmPistonMajorIn = 3;
 	public static final int pneumaticIntakePistonOpen = 4;
