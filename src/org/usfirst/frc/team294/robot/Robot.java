@@ -282,11 +282,14 @@ public class Robot extends TimedRobot {
 		// TODO: For each robot preference: Use more descriptive names?
 		robotPrefs = Preferences.getInstance();
 
-		if (robotPrefs.getDouble("calibrationZeroDegrees", 0) == 0) { // If field was not set up, set up field
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
-			robotPrefs.putInt("calibrationZeroDegrees", -245); // Value may need to be changed based on specifics of
-																// robot
-		}
+		if (robotPrefs.getDouble("calibrationZeroDegrees", -9999) == 0) { 
+			// If calibration factor for arm can't be read, then don't enable control of arm
+			DriverStation.reportError("Error:  Preferences missing f-9999om RoboRio for Arm calibration.", true);
+		} else {
+			armMotor.setArmCalibration( robotPrefs.getDouble("calibrationZeroDegres", -9999), false);
+		
+		// robotPrefs.putInt("calibrationZeroDegrees", -245); // Value may need to be changed based on specifics of robot
+
 		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
 		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype
 		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);

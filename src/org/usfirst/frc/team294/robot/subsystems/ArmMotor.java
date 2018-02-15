@@ -4,6 +4,7 @@ import org.usfirst.frc.team294.robot.OI;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.UpdateArmSmartDashboard;
+import edu.wpi.first.wpilibj.Preferences;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,11 +28,15 @@ public class ArmMotor extends Subsystem {
 	private final WPI_TalonSRX armMotor1 = new WPI_TalonSRX(RobotMap.armMotor1);
 	private final WPI_TalonSRX armMotor2 = new WPI_TalonSRX(RobotMap.armMotor2);
 
-	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks;		//  Put in robot.preferences or change proto arm to magnetic encoder
+	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks; // Put in robot.preferences or change proto arm to
+																		// magnetic encoder
 	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
 
-	private final double MAX_UP_PERCENT_POWER = 0.8;   //  Up these speeds after testing
+	private final double MAX_UP_PERCENT_POWER = 0.8; // Up these speeds after testing
 	private final double MAX_DOWN_PERCENT_POWER = -0.5;
+
+	private boolean armCalibrated = false;
+	private double armCalZero; // Arm potentiometer position at O degrees
 
 	public ArmMotor() {
 
@@ -59,19 +64,25 @@ public class ArmMotor extends Subsystem {
 		armMotor1.configPeakOutputForward(MAX_UP_PERCENT_POWER, 10);
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
 	}
-
-	public void calibrate() {
-		// yeah we're gonna fill this out later with uhhhhh something
-		// Probably won't need something, Shuffleboard and robot prefs can be used
-		// instead.
-		// No, this will be used for calibrating the arm between robots
-		// But you can also use Shuffleboard and Robotprefs to calibrate the arm between
-		// different robots, no need for a method to do it
+	/** 
+	 * Sets arm angle calibration factor and enables angle control modes for arm. 
+	 * @param armCalZero Calibration factor for arm 
+	 * @param writeCalToPreferences true = store calibration in Robot Preferences, false = don't change Robot Preferences 
+	 */ 
+	
+	public void setArmCalibration(double armCalZero, boolean writeCalToPreferences) { 
+		this.armCalZero = armCalZero; 
+		armCalibrated = true; 
+		SmartDashboard.putBoolean("Arm Calibrated", armCalibrated); 
+		if (writeCalToPreferences) { 
+			Preferences robotPrefs = Preferences.getInstance(); 
+			robotPrefs.putDouble("calibrationZeroDegrees", armCalZero);
+		}
 	}
 
 	/**
-	 * Controls the arm based on Percent VBUS
-	 * FOR CALIBRATION ONLY DO NOT USE AT COMPETITION *EVER*
+	 * Controls the arm based on Percent VBUS FOR CALIBRATION ONLY DO NOT USE AT
+	 * COMPETITION *EVER*
 	 * 
 	 * @param percent
 	 *            voltage, minimum -0.3 and maximum 0.7
@@ -144,13 +155,13 @@ public class ArmMotor extends Subsystem {
 	}
 
 	public void armAdjustJoystickButtonLower() {
-		if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()-7)){
+		if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - 7)) {
 			setArmAngle(getArmDegrees() - 7);
 		}
 	}
 
 	public void armAdjustJoystickButtonRaise() {
-		if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()+7)) {
+		if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + 7)) {
 			setArmAngle(getArmDegrees() + 7);
 		}
 	}
@@ -177,8 +188,10 @@ public class ArmMotor extends Subsystem {
 	 *            desired position, in pot ticks
 	 */
 	private void setArmPositionScaled(double position) {
-		position += (Robot.armCalZero); // armZeroDegreesCalibration;
-		armMotor1.set(ControlMode.Position, position);
+		if (armCalibrated) { 
+			position += (armCalZero); // armZeroDegreesCalibration; 
+			armMotor1.set(ControlMode.Position, position); 
+		} 
 	}
 
 	/**
