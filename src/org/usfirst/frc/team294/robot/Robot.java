@@ -2,13 +2,11 @@
 package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.networktables.*;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; //remove the ones that are not used.
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.RobotMap;
@@ -35,8 +33,6 @@ public class Robot extends TimedRobot {
 	public static FileLog log;
 	public static Preferences robotPrefs;
 
-	public static int armCalZero; // Arm potentiometer position at O degrees
-	public static int armCal90Deg; // Arm potentiometer position at 90 degrees
 	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
 	public static boolean driveDirection; // true for reversed
 
@@ -53,9 +49,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		robotPrefs = Preferences.getInstance();
-		readPreferences(); // Read preferences next, so that subsystems can use the preference values.
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		// Read preferences first, so that subsystems can use the preference values.
+		readPreferences(); 
+
+		// Create subsystems
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		armPiston = new ArmPiston();
@@ -71,7 +68,7 @@ public class Robot extends TimedRobot {
 		networkTables = NetworkTableInstance.getDefault();
 		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
 
-		// Create the OI
+		// Create the OI last, so that it can use commands that call subsystems
 		oi = new OI();
 	}
 
@@ -104,7 +101,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		readPreferences();
 		log.writeLogEcho("Autonomous mode started.");
 
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -226,7 +222,7 @@ public class Robot extends TimedRobot {
 
 		// schedule the autonomous command
 		if (autonomousCommand != null) {
-			Command shiftLow = new ShiftDown();
+			Command shiftLow = new Shift(false);
 			shiftLow.start();
 			autonomousCommand.start();
 		}
@@ -238,12 +234,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		this.driveTrain.getGyroRotation();
+		driveTrain.getGyroRotation();
 	}
 
 	@Override
 	public void teleopInit() {
-		readPreferences();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -253,7 +248,7 @@ public class Robot extends TimedRobot {
 		}
 		driveTrain.zeroGyroRotation(); // todo remove later
 		driveTrain.setFieldPositionX(0); // todo remove later
-		driveTrain.setFieldPositionY(0); // todo remove later	
+		driveTrain.setFieldPositionY(0); // todo remove later
 
 		log.writeLogEcho("Teleop mode started.");
 	}
@@ -282,14 +277,15 @@ public class Robot extends TimedRobot {
 		// TODO: For each robot preference: Use more descriptive names?
 		robotPrefs = Preferences.getInstance();
 
-		if (robotPrefs.getDouble("calibrationZeroDegrees", 0) == 0) { // If field was not set up, set up field
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
-			robotPrefs.putInt("calibrationZeroDegrees", -245); // Value may need to be changed based on specifics of
-																// robot
+		if (robotPrefs.getDouble("calibrationZeroDegrees", -9999) == -9999) {
+			// If calibration factor for arm can't be read, then don't enable angle control of arm
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true); 
+		} else {
+			// Enable angle control of arm with calibration factor from Robot Preferences
+			armMotor.setArmCalibration(robotPrefs.getDouble("calibrationZeroDegrees", -9999), false);
 		}
-		armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
+		
 		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype
-		armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
 		driveDirection = robotPrefs.getBoolean("driveDirection", true);
 		RobotMap.wheelCircumference = robotPrefs.getDouble("wheelDiameter", 6.18) * Math.PI;
 	}

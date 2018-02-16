@@ -1,28 +1,28 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.Robot; 
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ShiftDown extends Command {
+public class CalibrateArmZero extends Command {
 
-    public ShiftDown() {
+    public CalibrateArmZero() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shifter);
+    	requires(Robot.armMotor); 
     }
+    
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shifter.shiftDown();
+    	Robot.armMotor.setArmCalibration( Robot.armMotor.getArmPotRaw(), true);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

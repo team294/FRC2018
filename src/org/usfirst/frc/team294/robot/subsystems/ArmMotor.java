@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import edu.wpi.first.wpilibj.Preferences;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -25,11 +26,17 @@ public class ArmMotor extends Subsystem {
 	private final TalonSRX armMotor1 = new TalonSRX(RobotMap.armMotor1);
 	private final TalonSRX armMotor2 = new TalonSRX(RobotMap.armMotor2);
 
-	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks;		//  Put in robot.preferences or change proto arm to magnetic encoder
+	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks; // Put in robot.preferences or change proto arm to
+																		// magnetic encoder
 	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
 
-	private final double MAX_UP_PERCENT_POWER = 0.8;   //  Up these speeds after testing
+	private final double MAX_UP_PERCENT_POWER = 0.8; // Up these speeds after testing
 	private final double MAX_DOWN_PERCENT_POWER = -0.5;
+
+	private boolean armCalibrated = false;  // Default to arm being uncalibrated.  Calibrate from robot preferences, 
+											// "Calibrate arm zero position" button on dashboard,
+											// or autocal on low limit switch (see periodic() below)
+	private double armCalZero; // Arm potentiometer position at O degrees (i.e. the calibration factor)
 
 	public ArmMotor() {
 
@@ -61,18 +68,29 @@ public class ArmMotor extends Subsystem {
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
 	}
 
-	public void calibrate() {
-		// yeah we're gonna fill this out later with uhhhhh something
-		// Probably won't need something, Shuffleboard and robot prefs can be used
-		// instead.
-		// No, this will be used for calibrating the arm between robots
-		// But you can also use Shuffleboard and Robotprefs to calibrate the arm between
-		// different robots, no need for a method to do it
+	/**
+	 * Sets arm angle calibration factor and enables angle control modes for arm.
+	 * 
+	 * @param armCalZero
+	 *            Calibration factor for arm
+	 * @param writeCalToPreferences
+	 *            true = store calibration in Robot Preferences, false = don't
+	 *            change Robot Preferences
+	 */
+
+	public void setArmCalibration(double armCalZero, boolean writeCalToPreferences) {
+		this.armCalZero = armCalZero;
+		armCalibrated = true;
+		SmartDashboard.putBoolean("Arm Calibrated", armCalibrated);
+		if (writeCalToPreferences) {
+			Preferences robotPrefs = Preferences.getInstance();
+			robotPrefs.putDouble("calibrationZeroDegrees", armCalZero);
+		}
 	}
 
 	/**
-	 * Controls the arm based on Percent VBUS
-	 * FOR CALIBRATION ONLY DO NOT USE AT COMPETITION *EVER*
+	 * Controls the arm based on Percent VBUS FOR CALIBRATION ONLY DO NOT USE AT
+	 * COMPETITION *EVER*
 	 * 
 	 * @param percent
 	 *            voltage, minimum -0.3 and maximum 0.7
@@ -100,8 +118,7 @@ public class ArmMotor extends Subsystem {
 	 * The value at that read should then be entered into the armCalZero field.
 	 **/
 	public double getArmEnc() {
-		double encValue = getArmEncRaw() - (Robot.armCalZero);// armZeroDegreesCalibration; //Removed zero for testing
-																// purposes
+		double encValue = getArmEncRaw() - armCalZero;
 		// int potValue = armMotor.getSensorCollection().getAnalogIn();
 		SmartDashboard.putNumber("Arm Pot Value", encValue);
 		return (encValue);
@@ -113,7 +130,7 @@ public class ArmMotor extends Subsystem {
 	 * @return desired degree of arm angle
 	 */
 	public double getCurrentArmTarget() {
-		double currTarget = armMotor1.getClosedLoopTarget(0) - (Robot.armCalZero);
+		double currTarget = armMotor1.getClosedLoopTarget(0) - armCalZero;
 		currTarget *= DEGREES_PER_TICK;
 		SmartDashboard.putNumber("Desired Angle of Arm in Degrees", currTarget);
 		return currTarget;
@@ -146,13 +163,13 @@ public class ArmMotor extends Subsystem {
 
 	/*
 	public void armAdjustJoystickButtonLower() {
-		if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()-7)){
+		if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - 7)) {
 			setArmAngle(getArmDegrees() - 7);
 		}
 	}
 
 	public void armAdjustJoystickButtonRaise() {
-		if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()+7)) {
+		if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + 7)) {
 			setArmAngle(getArmDegrees() + 7);
 		}
 	}*/
@@ -204,8 +221,10 @@ public class ArmMotor extends Subsystem {
 	 *            desired position, in pot ticks
 	 */
 	private void setArmPositionScaled(double position) {
-		position += (Robot.armCalZero); // armZeroDegreesCalibration;
-		armMotor1.set(ControlMode.Position, position);
+		if (armCalibrated) {
+			position += (armCalZero); // armZeroDegreesCalibration;
+			armMotor1.set(ControlMode.Position, position);
+		}
 	}
 
 	/**
@@ -216,7 +235,9 @@ public class ArmMotor extends Subsystem {
 	 *            desired position, in scaled pot ticks
 	 */
 	private void setArmPositionRaw(double position) {
-		armMotor1.set(ControlMode.Position, position);
+		if (armCalibrated) {
+			armMotor1.set(ControlMode.Position, position);
+		}
 	}
 
 	/**
@@ -253,6 +274,14 @@ public class ArmMotor extends Subsystem {
 
 	public void periodic() {
 		updateSmartDashboard();
+		// Set armCalZero, if not already set, by using known value of lower limit switch
+		if (!armCalibrated) {
+			SensorCollection sc = armMotor1.getSensorCollection();
+			if (sc.isRevLimitSwitchClosed()) {
+				// TODO uncomment and test for possible sign error
+				//setArmCalibration( getArmPotRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
+			}
+		}
 	}
 
 	public void initDefaultCommand() {

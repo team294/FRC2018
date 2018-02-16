@@ -3,8 +3,6 @@ package org.usfirst.frc.team294.robot.subsystems;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -13,34 +11,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Shifter extends Subsystem {
 
-	
-	private DoubleSolenoid shifter; 
+	private final Solenoid shifter = new Solenoid(RobotMap.pnuematicShifter);
 
 	public Shifter() {
 		super();
-		if (Robot.prototypeRobot) shifter = new DoubleSolenoid(RobotMap.pnuematicShifterLow, RobotMap.pnuematicShifterHigh);
-	}
-	
-	/**
-	 * Shifts according to parameter
-	 * @param high true for high gear, false for low gear
-	 */
-	public void setShift(boolean high) {
-		shifter.set(high ? Value.kForward : Value.kReverse);
-	}
-	
-	/**
-	 * Shift the gears up
-	 */
-	public void shiftUp() {
-		shifter.set(Value.kReverse); // kReverse is high gear
 	}
 
 	/**
-	 * Set the gear piston to in
+	 * Shifts according to parameter
+	 * 
+	 * @param high
+	 *            true for high gear, false for low gear
 	 */
-	public void shiftDown() {
-		if (Robot.prototypeRobot) shifter.set(Value.kForward); // KForward is low gear
+	public void setShift(boolean high) {
+		shifter.set(high ? false : true); // shifter false is high gear, shifter true is low gear
+		// TODO re-test shifter booleans (whether false is high gear)
 	}
 
 	/**
@@ -49,7 +34,7 @@ public class Shifter extends Subsystem {
 	 * @return true for high gear, false for low
 	 */
 	public boolean isShifterInHighGear() {
-		return shifter.get().equals(Value.kForward);
+		return shifter.get() == false; // shifter false is high gear, shifter true is low gear
 	}
 
 	public void initDefaultCommand() {

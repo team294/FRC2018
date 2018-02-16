@@ -115,8 +115,8 @@ public class OI {
 	    		right[i].whenPressed(new DriveWithJoysticks());
 	    		left[i].whenPressed(new DriveWithJoysticks());
 	    	} else {
-	    		right[i].whenPressed(new ShiftUp());
-	    		left[i].whenPressed(new ShiftDown());
+	    		right[i].whenPressed(new Shift(true));
+	    		left[i].whenPressed(new Shift(false));
 	    	}
 	    }
 
@@ -201,6 +201,8 @@ public class OI {
 		
 		//SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
 		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementAngle(true));
+		
+		SmartDashboard.putData("Calibrate arm zero position", new CalibrateArmZero());
 
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
