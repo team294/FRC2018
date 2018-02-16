@@ -11,6 +11,12 @@ public class Shift extends Command {
 
 	private boolean high;
 
+	/**
+	 * changes from low to high gear on drive
+	 * 
+	 * @param high
+	 *            true is high gear, false is low gear
+	 */
 	public Shift(boolean high) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
