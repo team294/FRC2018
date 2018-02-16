@@ -4,18 +4,11 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import edu.wpi.first.wpilibj.Preferences;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-/**
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-**/
 
 /**
  * The subsystem controlling the arm angle (but not the piston)
@@ -35,7 +28,7 @@ public class ArmMotor extends Subsystem {
 	private boolean armCalibrated = false;  // Default to arm being uncalibrated.  Calibrate from robot preferences, 
 											// "Calibrate arm zero position" button on dashboard,
 											// or autocal on low limit switch (see periodic() below)
-	private double armCalZero; // Arm potentiometer position at O degrees (i.e. the calibration factor)
+	private double armCalZero; // Arm encoder position at O degrees (i.e. the calibration factor)
 
 	public ArmMotor() {
 
@@ -49,14 +42,17 @@ public class ArmMotor extends Subsystem {
 				0);
 		armMotor1.overrideLimitSwitchesEnable(true); // pass false to force disable limit switch
 
+		
 		// Closed-loop control structures
-		armMotor1.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
-		armMotor1.setSensorPhase(true);
+		armMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+		if(Robot.prototypeRobot) armMotor1.setSensorPhase(true);
+		else armMotor1.setSensorPhase(false);
+
 		// armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00,
 		// 0x00); // Change parameter to 1 for non-continuous
 		armMotor1.selectProfileSlot(0, 0);
 		armMotor1.config_kF(0, 0.0, 10);
-		armMotor1.config_kP(0, 90.0, 10); // old term 50, 50 works
+		armMotor1.config_kP(0, 4.4, 10); // old term 90  
 		armMotor1.config_kI(0, 0.0, 10);
 		armMotor1.config_kD(0, 0.0, 10);
 		armMotor1.configClosedloopRamp(0.25, 10);
@@ -106,18 +102,17 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Returns value of pot on arm, adjusted for zero degree reference at level.
+	 * Returns value of encoder on arm, adjusted for zero degree reference at level.
 	 * Also updates Smart Dashboard. </br>
 	 * The reference value for the arm position at zero degrees is set in the
 	 * Shuffleboard network table/preferences section.</br>
 	 * <b>To reset:</b> Set the arm to the zero position, set the armCalZero to 0.
 	 * The value at that read should then be entered into the armCalZero field.
 	 **/
-	public double getArmPot() {
-		double potValue = getArmPotRaw() - armCalZero;
-		// int potValue = armMotor.getSensorCollection().getAnalogIn();
-		SmartDashboard.putNumber("Arm Pot Value", potValue);
-		return (potValue);
+	public double getArmEnc() {
+		double encValue = getArmEncRaw() - armCalZero;
+		SmartDashboard.putNumber("Arm Enc (calibrated)", encValue);
+		return (encValue);
 	}
 
 	/**
@@ -133,30 +128,31 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Returns the raw value of the pot on arm, without adjusting for level. Also
+	 * Returns the raw value of the encoder on arm, without adjusting for level. Also
 	 * updates SmartDashboard. Needed for calibration of 0.
 	 * 
 	 * @return raw value, probably a large negative number
 	 */
-	public double getArmPotRaw() {
-		double potVal = armMotor1.getSelectedSensorPosition(0);
-		SmartDashboard.putNumber("Arm Pot Raw", potVal);
-		return potVal;
+	public double getArmEncRaw() {
+		double encVal = armMotor1.getSelectedSensorPosition(0);
+		SmartDashboard.putNumber("Arm Enc Raw", encVal);
+		return encVal;
 	}
 
 	/**
-	 * Gets the current angle of the arm, in degrees (converted from potentiometer)
+	 * Gets the current angle of the arm, in degrees (converted from encoder)
 	 * </br>
-	 * Uses getArmPot and multiplies by degrees per click constant
+	 * Uses getArmEnc and multiplies by degrees per click constant
 	 * 
 	 * @return angle in degrees
 	 */
 	public double getArmDegrees() {
-		double armAngle = getArmPot() * DEGREES_PER_TICK;
+		double armAngle = getArmEnc() * DEGREES_PER_TICK;
 		SmartDashboard.putNumber("Arm angle Value", armAngle);
 		return (armAngle);
 	}
 
+	/*
 	public void armAdjustJoystickButtonLower() {
 		if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - 7)) {
 			setArmAngle(getArmDegrees() - 7);
@@ -166,6 +162,31 @@ public class ArmMotor extends Subsystem {
 	public void armAdjustJoystickButtonRaise() {
 		if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + 7)) {
 			setArmAngle(getArmDegrees() + 7);
+		}
+	}*/
+	
+	/**
+	 * Increments or decrements the arm by 7 degrees
+	 * @param increment true for increment, false for decrement
+	 */
+	public void armIncrement(boolean increment) {
+		armIncrement(7, increment);
+	}
+	
+	/**
+	 * Increments or decrements the arm
+	 * @param difference the amount to increment/decrement by
+	 * @param increment true for increment, false for decrement
+	 */
+	public void armIncrement(int difference, boolean increment) {
+		if (increment) {
+			if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()-difference)){
+				setArmAngle(getArmDegrees() - difference);
+			}
+		} else {
+			if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()+difference)) {
+				setArmAngle(getArmDegrees() + difference);
+			}
 		}
 	}
 
@@ -184,11 +205,11 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Sets the position of the arm based on scaled potentiometer ticks, and
+	 * Sets the position of the arm based on scaled encoder ticks, and
 	 * converts to raw (subtracts position at 0)
 	 * 
 	 * @param position
-	 *            desired position, in pot ticks
+	 *            desired position, in encoder ticks
 	 */
 	private void setArmPositionScaled(double position) {
 		if (armCalibrated) {
@@ -198,11 +219,11 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Sets the (raw) position of the arm based on raw potentiometer ticks, with no
+	 * Sets the (raw) position of the arm based on raw encoder ticks, with no
 	 * adjustment for zero calibration
 	 * 
 	 * @param position
-	 *            desired position, in scaled pot ticks
+	 *            desired position, in raw encoder ticks
 	 */
 	private void setArmPositionRaw(double position) {
 		if (armCalibrated) {
@@ -230,11 +251,12 @@ public class ArmMotor extends Subsystem {
 		return voltageLeft;
 	}
 
+	
 	/**
-	 * Updates pot and angle measurements on the SmartDashboard
+	 * Updates encoder and angle measurements on the SmartDashboard
 	 */
 	public void updateSmartDashboard() {
-		getArmPot();
+		getArmEnc();
 		getArmDegrees();
 		getOutputVoltage();
 		SmartDashboard.putNumber("Arm Motor Error", armMotor1.getClosedLoopError(0));
@@ -248,7 +270,7 @@ public class ArmMotor extends Subsystem {
 			SensorCollection sc = armMotor1.getSensorCollection();
 			if (sc.isRevLimitSwitchClosed()) {
 				// TODO uncomment and test for possible sign error
-				//setArmCalibration( getArmPotRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
+				//setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
 		}
 	}

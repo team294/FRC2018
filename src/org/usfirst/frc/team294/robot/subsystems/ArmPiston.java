@@ -10,6 +10,7 @@ import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -22,6 +23,7 @@ public class ArmPiston extends Subsystem {
 
 	private final DoubleSolenoid armPistonMajor = new DoubleSolenoid(RobotMap.pneumaticArmPistonMajorIn,
 			RobotMap.pneumaticArmPistonMajorOut);
+	private final Solenoid armPistonMinorSingle = new Solenoid(RobotMap.pneumaticArmPistonMinorOut);
 //	private final DoubleSolenoid armPistonMinor = new DoubleSolenoid(RobotMap.pneumaticArmPistonMinorIn,
 //			RobotMap.pneumaticArmPistonMinorOut);
 	//TODO uncomment Minor Piston
@@ -80,10 +82,19 @@ public class ArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMinor(RobotMap.PistonPositions position) {
-		if (position == RobotMap.PistonPositions.Extended)
-		//	armPistonMinor.set(Value.kForward);
-		if (position == RobotMap.PistonPositions.Retracted);
-		//	armPistonMinor.set(Value.kReverse);
+		if(Robot.prototypeRobot) {
+			if (position == RobotMap.PistonPositions.Extended)
+				armPistonMinorSingle.set(true);
+			if (position == RobotMap.PistonPositions.Retracted)
+				armPistonMinorSingle.set(false);
+		} else {
+			if (position == RobotMap.PistonPositions.Extended);
+				//	armPistonMinor.set(Value.kForward);
+			if (position == RobotMap.PistonPositions.Retracted);
+				//	armPistonMinor.set(Value.kReverse);
+		}
+		
+
 	}//TODO uncomment Minor Piston
 
 	/**
@@ -153,21 +164,61 @@ public class ArmPiston extends Subsystem {
 		// That would indicate faulty hardware, and we wouldn't want to move the arm
 		// into danger zones with faulty hardware
 	}
-
-	public void smartExtend() {
+	
+	/**
+	 * Extends both pistons only if in the proper zone
+	 * @return true if pistons changed state, false if otherwise
+	 */
+	public boolean smartExtend() {
 		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		if (zone == ArmZones.Low) {
 			setMajor(PistonPositions.Retracted);
 			setMinor(PistonPositions.Extended);
+			return true;
 		} else if (zone == ArmZones.High) {
 			setMajor(PistonPositions.Extended);
 			setMinor(PistonPositions.Extended);
+			return true;
 		} else {
 			setMajor(PistonPositions.Retracted);
 			setMinor(PistonPositions.Retracted);
+			return false;
 		}
 	}
 	
+	/**
+	 * Extends the major piston <b>only if</b> legal to do so (i.e. in high zone)
+	 * @return true if piston extended, false otherwise
+	 */
+	public boolean smartExtendMajor() {
+		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
+		if (zone == ArmZones.High) {
+			setMajor(PistonPositions.Extended);
+			return true;
+		} else {
+			setMajor(PistonPositions.Retracted);
+			return false;
+		}
+	}
+	
+	/**
+	 * Extends the minor piston <b>only if</b> legal to do so (i.e. in high or low zone)
+	 * @return true if piston extended, false otherwise
+	 */
+	public boolean smartExtendMinor() {
+		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
+		if (zone == ArmZones.High || zone == ArmZones.Low) {
+			setMinor(PistonPositions.Extended);
+			return true;
+		} else {
+			setMinor(PistonPositions.Retracted);
+			return false;
+		}
+	}
+	
+	/**
+	 * Retracts both pistons
+	 */
 	public void smartRetract() {
 		setMajor(PistonPositions.Retracted);
 		setMinor(PistonPositions.Retracted);
@@ -176,6 +227,7 @@ public class ArmPiston extends Subsystem {
 	public void periodic() {
 		updateSmartDashboard();
 		updateState();
+		getMajor();
 	}
 
 	public void initDefaultCommand() {

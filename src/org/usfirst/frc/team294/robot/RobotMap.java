@@ -27,13 +27,16 @@ public class RobotMap {
 	
 	public static final int pnuematicShifter = 0;		// this is used for prototype drive base only!!  Change to single solenoid in prototype
 	public static final int pnuematicArmBrake = 1;			// At this point, 2/14/18, we do not envision that a brake is required - All ArmBrake code should be commented out
-	public static final int pneumaticArmPistonMajorOut = 2;
 	public static final int pneumaticArmPistonMajorIn = 3;
+	public static final int pneumaticArmPistonMajorOut = 2;
 	public static final int pneumaticIntakePistonOpen = 4;
 	public static final int pneumaticClawPistonOut = 5;
-	public static final int pneumaticArmPistonMinorOut = 6;
+//	public static final int pneumaticIntakePistonIn = 6;
+	public static final int pneumaticIntakePistonOut = 7;
+//	public static final int pneumaticArmPistonMinorIn = 8;
+	public static final int pneumaticArmPistonMinorOut = 6;	
 	public static final int pneumaticIntakePistonDeploy = 7;
-	
+
 	
 	// RoboRIO digital I/O addresses
 	public static final int majorPistonRetractedLimitSwitch = 0; 
@@ -52,6 +55,12 @@ public class RobotMap {
 	public static double clawPercentIn = .7; //need to be tested
 	public static double clawPercentOut = -0.3;
 	
+
+	// Arm angle thresholds
+	public static double lowThreshold; // Low threshold for ground pickup
+	public static double highThreshold; // High threshold for scoring
+		
+
 	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
 	public static double armIntakePos = 0.0;
 	public static double armSwitchPos = 0.0;
@@ -59,7 +68,7 @@ public class RobotMap {
 	public static double armScaleBackwardsPos = 0.0;
 
 	// Arm angle constants
-	public static double degreesPerTicks = 9.0 / 5.0;
+	public static double degreesPerTicks = 360.0 / 4096.0;
 
 	public enum ArmPositions {
 		Intake(armIntakePos), Switch(armSwitchPos), ScaleLow(armScaleLowPos), ScaleHigh(armScaleBackwardsPos);

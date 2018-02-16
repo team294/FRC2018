@@ -1,31 +1,33 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ClawSet extends Command {
-
-	boolean open;
+public class ArmPistonSetMajorState extends Command {
+	
+	PistonPositions state;
+	boolean moving = false;
 	
 	/**
-	 * Set the state of the claw
-	 * @param open true = claw open, false = claw closed
+	 * Sets the state of the major piston
+	 * @param state RobotMap.PistonPositions. Values other then Extended (including Null and Moving) will retract pistons
 	 */
-    public ClawSet(boolean open) {
+    public ArmPistonSetMajorState(PistonPositions state) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.claw);
-    	this.open = open;
+    	requires(Robot.armPiston);
+    	this.state = state;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (open) Robot.claw.openClaw();
-    	else Robot.claw.closeClaw();
+    	if (state == PistonPositions.Extended) moving = Robot.armPiston.smartExtendMajor();
+    	else Robot.armPiston.setMajor(PistonPositions.Retracted);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -34,6 +36,7 @@ public class ClawSet extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	if (moving) return Robot.armPiston.getMajor() != PistonPositions.Moving;
         return true;
     }
 
