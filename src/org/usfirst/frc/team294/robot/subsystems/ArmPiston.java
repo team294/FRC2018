@@ -67,7 +67,6 @@ public class ArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMajor(RobotMap.PistonPositions position) {
-		majorPosition = PistonPositions.Moving;
 		if (position == RobotMap.PistonPositions.Extended)
 			armPistonMajor.set(Value.kForward);
 		if (position == RobotMap.PistonPositions.Retracted)
@@ -83,7 +82,6 @@ public class ArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMinor(RobotMap.PistonPositions position) {
-		minorPosition = PistonPositions.Moving;
 		if(Robot.prototypeRobot) {
 			if (position == RobotMap.PistonPositions.Extended)
 				armPistonMinorSingle.set(true);
@@ -229,6 +227,7 @@ public class ArmPiston extends Subsystem {
 	public void periodic() {
 		updateSmartDashboard();
 		updateState();
+		getMajor();
 	}
 
 	public void initDefaultCommand() {

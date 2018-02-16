@@ -52,7 +52,7 @@ public class ArmMotor extends Subsystem {
 		// 0x00); // Change parameter to 1 for non-continuous
 		armMotor1.selectProfileSlot(0, 0);
 		armMotor1.config_kF(0, 0.0, 10);
-		armMotor1.config_kP(0, 90.0, 10); // old term 50, 50 works
+		armMotor1.config_kP(0, 4.4, 10); // old term 90  
 		armMotor1.config_kI(0, 0.0, 10);
 		armMotor1.config_kD(0, 0.0, 10);
 		armMotor1.configClosedloopRamp(0.25, 10);
