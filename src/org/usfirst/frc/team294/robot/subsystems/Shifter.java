@@ -2,8 +2,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -11,8 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Shifter extends Subsystem {
 
-	private final DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.pnuematicShifterLow,
-			RobotMap.pnuematicShifterHigh);
+	private final Solenoid shifter = new Solenoid(RobotMap.pnuematicShifter);
 
 	public Shifter() {
 		super();
@@ -25,7 +23,8 @@ public class Shifter extends Subsystem {
 	 *            true for high gear, false for low gear
 	 */
 	public void setShift(boolean high) {
-		shifter.set(high ? Value.kReverse : Value.kForward);
+		shifter.set(high ? false : true); // shifter false is high gear, shifter true is low gear
+		// TODO re-test shifter booleans (whether false is high gear)
 	}
 
 	/**
@@ -34,7 +33,7 @@ public class Shifter extends Subsystem {
 	 * @return true for high gear, false for low
 	 */
 	public boolean isShifterInHighGear() {
-		return shifter.get().equals(Value.kForward);
+		return shifter.get() == false; // shifter false is high gear, shifter true is low gear
 	}
 
 	public void initDefaultCommand() {

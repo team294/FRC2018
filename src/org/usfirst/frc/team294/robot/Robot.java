@@ -253,7 +253,7 @@ public class Robot extends TimedRobot {
 		}
 		driveTrain.zeroGyroRotation(); // todo remove later
 		driveTrain.setFieldPositionX(0); // todo remove later
-		driveTrain.setFieldPositionY(0); // todo remove later	
+		driveTrain.setFieldPositionY(0); // todo remove later
 
 		log.writeLogEcho("Teleop mode started.");
 	}
