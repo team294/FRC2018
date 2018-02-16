@@ -1,23 +1,19 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ArmIncrementRaiseAngleButton extends Command {
+public class ArmIncrementAngle extends Command {
 
-    public ArmIncrementRaiseAngleButton() {
+    public ArmIncrementAngle() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//requires (Robot.protoArmMotor);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armMotor.armAdjustJoystickButtonRaise();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -26,7 +22,7 @@ public class ArmIncrementRaiseAngleButton extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

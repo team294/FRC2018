@@ -3,9 +3,7 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -30,7 +28,6 @@ public class ArmMoveWithPiston extends CommandGroup {
 		// destAngle = SmartDashboard.getNumber("Desired Arm Angle (Piston Version)",
 		// 0);
 		// requires(Robot.protoArmMotor);
-
 		addSequential(new ArmMoveToLegalRange());
 		addParallel(new ArmMoveToEdge(destAngle));
 		addSequential(new ArmPistonSmartRetract(destAngle, finalPistonPosition));
