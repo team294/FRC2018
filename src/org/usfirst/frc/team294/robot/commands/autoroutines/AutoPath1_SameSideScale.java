@@ -14,7 +14,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		case 1:
 			addSequential(new DriveStraightDistanceProfile(252,  5)); //265
 			addSequential(new TurnGyro(45 , TurnGyro.Units.Degrees));
-			// put arm command here
+			addSequential(new ClawOpen());
 			break;
 		case 3:
 ////			addSequential(new TurnGyro(-15 , TurnGyro.Units.Degrees));
@@ -33,6 +33,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 			addSequential(new DriveStraightDistanceProfile(-252, -5));
 			addSequential(new TurnGyro(-45, TurnGyro.Units.Degrees));
 			// Score Cube
+			
 			addSequential(new TurnGyro(45, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(30, 45));
 			addSequential(new DriveStraightDistanceProfile(15, 0));
