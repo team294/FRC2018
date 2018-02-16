@@ -27,7 +27,7 @@ public class ArmPistonSetMajorState extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	if (state == PistonPositions.Extended) moving = Robot.armPiston.smartExtendMajor();
-    	else Robot.armPiston.setMinor(PistonPositions.Retracted);
+    	else Robot.armPiston.setMajor(PistonPositions.Retracted);
     }
 
     // Called repeatedly when this Command is scheduled to run
