@@ -49,9 +49,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		robotPrefs = Preferences.getInstance();
-		readPreferences(); // Read preferences next, so that subsystems can use the preference values.
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		// Read preferences first, so that subsystems can use the preference values.
+		readPreferences(); 
+
+		// Create subsystems
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
 		armPiston = new ArmPiston();
@@ -67,7 +68,7 @@ public class Robot extends TimedRobot {
 		networkTables = NetworkTableInstance.getDefault();
 		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
 
-		// Create the OI
+		// Create the OI last, so that it can use commands that call subsystems
 		oi = new OI();
 	}
 
@@ -100,7 +101,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		readPreferences();
 		log.writeLogEcho("Autonomous mode started.");
 
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -234,12 +234,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		this.driveTrain.getGyroRotation();
+		driveTrain.getGyroRotation();
 	}
 
 	@Override
 	public void teleopInit() {
-		readPreferences();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -279,15 +278,13 @@ public class Robot extends TimedRobot {
 		robotPrefs = Preferences.getInstance();
 
 		if (robotPrefs.getDouble("calibrationZeroDegrees", -9999) == -9999) {
-			// If calibration factor for arm can't be read, then don't enable angle control
-			// of arm
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true); // be
-																												// changed
-																												// based
+			// If calibration factor for arm can't be read, then don't enable angle control of arm
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true); 
 		} else {
 			// Enable angle control of arm with calibration factor from Robot Preferences
 			armMotor.setArmCalibration(robotPrefs.getDouble("calibrationZeroDegrees", -9999), false);
 		}
+		
 		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype
 		driveDirection = robotPrefs.getBoolean("driveDirection", true);
 		RobotMap.wheelCircumference = robotPrefs.getDouble("wheelDiameter", 6.18) * Math.PI;

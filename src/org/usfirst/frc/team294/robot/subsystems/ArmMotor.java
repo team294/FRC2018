@@ -32,10 +32,10 @@ public class ArmMotor extends Subsystem {
 	private final double MAX_UP_PERCENT_POWER = 0.8; // Up these speeds after testing
 	private final double MAX_DOWN_PERCENT_POWER = -0.5;
 
-	private boolean armCalibrated = false;
-	private double armCalZero; // Arm potentiometer position at O degrees
-
-	// TODO figure out lower limit switch angle
+	private boolean armCalibrated = false;  // Default to arm being uncalibrated.  Calibrate from robot preferences, 
+											// "Calibrate arm zero position" button on dashboard,
+											// or autocal on low limit switch (see periodic() below)
+	private double armCalZero; // Arm potentiometer position at O degrees (i.e. the calibration factor)
 
 	public ArmMotor() {
 
@@ -114,8 +114,7 @@ public class ArmMotor extends Subsystem {
 	 * The value at that read should then be entered into the armCalZero field.
 	 **/
 	public double getArmPot() {
-		double potValue = getArmPotRaw() - (armCalZero);// armZeroDegreesCalibration; //Removed zero for testing
-														// purposes
+		double potValue = getArmPotRaw() - armCalZero;
 		// int potValue = armMotor.getSensorCollection().getAnalogIn();
 		SmartDashboard.putNumber("Arm Pot Value", potValue);
 		return (potValue);
@@ -127,7 +126,7 @@ public class ArmMotor extends Subsystem {
 	 * @return desired degree of arm angle
 	 */
 	public double getCurrentArmTarget() {
-		double currTarget = armMotor1.getClosedLoopTarget(0) - (armCalZero);
+		double currTarget = armMotor1.getClosedLoopTarget(0) - armCalZero;
 		currTarget *= DEGREES_PER_TICK;
 		SmartDashboard.putNumber("Desired Angle of Arm in Degrees", currTarget);
 		return currTarget;
@@ -206,7 +205,9 @@ public class ArmMotor extends Subsystem {
 	 *            desired position, in scaled pot ticks
 	 */
 	private void setArmPositionRaw(double position) {
-		armMotor1.set(ControlMode.Position, position);
+		if (armCalibrated) {
+			armMotor1.set(ControlMode.Position, position);
+		}
 	}
 
 	/**
@@ -242,15 +243,12 @@ public class ArmMotor extends Subsystem {
 
 	public void periodic() {
 		updateSmartDashboard();
-		// Set armCalZero, if not already set, by using known value of lower limit
-		// switch
+		// Set armCalZero, if not already set, by using known value of lower limit switch
 		if (!armCalibrated) {
 			SensorCollection sc = armMotor1.getSensorCollection();
 			if (sc.isRevLimitSwitchClosed()) {
-				// armCalZero = getArmPotRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE); //TODO
-				// uncomment and test for possible sign error
-				armCalibrated = true;
-				SmartDashboard.putBoolean("Arm Calibrated", armCalibrated);
+				// TODO uncomment and test for possible sign error
+				//setArmCalibration( getArmPotRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
 		}
 	}
