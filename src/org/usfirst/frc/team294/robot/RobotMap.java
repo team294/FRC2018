@@ -25,8 +25,7 @@ public class RobotMap {
 
 	// Pneumatic addresses
 	
-	public static final int pnuematicShifterHigh = 0;
-	public static final int pnuematicShifterLow = 1;		// this is used for prototype drive base only!!  Change to single solenoid in prototype
+	public static final int pnuematicShifter = 0;		// this is used for prototype drive base only!!  Change to single solenoid in prototype
 	public static final int pnuematicArmBrake = 1;			// At this point, 2/14/18, we do not envision that a brake is required - All ArmBrake code should be commented out
 	public static final int pneumaticArmPistonMajorOut = 2;
 	public static final int pneumaticArmPistonMajorIn = 3;
