@@ -2,13 +2,11 @@
 package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.networktables.*;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; //remove the ones that are not used.
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team294.robot.RobotMap;
@@ -36,7 +34,6 @@ public class Robot extends TimedRobot {
 	public static Preferences robotPrefs;
 
 	public static int armCalZero; // Arm potentiometer position at O degrees
-	public static int armCal90Deg; // Arm potentiometer position at 90 degrees
 	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
 	public static boolean driveDirection; // true for reversed
 
@@ -282,20 +279,18 @@ public class Robot extends TimedRobot {
 		// TODO: For each robot preference: Use more descriptive names?
 		robotPrefs = Preferences.getInstance();
 
-		if (robotPrefs.getDouble("calibrationZeroDegrees", -9999) == 0) {
-			// If calibration factor for arm can't be read, then don't enable control of arm
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
+		if (robotPrefs.getDouble("calibrationZeroDegrees", -9999) == -9999) {
+			// If calibration factor for arm can't be read, then don't enable angle control
+			// of arm
+			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true); // be
+																												// changed
+																												// based
 		} else {
-			armMotor.setArmCalibration(robotPrefs.getDouble("calibrationZeroDegres", -9999), false);
-
-			// robotPrefs.putInt("calibrationZeroDegrees", -245); // Value may need to be
-			// changed based on specifics of robot
-
-			armCalZero = robotPrefs.getInt("calibrationZeroDegrees", -245);
-			prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype
-			armCal90Deg = robotPrefs.getInt("calibration90Degrees", -195);
-			driveDirection = robotPrefs.getBoolean("driveDirection", true);
-			RobotMap.wheelCircumference = robotPrefs.getDouble("wheelDiameter", 6.18) * Math.PI;
+			// Enable angle control of arm with calibration factor from Robot Preferences
+			armMotor.setArmCalibration(robotPrefs.getDouble("calibrationZeroDegrees", -9999), false);
 		}
+		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype
+		driveDirection = robotPrefs.getBoolean("driveDirection", true);
+		RobotMap.wheelCircumference = robotPrefs.getDouble("wheelDiameter", 6.18) * Math.PI;
 	}
 }
