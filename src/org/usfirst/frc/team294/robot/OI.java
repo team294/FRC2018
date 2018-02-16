@@ -115,8 +115,8 @@ public class OI {
 	    		right[i].whenPressed(new DriveWithJoysticks());
 	    		left[i].whenPressed(new DriveWithJoysticks());
 	    	} else {
-	    		right[i].whenPressed(new ShiftUp());
-	    		left[i].whenPressed(new ShiftDown());
+	    		right[i].whenPressed(new Shift(true));
+	    		left[i].whenPressed(new Shift(false));
 	    	}
 	    }
 
