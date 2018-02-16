@@ -114,8 +114,8 @@ public class ArmMotor extends Subsystem {
 	 * The value at that read should then be entered into the armCalZero field.
 	 **/
 	public double getArmPot() {
-		double potValue = getArmPotRaw() - (Robot.armCalZero);// armZeroDegreesCalibration; //Removed zero for testing
-																// purposes
+		double potValue = getArmPotRaw() - (armCalZero);// armZeroDegreesCalibration; //Removed zero for testing
+														// purposes
 		// int potValue = armMotor.getSensorCollection().getAnalogIn();
 		SmartDashboard.putNumber("Arm Pot Value", potValue);
 		return (potValue);
@@ -127,7 +127,7 @@ public class ArmMotor extends Subsystem {
 	 * @return desired degree of arm angle
 	 */
 	public double getCurrentArmTarget() {
-		double currTarget = armMotor1.getClosedLoopTarget(0) - (Robot.armCalZero);
+		double currTarget = armMotor1.getClosedLoopTarget(0) - (armCalZero);
 		currTarget *= DEGREES_PER_TICK;
 		SmartDashboard.putNumber("Desired Angle of Arm in Degrees", currTarget);
 		return currTarget;
@@ -242,11 +242,13 @@ public class ArmMotor extends Subsystem {
 
 	public void periodic() {
 		updateSmartDashboard();
-		// Set armCalZero, if not already set, by using known value of lower limit switch
+		// Set armCalZero, if not already set, by using known value of lower limit
+		// switch
 		if (!armCalibrated) {
 			SensorCollection sc = armMotor1.getSensorCollection();
 			if (sc.isRevLimitSwitchClosed()) {
-				// armCalZero = getArmPotRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE); //TODO uncomment and test for possible sign error
+				// armCalZero = getArmPotRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE); //TODO
+				// uncomment and test for possible sign error
 				armCalibrated = true;
 				SmartDashboard.putBoolean("Arm Calibrated", armCalibrated);
 			}

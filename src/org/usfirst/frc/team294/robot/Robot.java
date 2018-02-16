@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
 	public static FileLog log;
 	public static Preferences robotPrefs;
 
-	public static int armCalZero; // Arm potentiometer position at O degrees
 	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
 	public static boolean driveDirection; // true for reversed
 
