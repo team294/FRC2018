@@ -169,8 +169,8 @@ public class OI {
 	    
 		Button armButton2 = new JoystickButton(armJoystick,2);
     	Button armButton3 = new JoystickButton(armJoystick,3);
-    	armButton2.whenPressed(new ArmIncrementLowerAngleButton());
-    	armButton3.whenPressed(new ArmIncrementRaiseAngleButton());
+    	armButton2.whenPressed(new ArmIncrementAngle(false));
+    	armButton3.whenPressed(new ArmIncrementAngle(true));
 		
 		// Initialize our auto plan chooser
     	//  Software is okay for testing. This should be hardware switches at competition.
@@ -195,12 +195,12 @@ public class OI {
 	
 		SmartDashboard.putData("Start Drive Train", new DriveWithJoysticks());
 		
-		SmartDashboard.putData("Retract Arm", new ArmRetract());
+		SmartDashboard.putData("Retract Arm", new ArmPistonSetMajorState(PistonPositions.Retracted));
 		
-		SmartDashboard.putData("Extend Arm", new ArmExtend());
+		SmartDashboard.putData("Extend Arm", new ArmPistonSetMajorState(PistonPositions.Extended));
 		
 		//SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
-		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementRaiseAngleButton());
+		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementAngle(true));
 
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
@@ -237,8 +237,8 @@ public class OI {
 		
 		SmartDashboard.putData("Extend", new ArmPistonSmartExtendInDestZone(90));
 		
-		SmartDashboard.putData("Open Claw", new ClawSet(true));
-		SmartDashboard.putData("Close Claw", new ClawSet(false));
+		SmartDashboard.putData("Open Claw", new ClawSetState(true));
+		SmartDashboard.putData("Close Claw", new ClawSetState(false));
 
 		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(.50)); 
 		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));
