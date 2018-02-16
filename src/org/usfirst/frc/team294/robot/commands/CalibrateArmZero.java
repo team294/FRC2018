@@ -18,7 +18,7 @@ public class CalibrateArmZero extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armMotor.setArmCalibration( Robot.armMotor.getArmPotRaw(), true);
+    	Robot.armMotor.setArmCalibration( Robot.armMotor.getArmEncRaw(), true);
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -68,7 +68,7 @@ public class RobotMap {
 	public static double armScaleBackwardsPos = 0.0;
 
 	// Arm angle constants
-	public static double degreesPerTicks = 9.0 / 5.0;
+	public static double degreesPerTicks = 360.0 / 4096.0;
 
 	public enum ArmPositions {
 		Intake(armIntakePos), Switch(armSwitchPos), ScaleLow(armScaleLowPos), ScaleHigh(armScaleBackwardsPos);

@@ -11,14 +11,6 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-**/
-
-/**
  * The subsystem controlling the arm angle (but not the piston)
  */
 public class ArmMotor extends Subsystem {
@@ -36,7 +28,7 @@ public class ArmMotor extends Subsystem {
 	private boolean armCalibrated = false;  // Default to arm being uncalibrated.  Calibrate from robot preferences, 
 											// "Calibrate arm zero position" button on dashboard,
 											// or autocal on low limit switch (see periodic() below)
-	private double armCalZero; // Arm potentiometer position at O degrees (i.e. the calibration factor)
+	private double armCalZero; // Arm encoder position at O degrees (i.e. the calibration factor)
 
 	public ArmMotor() {
 
@@ -119,8 +111,7 @@ public class ArmMotor extends Subsystem {
 	 **/
 	public double getArmEnc() {
 		double encValue = getArmEncRaw() - armCalZero;
-		// int potValue = armMotor.getSensorCollection().getAnalogIn();
-		SmartDashboard.putNumber("Arm Pot Value", encValue);
+		SmartDashboard.putNumber("Arm Enc (calibrated)", encValue);
 		return (encValue);
 	}
 
@@ -149,9 +140,9 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Gets the current angle of the arm, in degrees (converted from potentiometer)
+	 * Gets the current angle of the arm, in degrees (converted from encoder)
 	 * </br>
-	 * Uses getArmPot and multiplies by degrees per click constant
+	 * Uses getArmEnc and multiplies by degrees per click constant
 	 * 
 	 * @return angle in degrees
 	 */
@@ -214,11 +205,11 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Sets the position of the arm based on scaled potentiometer ticks, and
+	 * Sets the position of the arm based on scaled encoder ticks, and
 	 * converts to raw (subtracts position at 0)
 	 * 
 	 * @param position
-	 *            desired position, in pot ticks
+	 *            desired position, in encoder ticks
 	 */
 	private void setArmPositionScaled(double position) {
 		if (armCalibrated) {
@@ -228,11 +219,11 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Sets the (raw) position of the arm based on raw potentiometer ticks, with no
+	 * Sets the (raw) position of the arm based on raw encoder ticks, with no
 	 * adjustment for zero calibration
 	 * 
 	 * @param position
-	 *            desired position, in scaled pot ticks
+	 *            desired position, in raw encoder ticks
 	 */
 	private void setArmPositionRaw(double position) {
 		if (armCalibrated) {
@@ -262,7 +253,7 @@ public class ArmMotor extends Subsystem {
 
 	
 	/**
-	 * Updates pot and angle measurements on the SmartDashboard
+	 * Updates encoder and angle measurements on the SmartDashboard
 	 */
 	public void updateSmartDashboard() {
 		getArmEnc();
@@ -279,7 +270,7 @@ public class ArmMotor extends Subsystem {
 			SensorCollection sc = armMotor1.getSensorCollection();
 			if (sc.isRevLimitSwitchClosed()) {
 				// TODO uncomment and test for possible sign error
-				//setArmCalibration( getArmPotRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
+				//setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
 		}
 	}
