@@ -1,7 +1,7 @@
 package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.commands.ArmMoveToDestAngle;
-import org.usfirst.frc.team294.robot.commands.ClawOpen;
+
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units.*;
