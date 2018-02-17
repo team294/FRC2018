@@ -207,11 +207,13 @@ public class OI {
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
 
-		SmartDashboard.putData("Move arm to 90 and set piston state", new ArmMoveWithPiston(90.0,true));
-		SmartDashboard.putData("Move arm to 120 and set piston state", new ArmMoveWithPiston(120.0,true));
-		SmartDashboard.putData("Move arm to 70 and set piston state", new ArmMoveWithPiston(70.0,true));
+		SmartDashboard.putData("Move arm to 100 and set piston state", new ArmMoveWithPiston(100.0,true));
+		SmartDashboard.putData("Move arm to 0 and set piston state", new ArmMoveWithPiston(0.0,true));
+		SmartDashboard.putData("Move arm to 80 and set piston state", new ArmMoveWithPiston(80.0,true));
 		SmartDashboard.putData("Move arm to -20 and set piston state", new ArmMoveWithPiston(-20.0,true));
-		SmartDashboard.putData("Move arm to -10 and set piston state", new ArmMoveWithPiston(-10.0,true));
+		SmartDashboard.putData("Move arm to -30 and set piston state", new ArmMoveWithPiston(-30.0,true));
+		SmartDashboard.putData("Move arm to -40 and set piston state", new ArmMoveWithPiston(-40.0,true));
+		
 
 
 		

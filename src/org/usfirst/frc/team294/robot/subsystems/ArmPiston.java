@@ -24,10 +24,6 @@ public class ArmPiston extends Subsystem {
 	private final DoubleSolenoid armPistonMajor = new DoubleSolenoid(RobotMap.pneumaticArmPistonMajorIn,
 			RobotMap.pneumaticArmPistonMajorOut);
 	private final Solenoid armPistonMinorSingle = new Solenoid(RobotMap.pneumaticArmPistonMinorOut);
-	// private final DoubleSolenoid armPistonMinor = new
-	// DoubleSolenoid(RobotMap.pneumaticArmPistonMinorIn,
-	// RobotMap.pneumaticArmPistonMinorOut);
-	// TODO uncomment Minor Piston
 
 	// Limit switches for pistons
 	private final DigitalInput majorLimitRetract = new DigitalInput(RobotMap.majorPistonRetractedLimitSwitch);
@@ -83,21 +79,11 @@ public class ArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMinor(RobotMap.PistonPositions position) {
-		if (!Robot.robotPrefs.prototypeRobot) {
 			if (position == RobotMap.PistonPositions.Extended)
 				armPistonMinorSingle.set(true);
 			if (position == RobotMap.PistonPositions.Retracted)
 				armPistonMinorSingle.set(false);
-		} else {
-			if (position == RobotMap.PistonPositions.Extended)
-				;
-			// armPistonMinor.set(Value.kForward);
-			if (position == RobotMap.PistonPositions.Retracted)
-				;
-			// armPistonMinor.set(Value.kReverse);
-		}
-
-	}// TODO uncomment Minor Piston
+	}
 
 	/**
 	 * returns position of major piston according to sensors
