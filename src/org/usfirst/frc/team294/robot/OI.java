@@ -185,10 +185,9 @@ public class OI {
 		SmartDashboard.putData("AutoTest1",new AutoTest1());
 		
 		// Initialize our position chooser
-		chooser_startPosition.addDefault("- choose from below -", 0);
-		chooser_startPosition.addObject("Left", 1);
-		chooser_startPosition.addObject("Middle", 2);
-		chooser_startPosition.addObject("Right", 3);
+		chooser_startPosition.addDefault("Left", 0);
+		chooser_startPosition.addObject("Middle", 1);
+		chooser_startPosition.addObject("Right", 2);
 		// TODO remove choose from below
 		
 		// Smart Dashboard Commands

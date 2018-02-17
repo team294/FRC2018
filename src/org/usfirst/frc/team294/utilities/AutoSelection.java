@@ -73,9 +73,9 @@ public class AutoSelection {
 		autoPlan = Robot.oi.readAutoPlan();
 		int startPosition = Robot.oi.readStartPosition();
 
-		if (startPosition == 1) {
+		if (startPosition == 0) {
 			programSelected = RobotMap.startingLeftAutoPrograms[autoPlan][fieldLayout];
-		} else if (startPosition == 2) {
+		} else if (startPosition == 1) {
 			programSelected = RobotMap.startingMiddleAutoPrograms[autoPlan][fieldLayout];
 		} else {
 			programSelected = RobotMap.startingRightAutoPrograms[autoPlan][fieldLayout];
