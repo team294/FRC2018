@@ -36,6 +36,7 @@ public class RobotPreferences {
 		prototypeRobot = prefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype, default to false (competition bot)
 		driveDirection = prefs.getBoolean("driveDirection", true);
 		wheelCircumference = prefs.getDouble("wheelDiameter", 6.18) * Math.PI;
+		//prefs.putBoolean("prototypeRobot", true);
 		
 		driveTrainDistanceFudgeFactor = prefs.getDouble("driveTrainDistanceFudgeFactor", -9999);
 		if (driveTrainDistanceFudgeFactor == -9999) {
