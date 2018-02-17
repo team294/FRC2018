@@ -14,6 +14,7 @@ import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.utilities.FileLog;
+import org.usfirst.frc.team294.utilities.RobotPreferences;
 
 public class Robot extends TimedRobot {
 
@@ -31,7 +32,7 @@ public class Robot extends TimedRobot {
 	public static boolean scaleLeft = false;
 	public static boolean opponentSwitchLeft = false;
 	public static FileLog log;
-	public static Preferences robotPrefs;
+	public static RobotPreferences robotPrefs;
 
 	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
 	public static boolean driveDirection; // true for reversed
@@ -51,9 +52,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		// Create the log file
 		log = new FileLog();
-
-		// Read preferences first, so that subsystems can use the preference values.
-		readPreferencesBeforeSubsystems(); 
+		robotPrefs = new RobotPreferences();
 
 		// Create subsystems
 		driveTrain = new DriveTrain();
@@ -63,9 +62,6 @@ public class Robot extends TimedRobot {
 		claw = new Claw();
 		climb = new Climb();
 		intake = new Intake();
-		
-		// Read the rest of the preferences
-		readPreferencesAfterSubsystems();
 
 		// Network Tables for driver's display
 		networkTables = NetworkTableInstance.getDefault();
@@ -269,28 +265,5 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-	}
-
-	public void readPreferencesBeforeSubsystems() {
-		// Run this method before creating subsystems, so that subsystems can use these preferences!
-		
-		// TODO: For each robot preference: Use more descriptive names?
-		robotPrefs = Preferences.getInstance();
-
-		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype
-		driveDirection = robotPrefs.getBoolean("driveDirection", true);
-		RobotMap.wheelCircumference = robotPrefs.getDouble("wheelDiameter", 6.18) * Math.PI;
-	}
-	
-	public void readPreferencesAfterSubsystems() {
-		// Run this method after creating subsystems, because it calls methods inside subsystems 
-		
-		if (robotPrefs.getDouble("calibrationZeroDegrees", -9999) == -9999) {
-			// If calibration factor for arm can't be read, then don't enable angle control of arm
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true); 
-		} else {
-			// Enable angle control of arm with calibration factor from Robot Preferences
-			armMotor.setArmCalibration(robotPrefs.getDouble("calibrationZeroDegrees", -9999), false);
-		}
 	}
 }
