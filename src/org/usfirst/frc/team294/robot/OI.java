@@ -212,6 +212,7 @@ public class OI {
 		SmartDashboard.putData("Move arm to 80 and set piston state", new ArmMoveWithPiston(80.0,true));
 		SmartDashboard.putData("Move arm to -20 and set piston state", new ArmMoveWithPiston(-20.0,true));
 		SmartDashboard.putData("Move arm to -30 and set piston state", new ArmMoveWithPiston(-30.0,true));
+		SmartDashboard.putData("Move arm to -40 and set piston state", new ArmMoveWithPiston(-40.0,true));
 		
 
 
