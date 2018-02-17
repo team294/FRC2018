@@ -24,9 +24,10 @@ public class ArmPiston extends Subsystem {
 	private final DoubleSolenoid armPistonMajor = new DoubleSolenoid(RobotMap.pneumaticArmPistonMajorIn,
 			RobotMap.pneumaticArmPistonMajorOut);
 	private final Solenoid armPistonMinorSingle = new Solenoid(RobotMap.pneumaticArmPistonMinorOut);
-//	private final DoubleSolenoid armPistonMinor = new DoubleSolenoid(RobotMap.pneumaticArmPistonMinorIn,
-//			RobotMap.pneumaticArmPistonMinorOut);
-	//TODO uncomment Minor Piston
+	// private final DoubleSolenoid armPistonMinor = new
+	// DoubleSolenoid(RobotMap.pneumaticArmPistonMinorIn,
+	// RobotMap.pneumaticArmPistonMinorOut);
+	// TODO uncomment Minor Piston
 
 	// Limit switches for pistons
 	private final DigitalInput majorLimitRetract = new DigitalInput(RobotMap.majorPistonRetractedLimitSwitch);
@@ -82,20 +83,21 @@ public class ArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMinor(RobotMap.PistonPositions position) {
-		if(Robot.prototypeRobot) {
+		if (!Robot.prototypeRobot) {
 			if (position == RobotMap.PistonPositions.Extended)
 				armPistonMinorSingle.set(true);
 			if (position == RobotMap.PistonPositions.Retracted)
 				armPistonMinorSingle.set(false);
 		} else {
-			if (position == RobotMap.PistonPositions.Extended);
-				//	armPistonMinor.set(Value.kForward);
-			if (position == RobotMap.PistonPositions.Retracted);
-				//	armPistonMinor.set(Value.kReverse);
+			if (position == RobotMap.PistonPositions.Extended)
+				;
+			// armPistonMinor.set(Value.kForward);
+			if (position == RobotMap.PistonPositions.Retracted)
+				;
+			// armPistonMinor.set(Value.kReverse);
 		}
-		
 
-	}//TODO uncomment Minor Piston
+	}// TODO uncomment Minor Piston
 
 	/**
 	 * returns position of major piston according to sensors
@@ -104,16 +106,16 @@ public class ArmPiston extends Subsystem {
 	 */
 	public PistonPositions getMajor() {
 		switch (majorPosition) {
-		case Extended : 
+		case Extended:
 			SmartDashboard.putString("Major Piston", "Extended");
 			break;
-		case Retracted : 
+		case Retracted:
 			SmartDashboard.putString("Major Piston", "Retracted");
 			break;
-		case Moving : 
+		case Moving:
 			SmartDashboard.putString("Major Piston", "Moving");
 			break;
-		case Null : 
+		case Null:
 			SmartDashboard.putString("Major Piston", "Null");
 			break;
 		}
@@ -126,6 +128,20 @@ public class ArmPiston extends Subsystem {
 	 * @return
 	 */
 	public PistonPositions getMinor() {
+		switch (minorPosition) {
+		case Extended:
+			SmartDashboard.putString("Minor Piston", "Extended");
+			break;
+		case Retracted:
+			SmartDashboard.putString("Minor Piston", "Retracted");
+			break;
+		case Moving:
+			SmartDashboard.putString("Minor Piston", "Moving");
+			break;
+		case Null:
+			SmartDashboard.putString("Minor Piston", "Null");
+			break;
+		}
 		return minorPosition;
 	}
 
@@ -164,9 +180,10 @@ public class ArmPiston extends Subsystem {
 		// That would indicate faulty hardware, and we wouldn't want to move the arm
 		// into danger zones with faulty hardware
 	}
-	
+
 	/**
 	 * Extends both pistons only if in the proper zone
+	 * 
 	 * @return true if pistons changed state, false if otherwise
 	 */
 	public boolean smartExtend() {
@@ -185,9 +202,10 @@ public class ArmPiston extends Subsystem {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Extends the major piston <b>only if</b> legal to do so (i.e. in high zone)
+	 * 
 	 * @return true if piston extended, false otherwise
 	 */
 	public boolean smartExtendMajor() {
@@ -200,9 +218,11 @@ public class ArmPiston extends Subsystem {
 			return false;
 		}
 	}
-	
+
 	/**
-	 * Extends the minor piston <b>only if</b> legal to do so (i.e. in high or low zone)
+	 * Extends the minor piston <b>only if</b> legal to do so (i.e. in high or low
+	 * zone)
+	 * 
 	 * @return true if piston extended, false otherwise
 	 */
 	public boolean smartExtendMinor() {
@@ -215,7 +235,7 @@ public class ArmPiston extends Subsystem {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Retracts both pistons
 	 */
@@ -223,7 +243,7 @@ public class ArmPiston extends Subsystem {
 		setMajor(PistonPositions.Retracted);
 		setMinor(PistonPositions.Retracted);
 	}
-	
+
 	public void periodic() {
 		updateSmartDashboard();
 		updateState();
