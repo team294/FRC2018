@@ -189,6 +189,7 @@ public class OI {
 		chooser_startPosition.addObject("Left", 1);
 		chooser_startPosition.addObject("Middle", 2);
 		chooser_startPosition.addObject("Right", 3);
+		// TODO remove choose from below
 		
 		// Smart Dashboard Commands
 		SmartDashboard.putData("Start Position Selection", chooser_startPosition);
