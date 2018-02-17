@@ -22,8 +22,8 @@ public class ArmMotor extends Subsystem {
 																		// magnetic encoder
 	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
 
-	private final double MAX_UP_PERCENT_POWER = 0.8; // Up these speeds after testing
-	private final double MAX_DOWN_PERCENT_POWER = -0.5;
+	private final double MAX_UP_PERCENT_POWER = 0.5; // Up these speeds after testing. 0.8 before
+	private final double MAX_DOWN_PERCENT_POWER = -0.3; // -0.5 before
 
 	private boolean armCalibrated = false;  // Default to arm being uncalibrated.  Calibrate from robot preferences, 
 											// "Calibrate arm zero position" button on dashboard,
@@ -45,14 +45,14 @@ public class ArmMotor extends Subsystem {
 		
 		// Closed-loop control structures
 		armMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
-		if(Robot.prototypeRobot) armMotor1.setSensorPhase(false);
-		else armMotor1.setSensorPhase(true);
+		if(Robot.prototypeRobot) armMotor1.setSensorPhase(true);
+		else armMotor1.setSensorPhase(false);
 
 		// armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00,
 		// 0x00); // Change parameter to 1 for non-continuous
 		armMotor1.selectProfileSlot(0, 0);
 		armMotor1.config_kF(0, 0.0, 10);
-		armMotor1.config_kP(0, 4.4, 10); // old term 90  
+		armMotor1.config_kP(0, 3.5, 10); // old term 90 with pot, 4.4 converted to new encoder
 		armMotor1.config_kI(0, 0.0, 10);
 		armMotor1.config_kD(0, 0.0, 10);
 		armMotor1.configClosedloopRamp(0.25, 10);

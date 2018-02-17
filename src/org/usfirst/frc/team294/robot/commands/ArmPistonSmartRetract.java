@@ -45,8 +45,8 @@ public class ArmPistonSmartRetract extends Command {
 	protected boolean isFinished() {
 		if (!retract)
 			return true;
-		else if ( Robot.armPiston.getMajor() == PistonPositions.Retracted)
-			// && Robot.protoArmPiston.getMinor() == PistonPositions.Retracted)
+		else if ( Robot.armPiston.getMajor() == PistonPositions.Retracted
+			 && Robot.armPiston.getMinor() == PistonPositions.Retracted)
 			return true;
 		return false; // According to Liam, the todo is done
 	}
