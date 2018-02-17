@@ -25,7 +25,7 @@ public class ArmPistonSmartRetract extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -33,8 +33,8 @@ public class ArmPistonSmartRetract extends Command {
 		this.retract = false;
 		ArmZones currentZone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		ArmZones destZone = RobotMap.getArmZone(destAngle);
-		if (currentZone == ArmZones.Middle || currentZone == ArmZones.Backwards 
-				|| currentZone != destZone || !pistonFinal) {
+		if (currentZone == ArmZones.Middle || currentZone == ArmZones.Backwards || currentZone != destZone
+				|| !pistonFinal) {
 			// If arm is in the middle or backwards zone set pistons to retracted
 			Robot.armPiston.smartRetract();
 			retract = true;
@@ -45,10 +45,12 @@ public class ArmPistonSmartRetract extends Command {
 	protected boolean isFinished() {
 		if (!retract)
 			return true;
-		else if ( Robot.armPiston.getMajor() == PistonPositions.Retracted
-			 && Robot.armPiston.getMinor() == PistonPositions.Retracted)
+
+		else if ((Robot.armPiston.getMajor() == PistonPositions.Retracted)
+				&& (Robot.armPiston.getMinor() == PistonPositions.Retracted))
+
 			return true;
-		return false; // According to Liam, the todo is done
+		return false;
 	}
 
 	// Called once after isFinished returns true

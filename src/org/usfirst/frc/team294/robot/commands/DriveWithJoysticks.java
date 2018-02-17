@@ -42,8 +42,8 @@ public class DriveWithJoysticks extends Command {
 		double leftVal = Robot.oi.leftJoystick.getY();
 		double rightVal = Robot.oi.rightJoystick.getY();
 		Robot.driveTrain.getGyroRotation();
-		Robot.driveTrain.getLeftEncoderPosition();
-		Robot.driveTrain.getRightEncoderPosition();
+		Robot.driveTrain.getLeftEncoderTicks();
+		Robot.driveTrain.getRightEncoderTicks();
 		
     	if (Robot.oi.getDriveDirection() == true)
     		Robot.driveTrain.tankDrive(-leftVal, -rightVal);

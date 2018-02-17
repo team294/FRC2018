@@ -41,12 +41,12 @@ public class DriveTrain extends Subsystem {
 		// Robot.driveDirection is a value pulled from Robot Preferences.
 		// True means that it will drive forward correctly, and false drives it backwards.
 		// This is used when testing drivetrain code on the 2017 practice base.
-		leftMotor2.setInverted(Robot.driveDirection); 
-		rightMotor2.setInverted(Robot.driveDirection);
-		leftMotor1.setInverted(Robot.driveDirection); 
-		rightMotor1.setInverted(Robot.driveDirection);
-		leftMotor3.setInverted(Robot.driveDirection); 
-		rightMotor3.setInverted(Robot.driveDirection);
+		leftMotor2.setInverted(Robot.robotPrefs.driveDirection); 
+		rightMotor2.setInverted(Robot.robotPrefs.driveDirection);
+		leftMotor1.setInverted(Robot.robotPrefs.driveDirection); 
+		rightMotor1.setInverted(Robot.robotPrefs.driveDirection);
+		leftMotor3.setInverted(Robot.robotPrefs.driveDirection); 
+		rightMotor3.setInverted(Robot.robotPrefs.driveDirection);
 		
 		leftMotor2.setSensorPhase(true);
 		
@@ -64,8 +64,8 @@ public class DriveTrain extends Subsystem {
 		rightMotor2.configVoltageCompSaturation(11.0, 0);
 
 		
-		SmartDashboard.putBoolean("DDirection", Robot.driveDirection);
-		System.out.println("Drive Direction: "+Robot.driveDirection);
+		SmartDashboard.putBoolean("DDirection", Robot.robotPrefs.driveDirection);
+		System.out.println("Drive Direction: "+Robot.robotPrefs.driveDirection);
 		
 		leftMotor2.clearStickyFaults(0);
 		rightMotor2.clearStickyFaults(0);
@@ -157,25 +157,71 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * Get the position of the left encoder
-	 * @return encoder position
+	 * Get the position of the left encoder, in encoder ticks
+	 * @return encoder position, in ticks
 	 */
-	public double getLeftEncoderPosition() {
+	public double getLeftEncoderTicks() {
 		double position = leftMotor2.getSelectedSensorPosition(0) - leftEncoderZero;
-		SmartDashboard.putNumber("Left Encoder Position", position);
 		return position;
 	}
 
 	/**
-	 * Get the position of the right encoder
-	 * @return encoder position
+	 * Get the position of the right encoder, in encoder ticks
+	 * @return encoder position, in ticks
 	 */
-	public double getRightEncoderPosition() {
+	public double getRightEncoderTicks() {
 		double position = rightMotor2.getSelectedSensorPosition(0) - rightEncoderZero;
-		SmartDashboard.putNumber("Right Encoder Position", position);
 		return position;
 	}
 
+	/**
+	 * Converts drive encoder ticks to inches
+	 * @param encoderticks distance, in ticks
+	 * @return distance, in inches
+	 */
+	public double encoderTicksToInches(double encoderticks) {
+		return (encoderticks / RobotMap.encoderTicksPerRevolution) * Robot.robotPrefs.wheelCircumference
+				* Robot.robotPrefs.driveTrainDistanceFudgeFactor;
+	}
+
+	/**
+	 * Converts inches to drive encoder ticks
+	 * @param inches distance, in inches
+	 * @return distance, in ticks
+	 */
+	public double inchesToEncoderTicks(double inches) {
+		return (inches / Robot.robotPrefs.wheelCircumference / Robot.robotPrefs.driveTrainDistanceFudgeFactor)
+				* RobotMap.encoderTicksPerRevolution;
+	}
+		
+	/**
+	 * Get the position of the left encoder, in inches
+	 * @return encoder position, in inches
+	 */
+	public double getLeftEncoderInches() {
+		double inches = encoderTicksToInches( getLeftEncoderTicks());
+		SmartDashboard.putNumber("Left Encoder Position", inches);
+		return inches;
+	}
+
+	/**
+	 * Get the position of the right encoder, in inches
+	 * @return encoder position, in inches
+	 */
+	public double getRightEncoderInches() {
+		double inches = encoderTicksToInches( getRightEncoderTicks());
+		SmartDashboard.putNumber("Right Encoder Position", inches);
+		return inches;
+	}
+	
+	/**
+	 * Get the average position of the two encoders, in inches
+	 * @return encoder position, in inches
+	 */
+	public double getAverageEncoderInches( ) {
+		return (getRightEncoderInches() + getRightEncoderInches() ) / 2.0;			
+	}
+	
 	/**
 	 * Sets the robot to drive at a curve.
 	 * 
@@ -221,8 +267,8 @@ public class DriveTrain extends Subsystem {
 	public void periodic() {
 		// Display info on Dashboard
 		//getGyroRotation();
-		getLeftEncoderPosition();
-		getRightEncoderPosition();
+		getLeftEncoderTicks();
+		getRightEncoderTicks();
 	}
 	
 	public void initDefaultCommand() {
