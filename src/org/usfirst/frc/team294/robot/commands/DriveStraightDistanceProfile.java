@@ -58,16 +58,6 @@ public class DriveStraightDistanceProfile extends Command {
 		this.MPAccel = MPAccel;
 	}
 
-	public double encoderTicksToInches(double encoderticks) {
-		return (encoderticks / RobotMap.encoderTicksPerRevolution) * Robot.robotPrefs.wheelCircumference
-				* RobotMap.driveTrainDistanceFudgeFactor;
-	}
-
-	public double inchesToEncoderTicks(double inches) {
-		return (inches / Robot.robotPrefs.wheelCircumference / RobotMap.driveTrainDistanceFudgeFactor)
-				* RobotMap.encoderTicksPerRevolution;
-	}
-
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		// distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
@@ -87,8 +77,7 @@ public class DriveStraightDistanceProfile extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		final double currentDistanceInches = encoderTicksToInches(
-				(Robot.driveTrain.getRightEncoderPosition() + Robot.driveTrain.getRightEncoderPosition()) / 2.0);
+		final double currentDistanceInches = Robot.driveTrain.getAverageEncoderInches();
 		this.currentDistance = currentDistanceInches;
 		trapezoid.updateProfileCalcs();
 		MPCurrentDistance = trapezoid.getCurrentPosition();

@@ -47,14 +47,6 @@ public class DriveStraightDistanceGyroAngle extends Command {
 		this.angleTurn = angleTurn;
 	}
 
-	public double encoderTicksToInches(double encoderticks) {
-		return (encoderticks / RobotMap.encoderTicksPerRevolution) * Robot.robotPrefs.wheelCircumference;
-	}
-
-	public double inchesToEncoderTicks(double inches) {
-		return (inches / Robot.robotPrefs.wheelCircumference) * RobotMap.encoderTicksPerRevolution;
-	}
-
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		distErr = 0;
@@ -69,9 +61,9 @@ public class DriveStraightDistanceGyroAngle extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		SmartDashboard.putNumber("Left Encoder Values", Robot.driveTrain.getLeftEncoderPosition());
-		SmartDashboard.putNumber("Right Encoder Values", Robot.driveTrain.getRightEncoderPosition());
-		final double currentDistanceInches = encoderTicksToInches((Robot.driveTrain.getLeftEncoderPosition()));
+		SmartDashboard.putNumber("Left Encoder Values", Robot.driveTrain.getLeftEncoderTicks());
+		SmartDashboard.putNumber("Right Encoder Values", Robot.driveTrain.getRightEncoderTicks());
+		final double currentDistanceInches = Robot.driveTrain.getAverageEncoderInches();
 			//	+ Robot.driveTrain.getRightEncoderPosition()) / 2.0);
 
 		distErr = distanceTravel - currentDistanceInches;

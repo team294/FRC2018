@@ -3,7 +3,6 @@ package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot; //remove the ones that are not used.
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -34,9 +33,6 @@ public class Robot extends TimedRobot {
 	public static FileLog log;
 	public static RobotPreferences robotPrefs;
 
-	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
-	public static boolean driveDirection; // true for reversed
-
 	public static String gameData;
 
 	public NetworkTableInstance networkTables;
@@ -50,8 +46,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		// Create the log file
+		// Create the log file first, so that any other code can use the file log
 		log = new FileLog();
+		
+		// Read robot preferences **before** creating subsystems, so subsytems can use the preferences
 		robotPrefs = new RobotPreferences();
 
 		// Create subsystems

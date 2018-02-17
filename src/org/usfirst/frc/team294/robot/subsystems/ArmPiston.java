@@ -83,7 +83,7 @@ public class ArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMinor(RobotMap.PistonPositions position) {
-		if (!Robot.prototypeRobot) {
+		if (!Robot.robotPrefs.prototypeRobot) {
 			if (position == RobotMap.PistonPositions.Extended)
 				armPistonMinorSingle.set(true);
 			if (position == RobotMap.PistonPositions.Retracted)

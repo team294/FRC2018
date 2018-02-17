@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CalibrateArmZero extends Command {
 
+	/**
+	 * Calibrates the current position of the arm as the "zero" position (horizontal arm)
+	 */
     public CalibrateArmZero() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -18,7 +21,7 @@ public class CalibrateArmZero extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armMotor.setArmCalibration( Robot.armMotor.getArmEncRaw(), true);
+    	Robot.robotPrefs.setArmCalibration( Robot.armMotor.getArmEncRaw(), true);
     }
 
     // Called repeatedly when this Command is scheduled to run
