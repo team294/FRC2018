@@ -45,8 +45,7 @@ public class ArmMotor extends Subsystem {
 		
 		// Closed-loop control structures
 		armMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
-		if(Robot.prototypeRobot) armMotor1.setSensorPhase(true);
-		else armMotor1.setSensorPhase(false);
+		armMotor1.setSensorPhase(false);
 
 		// armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00,
 		// 0x00); // Change parameter to 1 for non-continuous
