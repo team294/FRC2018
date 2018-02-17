@@ -28,7 +28,7 @@ public class ArmMotor extends Subsystem {
 	private boolean armCalibrated = false;  // Default to arm being uncalibrated.  Calibrate from robot preferences, 
 											// "Calibrate arm zero position" button on dashboard,
 											// or autocal on low limit switch (see periodic() below)
-	private double armCalZero; // Arm encoder position at O degrees (i.e. the calibration factor)
+	//private double armCalZero; // Arm encoder position at O degrees (i.e. the calibration factor)
 
 	public ArmMotor() {
 
@@ -71,7 +71,7 @@ public class ArmMotor extends Subsystem {
 	 */
 
 	public void setArmCalibration(double armCalZero, boolean writeCalToPreferences) {
-		this.armCalZero = armCalZero;
+		Robot.robotPrefs.armCalZero = armCalZero;
 		armCalibrated = true;
 		SmartDashboard.putBoolean("Arm Calibrated", armCalibrated);
 		if (writeCalToPreferences) {
@@ -110,7 +110,7 @@ public class ArmMotor extends Subsystem {
 	 * The value at that read should then be entered into the armCalZero field.
 	 **/
 	public double getArmEnc() {
-		double encValue = getArmEncRaw() - armCalZero;
+		double encValue = getArmEncRaw() - Robot.robotPrefs.armCalZero;
 		SmartDashboard.putNumber("Arm Enc (calibrated)", encValue);
 		return (encValue);
 	}
@@ -121,7 +121,7 @@ public class ArmMotor extends Subsystem {
 	 * @return desired degree of arm angle
 	 */
 	public double getCurrentArmTarget() {
-		double currTarget = armMotor1.getClosedLoopTarget(0) - armCalZero;
+		double currTarget = armMotor1.getClosedLoopTarget(0) - Robot.robotPrefs.armCalZero;
 		currTarget *= DEGREES_PER_TICK;
 		SmartDashboard.putNumber("Desired Angle of Arm in Degrees", currTarget);
 		return currTarget;
@@ -213,7 +213,7 @@ public class ArmMotor extends Subsystem {
 	 */
 	private void setArmPositionScaled(double position) {
 		if (armCalibrated) {
-			position += (armCalZero); // armZeroDegreesCalibration;
+			position += (Robot.robotPrefs.armCalZero); // armZeroDegreesCalibration;
 			armMotor1.set(ControlMode.Position, position);
 		}
 	}

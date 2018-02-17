@@ -7,7 +7,6 @@ public class RobotMap {
 	public static final int leftMotor1 = 10;
 	public static final int leftMotor2 = 11;	// Master
 	public static final int leftMotor3 = 12;
-	public static double wheelCircumference ; //set value in Robot plz dont change
 	public static final double encoderTicksPerRevolution = 4096.0;
 	public static final double driveTrainDistanceFudgeFactor = 1;//0.96824; // TODO: store in robot preferences
 

@@ -59,12 +59,12 @@ public class DriveStraightDistanceProfile extends Command {
 	}
 
 	public double encoderTicksToInches(double encoderticks) {
-		return (encoderticks / RobotMap.encoderTicksPerRevolution) * RobotMap.wheelCircumference
+		return (encoderticks / RobotMap.encoderTicksPerRevolution) * Robot.robotPrefs.wheelCircumference
 				* RobotMap.driveTrainDistanceFudgeFactor;
 	}
 
 	public double inchesToEncoderTicks(double inches) {
-		return (inches / RobotMap.wheelCircumference / RobotMap.driveTrainDistanceFudgeFactor)
+		return (inches / Robot.robotPrefs.wheelCircumference / RobotMap.driveTrainDistanceFudgeFactor)
 				* RobotMap.encoderTicksPerRevolution;
 	}
 

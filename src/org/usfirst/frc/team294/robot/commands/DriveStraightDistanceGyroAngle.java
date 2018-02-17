@@ -48,11 +48,11 @@ public class DriveStraightDistanceGyroAngle extends Command {
 	}
 
 	public double encoderTicksToInches(double encoderticks) {
-		return (encoderticks / RobotMap.encoderTicksPerRevolution) * RobotMap.wheelCircumference;
+		return (encoderticks / RobotMap.encoderTicksPerRevolution) * Robot.robotPrefs.wheelCircumference;
 	}
 
 	public double inchesToEncoderTicks(double inches) {
-		return (inches / RobotMap.wheelCircumference) * RobotMap.encoderTicksPerRevolution;
+		return (inches / Robot.robotPrefs.wheelCircumference) * RobotMap.encoderTicksPerRevolution;
 	}
 
 	// Called just before this Command runs the first time
