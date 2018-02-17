@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
 	public static Climb climb;
 
 	public static FileLog log;
-	public static Preferences robotPrefs;
+	public static RobotPreferences robotPrefs;
 	public static AutoSelection autoSelection;
 
 	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
@@ -45,14 +45,10 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		// Create the log file first, so that any other code can use the file log
 		log = new FileLog();
-
-		// Read preferences first, so that subsystems can use the preference values.
-		readPreferencesBeforeSubsystems();
-
 		
 		// Read robot preferences **before** creating subsystems, so subsytems can use the preferences
 		robotPrefs = new RobotPreferences();
-
+				
 		// Create subsystems
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
@@ -65,9 +61,6 @@ public class Robot extends TimedRobot {
 		// Create auto selection utility
 		autoSelection = new AutoSelection();
 
-		// Read the rest of the preferences
-		readPreferencesAfterSubsystems();
-		
 		// Network Tables for driver's display
 		networkTables = NetworkTableInstance.getDefault();
 		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
@@ -159,31 +152,5 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-	}
-
-	public void readPreferencesBeforeSubsystems() {
-		// Run this method before creating subsystems, so that subsystems can use these
-		// preferences!
-
-		// TODO: For each robot preference: Use more descriptive names?
-		robotPrefs = Preferences.getInstance();
-
-		prototypeRobot = robotPrefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype
-		driveDirection = robotPrefs.getBoolean("driveDirection", true);
-		RobotMap.wheelCircumference = robotPrefs.getDouble("wheelDiameter", 6.18) * Math.PI;
-	}
-
-	public void readPreferencesAfterSubsystems() {
-		// Run this method after creating subsystems, because it calls methods inside
-		// subsystems
-
-		if (robotPrefs.getDouble("calibrationZeroDegrees", -9999) == -9999) {
-			// If calibration factor for arm can't be read, then don't enable angle control
-			// of arm
-			DriverStation.reportError("Error:  Preferences missing from RoboRio for Arm calibration.", true);
-		} else {
-			// Enable angle control of arm with calibration factor from Robot Preferences
-			armMotor.setArmCalibration(robotPrefs.getDouble("calibrationZeroDegrees", -9999), false);
-		}
 	}
 }
