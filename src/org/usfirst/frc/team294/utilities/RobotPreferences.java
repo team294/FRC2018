@@ -18,7 +18,7 @@ public class RobotPreferences {
 	
 	public boolean armCalibrated = false;  // Default to arm being uncalibrated.  Calibrate from robot preferences, 
 											// "Calibrate arm zero position" button on dashboard,
-											// or autocal on low limit switch (see periodic() below)
+											// or autocal on low limit switch (see periodic() in armMotor subsystem)
 	public double armCalZero;   		// Arm encoder position at O degrees, in encoder ticks (i.e. the calibration factor)
 	
 	/**
