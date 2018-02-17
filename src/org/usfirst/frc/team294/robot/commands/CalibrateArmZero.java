@@ -1,29 +1,25 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.Robot; 
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ClawOpen extends Command {
-		
-	/**
-	 * Manually opens claw, but not if claw is in keep-out zone
-	 */
-    public ClawOpen() {
+public class CalibrateArmZero extends Command {
+
+    public CalibrateArmZero() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.claw);
+    	requires(Robot.armMotor); 
     }
+    
 
     // Called just before this Command runs the first time
     protected void initialize() {
-		Robot.claw.openClaw();
-	}
-  
+    	Robot.armMotor.setArmCalibration( Robot.armMotor.getArmEncRaw(), true);
+    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {

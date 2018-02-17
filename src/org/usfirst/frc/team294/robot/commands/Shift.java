@@ -1,25 +1,36 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ArmRetractMinorPiston extends Command {
+public class Shift extends Command {
 
-	public ArmRetractMinorPiston() {
+	private boolean high;
+
+	/**
+	 * changes from low to high gear on drive
+	 * 
+	 * @param high
+	 *            true is high gear, false is low gear
+	 */
+	public Shift(boolean high) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.armPiston);
+		requires(Robot.shifter);
+		this.high = high;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.armPiston.setMinor(PistonPositions.Retracted);
+		if (high) { // true is high gear, false is low gear
+			Robot.shifter.setShift(true);
+		} else {
+			Robot.shifter.setShift(false);
+		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run

@@ -4,6 +4,7 @@ package org.usfirst.frc.team294.robot;
 import org.usfirst.frc.team294.robot.OI.BottomKnob;
 import org.usfirst.frc.team294.robot.OI.MiddleKnob;
 import org.usfirst.frc.team294.robot.OI.TopKnob;
+import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import org.usfirst.frc.team294.robot.commands.*;
 
@@ -92,9 +93,6 @@ public class OI {
 	    Trigger xbLT = new AxisTrigger(xboxController, 2, 0.9);
         Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
 
-        //TODO:  Make sure all controllers are set up to the correct commands. 
-        // What does this mean? Test if the buttons call the commands indicated?
-
 		Trigger xbPovUp = new POVTrigger(xboxController, 0);
         Trigger xbPovRight = new POVTrigger(xboxController, 90);
         Trigger xbPovDown = new POVTrigger(xboxController, 180);
@@ -117,8 +115,8 @@ public class OI {
 	    		right[i].whenPressed(new DriveWithJoysticks());
 	    		left[i].whenPressed(new DriveWithJoysticks());
 	    	} else {
-	    		right[i].whenPressed(new ShiftUp());
-	    		left[i].whenPressed(new ShiftDown());
+	    		right[i].whenPressed(new Shift(true));
+	    		left[i].whenPressed(new Shift(false));
 	    	}
 	    }
 
@@ -133,46 +131,46 @@ public class OI {
 	    }
 	    
 	    // Bind commands to the codriver panel switches
-	    //coP[1].whenPressed(new Command()); // Reserved for climbing sequences
-	    //coP[2].whenPressed(new Command()); // Reserved for climbing sequences
-	    //coP[3].whenPressed(new Command()); // Stop all flywheels
-	    //coP[4].whenPressed(new Command()); // Prepare to score cube (rev up flywheels), alternate kill flywheels
+	    //coP[1].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
+	    //coP[2].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
+	    coP[3].whenPressed(new StopIntakeAndClaw()); // Stop all flywheels
+	    //coP[4].whenPressed(new Command()); // Prepare to score cube (rev up flywheels), alternate override for arm
 	    //coP[5].whenPressed(new Command()); // Score cube
 	    //coP[6].whenPressed(new Command()); // Intake mechanism up
 	    //coP[7].whenPressed(new Command()); // Intake mechanism down
-	    //coP[8].whenPressed(new Command()); // Arm to intake position
-	    //coP[9].whenPressed(new PassiveOuttake()); // Outtake
-	    //coP[10].whenPressed(new Command()); // Arm to backwards for scale
-	    //coP[11].whenPressed(new LoadCubeSequence()); // Intake sequence
-	    //coP[12].whenPressed(new Command()); // Toggle claw open/closed
-	    //coP[13].whenPressed(new Command()); // Arm to switch position
-	    //coP[14].whenPressed(new Command()); // Arm to alternate scale position
+	    coP[8].whenPressed(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
+	    coP[9].whenPressed(new PassiveOuttake()); // Outtake
+	    coP[10].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to backwards for scale
+	    coP[11].whenPressed(new LoadCubeSequence()); // Intake sequence
+	    //coP[12].whenPressed(new Command()); // TBD
+	    coP[13].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to switch position
+	    coP[14].whenPressed(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to alternate scale position
 	    
 	    // Xbox controller buttons
 	    //xbB[1].whenPressed(new Command()); // Lower intake mechanism
-	    //xbB[2].whenPressed(new PassiveOuttake()); // Outtake
-	    //xbB[3].whenPressed(new LoadCubeSequence()); // Intake sequence
+	    //xbB[2].whenPressed(new PistonCommand()); // Arm Piston actuation
+	    //xbB[3].whenPressed(new PistonCommand()); // Arm Piston actuation
 	    //xbB[4].whenPressed(new Command()); // Raise intake mechanism
-	    //xbB[5].whenPressed(new Command()); // Open claw jaws
-	    //xbB[6].whenPressed(new Command()); // Close claw jaws
-	    //xbB[7].whenPressed(new Command()); // Reserved for climbing
-	    //xbB[8].whenPressed(new Command()); // Reserved for climbing
-	    //xbB[9].whenPressed(new Command()); // Stop flywheels
-	    //xbB[10].whenPressed(new Command()); // Override climb OR arm
+	    xbB[5].whenPressed(new LoadCubeSequence()); // Intake sequence
+	    xbB[6].whenPressed(new PassiveOuttake()); // Outtake
+	    //xbB[7].whenPressed(new ClimbCommand()); // Reserved for climbing
+	    //xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
+	    xbB[9].whenPressed(new StopIntakeAndClaw()); // Stop flywheels
+	    //xbB[10].whenPressed(new OverrideCommand()); // Override climb OR arm
 	    
-	    //xbPovUp.whenActive(new Command()); // Arm to scale backwards
-	    //xbPovDown.whenActive(new Command()); // Arm to intake position
-	    //xbPovLeft.whenActive(new Command()); // Arm to switch position
-	    //xbPovRight.whenActive(new Command()); // Arm to alternate scale position
+	    xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to scale backwards
+	    xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
+	    xbPovLeft.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to switch position
+	    xbPovRight.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to alternate scale position
 	    
 	    // Xbox triggers
-	    //xbLT.whenActive(new Command()); // Prepare to score cube (rev up flywheels), alternate kill flywheels
+	    //xbLT.whenActive(new Command()); // Prepare to score cube (rev up flywheels), alternate climb/arm override
 	    //xbRT.whenActive(new Command()); // Score cube
 	    
 		Button armButton2 = new JoystickButton(armJoystick,2);
     	Button armButton3 = new JoystickButton(armJoystick,3);
-    	armButton2.whenPressed(new ArmIncrementLowerAngleButton());
-    	armButton3.whenPressed(new ArmIncrementRaiseAngleButton());
+    	armButton2.whenPressed(new ArmIncrementAngle(false));
+    	armButton3.whenPressed(new ArmIncrementAngle(true));
 		
 		// Initialize our auto plan chooser
     	//  Software is okay for testing. This should be hardware switches at competition.
@@ -197,12 +195,14 @@ public class OI {
 	
 		SmartDashboard.putData("Start Drive Train", new DriveWithJoysticks());
 		
-		SmartDashboard.putData("Retract Arm", new ArmRetract());
+		SmartDashboard.putData("Retract Arm", new ArmPistonSetMajorState(PistonPositions.Retracted));
 		
-		SmartDashboard.putData("Extend Arm", new ArmExtend());
+		SmartDashboard.putData("Extend Arm", new ArmPistonSetMajorState(PistonPositions.Extended));
 		
 		//SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
-		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementRaiseAngleButton());
+		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementAngle(true));
+		
+		SmartDashboard.putData("Calibrate arm zero position", new CalibrateArmZero());
 
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
@@ -239,8 +239,8 @@ public class OI {
 		
 		SmartDashboard.putData("Extend", new ArmPistonSmartExtendInDestZone(90));
 		
-		SmartDashboard.putData("Open Claw", new ClawOpen());
-		SmartDashboard.putData("Close Claw", new ClawClose());
+		SmartDashboard.putData("Open Claw", new ClawSetState(true));
+		SmartDashboard.putData("Close Claw", new ClawSetState(false));
 
 		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(.50)); 
 		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));

@@ -18,7 +18,7 @@ public class PassiveOuttake extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.outtake();
+    	Robot.intake.outtake(); // Sets the intake motors to reverse and opens the intake
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -7,17 +7,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmIncrementRaiseAngleButton extends Command {
+public class ArmSetMotorToZero extends Command {
 
-    public ArmIncrementRaiseAngleButton() {
+    public ArmSetMotorToZero() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//requires (Robot.protoArmMotor);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armMotor.armAdjustJoystickButtonRaise();
+    	Robot.armMotor.setArmMotorToPercentPower(0);
     }
 
     // Called repeatedly when this Command is scheduled to run

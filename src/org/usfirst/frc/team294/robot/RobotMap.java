@@ -25,16 +25,18 @@ public class RobotMap {
 
 	// Pneumatic addresses
 	
-	public static final int pnuematicShifterHigh = 0;
-	public static final int pnuematicShifterLow = 1;		// this is used for prototype drive base only!!  Change to single solenoid in prototype
+	public static final int pnuematicShifter = 0;		// this is used for prototype drive base only!!  Change to single solenoid in prototype
 	public static final int pnuematicArmBrake = 1;			// At this point, 2/14/18, we do not envision that a brake is required - All ArmBrake code should be commented out
-	public static final int pneumaticArmPistonMajorOut = 2;
 	public static final int pneumaticArmPistonMajorIn = 3;
+	public static final int pneumaticArmPistonMajorOut = 2;
 	public static final int pneumaticIntakePistonOpen = 4;
 	public static final int pneumaticClawPistonOut = 5;
-	public static final int pneumaticArmPistonMinorOut = 6;
+//	public static final int pneumaticIntakePistonIn = 6;
+//	public static final int pneumaticIntakePistonOut = 7;
+//	public static final int pneumaticArmPistonMinorIn = 8;
+	public static final int pneumaticArmPistonMinorOut = 6;	
 	public static final int pneumaticIntakePistonDeploy = 7;
-	
+
 	
 	// RoboRIO digital I/O addresses
 	public static final int majorPistonRetractedLimitSwitch = 0; 
@@ -53,19 +55,47 @@ public class RobotMap {
 	public static double clawPercentIn = .7; //need to be tested
 	public static double clawPercentOut = -0.3;
 	
+
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup
 	public static double highThreshold; // High threshold for scoring
 		
 
+	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
+	public static double armIntakePos = 0.0;
+	public static double armSwitchPos = 0.0;
+	public static double armScaleLowPos = 0.0;
+	public static double armScaleBackwardsPos = 0.0;
+
 	// Arm angle constants
-	public static double degreesPerTicks = 9.0 / 5.0;
-	public static double armLowPosition;
-	public static double armHighPosition;
+	public static double degreesPerTicks = 360.0 / 4096.0;
+
 	public enum ArmPositions {
-		Low, High, UltraHigh, WayTooHigh
-	} // Enum for preset positions to use in the code (e.g. placing on scale low, switch, pickup, etc.
+		Intake(armIntakePos), Switch(armSwitchPos), ScaleLow(armScaleLowPos), ScaleHigh(armScaleBackwardsPos);
+		
+		private double angle;
+		
+		ArmPositions(double angle) {
+			this.angle = angle;
+		}
+		
+		public double getAngle() {
+			return angle;
+		}
+	}
 	
+	/**
+	 * Gets the angle preset for the arm based on RobotMap.ArmPositions
+	 * @param position RobotMap.ArmPositions
+	 * @return
+	 */
+	public static double getArmAngle(ArmPositions position) {
+		if (position == ArmPositions.Intake) return armIntakePos;
+		if (position == ArmPositions.ScaleHigh) return armScaleBackwardsPos;
+		if (position == ArmPositions.ScaleLow) return armScaleLowPos;
+		if (position == ArmPositions.Switch) return armSwitchPos;
+		else return armSwitchPos;
+	}
 	
 	// Arm angle zone boundaries   THESE ARE NUMBERS JUST FOR TEST ON PROTO ARM
 	public static double minAngle = -37; // arm cannot extend downward past this angle
@@ -83,8 +113,6 @@ public class RobotMap {
 	public static double angleClawCloseLow = -20;
 	public static double angleClawCloseHigh = -10;
 	
-	/*****************************************/
-	//   WHY IS THIS IN MAP??  SHOULDN'T BE IN THE SUBSYSTEM?
 	/**
 	 * Returns the zone of the arm based on the arm angle
 	 * @param angle
@@ -96,15 +124,6 @@ public class RobotMap {
 		if (angle > middleBound) return ArmZones.High;
 		return ArmZones.Middle;
 	}
-	public static double getArmAngle(ArmPositions position) {
-		if (position == ArmPositions.Low)
-			return armLowPosition;
-		if (position == ArmPositions.High)
-			return armHighPosition;
-		else
-			return armLowPosition;
-	}
-/***********************************************/
 	
 	public enum PistonPositions {
 		Extended, Retracted, Moving, Null

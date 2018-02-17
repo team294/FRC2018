@@ -1,25 +1,25 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ArmExtend extends Command {
+public class StopIntakeAndClaw extends Command {
 
-    public ArmExtend() {
+    public StopIntakeAndClaw() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires (Robot.armPiston);
+    	requires(Robot.claw);
+    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armPiston.setMajor(RobotMap.PistonPositions.Extended);
-    	
+    	Robot.claw.stop();
+    	Robot.intake.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run
