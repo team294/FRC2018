@@ -7,9 +7,7 @@ public class RobotMap {
 	public static final int leftMotor1 = 10;
 	public static final int leftMotor2 = 11;	// Master
 	public static final int leftMotor3 = 12;
-	public static double wheelCircumference ; //set value in Robot plz dont change
 	public static final double encoderTicksPerRevolution = 4096.0;
-	public static final double driveTrainDistanceFudgeFactor = 1;//0.96824; // TODO: store in robot preferences
 
 	public static final int rightMotor1 = 20; 
 	public static final int rightMotor2 = 21;	// Master
@@ -98,11 +96,11 @@ public class RobotMap {
 	}
 	
 	// Arm angle zone boundaries   THESE ARE NUMBERS JUST FOR TEST ON PROTO ARM
-	public static double minAngle = -37; // arm cannot extend downward past this angle
-	public static double lowerBound = -25; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
-	public static double middleBound = 30; // arm cannot extend between Ang1 and Ang2
-	public static double upperBound = 130; // both pistons can be extended between Ang2 and Ang 3
-	public static double maxAngle = 150; // arm cannot extend upward past this angle
+	public static double minAngle = -50; // arm cannot extend downward past this angle
+	public static double lowerBound = -35; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
+	public static double middleBound = 35; // arm cannot extend between Ang1 and Ang2
+	public static double upperBound = 102; // both pistons can be extended between Ang2 and Ang 3
+	public static double maxAngle = 105; // arm cannot extend upward past this angle
 	
 	public enum ArmZones {
 		Low, Middle, High, Backwards
@@ -130,10 +128,10 @@ public class RobotMap {
 	}
 
 	// Auto path selections
-	public static final int AUTO_PLANS = 5;
+	public static final int AUTO_PLANS = 6;
 
 	public enum AutoPlan {
-		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly
+		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly
 	}
 
 	// Auto field layouts
@@ -150,25 +148,30 @@ public class RobotMap {
 	}
 
 	// Columns in Array are in order of LL, LR, RL, RR
-	public static int[][] startingLeftAutoPrograms = { { 3, 3, 1, 2},  // Plan 1
-			{ 3, 3, 1, 6},  // Plan 2
-			{ 3, 3, 1, 4},  // Plan 3
-			{ 1, 2, 1, 2},  // Plan 4
-			{ 5, 5, 5, 5}   // Plan 5
-	};
-	
-	public static int[][] startingMiddleAutoPrograms = { { 5, 5, 5, 5},  // Plan 1
-			{ 5, 5, 5, 5},  // Plan 2
-			{ 5, 5, 5, 5},  // Plan 3
-			{ 5, 5, 5, 5},  // Plan 4
-			{ 5, 5, 5, 5}   // Plan 5			
-	};
-	
-	public static int[][] startingRightAutoPrograms = { { 2, 1, 3, 3},  // Plan 1
-			{ 6, 1, 3, 3},  // Plan 2
-			{ 4, 1, 3, 3},  // Plan 3
-			{ 2, 1, 2, 1},  // Plan 4
-			{ 5, 5, 5, 5}   // Plan 5
+	public static int[][] startingLeftAutoPrograms = {
+			{ 3, 3, 1, 2 }, // Plan 0
+			{ 3, 3, 1, 6 }, // Plan 1
+			{ 3, 3, 1, 4 }, // Plan 2
+			{ 1, 2, 1, 2 }, // Plan 3
+			{ 5, 5, 5, 5 }, // Plan 4
+			{ 7, 7, 7, 7 }  // Plan 5
 	};
 
+	public static int[][] startingMiddleAutoPrograms = {
+			{ 5, 5, 5, 5 }, // Plan 0
+			{ 5, 5, 5, 5 }, // Plan 1
+			{ 5, 5, 5, 5 }, // Plan 2
+			{ 5, 5, 5, 5 }, // Plan 3
+			{ 5, 5, 5, 5 }, // Plan 4
+			{ 7, 7, 7, 7 }  // Plan 5
+	};
+
+	public static int[][] startingRightAutoPrograms = {
+			{ 2, 1, 3, 3 }, // Plan 0
+			{ 6, 1, 3, 3 }, // Plan 1
+			{ 4, 1, 3, 3 }, // Plan 2
+			{ 2, 1, 2, 1 }, // Plan 3
+			{ 5, 5, 5, 5 }, // Plan 4
+			{ 7, 7, 7, 7 }  // Plan 5
+	};
 }

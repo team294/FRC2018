@@ -4,7 +4,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -19,8 +19,8 @@ public class Intake extends Subsystem {
 	private final Solenoid intakeOpenPiston = new Solenoid(RobotMap.pneumaticIntakePistonOpen);
 	private final Solenoid intakeDeployPiston = new Solenoid(RobotMap.pneumaticIntakePistonDeploy);
 
-	private final WPI_TalonSRX intakeMotorLeft = new WPI_TalonSRX(RobotMap.intakeMotorLeft);
-	private final WPI_TalonSRX intakeMotorRight = new WPI_TalonSRX(RobotMap.intakeMotorRight);
+	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
+	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
 
 	// Put methods for controlling this subsystem
