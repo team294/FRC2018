@@ -12,15 +12,16 @@ public class AutoPath7_Baseline extends CommandGroup {
 
 	public AutoPath7_Baseline(int startPosition) {
 		switch (startPosition) {
-		case 2:
-			addSequential(new DriveStraightDistanceProfile(55, 0));
+		case 2: // This will take the path to the left, might be a conflict if our teammate goes to the left.
+				// Should implement a switch to go to the right?
+			addSequential(new DriveStraightDistanceProfile(-55, 0));
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(60, -90));
+			addSequential(new DriveStraightDistanceProfile(-60, -90));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(50, 0));
+			addSequential(new DriveStraightDistanceProfile(-50, 0));
 			break;
 		default:
-			addSequential(new DriveStraightDistanceProfile(120, 0));
+			addSequential(new DriveStraightDistanceProfile(-120, 0));
 		}
 	}
 }
