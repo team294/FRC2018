@@ -153,6 +153,8 @@ public class ArmPiston extends Subsystem {
 		SmartDashboard.putBoolean("Major Retract", getMajorRet());
 		SmartDashboard.putBoolean("Minor Extend", getMinorExt());
 		SmartDashboard.putBoolean("Minor Retract", getMinorRet());
+		getMajor();
+		getMinor();
 	}
 
 	/**
@@ -245,9 +247,8 @@ public class ArmPiston extends Subsystem {
 	}
 
 	public void periodic() {
-		updateSmartDashboard();
 		updateState();
-		getMajor();
+		updateSmartDashboard();
 	}
 
 	public void initDefaultCommand() {
