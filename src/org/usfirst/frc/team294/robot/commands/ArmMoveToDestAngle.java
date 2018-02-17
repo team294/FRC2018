@@ -2,7 +2,6 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -12,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmMoveToDestAngle extends Command {
 
 	private double destAngle;
-	private double currentAngle = Robot.armMotor.getArmDegrees();
 
 	public ArmMoveToDestAngle(double destAngle) {
 		// Use requires() here to declare subsystem dependencies
