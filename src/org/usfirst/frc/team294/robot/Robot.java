@@ -13,6 +13,7 @@ import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.utilities.AutoSelection;
 import org.usfirst.frc.team294.utilities.FileLog;
+import org.usfirst.frc.team294.utilities.RobotPreferences;
 
 public class Robot extends TimedRobot {
 
@@ -42,11 +43,15 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		// Create the log file
+		// Create the log file first, so that any other code can use the file log
 		log = new FileLog();
 
 		// Read preferences first, so that subsystems can use the preference values.
 		readPreferencesBeforeSubsystems();
+
+		
+		// Read robot preferences **before** creating subsystems, so subsytems can use the preferences
+		robotPrefs = new RobotPreferences();
 
 		// Create subsystems
 		driveTrain = new DriveTrain();
@@ -62,7 +67,7 @@ public class Robot extends TimedRobot {
 
 		// Read the rest of the preferences
 		readPreferencesAfterSubsystems();
-
+		
 		// Network Tables for driver's display
 		networkTables = NetworkTableInstance.getDefault();
 		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
