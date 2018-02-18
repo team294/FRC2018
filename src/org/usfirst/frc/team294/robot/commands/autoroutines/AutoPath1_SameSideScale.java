@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.commands.*;
+import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -9,14 +10,14 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoPath1_SameSideScale extends CommandGroup {
 
-	public AutoPath1_SameSideScale(int startPosition) {
+	public AutoPath1_SameSideScale(StartingPosition startPosition) {
 		switch (startPosition) {
-		case 1:
+		case Left:
 			addSequential(new DriveStraightDistanceProfile(252,  5)); //265
 			addSequential(new TurnGyro(45 , TurnGyro.Units.Degrees));
 			// put arm command here
 			break;
-		case 3:
+		case Right:
 ////			addSequential(new TurnGyro(-15 , TurnGyro.Units.Degrees));
 //			addSequential(new DriveStraightDistanceProfile(252,  -5)); //265
 //			addSequential(new TurnGyro(-45 , TurnGyro.Units.Degrees));
