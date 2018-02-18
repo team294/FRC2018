@@ -21,19 +21,14 @@ public class RobotMap {
 	public static final int climbMotor1 = 60;
 	public static final int climbMotor2 = 61;
 
-	// Pneumatic addresses
-	
-	public static final int pnuematicShifter = 0;		// this is used for prototype drive base only!!  Change to single solenoid in prototype
-	public static final int pnuematicArmBrake = 1;			// At this point, 2/14/18, we do not envision that a brake is required - All ArmBrake code should be commented out
-	public static final int pneumaticArmPistonMajorIn = 3;
-	public static final int pneumaticArmPistonMajorOut = 2;
-	public static final int pneumaticIntakePistonOpen = 4;
-	public static final int pneumaticClawPistonOut = 5;
-//	public static final int pneumaticIntakePistonIn = 6;
-//	public static final int pneumaticIntakePistonOut = 7;
-//	public static final int pneumaticArmPistonMinorIn = 8;
+	// Pneumatic addresses	
+	public static final int pnuematicShifter = 0;
+	public static final int pneumaticArmPistonMajorIn = 4;
+	public static final int pneumaticArmPistonMajorOut = 5;
+	public static final int pneumaticIntakePistonOpen = 2;
+	public static final int pneumaticClawPistonOut = 3;
 	public static final int pneumaticArmPistonMinorOut = 6;	
-	public static final int pneumaticIntakePistonDeploy = 7;
+	public static final int pneumaticIntakePistonDeploy = 1;
 
 	
 	// RoboRIO digital I/O addresses

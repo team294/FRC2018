@@ -25,10 +25,10 @@ public class ArmMotor extends Subsystem {
 	private final double MAX_DOWN_PERCENT_POWER = -0.3; // -0.5 before
 
 	// variables to check if arm Encoder is reliable
-	private double armEncoderStartValue;
+	private double armEncoderStartValue = getArmEncRaw();
 	public boolean joystickControl;
 	
-	int i = 0;
+	int loop = 0;
 
 	public ArmMotor() {
 
@@ -230,11 +230,12 @@ public class ArmMotor extends Subsystem {
 		return voltageLeft;
 	}
 
-	public void checkEncoder() { // TODO figure out correct min. voltage
+	public void checkEncoder() { // TODO figure out correct minimum voltage
 		if (!joystickControl) {
-			if (i == 4) {
-				System.out.println("Motor Voltage " + getOutputVoltage() + " Current Encoder Value " + getArmEncRaw()
-				+ " Last Encoder Value " + armEncoderStartValue);
+		if (loop == 4) 
+			{
+		//		System.out.println("Motor Voltage " + getOutputVoltage() + " Current Encoder Value " + getArmEncRaw()
+		//		+ " Last Encoder Value " + armEncoderStartValue + " loop " + loop);
 
 				if (getOutputVoltage() >= 5.0) {
 					if (getArmEncRaw() <= armEncoderStartValue) {
@@ -242,7 +243,7 @@ public class ArmMotor extends Subsystem {
 						Robot.robotPrefs.armCalibrated = false;
 					}
 				}
-				if (getOutputVoltage() <= -5.0) {
+				if (getOutputVoltage() <= -3.0) {
 					if (getArmEncRaw() >= armEncoderStartValue) {
 						setArmMotorToPercentPower(0.0);
 						Robot.robotPrefs.armCalibrated = false;
@@ -252,9 +253,9 @@ public class ArmMotor extends Subsystem {
 				}
 				SmartDashboard.putBoolean("Arm Encoder Working", Robot.robotPrefs.armCalibrated);
 				armEncoderStartValue = getArmEncRaw();
-				i = (i <= 4) ? i : 0;
-				i++;
 			}
+		loop = (loop <= 4) ? loop : 0;
+		loop++;
 		}
 	}
 
