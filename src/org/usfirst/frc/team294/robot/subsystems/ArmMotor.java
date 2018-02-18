@@ -24,6 +24,12 @@ public class ArmMotor extends Subsystem {
 	private final double MAX_UP_PERCENT_POWER = 0.5; // Up these speeds after testing. 0.8 before
 	private final double MAX_DOWN_PERCENT_POWER = -0.3; // -0.5 before
 
+	// variables to check if arm Encoder is reliable
+	private double armEncoderStartValue = getArmEncRaw();
+	public boolean joystickControl;
+	
+	int loop = 0;
+
 	public ArmMotor() {
 
 		// armMotor.set(ControlMode.Position, 3);
@@ -36,11 +42,9 @@ public class ArmMotor extends Subsystem {
 				0);
 		armMotor1.overrideLimitSwitchesEnable(true); // pass false to force disable limit switch
 
-		
 		// Closed-loop control structures
 		armMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 		armMotor1.setSensorPhase(false);
-
 
 		// armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00,
 		// 0x00); // Change parameter to 1 for non-continuous
@@ -102,8 +106,8 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Returns the raw value of the encoder on arm, without adjusting for level. Also
-	 * updates SmartDashboard. Needed for calibration of 0.
+	 * Returns the raw value of the encoder on arm, without adjusting for level.
+	 * Also updates SmartDashboard. Needed for calibration of 0.
 	 * 
 	 * @return raw value, probably a large negative number
 	 */
@@ -114,8 +118,7 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Gets the current angle of the arm, in degrees (converted from encoder)
-	 * </br>
+	 * Gets the current angle of the arm, in degrees (converted from encoder) </br>
 	 * Uses getArmEnc and multiplies by degrees per click constant
 	 * 
 	 * @return angle in degrees
@@ -127,38 +130,40 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/*
-	public void armAdjustJoystickButtonLower() {
-		if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - 7)) {
-			setArmAngle(getArmDegrees() - 7);
-		}
-	}
+	 * public void armAdjustJoystickButtonLower() { if
+	 * (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()
+	 * - 7)) { setArmAngle(getArmDegrees() - 7); } }
+	 * 
+	 * public void armAdjustJoystickButtonRaise() { if
+	 * (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()
+	 * + 7)) { setArmAngle(getArmDegrees() + 7); } }
+	 */
 
-	public void armAdjustJoystickButtonRaise() {
-		if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + 7)) {
-			setArmAngle(getArmDegrees() + 7);
-		}
-	}*/
-	
 	/**
 	 * Increments or decrements the arm by 7 degrees
-	 * @param increment true for increment, false for decrement
+	 * 
+	 * @param increment
+	 *            true for increment, false for decrement
 	 */
 	public void armIncrement(boolean increment) {
 		armIncrement(7, increment);
 	}
-	
+
 	/**
 	 * Increments or decrements the arm
-	 * @param difference the amount to increment/decrement by
-	 * @param increment true for increment, false for decrement
+	 * 
+	 * @param difference
+	 *            the amount to increment/decrement by
+	 * @param increment
+	 *            true for increment, false for decrement
 	 */
 	public void armIncrement(int difference, boolean increment) {
 		if (increment) {
-			if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()-difference)){
+			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - difference)) {
 				setArmAngle(getArmDegrees() - difference);
 			}
 		} else {
-			if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()+difference)) {
+			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + difference)) {
 				setArmAngle(getArmDegrees() + difference);
 			}
 		}
@@ -179,8 +184,8 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Sets the position of the arm based on scaled encoder ticks, and
-	 * converts to raw (subtracts position at 0)
+	 * Sets the position of the arm based on scaled encoder ticks, and converts to
+	 * raw (subtracts position at 0)
 	 * 
 	 * @param position
 	 *            desired position, in encoder ticks
@@ -225,7 +230,36 @@ public class ArmMotor extends Subsystem {
 		return voltageLeft;
 	}
 
-	
+	public void checkEncoder() { // TODO figure out correct minimum voltage
+		if (!joystickControl) {
+		if (loop == 4) 
+			{
+		//		System.out.println("Motor Voltage " + getOutputVoltage() + " Current Encoder Value " + getArmEncRaw()
+		//		+ " Last Encoder Value " + armEncoderStartValue + " loop " + loop);
+
+				if (getOutputVoltage() >= 5.0) {
+					if (getArmEncRaw() <= armEncoderStartValue) {
+						setArmMotorToPercentPower(0.0);
+						Robot.robotPrefs.armCalibrated = false;
+					}
+					SmartDashboard.putBoolean("Arm Encoder Working", Robot.robotPrefs.armCalibrated);
+				}
+				if (getOutputVoltage() <= -3.0) {
+					if (getArmEncRaw() >= armEncoderStartValue) {
+						setArmMotorToPercentPower(0.0);
+						Robot.robotPrefs.armCalibrated = false;
+					}
+					SmartDashboard.putBoolean("Arm Encoder Working", Robot.robotPrefs.armCalibrated);
+				} else {
+					Robot.robotPrefs.armCalibrated = true;
+				}
+				armEncoderStartValue = getArmEncRaw();
+			}
+		loop = (loop <= 4) ? loop : 0;
+		loop++;
+		}
+	}
+
 	/**
 	 * Updates encoder and angle measurements on the SmartDashboard
 	 */
@@ -239,7 +273,8 @@ public class ArmMotor extends Subsystem {
 
 	public void periodic() {
 		updateSmartDashboard();
-		// Set armCalZero, if not already set, by using known value of lower limit switch
+		// Set armCalZero, if not already set, by using known value of lower limit
+		// switch
 		if (!Robot.robotPrefs.armCalibrated) {
 			SensorCollection sc = armMotor1.getSensorCollection();
 			if (sc.isRevLimitSwitchClosed()) {
@@ -247,6 +282,7 @@ public class ArmMotor extends Subsystem {
 				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
 		}
+		checkEncoder();
 	}
 
 	public void initDefaultCommand() {
