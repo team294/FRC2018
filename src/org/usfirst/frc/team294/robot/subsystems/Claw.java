@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -122,6 +123,10 @@ public class Claw extends Subsystem {
 		SmartDashboard.putNumber("Arm Motor Output Voltage", voltage);
 		return voltage;
 	} */
+
+	public void periodic() {
+		SmartDashboard.putBoolean("Object Present (Claw): ", getPhotoSwitch());
+	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

@@ -1,9 +1,11 @@
 
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -112,6 +114,10 @@ public class Intake extends Subsystem {
 	 */
 	public boolean getPhotoSwitch() {
 		return photoSwitch.get();
+	}
+
+	public void periodic() {
+		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
 	}
 
 	public void initDefaultCommand() {
