@@ -209,12 +209,11 @@ public class OI {
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
 
-		SmartDashboard.putData("Move arm to 100 and set piston state", new ArmMoveWithPiston(100.0,true));
+		SmartDashboard.putData("Score Backwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos,true));
 		SmartDashboard.putData("Move arm to 0 and set piston state", new ArmMoveWithPiston(0.0,true));
-		SmartDashboard.putData("Move arm to 80 and set piston state", new ArmMoveWithPiston(80.0,true));
-		SmartDashboard.putData("Move arm to -20 and set piston state", new ArmMoveWithPiston(-20.0,true));
-		SmartDashboard.putData("Move arm to -30 and set piston state", new ArmMoveWithPiston(-30.0,true));
-		SmartDashboard.putData("Move arm to -40 and set piston state", new ArmMoveWithPiston(-40.0,true));
+		SmartDashboard.putData("Score Forwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleLowPos,true));
+		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,true));
+		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,true));
 		
 
 
