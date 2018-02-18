@@ -55,16 +55,17 @@ public class RobotMap {
 		
 
 	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
-	public static double armIntakePos = 0.0;
-	public static double armSwitchPos = 0.0;
-	public static double armScaleLowPos = 0.0;
-	public static double armScaleBackwardsPos = 0.0;
+	public static double armIntakePos = -45.0;
+	public static double armSwitchPosHigh = 5.0;
+	public static double armSwitchPosLow = -5.0;
+	public static double armScaleLowPos = 80.0;
+	public static double armScaleBackwardsPos = 100.0;
 
 	// Arm angle constants
 	public static double degreesPerTicks = 360.0 / 4096.0;
 
 	public enum ArmPositions {
-		Intake(armIntakePos), Switch(armSwitchPos), ScaleLow(armScaleLowPos), ScaleHigh(armScaleBackwardsPos);
+		Intake(armIntakePos), Switch(armSwitchPosHigh), ScaleLow(armScaleLowPos), ScaleHigh(armScaleBackwardsPos);
 		
 		private double angle;
 		
@@ -86,8 +87,8 @@ public class RobotMap {
 		if (position == ArmPositions.Intake) return armIntakePos;
 		if (position == ArmPositions.ScaleHigh) return armScaleBackwardsPos;
 		if (position == ArmPositions.ScaleLow) return armScaleLowPos;
-		if (position == ArmPositions.Switch) return armSwitchPos;
-		else return armSwitchPos;
+		if (position == ArmPositions.Switch) return armSwitchPosHigh;
+		else return armSwitchPosHigh;
 	}
 	
 	// Arm angle zone boundaries   THESE ARE NUMBERS JUST FOR TEST ON PROTO ARM
@@ -96,6 +97,8 @@ public class RobotMap {
 	public static double middleBound = 35; // arm cannot extend between Ang1 and Ang2
 	public static double upperBound = 102; // both pistons can be extended between Ang2 and Ang 3
 	public static double maxAngle = 105; // arm cannot extend upward past this angle
+	
+
 	
 	public enum ArmZones {
 		Low, Middle, High, Backwards

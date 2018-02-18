@@ -129,15 +129,6 @@ public class ArmMotor extends Subsystem {
 		return (armAngle);
 	}
 
-	/*
-	 * public void armAdjustJoystickButtonLower() { if
-	 * (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()
-	 * - 7)) { setArmAngle(getArmDegrees() - 7); } }
-	 * 
-	 * public void armAdjustJoystickButtonRaise() { if
-	 * (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()
-	 * + 7)) { setArmAngle(getArmDegrees() + 7); } }
-	 */
 
 	/**
 	 * Increments or decrements the arm by 7 degrees
