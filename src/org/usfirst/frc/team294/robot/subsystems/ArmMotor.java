@@ -1,7 +1,5 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
-import java.io.PrintStream;
-
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import edu.wpi.first.wpilibj.Preferences;
@@ -28,8 +26,9 @@ public class ArmMotor extends Subsystem {
 
 	// variables to check if arm Encoder is reliable
 	private double armEncoderStartValue;
-	public boolean encoderWorking;
 	public boolean joystickControl;
+	
+	int i = 0;
 
 	public ArmMotor() {
 
@@ -192,7 +191,7 @@ public class ArmMotor extends Subsystem {
 	 *            desired position, in encoder ticks
 	 */
 	private void setArmPositionScaled(double position) {
-		if (Robot.robotPrefs.armCalibrated && encoderWorking) {
+		if (Robot.robotPrefs.armCalibrated) {
 			position += (Robot.robotPrefs.armCalZero); // armZeroDegreesCalibration;
 			armMotor1.set(ControlMode.Position, position);
 		}
@@ -206,7 +205,7 @@ public class ArmMotor extends Subsystem {
 	 *            desired position, in raw encoder ticks
 	 */
 	private void setArmPositionRaw(double position) {
-		if (Robot.robotPrefs.armCalibrated && encoderWorking) {
+		if (Robot.robotPrefs.armCalibrated) {
 			armMotor1.set(ControlMode.Position, position);
 		}
 	}
@@ -232,7 +231,6 @@ public class ArmMotor extends Subsystem {
 	}
 
 	public void checkEncoder() { // TODO figure out correct min. voltage
-		int i = 0;
 		if (!joystickControl) {
 			if (i == 4) {
 				System.out.println("Motor Voltage " + getOutputVoltage() + " Current Encoder Value " + getArmEncRaw()
@@ -241,22 +239,22 @@ public class ArmMotor extends Subsystem {
 				if (getOutputVoltage() >= 5.0) {
 					if (getArmEncRaw() <= armEncoderStartValue) {
 						setArmMotorToPercentPower(0.0);
-						encoderWorking = false;
+						Robot.robotPrefs.armCalibrated = false;
 					}
 				}
 				if (getOutputVoltage() <= -5.0) {
 					if (getArmEncRaw() >= armEncoderStartValue) {
 						setArmMotorToPercentPower(0.0);
-						encoderWorking = false;
+						Robot.robotPrefs.armCalibrated = false;
 					}
 				} else {
-					encoderWorking = true;
+					Robot.robotPrefs.armCalibrated = true;
 				}
-				SmartDashboard.putBoolean("Arm Encoder Working", encoderWorking);
+				SmartDashboard.putBoolean("Arm Encoder Working", Robot.robotPrefs.armCalibrated);
 				armEncoderStartValue = getArmEncRaw();
-				i++;
 				i = (i <= 4) ? i : 0;
-		}
+				i++;
+			}
 		}
 	}
 
