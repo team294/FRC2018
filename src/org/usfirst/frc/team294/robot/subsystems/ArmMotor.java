@@ -242,16 +242,17 @@ public class ArmMotor extends Subsystem {
 						setArmMotorToPercentPower(0.0);
 						Robot.robotPrefs.armCalibrated = false;
 					}
+					SmartDashboard.putBoolean("Arm Encoder Working", Robot.robotPrefs.armCalibrated);
 				}
 				if (getOutputVoltage() <= -3.0) {
 					if (getArmEncRaw() >= armEncoderStartValue) {
 						setArmMotorToPercentPower(0.0);
 						Robot.robotPrefs.armCalibrated = false;
 					}
+					SmartDashboard.putBoolean("Arm Encoder Working", Robot.robotPrefs.armCalibrated);
 				} else {
 					Robot.robotPrefs.armCalibrated = true;
 				}
-				SmartDashboard.putBoolean("Arm Encoder Working", Robot.robotPrefs.armCalibrated);
 				armEncoderStartValue = getArmEncRaw();
 			}
 		loop = (loop <= 4) ? loop : 0;
