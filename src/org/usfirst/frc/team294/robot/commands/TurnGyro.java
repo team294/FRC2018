@@ -24,9 +24,34 @@ public class TurnGyro extends Command {
 			kDdist = 0.0038, // Derivative Value
 			kIdist = 0; // Integral Term
 
+	/**
+	 * Turns to the angle specified by amountTurn
+	 * @param amountTurn Amount to turn, in turnUnits (+ = right, - = left)
+	 * @param turnUnits Units enum (Degrees, Radians, or Rotations)
+	 */
 	public TurnGyro(double amountTurn, Units turnUnits) {
 		this.amountTurn = convertAngleToDegrees(amountTurn, turnUnits);
 		requires(Robot.driveTrain);
+	}
+
+	/**
+	 * Turns to face the nearest cube in front of the robot.  If no cube
+	 * is seen by the camera, then does not turn.
+	 */
+	public TurnGyro() {
+//		* Get X location of cube.
+		double RPiX;
+		RPiX = Robot.visionData.RPiX;
+		if(RPiX == -1  ||  RPiX >= 310  || RPiX <= 330) {
+			amountTurn = Robot.driveTrain.getGyroRotation();
+			}
+		else if(RPiX < 310) {
+		}
+		
+//			* if not found, then amountTurn = (getCurrentAngle)
+//			* if found, convert X location (pixels) to degrees  camera vision = 68.5
+		// 9.3 pixels = 1 degree
+//		TurnGyro( degreesFromVision, Units.Degrees);
 	}
 
 	private double convertAngleToDegrees(double inputAngle, Units turnUnits) {

@@ -14,6 +14,7 @@ import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.utilities.FileLog;
 import org.usfirst.frc.team294.utilities.RobotPreferences;
+import org.usfirst.frc.team294.utilities.VisionData;
 
 public class Robot extends TimedRobot {
 
@@ -32,6 +33,7 @@ public class Robot extends TimedRobot {
 	public static boolean opponentSwitchLeft = false;
 	public static FileLog log;
 	public static RobotPreferences robotPrefs;
+	public static VisionData visionData;
 
 	public static String gameData;
 
@@ -51,6 +53,9 @@ public class Robot extends TimedRobot {
 		
 		// Read robot preferences **before** creating subsystems, so subsytems can use the preferences
 		robotPrefs = new RobotPreferences();
+		
+		// Create Vision object before subsystems
+		visionData = new VisionData();
 
 		// Create subsystems
 		driveTrain = new DriveTrain();
