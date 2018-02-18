@@ -169,8 +169,8 @@ public class OI {
 	    
 		Button armButton2 = new JoystickButton(armJoystick,2);
     	Button armButton3 = new JoystickButton(armJoystick,3);
-    	armButton2.whenPressed(new ArmIncrementAngle(false));
-    	armButton3.whenPressed(new ArmIncrementAngle(true));
+    	armButton2.whenPressed(new ArmMotorIncrementAngle(false));
+    	armButton3.whenPressed(new ArmMotorIncrementAngle(true));
 		
 		// Initialize our auto plan chooser
     	//  Software is okay for testing. This should be hardware switches at competition.
@@ -200,9 +200,9 @@ public class OI {
 		SmartDashboard.putData("Extend Arm", new ArmPistonSetMajorState(PistonPositions.Extended));
 		
 		//SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
-		SmartDashboard.putData("Button Increment with Joystick", new ArmIncrementAngle(true));
+		SmartDashboard.putData("Button Increment with Joystick", new ArmMotorIncrementAngle(true));
 		
-		SmartDashboard.putData("Calibrate arm zero position", new CalibrateArmZero());
+		SmartDashboard.putData("Calibrate arm zero position", new ArmMotorCalibrateZero());
 
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
@@ -234,7 +234,6 @@ public class OI {
 		SmartDashboard.putNumber("DistToTravelDSDG", 150);
 		SmartDashboard.putData(" ProfileTest", new DriveStraightDistanceEllipse(100, 1000, 0));
 		
-		SmartDashboard.putData("Photo Switch", new ReadPhotoSwitch()); // For use with the intake
 		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
