@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
+import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoPath3_SameSideSwitch extends CommandGroup {
 
-	public AutoPath3_SameSideSwitch(int startPosition) {
+	public AutoPath3_SameSideSwitch(StartingPosition startPosition) {
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());
@@ -28,13 +29,13 @@ public class AutoPath3_SameSideSwitch extends CommandGroup {
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 		switch (startPosition) {
-		case 1:
+		case Left:
 			addSequential(new DriveStraightDistanceProfile(154, 0));
 			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
 			addSequential( new DriveStraightDistanceProfile(26, 90));
 			// arm command 
 			break;
-		case 3 : 
+		case Right: 
 			addSequential(new DriveStraightDistanceProfile(154, 0)); // it should go 157", but due to inconsistency we made it go 154"
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
 			addSequential( new DriveStraightDistanceProfile(26,  -90));
