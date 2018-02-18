@@ -172,7 +172,10 @@ public class ArmMotor extends Subsystem {
 		// perimeter
 		double encoderDegrees = angle * TICKS_PER_DEGREE;
 		setArmPositionScaled(encoderDegrees);
-	}
+		System.out.println("Setting arm to angle. Arm motor " + armMotor1.getDeviceID() + " set to angle " + angle + ", output "
+				+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
+				+ armMotor1.getBusVoltage() + " V");
+		}
 
 	/**
 	 * Sets the position of the arm based on scaled encoder ticks, and converts to
