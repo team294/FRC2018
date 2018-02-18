@@ -1,7 +1,6 @@
 package org.usfirst.frc.team294.utilities;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath1_SameSideScale;
 import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath2_OppositeSideScale;
 import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath3_SameSideSwitch;
@@ -20,6 +19,54 @@ public class AutoSelection {
 	private boolean opponentSwitchLeft = false;
 
 	public Command autonomousCommand;
+	
+	// Auto path selections
+	public static final int AUTO_PLANS = 6;
+
+	public enum AutoPlan {
+		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly
+	}
+
+	// Auto field layouts
+	public static final int AUTO_FIELD_LAYOUTS = 4;
+
+	public enum AutoFieldLayout {
+		LL, LR, RL, RR;
+		// first letter is closest switch, second is scale
+	}
+
+	// Starting positions
+	public enum StartingPosition {
+		Left, Middle, Right;
+	}
+
+	// Columns in Array are in order of LL, LR, RL, RR
+	public static int[][] startingLeftAutoPrograms = {
+			{ 3, 3, 1, 2 }, // Plan 0
+			{ 3, 3, 1, 6 }, // Plan 1
+			{ 3, 3, 1, 4 }, // Plan 2
+			{ 1, 2, 1, 2 }, // Plan 3
+			{ 5, 5, 5, 5 }, // Plan 4
+			{ 7, 7, 7, 7 }  // Plan 5
+	};
+
+	public static int[][] startingMiddleAutoPrograms = {
+			{ 5, 5, 5, 5 }, // Plan 0
+			{ 5, 5, 5, 5 }, // Plan 1
+			{ 5, 5, 5, 5 }, // Plan 2
+			{ 5, 5, 5, 5 }, // Plan 3
+			{ 5, 5, 5, 5 }, // Plan 4
+			{ 7, 7, 7, 7 }  // Plan 5
+	};
+
+	public static int[][] startingRightAutoPrograms = {
+			{ 2, 1, 3, 3 }, // Plan 0
+			{ 6, 1, 3, 3 }, // Plan 1
+			{ 4, 1, 3, 3 }, // Plan 2
+			{ 2, 1, 2, 1 }, // Plan 3
+			{ 5, 5, 5, 5 }, // Plan 4
+			{ 7, 7, 7, 7 }  // Plan 5
+	};
 
 	public AutoSelection() {
 		super();
@@ -61,24 +108,24 @@ public class AutoSelection {
 		int fieldLayout, autoPlan;
 
 		if (gameData.startsWith("LL"))
-			fieldLayout = RobotMap.AutoFieldLayout.LL.ordinal();
+			fieldLayout = AutoFieldLayout.LL.ordinal();
 		else if (gameData.startsWith("LR"))
-			fieldLayout = RobotMap.AutoFieldLayout.LR.ordinal();
+			fieldLayout = AutoFieldLayout.LR.ordinal();
 		else if (gameData.startsWith("RL"))
-			fieldLayout = RobotMap.AutoFieldLayout.RL.ordinal();
+			fieldLayout = AutoFieldLayout.RL.ordinal();
 		else
-			fieldLayout = RobotMap.AutoFieldLayout.RR.ordinal();
+			fieldLayout = AutoFieldLayout.RR.ordinal();
 
 		int programSelected;
 		autoPlan = Robot.oi.readAutoPlan();
 		int startPosition = Robot.oi.readStartPosition();
 
 		if (startPosition == 0) {
-			programSelected = RobotMap.startingLeftAutoPrograms[autoPlan][fieldLayout];
+			programSelected = startingLeftAutoPrograms[autoPlan][fieldLayout];
 		} else if (startPosition == 1) {
-			programSelected = RobotMap.startingMiddleAutoPrograms[autoPlan][fieldLayout];
+			programSelected = startingMiddleAutoPrograms[autoPlan][fieldLayout];
 		} else {
-			programSelected = RobotMap.startingRightAutoPrograms[autoPlan][fieldLayout];
+			programSelected = startingRightAutoPrograms[autoPlan][fieldLayout];
 
 		}
 
