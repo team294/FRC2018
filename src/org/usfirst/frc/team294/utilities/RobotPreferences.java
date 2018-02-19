@@ -18,7 +18,7 @@ public class RobotPreferences {
 	
 	public boolean armCalibrated = false;  // Default to arm being uncalibrated.  Calibrate from robot preferences, 
 											// "Calibrate arm zero position" button on dashboard,
-											// or autocal on low limit switch (see periodic() below)
+											// or autocal on low limit switch (see periodic() in armMotor subsystem)
 	public double armCalZero;   		// Arm encoder position at O degrees, in encoder ticks (i.e. the calibration factor)
 	
 	/**
@@ -35,8 +35,7 @@ public class RobotPreferences {
 	public void refresh() {
 		prototypeRobot = prefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype, default to false (competition bot)
 		driveDirection = prefs.getBoolean("driveDirection", true);
-		wheelCircumference = prefs.getDouble("wheelDiameter", 6) * Math.PI;
-		
+		wheelCircumference = prefs.getDouble("wheelDiameter", 6) * Math.PI;		
 		driveTrainDistanceFudgeFactor = prefs.getDouble("driveTrainDistanceFudgeFactor", -9999);
 		if (driveTrainDistanceFudgeFactor == -9999) {
 			// If fudge factor for driving can't be read, then assume value of 1

@@ -2,18 +2,19 @@ package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
+import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * plz dont pass anything other than {1,2,3}
+ * If starting on left or right, moves past baseline
+ * If starting from middle, moves around pile of cubes and crosses baseline
  */
 public class AutoPath7_Baseline extends CommandGroup {
 
-	public AutoPath7_Baseline(int startPosition) {
+	public AutoPath7_Baseline(StartingPosition startPosition) {
 		switch (startPosition) {
-		case 2: // This will take the path to the left, might be a conflict if our teammate goes to the left.
-				// Should implement a switch to go to the right?
+		case Middle:
 			addSequential(new DriveStraightDistanceProfile(-55, 0));
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(-60, -90));
