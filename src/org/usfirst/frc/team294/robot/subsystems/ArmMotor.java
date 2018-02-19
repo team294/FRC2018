@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import org.usfirst.frc.team294.utilities.*;
 
 /**
  * The subsystem controlling the arm angle (but not the piston)
@@ -23,15 +24,29 @@ public class ArmMotor extends Subsystem {
 
 	private final double MAX_UP_PERCENT_POWER = 0.5; // Up these speeds after testing. 0.8 before
 	private final double MAX_DOWN_PERCENT_POWER = -0.3; // -0.5 before
+	
+	private final double kPu;
+	private final double kIu;
+	private final double kDu;
+	private final double kPd;
+	private final double kId;
+	private final double kDd;
+	private final double kF;
+	private double initAngle;
+	private double finalAngle;
+	private double prevError;
+	private double intError;
+	private double armMoment = 19.26*16*19.985/519;//11.87;
 
 	// variables to check if arm Encoder is reliable
 	private double armEncoderStartValue = getArmEncRaw();
 	public boolean joystickControl;
 	
 	int loop = 0;
-
+	private ProfileGenerator trapezoid;
+	private double angle;
 	public ArmMotor() {
-
+		
 		// armMotor.set(ControlMode.Position, 3);
 		armMotor1.set(ControlMode.PercentOutput, 0);
 		armMotor2.set(ControlMode.Follower, RobotMap.armMotor1);
@@ -49,14 +64,60 @@ public class ArmMotor extends Subsystem {
 		// armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00,
 		// 0x00); // Change parameter to 1 for non-continuous
 		armMotor1.selectProfileSlot(0, 0);
-		armMotor1.config_kF(0, 0.0, 10);
-		armMotor1.config_kP(0, 3.5, 10); // old term 90 with pot, 4.4 converted to new encoder
-		armMotor1.config_kI(0, 0.0, 10);
-		armMotor1.config_kD(0, 0.0, 10);
+		//armMotor1.config_kF(0, 0.0, 10);
+		//armMotor1.config_kP(0, 3.5, 10); // old term 90 with pot, 4.4 converted to new encoder
+		//armMotor1.config_kI(0, 0.0, 10);
+		//armMotor1.config_kD(0, 0.0, 10);
+		kPu = 0.06;
+		kIu = 0.0;
+		kDu = 0.02;
+		kPd = 0.03;
+		kId = 0.005;
+		kDd = 0.02;
+		kF = 0.2/armMoment;
 		armMotor1.configClosedloopRamp(0.25, 10);
 		armMotor1.configPeakOutputForward(MAX_UP_PERCENT_POWER, 10);
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
+		trapezoid = new ProfileGenerator(getArmDegrees(), getArmDegrees(), 0, 0, 0);
 	}
+	
+	/**
+	 * 
+	 */
+	public void startPID(double angle) {
+		// TODO: add checks to make sure arm does not go outside of safe areas
+		// TODO: integrate checks with piston to avoid penalties for breaking frame
+		// perimeter
+		initAngle = getArmDegrees();
+		finalAngle = angle;
+		trapezoid = new ProfileGenerator(initAngle, angle, 0, 30, 720);
+		intError = 0;
+		prevError = 0;
+//		double encoderDegrees = angle * TICKS_PER_DEGREE;
+//		setArmPositionScaled(encoderDegrees);
+		
+	}
+	
+	/**
+	 * 
+	 */
+	public void armUpdatePID() {
+		trapezoid.updateProfileCalcs();
+		double error = 	trapezoid.getCurrentPosition() - getArmDegrees();
+		intError = intError + error*.02;
+		double percentPower = kF*armMoment*Math.cos(Math.toRadians(getArmDegrees()));
+		//Gain schedule until stuff gets tuned
+		if(finalAngle - initAngle > 0)
+			percentPower += kPu * error + ((error-prevError)*kDu)+(kIu*intError);
+		else
+			percentPower += kPd * error + ((error-prevError)*kDd)+(kId*intError);
+		prevError = error;
+		SmartDashboard.putNumber("PID Error", error);
+		SmartDashboard.putNumber("PID percent power", percentPower);
+		SmartDashboard.putNumber("Profile getCurrentPosition", trapezoid.getCurrentPosition());
+		setArmMotorToPercentPower(percentPower);
+	}
+	
 
 	/**
 	 * Controls the arm based on Percent VBUS FOR CALIBRATION ONLY DO NOT USE AT
@@ -66,6 +127,8 @@ public class ArmMotor extends Subsystem {
 	 *            voltage, minimum -0.3 and maximum 0.7
 	 */
 	public void setArmMotorToPercentPower(double percent) {
+
+		SmartDashboard.putNumber("Arm Motor Percent", percent);
 		if (percent > MAX_UP_PERCENT_POWER)
 			percent = MAX_UP_PERCENT_POWER; // Can be +/- 1 after testing
 		if (percent < MAX_DOWN_PERCENT_POWER)
@@ -76,7 +139,6 @@ public class ArmMotor extends Subsystem {
 		System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
 				+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
 				+ armMotor1.getBusVoltage() + " V");
-		SmartDashboard.putNumber("Arm Motor Percent", percent);
 	}
 
 	/**
@@ -151,11 +213,11 @@ public class ArmMotor extends Subsystem {
 	public void armIncrement(int difference, boolean increment) {
 		if (increment) {
 			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - difference)) {
-				setArmAngle(getArmDegrees() - difference);
+				startPID(getArmDegrees() - difference);
 			}
 		} else {
 			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + difference)) {
-				setArmAngle(getArmDegrees() + difference);
+				startPID(getArmDegrees() + difference);
 			}
 		}
 	}
@@ -166,13 +228,7 @@ public class ArmMotor extends Subsystem {
 	 * @param angle
 	 *            desired angle, in degrees
 	 */
-	public void setArmAngle(double angle) {
-		// TODO: add checks to make sure arm does not go outside of safe areas
-		// TODO: integrate checks with piston to avoid penalties for breaking frame
-		// perimeter
-		double encoderDegrees = angle * TICKS_PER_DEGREE;
-		setArmPositionScaled(encoderDegrees);
-	}
+
 
 	/**
 	 * Sets the position of the arm based on scaled encoder ticks, and converts to
@@ -201,13 +257,7 @@ public class ArmMotor extends Subsystem {
 		}
 	}
 
-	/**
-	 * Sets the position of the arm in degrees according to the smart dashboard
-	 */
-	public void setArmFromSmartDashboard() {
-		double angle = SmartDashboard.getNumber("set Arm Angle", 0);
-		setArmAngle(angle); // For closed-loop testing purposes, passing in encoder values instead of angles
-	}
+	
 
 	/**
 	 * Gets the output voltage of the arm motor.</br>

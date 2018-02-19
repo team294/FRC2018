@@ -23,12 +23,12 @@ public class ArmMoveToDestAngle extends Command {
 	protected void initialize() {
 		destAngle = (destAngle > RobotMap.maxAngle) ? RobotMap.maxAngle : destAngle;
 		destAngle = (destAngle < RobotMap.minAngle) ? RobotMap.minAngle : destAngle;
-		Robot.armMotor.setArmAngle(destAngle);
+		Robot.armMotor.startPID(destAngle);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.armMotor.setArmAngle(destAngle);
+		Robot.armMotor.startPID(destAngle);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
