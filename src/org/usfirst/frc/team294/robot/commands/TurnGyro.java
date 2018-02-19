@@ -23,36 +23,35 @@ public class TurnGyro extends Command {
 	private final double kPdist = 0.045, // Proportional Term
 			kDdist = 0.0038, // Derivative Value
 			kIdist = 0; // Integral Term
+	private boolean useVisionForAngle;
 
 	/**
 	 * Turns to the angle specified by amountTurn
-	 * @param amountTurn Amount to turn, in turnUnits (+ = right, - = left)
-	 * @param turnUnits Units enum (Degrees, Radians, or Rotations)
+	 * 
+	 * @param amountTurn
+	 *            Amount to turn, in turnUnits (+ = right, - = left)
+	 * @param turnUnits
+	 *            Units enum (Degrees, Radians, or Rotations)
 	 */
-	public TurnGyro(double amountTurn, Units turnUnits) {
+	public TurnGyro(double amountTurn, Units turnUnits) {// does not use vision
 		this.amountTurn = convertAngleToDegrees(amountTurn, turnUnits);
 		requires(Robot.driveTrain);
+		useVisionForAngle = false;
 	}
 
 	/**
-	 * Turns to face the nearest cube in front of the robot.  If no cube
-	 * is seen by the camera, then does not turn.
+	 * Turns to face the nearest cube in front of the robot. If no cube is seen by
+	 * the camera, then does not turn.
 	 */
-	public TurnGyro() {
-//		* Get X location of cube.
-		double RPiX;
-		RPiX = Robot.visionData.RPiX;
-		if(RPiX == -1  ||  RPiX >= 310  || RPiX <= 330) {
-			amountTurn = Robot.driveTrain.getGyroRotation();
-			}
-		else if(RPiX < 310) {
-		}
-		
-//			* if not found, then amountTurn = (getCurrentAngle)
-//			* if found, convert X location (pixels) to degrees  camera vision = 68.5
-		// 9.3 pixels = 1 degree
-//		TurnGyro( degreesFromVision, Units.Degrees);
+	public TurnGyro() {// uses vision
+		useVisionForAngle = true;
+		requires(Robot.driveTrain);
 	}
+
+	// * if not found, then amountTurn = (getCurrentAngle)
+	// * if found, convert X location (pixels) to degrees camera vision = 68.5
+	// 9.3 pixels = 1 degree
+	// TurnGyro( degreesFromVision, Units.Degrees);
 
 	private double convertAngleToDegrees(double inputAngle, Units turnUnits) {
 		switch (turnUnits) {
@@ -66,6 +65,20 @@ public class TurnGyro extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		if (useVisionForAngle) {
+			double RPiX; // the x coordinate in pixels for the center of the conuntour
+			double distanceFromCenter;// tells the distance from the center of the screen
+			double amountTurnUsingPixels;// tells how much to turn the gyro based on Vision pixels
+			Robot.visionData.readCameraData();
+			RPiX = Robot.visionData.RPiX; // * Get X location of cube.
+			if (RPiX == -1 || (RPiX >= 310 && RPiX <= 330)) {
+				amountTurn = Robot.driveTrain.getGyroRotation();
+			} else {
+				distanceFromCenter = RPiX - 320;
+				amountTurnUsingPixels = Math.atan(distanceFromCenter / 470) * (180 / Math.PI);
+				amountTurn = Robot.driveTrain.getGyroRotation() + amountTurnUsingPixels;
+			}
+		}
 		prevAngleError = 0;
 		integratedError = 0;
 		derivativeError = 0;
@@ -73,6 +86,9 @@ public class TurnGyro extends Command {
 		Robot.log.writeLog("Turn Gyro initialized");
 		velCheck.clearHistory();
 		// Robot.driveTrain.zeroGyroRoataion();
+
+		Robot.log.writeLogEcho("Amount to turn: " + amountTurn);
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -92,6 +108,7 @@ public class TurnGyro extends Command {
 		prevAngleError = angleError;
 		SmartDashboard.putNumber("Gyro Turn Dist Err:", angleError);
 		SmartDashboard.putNumber("Gyro Turn Perc Speed:", angleSpeedControl);
+		SmartDashboard.putNumber("Degrees to turn Robot: ", amountTurn);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

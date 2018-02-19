@@ -214,7 +214,7 @@ public class OI {
 		SmartDashboard.putData("Move arm to -30 and set piston state", new ArmMoveWithPiston(-30.0,true));
 		SmartDashboard.putData("Move arm to -40 and set piston state", new ArmMoveWithPiston(-40.0,true));
 		
-
+		
 
 		
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
@@ -233,6 +233,8 @@ public class OI {
 		SmartDashboard.putData("EllipseTest", new DriveStraightDistanceEllipse(30, 10,0));
 		SmartDashboard.putNumber("DistToTravelDSDG", 150);
 		SmartDashboard.putData(" ProfileTest", new DriveStraightDistanceEllipse(100, 1000, 0));
+
+		SmartDashboard.putData("Turn with vision" , new TurnGyro());
 		
 		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
