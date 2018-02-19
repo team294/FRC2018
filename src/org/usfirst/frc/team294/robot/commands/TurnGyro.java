@@ -75,7 +75,7 @@ public class TurnGyro extends Command {
 				amountTurn = Robot.driveTrain.getGyroRotation();
 			} else {
 				distanceFromCenter = RPiX - 320;
-				amountTurnUsingPixels = Math.atan(distanceFromCenter / 470) * (180 / Math.PI);
+				amountTurnUsingPixels = Math.atan(distanceFromCenter / (470*1.5) ) * (180 / Math.PI);   // Nom dist was 470
 				amountTurn = Robot.driveTrain.getGyroRotation() + amountTurnUsingPixels;
 			}
 		}
