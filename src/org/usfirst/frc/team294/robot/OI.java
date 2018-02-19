@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
 import org.usfirst.frc.team294.robot.triggers.POVTrigger;
+import org.usfirst.frc.team294.utilities.AutoSelection;
+import org.usfirst.frc.team294.utilities.AutoSelection.AutoPlan;
+import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units;
 
 public class OI {
@@ -80,8 +83,8 @@ public class OI {
 	
 	private boolean driveDirection = true; // Easy switching drive direction
 	
-	SendableChooser<Integer> chooser_autoPlan = new SendableChooser<>();
-	SendableChooser<Integer> chooser_startPosition = new SendableChooser<>();
+	SendableChooser<AutoPlan> chooser_autoPlan = new SendableChooser<>();
+	SendableChooser<StartingPosition> chooser_startPosition = new SendableChooser<>();
 
 	public OI() {
 		
@@ -174,21 +177,20 @@ public class OI {
 		
 		// Initialize our auto plan chooser
     	//  Software is okay for testing. This should be hardware switches at competition.
-		chooser_autoPlan.addDefault("do Closest, if both far do scale", 0);
-		chooser_autoPlan.addObject("do Closest, if both far do switch from front", 1); // Should never need this routine
-		chooser_autoPlan.addObject("do closest, if both far do switch from back", 2);
-		chooser_autoPlan.addObject("do Scale only", 3);
-		chooser_autoPlan.addObject("do Switch only from middle", 4);
-		chooser_autoPlan.addObject("Go to baseline", 5);
+		chooser_autoPlan.addDefault("do Closest, if both far do scale", AutoPlan.ClosestSwitchScale_FFScale);
+		chooser_autoPlan.addObject("do Closest, if both far do switch from front", AutoPlan.ClosestSwitchScale_FFSwitchFront); // Should never need this routine
+		chooser_autoPlan.addObject("do closest, if both far do switch from back", AutoPlan.ClosestSwitchScale_FFSwitchBack);
+		chooser_autoPlan.addObject("do Scale only", AutoPlan.ScaleOnly);
+		chooser_autoPlan.addObject("do Switch only from middle", AutoPlan.SwitchOnly);
+		chooser_autoPlan.addObject("Go to baseline", AutoPlan.BaselineOnly);
 //		chooser_autoPlan.addObject("2Cube", 5);
 		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
 		SmartDashboard.putData("AutoTest1",new AutoTest1());
 		
 		// Initialize our position chooser
-		chooser_startPosition.addDefault("Left", 0);
-		chooser_startPosition.addObject("Middle", 1);
-		chooser_startPosition.addObject("Right", 2);
-		// TODO remove choose from below
+		chooser_startPosition.addDefault("Left", StartingPosition.Left);
+		chooser_startPosition.addObject("Middle", StartingPosition.Middle);
+		chooser_startPosition.addObject("Right", StartingPosition.Right);
 		
 		// Smart Dashboard Commands
 		SmartDashboard.putData("Start Position Selection", chooser_startPosition);
@@ -207,12 +209,11 @@ public class OI {
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
 
-		SmartDashboard.putData("Move arm to 100 and set piston state", new ArmMoveWithPiston(100.0,true));
+		SmartDashboard.putData("Score Backwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos,true));
 		SmartDashboard.putData("Move arm to 0 and set piston state", new ArmMoveWithPiston(0.0,true));
-		SmartDashboard.putData("Move arm to 80 and set piston state", new ArmMoveWithPiston(80.0,true));
-		SmartDashboard.putData("Move arm to -20 and set piston state", new ArmMoveWithPiston(-20.0,true));
-		SmartDashboard.putData("Move arm to -30 and set piston state", new ArmMoveWithPiston(-30.0,true));
-		SmartDashboard.putData("Move arm to -40 and set piston state", new ArmMoveWithPiston(-40.0,true));
+		SmartDashboard.putData("Score Forwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleLowPos,true));
+		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,true));
+		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,true));
 		
 		
 
@@ -343,11 +344,11 @@ public class OI {
 		return BottomKnobCommands[readBottomKnobRaw()];
 	}
 	
-	public int readAutoPlan() {
+	public AutoPlan readAutoPlan() {
 		return chooser_autoPlan.getSelected();
 	}
 	
-	public int readStartPosition() {
+	public StartingPosition readStartPosition() {
 		return chooser_startPosition.getSelected();
 	}
 	

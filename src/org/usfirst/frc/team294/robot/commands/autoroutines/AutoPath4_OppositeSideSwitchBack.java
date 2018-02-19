@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
+import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoPath4_OppositeSideSwitchBack extends CommandGroup {
 
-    public AutoPath4_OppositeSideSwitchBack(int startPosition) {
+    public AutoPath4_OppositeSideSwitchBack(StartingPosition startPosition) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -28,7 +29,7 @@ public class AutoPath4_OppositeSideSwitchBack extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	switch (startPosition) {
-		case 1:
+		case Left:
 			addSequential(new DriveStraightDistanceProfile(217, 0));
 			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
 			if(true||false) {//because java is dumb
@@ -43,7 +44,7 @@ public class AutoPath4_OppositeSideSwitchBack extends CommandGroup {
 			
 			// put arm command here
 			break;
-		case 3:
+		case Right:
 			addSequential(new DriveStraightDistanceProfile(210, 0)); //Actually go 230"
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
 			addSequential( new DriveStraightDistanceProfile(152, -90)); // Actually go 165" but also shortchange because beam

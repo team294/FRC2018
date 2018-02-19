@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
+import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units.*;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoPath2_OppositeSideScale extends CommandGroup {
 
-    public AutoPath2_OppositeSideScale(int startPosition) {
+    public AutoPath2_OppositeSideScale(StartingPosition startPosition) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -28,7 +29,7 @@ public class AutoPath2_OppositeSideScale extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	switch (startPosition) {
-		case 1:
+		case Left:
 			addSequential(new DriveStraightDistanceProfile(200, 0));
 			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
 			addSequential( new DriveStraightDistanceProfile(180, 90));
@@ -39,7 +40,7 @@ public class AutoPath2_OppositeSideScale extends CommandGroup {
 			
 			// put arm command here
 			break;
-		case 3:
+		case Right:
 			addSequential(new DriveStraightDistanceProfile(200, 0));
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
 			addSequential( new DriveStraightDistanceProfile(180, -90));
