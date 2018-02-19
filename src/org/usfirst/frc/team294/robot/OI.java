@@ -215,7 +215,7 @@ public class OI {
 		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,true));
 		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,true));
 		
-
+		
 
 		
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
@@ -234,6 +234,8 @@ public class OI {
 		SmartDashboard.putData("EllipseTest", new DriveStraightDistanceEllipse(30, 10,0));
 		SmartDashboard.putNumber("DistToTravelDSDG", 150);
 		SmartDashboard.putData(" ProfileTest", new DriveStraightDistanceEllipse(100, 1000, 0));
+
+		SmartDashboard.putData("Turn with vision" , new TurnGyro());
 		
 		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
