@@ -15,14 +15,14 @@ public class AutoPath7_Baseline extends CommandGroup {
 	public AutoPath7_Baseline(StartingPosition startPosition) {
 		switch (startPosition) {
 		case Middle:
-			addSequential(new DriveStraightDistanceProfile(55, 0));
+			addSequential(new DriveStraightDistanceProfile(-55, 0));
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(60, -90));
+			addSequential(new DriveStraightDistanceProfile(-60, -90));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(50, 0));
+			addSequential(new DriveStraightDistanceProfile(-50, 0));
 			break;
 		default:
-			addSequential(new DriveStraightDistanceProfile(120, 0));
+			addSequential(new DriveStraightDistanceProfile(-120, 0));
 		}
 	}
 }

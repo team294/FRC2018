@@ -30,19 +30,33 @@ public class AutoPath6_OppositeSideSwitchFront extends CommandGroup {
 		// arm.
 		switch (startPosition) {
 		case Left:
-			addSequential(new DriveStraightDistanceProfile(53, 0, 100, 100));
+			addSequential(new DriveStraightDistanceProfile(-53, 0, 100, 100));
 			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(184, 90, 150, 150));
-			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(47, 0, 100, 100));
+			addSequential(new DriveStraightDistanceProfile(-184, 90, 150, 150));
+			addSequential(new TurnGyro(180, TurnGyro.Units.Degrees));
+			addSequential(new DriveStraightDistanceProfile(47, 180));
+			
+// Old reference code
+//			addSequential(new DriveStraightDistanceProfile(53, 0, 100, 100));
+//			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
+//			addSequential(new DriveStraightDistanceProfile(184, 90, 150, 150));
+//			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
+//			addSequential(new DriveStraightDistanceProfile(47, 0, 100, 100));
 			// arm code 
 			break;
 		case Right:
-			addSequential(new DriveStraightDistanceProfile(53, 0, 100, 100));
+			addSequential(new DriveStraightDistanceProfile(-53, 0, 100, 100));
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(184, -90, 150, 150));
-			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(47, 0, 100, 100));
+			addSequential(new DriveStraightDistanceProfile(-184, -90, 150, 150));
+			addSequential(new TurnGyro(-180, TurnGyro.Units.Degrees));
+			addSequential(new DriveStraightDistanceProfile(47, -180));
+			
+// Old reference code
+//			addSequential(new DriveStraightDistanceProfile(53, 0, 100, 100));
+//			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
+//			addSequential(new DriveStraightDistanceProfile(184, -90, 150, 150));
+//			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
+//			addSequential(new DriveStraightDistanceProfile(47, 0, 100, 100));
 			// arm code 
 			break;
 
