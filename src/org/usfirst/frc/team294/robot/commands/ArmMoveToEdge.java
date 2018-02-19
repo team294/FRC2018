@@ -4,6 +4,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.RobotMap.ArmZones;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
+import org.usfirst.frc.team294.utilities.ToleranceChecker;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -14,7 +15,7 @@ public class ArmMoveToEdge extends Command {
 	private double destAngle;
 	//private double currentAngle;
 	private ArmZones currZone;
-
+	public ToleranceChecker tolcheck;
 	public ArmMoveToEdge(double destAngle) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -25,7 +26,7 @@ public class ArmMoveToEdge extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		currZone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
-		
+		tolcheck = new ToleranceChecker(3, 10);
 		switch (currZone) {
 		case Low:
 			if (destAngle >= RobotMap.lowerBound) {
@@ -69,12 +70,13 @@ public class ArmMoveToEdge extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		Robot.armMotor.armUpdatePID();
 
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return true;
+		return tolcheck.success(Math.abs(destAngle - Robot.armMotor.getArmDegrees()));
 	}
 
 	// Called once after isFinished returns true
