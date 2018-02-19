@@ -68,10 +68,10 @@ public class ArmMotor extends Subsystem {
 		//armMotor1.config_kP(0, 3.5, 10); // old term 90 with pot, 4.4 converted to new encoder
 		//armMotor1.config_kI(0, 0.0, 10);
 		//armMotor1.config_kD(0, 0.0, 10);
-		kPu = 0.06;
+		kPu = 0.035;
 		kIu = 0.0;
 		kDu = 0.02;
-		kPd = 0.03;
+		kPd = 0.035;
 		kId = 0.005;
 		kDd = 0.02;
 		kF = 0.2/armMoment;
@@ -90,7 +90,7 @@ public class ArmMotor extends Subsystem {
 		// perimeter
 		initAngle = getArmDegrees();
 		finalAngle = angle;
-		trapezoid = new ProfileGenerator(initAngle, angle, 0, 30, 720);
+		trapezoid = new ProfileGenerator(initAngle, angle, 0, 60, 360);
 		intError = 0;
 		prevError = 0;
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;
@@ -133,8 +133,8 @@ public class ArmMotor extends Subsystem {
 			percent = MAX_UP_PERCENT_POWER; // Can be +/- 1 after testing
 		if (percent < MAX_DOWN_PERCENT_POWER)
 			percent = MAX_DOWN_PERCENT_POWER;
-		if (percent < .1 && percent > -.1)
-			percent = 0;
+//		if (percent < .1 && percent > -.1) // Need this for joystick deadzone
+//			percent = 0;
 		armMotor1.set(ControlMode.PercentOutput, percent);
 		System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
 				+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
