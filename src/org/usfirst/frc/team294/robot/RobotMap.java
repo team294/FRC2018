@@ -92,7 +92,7 @@ public class RobotMap {
 	}
 	
 	// Arm angle zone boundaries   THESE ARE NUMBERS JUST FOR TEST ON PROTO ARM
-	public static double minAngle = -50; // arm cannot extend downward past this angle 
+	public static double minAngle = -53; // arm cannot extend downward past this angle 
 	public static double lowerBound = -35; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
 	public static double middleBound = 35; // arm cannot extend between Ang1 and Ang2
 	public static double upperBound = 102; // both pistons can be extended between Ang2 and Ang 3
