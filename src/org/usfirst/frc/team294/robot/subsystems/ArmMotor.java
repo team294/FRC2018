@@ -21,13 +21,14 @@ public class ArmMotor extends Subsystem {
 																		// magnetic encoder
 	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
 
-	private final double MAX_UP_PERCENT_POWER = 0.8; // Up these speeds after testing
-	private final double MAX_DOWN_PERCENT_POWER = -0.5;
+	private final double MAX_UP_PERCENT_POWER = 0.5; // Up these speeds after testing. 0.8 before
+	private final double MAX_DOWN_PERCENT_POWER = -0.3; // -0.5 before
 
-	private boolean armCalibrated = false;  // Default to arm being uncalibrated.  Calibrate from robot preferences, 
-											// "Calibrate arm zero position" button on dashboard,
-											// or autocal on low limit switch (see periodic() below)
-	private double armCalZero; // Arm encoder position at O degrees (i.e. the calibration factor)
+	// variables to check if arm Encoder is reliable
+	private double armEncoderStartValue = getArmEncRaw();
+	public boolean joystickControl;
+	
+	int loop = 0;
 
 	public ArmMotor() {
 
@@ -41,42 +42,20 @@ public class ArmMotor extends Subsystem {
 				0);
 		armMotor1.overrideLimitSwitchesEnable(true); // pass false to force disable limit switch
 
-		
 		// Closed-loop control structures
 		armMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
-		if(Robot.prototypeRobot) armMotor1.setSensorPhase(true);
-		else armMotor1.setSensorPhase(false);
+		armMotor1.setSensorPhase(false);
 
 		// armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00,
 		// 0x00); // Change parameter to 1 for non-continuous
 		armMotor1.selectProfileSlot(0, 0);
 		armMotor1.config_kF(0, 0.0, 10);
-		armMotor1.config_kP(0, 4.4, 10); // old term 90  
+		armMotor1.config_kP(0, 3.5, 10); // old term 90 with pot, 4.4 converted to new encoder
 		armMotor1.config_kI(0, 0.0, 10);
 		armMotor1.config_kD(0, 0.0, 10);
 		armMotor1.configClosedloopRamp(0.25, 10);
 		armMotor1.configPeakOutputForward(MAX_UP_PERCENT_POWER, 10);
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
-	}
-
-	/**
-	 * Sets arm angle calibration factor and enables angle control modes for arm.
-	 * 
-	 * @param armCalZero
-	 *            Calibration factor for arm
-	 * @param writeCalToPreferences
-	 *            true = store calibration in Robot Preferences, false = don't
-	 *            change Robot Preferences
-	 */
-
-	public void setArmCalibration(double armCalZero, boolean writeCalToPreferences) {
-		this.armCalZero = armCalZero;
-		armCalibrated = true;
-		SmartDashboard.putBoolean("Arm Calibrated", armCalibrated);
-		if (writeCalToPreferences) {
-			Preferences robotPrefs = Preferences.getInstance();
-			robotPrefs.putDouble("calibrationZeroDegrees", armCalZero);
-		}
 	}
 
 	/**
@@ -109,7 +88,7 @@ public class ArmMotor extends Subsystem {
 	 * The value at that read should then be entered into the armCalZero field.
 	 **/
 	public double getArmEnc() {
-		double encValue = getArmEncRaw() - armCalZero;
+		double encValue = getArmEncRaw() - Robot.robotPrefs.armCalZero;
 		SmartDashboard.putNumber("Arm Enc (calibrated)", encValue);
 		return (encValue);
 	}
@@ -120,15 +99,15 @@ public class ArmMotor extends Subsystem {
 	 * @return desired degree of arm angle
 	 */
 	public double getCurrentArmTarget() {
-		double currTarget = armMotor1.getClosedLoopTarget(0) - armCalZero;
+		double currTarget = armMotor1.getClosedLoopTarget(0) - Robot.robotPrefs.armCalZero;
 		currTarget *= DEGREES_PER_TICK;
 		SmartDashboard.putNumber("Desired Angle of Arm in Degrees", currTarget);
 		return currTarget;
 	}
 
 	/**
-	 * Returns the raw value of the encoder on arm, without adjusting for level. Also
-	 * updates SmartDashboard. Needed for calibration of 0.
+	 * Returns the raw value of the encoder on arm, without adjusting for level.
+	 * Also updates SmartDashboard. Needed for calibration of 0.
 	 * 
 	 * @return raw value, probably a large negative number
 	 */
@@ -139,8 +118,7 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Gets the current angle of the arm, in degrees (converted from encoder)
-	 * </br>
+	 * Gets the current angle of the arm, in degrees (converted from encoder) </br>
 	 * Uses getArmEnc and multiplies by degrees per click constant
 	 * 
 	 * @return angle in degrees
@@ -152,38 +130,40 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/*
-	public void armAdjustJoystickButtonLower() {
-		if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - 7)) {
-			setArmAngle(getArmDegrees() - 7);
-		}
-	}
+	 * public void armAdjustJoystickButtonLower() { if
+	 * (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()
+	 * - 7)) { setArmAngle(getArmDegrees() - 7); } }
+	 * 
+	 * public void armAdjustJoystickButtonRaise() { if
+	 * (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()
+	 * + 7)) { setArmAngle(getArmDegrees() + 7); } }
+	 */
 
-	public void armAdjustJoystickButtonRaise() {
-		if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + 7)) {
-			setArmAngle(getArmDegrees() + 7);
-		}
-	}*/
-	
 	/**
 	 * Increments or decrements the arm by 7 degrees
-	 * @param increment true for increment, false for decrement
+	 * 
+	 * @param increment
+	 *            true for increment, false for decrement
 	 */
 	public void armIncrement(boolean increment) {
 		armIncrement(7, increment);
 	}
-	
+
 	/**
 	 * Increments or decrements the arm
-	 * @param difference the amount to increment/decrement by
-	 * @param increment true for increment, false for decrement
+	 * 
+	 * @param difference
+	 *            the amount to increment/decrement by
+	 * @param increment
+	 *            true for increment, false for decrement
 	 */
 	public void armIncrement(int difference, boolean increment) {
 		if (increment) {
-			if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()-difference)){
+			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - difference)) {
 				setArmAngle(getArmDegrees() - difference);
 			}
 		} else {
-			if(RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees()+difference)) {
+			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + difference)) {
 				setArmAngle(getArmDegrees() + difference);
 			}
 		}
@@ -204,15 +184,15 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Sets the position of the arm based on scaled encoder ticks, and
-	 * converts to raw (subtracts position at 0)
+	 * Sets the position of the arm based on scaled encoder ticks, and converts to
+	 * raw (subtracts position at 0)
 	 * 
 	 * @param position
 	 *            desired position, in encoder ticks
 	 */
 	private void setArmPositionScaled(double position) {
-		if (armCalibrated) {
-			position += (armCalZero); // armZeroDegreesCalibration;
+		if (Robot.robotPrefs.armCalibrated) {
+			position += (Robot.robotPrefs.armCalZero); // armZeroDegreesCalibration;
 			armMotor1.set(ControlMode.Position, position);
 		}
 	}
@@ -225,7 +205,7 @@ public class ArmMotor extends Subsystem {
 	 *            desired position, in raw encoder ticks
 	 */
 	private void setArmPositionRaw(double position) {
-		if (armCalibrated) {
+		if (Robot.robotPrefs.armCalibrated) {
 			armMotor1.set(ControlMode.Position, position);
 		}
 	}
@@ -250,7 +230,36 @@ public class ArmMotor extends Subsystem {
 		return voltageLeft;
 	}
 
-	
+	public void checkEncoder() { // TODO figure out correct minimum voltage
+		if (!joystickControl) {
+		if (loop == 4) 
+			{
+		//		System.out.println("Motor Voltage " + getOutputVoltage() + " Current Encoder Value " + getArmEncRaw()
+		//		+ " Last Encoder Value " + armEncoderStartValue + " loop " + loop);
+
+				if (getOutputVoltage() >= 5.0) {
+					if (getArmEncRaw() <= armEncoderStartValue) {
+						setArmMotorToPercentPower(0.0);
+						Robot.robotPrefs.armCalibrated = false;
+					}
+					SmartDashboard.putBoolean("Arm Encoder Working", Robot.robotPrefs.armCalibrated);
+				}
+				if (getOutputVoltage() <= -3.0) {
+					if (getArmEncRaw() >= armEncoderStartValue) {
+						setArmMotorToPercentPower(0.0);
+						Robot.robotPrefs.armCalibrated = false;
+					}
+					SmartDashboard.putBoolean("Arm Encoder Working", Robot.robotPrefs.armCalibrated);
+				} else {
+					Robot.robotPrefs.armCalibrated = true;
+				}
+				armEncoderStartValue = getArmEncRaw();
+			}
+		loop = (loop <= 4) ? loop : 0;
+		loop++;
+		}
+	}
+
 	/**
 	 * Updates encoder and angle measurements on the SmartDashboard
 	 */
@@ -264,14 +273,17 @@ public class ArmMotor extends Subsystem {
 
 	public void periodic() {
 		updateSmartDashboard();
-		// Set armCalZero, if not already set, by using known value of lower limit switch
-		if (!armCalibrated) {
+		// Set armCalZero, if not already set, by using known value of lower limit
+		// switch
+		if (!Robot.robotPrefs.armCalibrated) {
 			SensorCollection sc = armMotor1.getSensorCollection();
 			if (sc.isRevLimitSwitchClosed()) {
 				// TODO uncomment and test for possible sign error
-				//setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
+				// Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle *
+				// TICKS_PER_DEGREE), false);
 			}
 		}
+		checkEncoder();
 	}
 
 	public void initDefaultCommand() {

@@ -5,23 +5,34 @@ import org.usfirst.frc.team294.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Updates the pot value on the SmartDashboard
+ *
  */
-public class UpdateArmSmartDashboard extends Command {
+public class ArmMotorIncrementAngle extends Command {
 
-    public UpdateArmSmartDashboard() {
+	int difference;
+	boolean increment;
+	
+    public ArmMotorIncrementAngle(boolean increment) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.armMotor);
+    	difference = 7;
+    	this.increment = increment;
+    }
+    
+    public ArmMotorIncrementAngle(int difference, boolean increment) {
+    	requires(Robot.armMotor);
+    	this.difference = difference;
+    	this.increment = increment;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.armMotor.armIncrement(difference, increment);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.armMotor.updateSmartDashboard();
     }
 
     // Make this return true when this Command no longer needs to run execute()

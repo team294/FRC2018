@@ -1,24 +1,22 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.Robot; 
+import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class CalibrateArmZero extends Command {
+public class ArmMotorSetToZero extends Command {
 
-    public CalibrateArmZero() {
+    public ArmMotorSetToZero() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.armMotor); 
     }
-    
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.armMotor.setArmCalibration( Robot.armMotor.getArmEncRaw(), true);
+    	Robot.armMotor.setArmMotorToPercentPower(0);
     }
 
     // Called repeatedly when this Command is scheduled to run

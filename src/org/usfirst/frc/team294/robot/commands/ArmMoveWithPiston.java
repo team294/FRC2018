@@ -1,7 +1,6 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
