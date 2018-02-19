@@ -6,7 +6,7 @@ import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Not being used, since there is no minor limit switch
  */
 public class ArmPistonSetMinorState extends Command {
 
@@ -36,7 +36,7 @@ public class ArmPistonSetMinorState extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (moving) return Robot.armPiston.getMinor() != PistonPositions.Moving;
+    //	if (moving) return Robot.armPiston.getMinor() != PistonPositions.Moving;
         return true;
     }
 
