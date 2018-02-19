@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import org.usfirst.frc.team294.utilities.*;
 /**
  * A Subsystem to control the Drive Train
  */
@@ -41,12 +41,15 @@ public class DriveTrain extends Subsystem {
 		// Robot.driveDirection is a value pulled from Robot Preferences.
 		// True means that it will drive forward correctly, and false drives it backwards.
 		// This is used when testing drivetrain code on the 2017 practice base.
+		//reads robot preferences to see if it is prototype. The competition robot has an encoder that is in reverse of the prototype robot.
+		
 		leftMotor2.setInverted(Robot.robotPrefs.driveDirection); 
 		rightMotor2.setInverted(Robot.robotPrefs.driveDirection);
 		leftMotor1.setInverted(Robot.robotPrefs.driveDirection); 
 		rightMotor1.setInverted(Robot.robotPrefs.driveDirection);
 		leftMotor3.setInverted(Robot.robotPrefs.driveDirection); 
 		rightMotor3.setInverted(Robot.robotPrefs.driveDirection);
+		
 		
 		leftMotor2.setSensorPhase(true);
 		
@@ -161,7 +164,12 @@ public class DriveTrain extends Subsystem {
 	 * @return encoder position, in ticks
 	 */
 	public double getLeftEncoderTicks() {
-		double position = leftMotor2.getSelectedSensorPosition(0) - leftEncoderZero;
+		double position;
+		if(!Robot.robotPrefs.prototypeRobot) {
+			position = -leftMotor2.getSelectedSensorPosition(0) + leftEncoderZero;
+		}else {
+			position = leftMotor2.getSelectedSensorPosition(0) - leftEncoderZero;	
+		}
 		return position;
 	}
 
@@ -170,7 +178,12 @@ public class DriveTrain extends Subsystem {
 	 * @return encoder position, in ticks
 	 */
 	public double getRightEncoderTicks() {
-		double position = rightMotor2.getSelectedSensorPosition(0) - rightEncoderZero;
+		double position;
+		if(!Robot.robotPrefs.prototypeRobot) {
+			position = -rightMotor2.getSelectedSensorPosition(0) + rightEncoderZero;
+		}else {
+			position = rightMotor2.getSelectedSensorPosition(0) - rightEncoderZero;	
+		}
 		return position;
 	}
 
