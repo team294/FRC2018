@@ -33,12 +33,12 @@ public class RobotMap {
 	
 	// RoboRIO digital I/O addresses
 	public static final int majorPistonRetractedLimitSwitch = 0; 
-	public static final int majorPistonExtendedLimitSwitch = 1; 
+//	public static final int majorPistonExtendedLimitSwitch = 1; 
 	public static int photoSwitchIntake = 2;
 	public static int photoSwitchClaw = 3;
 	public static int bumpSwitchClaw = 4;
-	public static final int minorPistonRetractedLimitSwitch = 5; 
-	public static final int minorPistonExtendedLimitSwitch = 6; 
+//	public static final int minorPistonRetractedLimitSwitch = 5; 
+//	public static final int minorPistonExtendedLimitSwitch = 6; 
 
 	//intake motor speeds
 	public static double intakePercentIn = .7; //need to be tested

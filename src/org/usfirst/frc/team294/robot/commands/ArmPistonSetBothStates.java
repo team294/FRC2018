@@ -36,7 +36,7 @@ public class ArmPistonSetBothStates extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (moving) return Robot.armPiston.getMajor() != PistonPositions.Moving && Robot.armPiston.getMinor() != PistonPositions.Moving;
+    	if (moving) return Robot.armPiston.getMajor() != PistonPositions.Moving; /* && Robot.armPiston.getMinor() != PistonPositions.Moving; */
     	return true;
     }
 
