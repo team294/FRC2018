@@ -52,7 +52,7 @@ public class ArmMotor extends Subsystem {
 		armMotor1.config_kF(0, 0.0, 10);
 		armMotor1.config_kP(0, 4.4, 10); // old term 90 with pot, 4.4 converted to new encoder
 		armMotor1.config_kI(0, 0.0, 10);
-		armMotor1.config_kD(0, 0.5, 10);
+		armMotor1.config_kD(0, 0.0, 10);
 		armMotor1.configClosedloopRamp(0.25, 10);
 		armMotor1.configPeakOutputForward(MAX_UP_PERCENT_POWER, 10);
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
