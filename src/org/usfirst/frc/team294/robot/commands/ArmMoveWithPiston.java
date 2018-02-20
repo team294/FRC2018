@@ -33,7 +33,7 @@ public class ArmMoveWithPiston extends CommandGroup {
 		addParallel(new ArmMoveToEdge(destAngle));
 		addSequential(new ArmPistonSmartRetract(destAngle, finalPistonPosition));
 		addSequential(new LogMessage("Arm Move: smart retract done", true));
-		addParallel(new ArmPistonSmartExtendInDestZone(destAngle));
+		if (finalPistonPosition) addParallel(new ArmPistonSmartExtendInDestZone(destAngle));
 		addSequential(new ArmMoveToDestAngle(destAngle));
 		addSequential(new LogMessage("Arm Move: at dest angle", true));
 		

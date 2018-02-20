@@ -280,8 +280,8 @@ public class DriveTrain extends Subsystem {
 	public void periodic() {
 		// Display info on Dashboard
 		//getGyroRotation();
-		getLeftEncoderTicks();
-		getRightEncoderTicks();
+		getLeftEncoderInches();
+		getRightEncoderInches();
 	}
 	
 	public void initDefaultCommand() {

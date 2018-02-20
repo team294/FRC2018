@@ -21,8 +21,8 @@ public class ArmPiston extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
-	private final DoubleSolenoid armPistonMajor = new DoubleSolenoid(RobotMap.pneumaticArmPistonMajorIn,
-			RobotMap.pneumaticArmPistonMajorOut);
+	private final DoubleSolenoid armPistonMajor = new DoubleSolenoid(RobotMap.pneumaticArmPistonMajorOut,
+			RobotMap.pneumaticArmPistonMajorIn);
 	private final Solenoid armPistonMinorSingle = new Solenoid(RobotMap.pneumaticArmPistonMinorOut);
 
 	// Limit switches for pistons
