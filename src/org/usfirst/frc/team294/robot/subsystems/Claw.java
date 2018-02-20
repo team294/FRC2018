@@ -40,17 +40,31 @@ public class Claw extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	public void openClaw() {										// this logic is funky  Clean up
-		/* double currentAngle = Robot.armMotor.getArmDegrees();
-		if (currentAngle <= RobotMap.angleClawCloseHigh && currentAngle >= RobotMap.angleClawCloseLow) {
-		}
-		else { */ // no longer need keep-out zone
-			clawPiston.set(true); // true is extend
-		//}
+	
+	public void openClaw() { // This should be set to private, so that only the smart command can be called
+		clawPiston.set(true);
 	}
 
+	/**
+	 * Closes the claw on the arm
+	 */
 	public void closeClaw() {
-		clawPiston.set(false); // false is retract
+		clawPiston.set(false);
+	}
+	
+	// TODO: Smart command to open claw to make sure it does not conflict with the intake
+	// Will need to check the intake state as well as the arm angle
+	
+	public void smartOpenClaw() {
+		// TODO: Fill out method
+	}
+
+	/**
+	 * Gets the current open/close state of the claw
+	 * @return true if open, false if closed
+	 */
+	public boolean getClawState() {
+		return clawPiston.get();
 	}
 
 	public void setClawMotorToPercentPower(double leftPercent, double rightPercent) {

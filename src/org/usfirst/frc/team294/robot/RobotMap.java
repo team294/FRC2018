@@ -108,8 +108,9 @@ public class RobotMap {
 
 
 	// arm angles where claw pistons cannot be opened
-	public static double angleClawCloseLow = -20;
+	public static double angleClawCloseLow = -20; // Have these values been confirmed? If so, integrate into the commands in the Claw and Intake subsystems. If not, please test and update, then integrate.
 	public static double angleClawCloseHigh = -10;
+	
 	
 	/**
 	 * Returns the zone of the arm based on the arm angle
@@ -128,14 +129,14 @@ public class RobotMap {
 	}
 
 	// Auto path selections
-	public static final int AUTO_PLANS = 6;
+	public static final int AUTO_PLANS = 6; // Where is this used? I can find no references in the project. Can we remove it?
 
 	public enum AutoPlan {
 		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly
 	}
 
 	// Auto field layouts
-	public static final int AUTO_FIELD_LAYOUTS = 4;
+	public static final int AUTO_FIELD_LAYOUTS = 4; // Where is this used? I can find no references in the project. Can we remove it?
 
 	public enum AutoFieldLayout {
 		LL, LR, RL, RR;

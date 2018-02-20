@@ -39,18 +39,34 @@ public class ArmPiston extends Subsystem {
 		super();
 	}
 
+	/**
+	 * 
+	 * @return true if the major piston is retracted (limit switch)
+	 */
 	private boolean getMajorRet() {
 		return !majorLimitRetract.get();
 	}
 
+	/**
+	 * 
+	 * @return true if the major piston is extended (limit switch)
+	 */
 	private boolean getMajorExt() {
 		return !majorLimitExtend.get();
 	}
 
+	/**
+	 * 
+	 * @return true if the minor piston is retracted (limit switch)
+	 */
 	private boolean getMinorRet() {
 		return !minorLimitRetract.get();
 	}
 
+	/**
+	 * 
+	 * @return true if the minor piston is extended (limit switch)
+	 */
 	private boolean getMinorExt() {
 		return !minorLimitExtend.get();
 	}
@@ -172,7 +188,7 @@ public class ArmPiston extends Subsystem {
 	/**
 	 * Extends both pistons only if in the proper zone
 	 * 
-	 * @return true if pistons changed state, false if otherwise
+	 * @return true if either of the pistons are extended, false if both are retracted
 	 */
 	public boolean smartExtend() {
 		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
@@ -189,6 +205,7 @@ public class ArmPiston extends Subsystem {
 			setMinor(PistonPositions.Retracted);
 			return false;
 		}
+		// TODO: Update to reflect that minor piston does not break 16 in extension limit
 	}
 
 	/**
@@ -222,6 +239,8 @@ public class ArmPiston extends Subsystem {
 			setMinor(PistonPositions.Retracted);
 			return false;
 		}
+		
+		// TODO: Update command to reflect 16 in extension rule (minor can almost always be extended)
 	}
 
 	/**

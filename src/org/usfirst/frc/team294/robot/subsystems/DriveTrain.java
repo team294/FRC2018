@@ -27,7 +27,7 @@ public class DriveTrain extends Subsystem {
 	private final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.leftMotor2);
 	private final WPI_TalonSRX leftMotor3 = new WPI_TalonSRX(RobotMap.leftMotor3);
 	public final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor2,rightMotor2); //MAYBE CHANGE merge conflicts??
-	// errors.
+
 	private AHRS ahrs;
 	private double yawZero = 0;
 	
@@ -36,11 +36,11 @@ public class DriveTrain extends Subsystem {
 
 	// Track left and right encoder zeros here to minimize latency in Talons.
 	private double leftEncoderZero = 0, rightEncoderZero = 0;
-	public DriveTrain() {// initialize Followers
+	public DriveTrain() {
+		// initialize Followers
 		// motor2 are the main motors, and motor 1 and 3 are the followers.
 		// Robot.driveDirection is a value pulled from Robot Preferences.
 		// True means that it will drive forward correctly, and false drives it backwards.
-		// This is used when testing drivetrain code on the 2017 practice base.
 		leftMotor2.setInverted(Robot.robotPrefs.driveDirection); 
 		rightMotor2.setInverted(Robot.robotPrefs.driveDirection);
 		leftMotor1.setInverted(Robot.robotPrefs.driveDirection); 

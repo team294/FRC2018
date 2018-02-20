@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -25,21 +26,55 @@ public class Intake extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
+	
+	/**
+	 * Opens the intake jaws
+	 */
 	public void openIntake() {
 		intakeOpenPiston.set(true); // true is open
 	}
 
+	/**
+	 * Closes the intake jaws
+	 */
 	public void closeIntake() {
 		intakeOpenPiston.set(false); // false is close
 	}
 
-	public void deployIntake() {
+	/* These private commands have no checks to see if the arm is in a safe state, so they should never be called by commands */
+	
+	private void deployIntake() {
 		intakeDeployPiston.set(true); // true is deploy
 	}
 
-	public void retractIntake() {
+	private void retractIntake() {
 		intakeDeployPiston.set(false); // false is retract
 	}
+	
+	/**
+	 * Deploys the intake only if the robot arm is in a safe range to do so and only if the claw is closed
+	 * @return true if the intake deployed successfully, false if not
+	 */
+	public boolean smartDeployIntake() {
+		if (Robot.armMotor.getArmDegrees() < -3000.0 && !Robot.claw.getClawState()) { //TODO: The arm value needs to be changed to the correct range, and we may need to add another check for a lower/upper boundary on the arm
+			deployIntake();
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Retracts the intake only if the robot arm is in a safe range to do so and only if the claw is closed
+	 * @return true if the intake retracted successfully, false if not
+	 */
+	public boolean smartRetractIntake() {
+		if (Robot.armMotor.getArmDegrees() < -3000.0 && !Robot.claw.getClawState()) { //TODO: The arm value needs to be changed to the correct range, and we may need to add another check for a lower/upper boundary on the arm
+			retractIntake();
+			return true;
+		}
+		return false;
+	}
+	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
 	// rightPercent) {
 	// intakeMotorLeft.set(ControlMode.PercentOutput, leftPercent);
@@ -57,6 +92,8 @@ public class Intake extends Subsystem {
 	// SmartDashboard.putNumber("Left Intake Motor Percent:", leftPercent);
 	// SmartDashboard.putNumber("Right Intake Motor Percent:", rightPercent);
 	// }
+	
+	// Is there any situation where we will need to run the intake motors at different speeds? If not, can we get rid of this unused method?
 
 	/**
 	 * sets the intake motors to a percentage
@@ -79,7 +116,7 @@ public class Intake extends Subsystem {
 	/**
 	 * closes the intake jaws if the photo switch is triggered
 	 * 
-	 * @return true if closed, false if opened
+	 * @return true if the jaws closed, false if it did not (i.e. it is still opened)
 	 */
 	public boolean smartCloseIntake() {
 		// if object is detected with photoSwitch, close the intake
@@ -113,13 +150,27 @@ public class Intake extends Subsystem {
 	public boolean getPhotoSwitch() {
 		return photoSwitch.get();
 	}
+	
+	/**
+	 * Gets the deploy/retract state of the intake
+	 * </br><b>Warning: this only checks what state the intake is set to, not what it actually is.</b>
+	 * @return true = deployed, false = retracted
+	 */
+	public boolean getIntakeDeploy() {
+		return intakeDeployPiston.get();
+	}
+	
+	/**
+	 * Gets the open/close state of the jaws of the intake
+	 * @return true = open, false = closed
+	 */
+	public boolean getIntakeJawState() {
+		return intakeOpenPiston.get();
+	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		// sets both intake motors to -50 by default,
-		// will run at this speed until ToggleIntake
-		// or another command shuts them off or changes speed.
 	}
 
 }
