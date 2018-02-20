@@ -33,8 +33,9 @@ public class ArmMoveToDestAngle extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		// TODO Tolerance Checking
-		return true;
+		double currentAngle = Robot.armMotor.getArmDegrees();
+		if (Math.abs(currentAngle - destAngle) < 2) return true; //end within 2 degrees
+		return false;
 	}
 
 	// Called once after isFinished returns true

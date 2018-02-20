@@ -179,7 +179,8 @@ public class ArmPiston extends Subsystem {
 		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		if (zone == ArmZones.Low) {
 			setMajor(PistonPositions.Retracted);
-			setMinor(PistonPositions.Extended);
+			//setMinor(PistonPositions.Extended);
+			setMinor(PistonPositions.Retracted);
 			return true;
 		} else if (zone == ArmZones.High) {
 			setMajor(PistonPositions.Extended);
