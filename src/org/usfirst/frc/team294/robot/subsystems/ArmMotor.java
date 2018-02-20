@@ -276,7 +276,7 @@ public class ArmMotor extends Subsystem {
 				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
 		}
-		checkEncoder();
+//		checkEncoder();
 	}
 
 	public void initDefaultCommand() {
