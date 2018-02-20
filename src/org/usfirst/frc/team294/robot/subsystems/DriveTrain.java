@@ -282,6 +282,8 @@ public class DriveTrain extends Subsystem {
 		//getGyroRotation();
 		getLeftEncoderTicks();
 		getRightEncoderTicks();
+		getLeftEncoderInches();
+		getRightEncoderInches();
 	}
 	
 	public void initDefaultCommand() {
