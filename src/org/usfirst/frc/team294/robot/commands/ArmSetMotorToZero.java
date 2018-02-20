@@ -7,22 +7,20 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ShiftUp extends Command {
+public class ArmSetMotorToZero extends Command {
 
-    public ShiftUp() {
+    public ArmSetMotorToZero() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shifter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shifter.shiftUp();
+    	Robot.armMotor.setArmMotorToPercentPower(0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

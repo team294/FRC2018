@@ -3,9 +3,7 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -30,12 +28,15 @@ public class ArmMoveWithPiston extends CommandGroup {
 		// destAngle = SmartDashboard.getNumber("Desired Arm Angle (Piston Version)",
 		// 0);
 		// requires(Robot.protoArmMotor);
-
+		addSequential(new LogMessage("Arm Move started, angle = " + destAngle + ", finalPistonPosition = " + finalPistonPosition, true));
 		addSequential(new ArmMoveToLegalRange());
+		addSequential(new LogMessage("Arm Move: in legal range", true));
 		addParallel(new ArmMoveToEdge(destAngle));
 		addSequential(new ArmPistonSmartRetract(destAngle, finalPistonPosition));
+		addSequential(new LogMessage("Arm Move: smart retract done", true));
 		addParallel(new ArmPistonSmartExtendInDestZone(destAngle));
 		addSequential(new ArmMoveToDestAngle(destAngle));
+		addSequential(new LogMessage("Arm Move: at dest angle", true));
 		
 		// }
 

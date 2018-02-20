@@ -53,16 +53,6 @@ public class DriveStraightDistanceEllipse extends Command {
 		this.angleBase = angleBase;
 	}
 
-	public double encoderTicksToInches(double encoderticks) {
-		return (encoderticks / RobotMap.encoderTicksPerRevolution) * RobotMap.wheelCircumference
-				* RobotMap.driveTrainDistanceFudgeFactor;
-	}
-
-	public double inchesToEncoderTicks(double inches) {
-		return (inches / RobotMap.wheelCircumference / RobotMap.driveTrainDistanceFudgeFactor)
-				* RobotMap.encoderTicksPerRevolution;
-	}
-
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		// distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
@@ -81,8 +71,7 @@ public class DriveStraightDistanceEllipse extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double currentDistanceInches = encoderTicksToInches(
-				(Robot.driveTrain.getLeftEncoderPosition() + Robot.driveTrain.getRightEncoderPosition()) / 2);
+		double currentDistanceInches = Robot.driveTrain.getAverageEncoderInches();
 		ellipse.updateCurrentPosition();
 		this.currentDistance = currentDistanceInches;
 		// distErr = trapezoid.getCurrentPosition() - currentDistanceInches;
