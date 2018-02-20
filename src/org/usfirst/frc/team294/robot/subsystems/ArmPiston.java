@@ -27,9 +27,9 @@ public class ArmPiston extends Subsystem {
 
 	// Limit switches for pistons
 	private final DigitalInput majorLimitRetract = new DigitalInput(RobotMap.majorPistonRetractedLimitSwitch);
-	private final DigitalInput majorLimitExtend = new DigitalInput(RobotMap.majorPistonExtendedLimitSwitch);
-	private final DigitalInput minorLimitRetract = new DigitalInput(RobotMap.minorPistonRetractedLimitSwitch);
-	private final DigitalInput minorLimitExtend = new DigitalInput(RobotMap.minorPistonExtendedLimitSwitch);
+//	private final DigitalInput majorLimitExtend = new DigitalInput(RobotMap.majorPistonExtendedLimitSwitch);
+//	private final DigitalInput minorLimitRetract = new DigitalInput(RobotMap.minorPistonRetractedLimitSwitch);
+//	private final DigitalInput minorLimitExtend = new DigitalInput(RobotMap.minorPistonExtendedLimitSwitch);
 
 	// Tracking piston position in software
 	private PistonPositions majorPosition = PistonPositions.Null;
@@ -43,7 +43,7 @@ public class ArmPiston extends Subsystem {
 		return !majorLimitRetract.get();
 	}
 
-	private boolean getMajorExt() {
+/*	private boolean getMajorExt() {
 		return !majorLimitExtend.get();
 	}
 
@@ -53,7 +53,7 @@ public class ArmPiston extends Subsystem {
 
 	private boolean getMinorExt() {
 		return !minorLimitExtend.get();
-	}
+	} *\
 
 	/**
 	 * Sets the position of the major piston
@@ -92,9 +92,9 @@ public class ArmPiston extends Subsystem {
 	 */
 	public PistonPositions getMajor() {
 		switch (majorPosition) {
-		case Extended:
-			SmartDashboard.putString("Major Piston", "Extended");
-			break;
+//		case Extended:
+//			SmartDashboard.putString("Major Piston", "Extended");
+//			break;
 		case Retracted:
 			SmartDashboard.putString("Major Piston", "Retracted");
 			break;
@@ -113,7 +113,7 @@ public class ArmPiston extends Subsystem {
 	 * 
 	 * @return
 	 */
-	public PistonPositions getMinor() {
+/*	public PistonPositions getMinor() {
 		switch (minorPosition) {
 		case Extended:
 			SmartDashboard.putString("Minor Piston", "Extended");
@@ -128,19 +128,19 @@ public class ArmPiston extends Subsystem {
 			SmartDashboard.putString("Minor Piston", "Null");
 			break;
 		}
-		return minorPosition;
+		return minorPosition; *\
 	}
 
 	/**
 	 * Updates the SmartDashboard. Called every 20ms by the piston subsystem.
 	 */
 	public void updateSmartDashboard() {
-		SmartDashboard.putBoolean("Major Extend", getMajorExt());
+//		SmartDashboard.putBoolean("Major Extend", getMajorExt());
 		SmartDashboard.putBoolean("Major Retract", getMajorRet());
-		SmartDashboard.putBoolean("Minor Extend", getMinorExt());
-		SmartDashboard.putBoolean("Minor Retract", getMinorRet());
+//		SmartDashboard.putBoolean("Minor Extend", getMinorExt());
+//		SmartDashboard.putBoolean("Minor Retract", getMinorRet());
 		getMajor();
-		getMinor();
+//		getMinor();
 	}
 
 	/**
@@ -149,19 +149,20 @@ public class ArmPiston extends Subsystem {
 	 * Called every 20ms by the piston subsystem.
 	 */
 	public void updateState() {
-		if (getMajorExt())
-			majorPosition = PistonPositions.Extended;
-		else if (getMajorRet())
+//		if (getMajorExt())
+//			majorPosition = PistonPositions.Extended;
+		if (getMajorRet())
 			majorPosition = PistonPositions.Retracted;
 		else
 			majorPosition = PistonPositions.Moving;
+	}
 
-		if (getMinorExt())
+/*		if (getMinorExt())
 			minorPosition = PistonPositions.Extended;
 		else if (getMinorRet())
 			minorPosition = PistonPositions.Retracted;
 		else
-			minorPosition = PistonPositions.Moving;
+			minorPosition = PistonPositions.Moving; *\
 
 		// Should we add a check to see if both limit switches are activated, and if so,
 		// set the position to null?
@@ -178,7 +179,8 @@ public class ArmPiston extends Subsystem {
 		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		if (zone == ArmZones.Low) {
 			setMajor(PistonPositions.Retracted);
-			setMinor(PistonPositions.Extended);
+			//setMinor(PistonPositions.Extended);
+			setMinor(PistonPositions.Retracted);
 			return true;
 		} else if (zone == ArmZones.High) {
 			setMajor(PistonPositions.Extended);

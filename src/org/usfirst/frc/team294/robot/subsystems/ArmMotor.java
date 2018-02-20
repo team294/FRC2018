@@ -229,7 +229,6 @@ public class ArmMotor extends Subsystem {
 	 *            desired angle, in degrees
 	 */
 
-
 	/**
 	 * Sets the position of the arm based on scaled encoder ticks, and converts to
 	 * raw (subtracts position at 0)

@@ -33,6 +33,7 @@ public class Claw extends Subsystem {
 		clawMotorLeft.configOpenloopRamp(0.2, 0);
 
 		clawMotorRight.set(ControlMode.PercentOutput, 0);
+		clawMotorRight.setInverted(true);
 		clawMotorRight.setNeutralMode(NeutralMode.Coast);
 		clawMotorRight.enableVoltageCompensation(true);
 		clawMotorRight.configVoltageCompSaturation(11.0, 0);

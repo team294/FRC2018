@@ -33,12 +33,12 @@ public class RobotMap {
 	
 	// RoboRIO digital I/O addresses
 	public static final int majorPistonRetractedLimitSwitch = 0; 
-	public static final int majorPistonExtendedLimitSwitch = 1; 
+//	public static final int majorPistonExtendedLimitSwitch = 1; 
 	public static int photoSwitchIntake = 2;
 	public static int photoSwitchClaw = 3;
 	public static int bumpSwitchClaw = 4;
-	public static final int minorPistonRetractedLimitSwitch = 5; 
-	public static final int minorPistonExtendedLimitSwitch = 6; 
+//	public static final int minorPistonRetractedLimitSwitch = 5; 
+//	public static final int minorPistonExtendedLimitSwitch = 6; 
 
 	//intake motor speeds
 	public static double intakePercentIn = .7; //need to be tested
@@ -55,10 +55,10 @@ public class RobotMap {
 		
 
 	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
-	public static double armIntakePos = -45.0;
+	public static double armIntakePos = -55.0;
 	public static double armSwitchPosHigh = 5.0;
 	public static double armSwitchPosLow = -5.0;
-	public static double armScaleLowPos = 80.0;
+	public static double armScaleLowPos = 70.0;
 	public static double armScaleBackwardsPos = 100.0;
 
 	// Arm angle constants
@@ -92,7 +92,8 @@ public class RobotMap {
 	}
 	
 	// Arm angle zone boundaries   THESE ARE NUMBERS JUST FOR TEST ON PROTO ARM
-	public static double minAngle = -53; // arm cannot extend downward past this angle 
+
+	public static double minAngle = -60; // arm cannot extend downward past this angle 
 	public static double lowerBound = -35; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
 	public static double middleBound = 35; // arm cannot extend between Ang1 and Ang2
 	public static double upperBound = 102; // both pistons can be extended between Ang2 and Ang 3
