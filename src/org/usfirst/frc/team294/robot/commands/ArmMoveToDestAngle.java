@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,13 +17,17 @@ public class ArmMoveToDestAngle extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.armMotor);
+		if (destAngle > RobotMap.maxAngle) destAngle = RobotMap.maxAngle;
+    	if (destAngle < RobotMap.minAngle) destAngle = RobotMap.minAngle;
 		this.destAngle = destAngle;
 	}
+	
+	public ArmMoveToDestAngle(ArmPositions position) {
+    	destAngle = position.getAngle();
+    }
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		destAngle = (destAngle > RobotMap.maxAngle) ? RobotMap.maxAngle : destAngle;
-		destAngle = (destAngle < RobotMap.minAngle) ? RobotMap.minAngle : destAngle;
 		Robot.armMotor.setArmAngle(destAngle);
 	}
 

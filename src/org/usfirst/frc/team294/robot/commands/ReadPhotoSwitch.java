@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * This is a testing command and can be removed once we confirm that all routines are working
  */
 public class ReadPhotoSwitch extends Command {
 
