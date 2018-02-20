@@ -215,7 +215,7 @@ public class OI {
 		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,true));
 		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,true));
 		
-		
+		SmartDashboard.putData("Move Arm and Intake Cube", new ArmMoveAndIntakeCube());
 
 		
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
