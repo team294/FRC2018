@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.utilities.ToleranceChecker;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,7 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArmMoveToDestAngle extends Command {
 
 	private double destAngle;
-
+	public ToleranceChecker tolcheck;
+	
 	public ArmMoveToDestAngle(double destAngle) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -21,21 +23,19 @@ public class ArmMoveToDestAngle extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		tolcheck = new ToleranceChecker(3, 10);
 		destAngle = (destAngle > RobotMap.maxAngle) ? RobotMap.maxAngle : destAngle;
 		destAngle = (destAngle < RobotMap.minAngle) ? RobotMap.minAngle : destAngle;
-		Robot.armMotor.setArmAngle(destAngle);
+		Robot.armMotor.startPID(destAngle);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.armMotor.setArmAngle(destAngle);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		double currentAngle = Robot.armMotor.getArmDegrees();
-		if (Math.abs(currentAngle - destAngle) < 2) return true; //end within 2 degrees
-		return false;
+		return true;
 	}
 
 	// Called once after isFinished returns true

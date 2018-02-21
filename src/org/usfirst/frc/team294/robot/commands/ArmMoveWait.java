@@ -27,7 +27,7 @@ public class ArmMoveWait extends Command {
 		currentPiston = Robot.armPiston.getMajor() == RobotMap.PistonPositions.Retracted;
 		destAng = (destAng > RobotMap.maxAngle) ? RobotMap.maxAngle : destAng;
 		destAng = (destAng < RobotMap.minAngle) ? RobotMap.minAngle : destAng;
-		Robot.armMotor.setArmAngle(destAng);
+		Robot.armMotor.startPID(destAng);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
