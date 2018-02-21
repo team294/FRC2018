@@ -37,11 +37,13 @@ public class SetArmFromSmartDashboard extends Command  {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return tolcheck.success(Math.abs(targetAngle - currAngle));
+//    	return tolcheck.success(Math.abs(targetAngle - currAngle));
+    return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	
     }
 
     // Called when another command which requires one or more of the same

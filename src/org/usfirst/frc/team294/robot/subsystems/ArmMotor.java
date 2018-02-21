@@ -35,6 +35,7 @@ public class ArmMotor extends Subsystem {
 	private double initAngle;
 	private double finalAngle;
 	private double prevError;
+	private double error;
 	private double intError;
 	private double armMoment = 19.26*16*19.985/519;//11.87;
 
@@ -43,7 +44,7 @@ public class ArmMotor extends Subsystem {
 	public boolean joystickControl;
 	
 	int loop = 0;
-	private ProfileGenerator trapezoid;
+	private ArmProfileGenerator trapezoid;
 	private double angle;
 	public ArmMotor() {
 		
@@ -78,7 +79,7 @@ public class ArmMotor extends Subsystem {
 		armMotor1.configClosedloopRamp(0.25, 10);
 		armMotor1.configPeakOutputForward(MAX_UP_PERCENT_POWER, 10);
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
-		trapezoid = new ProfileGenerator(getArmDegrees(), getArmDegrees(), 0, 0, 0);
+		trapezoid = new ArmProfileGenerator(getArmDegrees(), getArmDegrees(), 0, 0, 0);
 	}
 	
 	/**
@@ -90,9 +91,10 @@ public class ArmMotor extends Subsystem {
 		// perimeter
 		initAngle = getArmDegrees();
 		finalAngle = angle;
-		trapezoid = new ProfileGenerator(initAngle, angle, 0, 60, 360);
+		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 90, 50);
 		intError = 0;
 		prevError = 0;
+		error = 0;
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;
 //		setArmPositionScaled(encoderDegrees);
 		
@@ -101,9 +103,10 @@ public class ArmMotor extends Subsystem {
 	/**
 	 * 
 	 */
+	
 	public void armUpdatePID() {
 		trapezoid.updateProfileCalcs();
-		double error = 	trapezoid.getCurrentPosition() - getArmDegrees();
+		error = 	trapezoid.getCurrentPosition() - getArmDegrees();
 		intError = intError + error*.02;
 		double percentPower = kF*armMoment*Math.cos(Math.toRadians(getArmDegrees()));
 		//Gain schedule until stuff gets tuned
