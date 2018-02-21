@@ -34,7 +34,7 @@ public class ArmMoveToLegalRange extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (RobotMap.minAngle <= Robot.armMotor.getArmDegrees()) && (Robot.armMotor.getArmDegrees() <= RobotMap.maxAngle);
+		return (RobotMap.minAngle-3.0 <= Robot.armMotor.getArmDegrees()) && (Robot.armMotor.getArmDegrees() <= RobotMap.maxAngle+3.0);
 	}
 
 	// Called once after isFinished returns true
