@@ -209,11 +209,12 @@ public class OI {
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
 
-		SmartDashboard.putData("Score Backwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos,true));
-		SmartDashboard.putData("Move arm to 0 and set piston state", new ArmMoveWithPiston(0.0,true));
-		SmartDashboard.putData("Score Forwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleLowPos,true));
-		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,true));
-		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,true));
+		SmartDashboard.putData("Score Backwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos,false));
+		SmartDashboard.putData("Move arm to 0 and set piston state", new ArmMoveWithPiston(0.0,false));
+		SmartDashboard.putData("Score Forwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleLowPos,false));
+		SmartDashboard.putData("Score Forwards in Scale (extend)", new ArmMoveWithPiston(RobotMap.armScaleLowPos,true));
+		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,false));
+		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,false));
 		
 		SmartDashboard.putData("Move Arm and Intake Cube", new ArmMoveAndIntakeCube());
 

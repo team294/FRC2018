@@ -307,8 +307,10 @@ public class ArmMotor extends Subsystem {
 		getArmEnc();
 		getArmDegrees();
 		getOutputVoltage();
-		SmartDashboard.putNumber("Arm Motor Error", armMotor1.getClosedLoopError(0));
-		SmartDashboard.putNumber("Arm Motor Target", armMotor1.getClosedLoopTarget(0));
+		if (armMotor1.getControlMode()== ControlMode.Position) {
+			SmartDashboard.putNumber("Arm Motor Error", armMotor1.getClosedLoopError(0));
+			SmartDashboard.putNumber("Arm Motor Target", armMotor1.getClosedLoopTarget(0));
+		}
 	}
 
 	public void periodic() {
@@ -322,7 +324,7 @@ public class ArmMotor extends Subsystem {
 				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
 		}
-		checkEncoder();
+//		checkEncoder();
 	}
 
 	public void initDefaultCommand() {

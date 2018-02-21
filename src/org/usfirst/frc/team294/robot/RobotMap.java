@@ -32,7 +32,7 @@ public class RobotMap {
 
 	
 	// RoboRIO digital I/O addresses
-	public static final int majorPistonRetractedLimitSwitch = 0; 
+	public static final int majorPistonRetractedLimitSwitch = 5; 
 //	public static final int majorPistonExtendedLimitSwitch = 1; 
 	public static int photoSwitchIntake = 2;
 	public static int photoSwitchClaw = 3;
@@ -58,7 +58,7 @@ public class RobotMap {
 	public static double armIntakePos = -55.0;
 	public static double armSwitchPosHigh = 5.0;
 	public static double armSwitchPosLow = -5.0;
-	public static double armScaleLowPos = 70.0;
+	public static double armScaleLowPos = 60.0;
 	public static double armScaleBackwardsPos = 100.0;
 
 	// Arm angle constants
@@ -97,7 +97,7 @@ public class RobotMap {
 	public static double lowerBound = -35; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
 	public static double middleBound = 35; // arm cannot extend between Ang1 and Ang2
 	public static double upperBound = 102; // both pistons can be extended between Ang2 and Ang 3
-	public static double maxAngle = 105; // arm cannot extend upward past this angle
+	public static double maxAngle = 130; // arm cannot extend upward past this angle
 	
 
 	
