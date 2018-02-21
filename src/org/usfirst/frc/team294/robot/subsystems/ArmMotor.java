@@ -2,6 +2,8 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -104,22 +106,6 @@ public class ArmMotor extends Subsystem {
 	 * 
 	 */
 	
-	public void armUpdatePID() {
-		trapezoid.updateProfileCalcs();
-		error = 	trapezoid.getCurrentPosition() - getArmDegrees();
-		intError = intError + error*.02;
-		double percentPower = kF*armMoment*Math.cos(Math.toRadians(getArmDegrees()));
-		//Gain schedule until stuff gets tuned
-		if(finalAngle - initAngle > 0)
-			percentPower += kPu * error + ((error-prevError)*kDu)+(kIu*intError);
-		else
-			percentPower += kPd * error + ((error-prevError)*kDd)+(kId*intError);
-		prevError = error;
-		SmartDashboard.putNumber("PID Error", error);
-		SmartDashboard.putNumber("PID percent power", percentPower);
-		SmartDashboard.putNumber("Profile getCurrentPosition", trapezoid.getCurrentPosition());
-		setArmMotorToPercentPower(percentPower);
-	}
 	
 
 	/**
@@ -326,8 +312,26 @@ public class ArmMotor extends Subsystem {
 				// TODO uncomment and test for possible sign error
 				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
+		}if(DriverStation.getInstance().isEnabled()) {
+			trapezoid.updateProfileCalcs();
+			error = 	trapezoid.getCurrentPosition() - getArmDegrees();
+			intError = intError + error*.02;
+			double percentPower = kF*armMoment*Math.cos(Math.toRadians(getArmDegrees()));
+			//Gain schedule until stuff gets tuned
+			if(finalAngle - initAngle > 0)
+				percentPower += kPu * error + ((error-prevError)*kDu)+(kIu*intError);
+			else
+				percentPower += kPd * error + ((error-prevError)*kDd)+(kId*intError);
+			prevError = error;
+			SmartDashboard.putNumber("PID Error", error);
+			SmartDashboard.putNumber("PID percent power", percentPower);
+			SmartDashboard.putNumber("Profile getCurrentPosition", trapezoid.getCurrentPosition());
+			setArmMotorToPercentPower(percentPower);
+		}else {
+			setArmMotorToPercentPower(0);
 		}
 //		checkEncoder();
+		
 	}
 
 	public void initDefaultCommand() {

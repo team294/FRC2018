@@ -31,13 +31,11 @@ public class ArmMoveToDestAngle extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.armMotor.armUpdatePID();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		// TODO Tolerance Checking
-		return tolcheck.success(Math.abs(destAngle - Robot.armMotor.getArmDegrees()));
+		return true;
 	}
 
 	// Called once after isFinished returns true
