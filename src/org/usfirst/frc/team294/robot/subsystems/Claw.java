@@ -126,7 +126,8 @@ public class Claw extends Subsystem {
 	} */
 
 	public void periodic() {
-		SmartDashboard.putBoolean("Object Present (Claw): ", getPhotoSwitch());
+		SmartDashboard.putBoolean("PhotoSwitch Triggered", getPhotoSwitch());
+		SmartDashboard.putBoolean("Cube Present", getBumpSwitch());
 	}
 
 	public void initDefaultCommand() {
