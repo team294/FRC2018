@@ -25,7 +25,7 @@ import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units;
 
 public class OI {
-	
+
 	//Threshold position checker
 	//For top and bottom knobs unless otherwise specified
 	double[] knobThreshold=new double[]{-0.911,-0.731,-0.551,-0.367,-0.1835,-0.0035,0.1775,0.3605,0.5455,0.7285,0.91};
@@ -49,161 +49,161 @@ public class OI {
 	BottomKnob[] BottomKnobPositions= new BottomKnob[] {BottomKnob.PositionOne, BottomKnob.PositionTwo, BottomKnob.PositionThree, BottomKnob.PositionFour, BottomKnob.PositionFive,
 			BottomKnob.PositionSix, BottomKnob.PositionSeven, BottomKnob.PositionEight, BottomKnob.PositionNine, BottomKnob.PositionTen, BottomKnob.PositionEleven, BottomKnob.PositionTwelve
 	};
-	
+
 	// Optional commands based on start position
 	Command[] MiddleKnobCommands = new Command[] {
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand()
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand()
 	};
-	
+
 	// Commands based on alliance abilities (auto routines)
 	Command[] BottomKnobCommands = new Command[] {	
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
-		//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
+			//new AutoCommand(),
 	};
-	
+
 	public Joystick leftJoystick = new Joystick(0); // Left Joystick is in port 0
 	public Joystick rightJoystick = new Joystick(1); // Right Joystick is in port 1
 	public Joystick coPanel = new Joystick(2);
 	public Joystick xboxController = new Joystick(3);
 	public Joystick armJoystick = new Joystick(4); // Arm Joystick is in port 4
-	
+
 	private boolean driveDirection = true; // Easy switching drive direction
-	
+
 	SendableChooser<AutoPlan> chooser_autoPlan = new SendableChooser<>();
 	SendableChooser<StartingPosition> chooser_startPosition = new SendableChooser<>();
 
 	public OI() {
-		
+
 		// Create button arrays for the input devices
 		Button[] left = new Button[12];
-	    Button[] right = new Button[12];
-	    Button[] coP =  new Button[15];
-	    Button[] xbB = new Button[11];
-	    Trigger xbLT = new AxisTrigger(xboxController, 2, 0.9);
-        Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
+		Button[] right = new Button[12];
+		Button[] coP =  new Button[15];
+		Button[] xbB = new Button[11];
+		Trigger xbLT = new AxisTrigger(xboxController, 2, 0.9);
+		Trigger xbRT = new AxisTrigger(xboxController, 3, 0.9);
 
 		Trigger xbPovUp = new POVTrigger(xboxController, 0);
-        Trigger xbPovRight = new POVTrigger(xboxController, 90);
-        Trigger xbPovDown = new POVTrigger(xboxController, 180);
-        Trigger xbPovLeft = new POVTrigger(xboxController, 270);
-        
-        // Declare left and right joystick buttons
-	    for (int i = 1; i < left.length; i++) {
-	    	left[i] = new JoystickButton(leftJoystick, i);
-	    	right[i] = new JoystickButton(rightJoystick, i);
-	    	if (i == 1) {
-	    		//right[i].whenPressed();  // Automatic cube pick up with vision
-	    		//left[i].whenPressed();  // Automatic cube pick up with vision
-	    	} else if (i == 3) {
-	    		right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive direction
-	    		left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive direction
-	    	} else if (i == 2) {
-	    		//right[i].whenPressed(); // Auto driving routines
-	    		//left[i].whenPressed(); // Auto driving routines
-	    	} else if (i == 4 || i == 5) {
-	    		right[i].whenPressed(new DriveWithJoysticks());
-	    		left[i].whenPressed(new DriveWithJoysticks());
-	    	} else {
-	    		right[i].whenPressed(new Shift(true));
-	    		left[i].whenPressed(new Shift(false));
-	    	}
-	    }
+		Trigger xbPovRight = new POVTrigger(xboxController, 90);
+		Trigger xbPovDown = new POVTrigger(xboxController, 180);
+		Trigger xbPovLeft = new POVTrigger(xboxController, 270);
 
-	     // Declare codriver panel switches
-	    for (int i = 1; i < coP.length; i++) {
-	    	coP[i] = new JoystickButton(coPanel, i);
+		// Declare left and right joystick buttons
+		for (int i = 1; i < left.length; i++) {
+			left[i] = new JoystickButton(leftJoystick, i);
+			right[i] = new JoystickButton(rightJoystick, i);
+			if (i == 1) {
+				//right[i].whenPressed();  // Automatic cube pick up with vision
+				//left[i].whenPressed();  // Automatic cube pick up with vision
+			} else if (i == 3) {
+				right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive direction
+				left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive direction
+			} else if (i == 2) {
+				//right[i].whenPressed(); // Auto driving routines
+				//left[i].whenPressed(); // Auto driving routines
+			} else if (i == 4 || i == 5) {
+				right[i].whenPressed(new DriveWithJoysticks());
+				left[i].whenPressed(new DriveWithJoysticks());
+			} else {
+				right[i].whenPressed(new Shift(true));
+				left[i].whenPressed(new Shift(false));
+			}
 		}
-	    
-	    // Xbox controller buttons
-	    for (int i = 1; i < xbB.length; i++) {
-	    	xbB[i] = new JoystickButton(xboxController, i);
-	    }
-	    
-	    // Bind commands to the codriver panel switches
-	    //coP[1].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
-	    //coP[2].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
-	    coP[3].whenPressed(new StopIntakeAndClaw()); // Stop all flywheels
-	    //coP[4].whenPressed(new Command()); // Prepare to score cube (rev up flywheels), alternate override for arm
-	    //coP[5].whenPressed(new Command()); // Score cube
-	    //coP[6].whenPressed(new Command()); // Intake mechanism up
-	    //coP[7].whenPressed(new Command()); // Intake mechanism down
-	    coP[8].whenPressed(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
-	    coP[9].whenPressed(new PassiveOuttake()); // Outtake
-	    coP[10].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to backwards for scale
-	    coP[11].whenPressed(new LoadCubeSequence()); // Intake sequence
-	    //coP[12].whenPressed(new Command()); // TBD
-	    coP[13].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to switch position
-	    coP[14].whenPressed(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to alternate scale position
-	    
-	    // Xbox controller buttons
-	    //xbB[1].whenPressed(new Command()); // Lower intake mechanism
-	    //xbB[2].whenPressed(new PistonCommand()); // Arm Piston actuation
-	    //xbB[3].whenPressed(new PistonCommand()); // Arm Piston actuation
-	    //xbB[4].whenPressed(new Command()); // Raise intake mechanism
-	    xbB[5].whenPressed(new LoadCubeSequence()); // Intake sequence
-	    xbB[6].whenPressed(new PassiveOuttake()); // Outtake
-	    //xbB[7].whenPressed(new ClimbCommand()); // Reserved for climbing
-	    //xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
-	    xbB[9].whenPressed(new StopIntakeAndClaw()); // Stop flywheels
-	    //xbB[10].whenPressed(new OverrideCommand()); // Override climb OR arm
-	    
-	    xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to scale backwards
-	    xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
-	    xbPovLeft.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to switch position
-	    xbPovRight.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to alternate scale position
-	    
-	    // Xbox triggers
-	    //xbLT.whenActive(new Command()); // Prepare to score cube (rev up flywheels), alternate climb/arm override
-	    //xbRT.whenActive(new Command()); // Score cube
-	    
+
+		// Declare codriver panel switches
+		for (int i = 1; i < coP.length; i++) {
+			coP[i] = new JoystickButton(coPanel, i);
+		}
+
+		// Xbox controller buttons
+		for (int i = 1; i < xbB.length; i++) {
+			xbB[i] = new JoystickButton(xboxController, i);
+		}
+
+		// Bind commands to the codriver panel switches
+		//coP[1].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
+		//coP[2].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
+		coP[3].whenPressed(new StopIntakeAndClaw()); // Stop all flywheels
+		//coP[4].whenPressed(new Command()); // Prepare to score cube (rev up flywheels), alternate override for arm
+		//coP[5].whenPressed(new Command()); // Score cube
+		//coP[6].whenPressed(new Command()); // Intake mechanism up
+		//coP[7].whenPressed(new Command()); // Intake mechanism down
+		coP[8].whenPressed(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
+		coP[9].whenPressed(new PassiveOuttake()); // Outtake
+		coP[10].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to backwards for scale
+		coP[11].whenPressed(new LoadCubeSequence()); // Intake sequence
+		//coP[12].whenPressed(new Command()); // TBD
+		coP[13].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to switch position
+		coP[14].whenPressed(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to alternate scale position
+
+		// Xbox controller buttons
+		//xbB[1].whenPressed(new Command()); // Lower intake mechanism
+		//xbB[2].whenPressed(new PistonCommand()); // Arm Piston actuation
+		//xbB[3].whenPressed(new PistonCommand()); // Arm Piston actuation
+		//xbB[4].whenPressed(new Command()); // Raise intake mechanism
+		xbB[5].whenPressed(new LoadCubeSequence()); // Intake sequence
+		xbB[6].whenPressed(new PassiveOuttake()); // Outtake
+		//xbB[7].whenPressed(new ClimbCommand()); // Reserved for climbing
+		//xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
+		xbB[9].whenPressed(new StopIntakeAndClaw()); // Stop flywheels
+		//xbB[10].whenPressed(new OverrideCommand()); // Override climb OR arm
+
+		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to scale backwards
+		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
+		xbPovLeft.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to switch position
+		xbPovRight.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to alternate scale position
+
+		// Xbox triggers
+		//xbLT.whenActive(new Command()); // Prepare to score cube (rev up flywheels), alternate climb/arm override
+		//xbRT.whenActive(new Command()); // Score cube
+
 		Button armButton2 = new JoystickButton(armJoystick,2);
-    	Button armButton3 = new JoystickButton(armJoystick,3);
-    	armButton2.whenPressed(new ArmMotorIncrementAngle(false));
-    	armButton3.whenPressed(new ArmMotorIncrementAngle(true));
-		
+		Button armButton3 = new JoystickButton(armJoystick,3);
+		armButton2.whenPressed(new ArmMotorIncrementAngle(false));
+		armButton3.whenPressed(new ArmMotorIncrementAngle(true));
+
 		// Initialize our auto plan chooser
-    	//  Software is okay for testing. This should be hardware switches at competition.
+		//  Software is okay for testing. This should be hardware switches at competition.
 		chooser_autoPlan.addDefault("do Closest, if both far do scale", AutoPlan.ClosestSwitchScale_FFScale);
 		chooser_autoPlan.addObject("do Closest, if both far do switch from front", AutoPlan.ClosestSwitchScale_FFSwitchFront); // Should never need this routine
 		chooser_autoPlan.addObject("do closest, if both far do switch from back", AutoPlan.ClosestSwitchScale_FFSwitchBack);
 		chooser_autoPlan.addObject("do Scale only", AutoPlan.ScaleOnly);
 		chooser_autoPlan.addObject("do Switch only from middle", AutoPlan.SwitchOnly);
 		chooser_autoPlan.addObject("Go to baseline", AutoPlan.BaselineOnly);
-//		chooser_autoPlan.addObject("2Cube", 5);
+		//		chooser_autoPlan.addObject("2Cube", 5);
 		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
 		SmartDashboard.putData("AutoTest1",new AutoTest1());
-		
+
 		// Initialize our position chooser
 		chooser_startPosition.addDefault("Left", StartingPosition.Left);
 		chooser_startPosition.addObject("Middle", StartingPosition.Middle);
 		chooser_startPosition.addObject("Right", StartingPosition.Right);
-		
+
 		// Smart Dashboard Commands
 		SmartDashboard.putData("Start Position Selection", chooser_startPosition);
-	
+
 		SmartDashboard.putData("Start Drive Train", new DriveWithJoysticks());
-		
+
 		SmartDashboard.putData("Retract Arm", new ArmPistonSetMajorState(PistonPositions.Retracted));
-		
+
 		SmartDashboard.putData("Extend Arm", new ArmPistonSetMajorState(PistonPositions.Extended));
-		
+
 		//SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
 		SmartDashboard.putData("Button Increment with Joystick", new ArmMotorIncrementAngle(true));
-		
+
 		SmartDashboard.putData("Calibrate arm zero position", new ArmMotorCalibrateZero());
 
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
@@ -215,35 +215,45 @@ public class OI {
 		SmartDashboard.putData("Score Forwards in Scale (extend)", new ArmMoveWithPiston(RobotMap.armScaleLowPos,true));
 		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,false));
 		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,false));
-		
+
 		SmartDashboard.putData("Move Arm and Intake Cube", new ArmMoveAndIntakeCube());
 
-		
+
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
 		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControlJoystick());
-				
+
 		SmartDashboard.putData("Set Arm Position", new SetArmFromSmartDashboard());
-		
+
 		SmartDashboard.putNumber("set Arm Angle Piston Extend and Retract", 90);
 
 		SmartDashboard.putNumber("set Arm Angle", 0);
-		
+
 		SmartDashboard.putData("Move Piston Within Parameters", new ArmMoveToLegalRange());
-		
+
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
+
 		SmartDashboard.putData("DriveStraightDistanceProfile", new DriveStraightDistanceProfile(30, 0));
+
+		// Drive straight (DriveStraightDistanceProfile) using dashboard distance and parameters
+		SmartDashboard.putNumber("DSDP_Distance_inches", 30);
+		SmartDashboard.putNumber("DSDP_AngleBase", 0);
+		SmartDashboard.putNumber("DSDP_Speed_ips", 80);
+		SmartDashboard.putNumber("DSDP_Accel_ips2", 80);
+		SmartDashboard.putData("DSDP_Go!", new DriveStraightDistanceProfile());
+
+
 		SmartDashboard.putData("EllipseTest", new DriveStraightDistanceEllipse(30, 10,0));
 		SmartDashboard.putNumber("DistToTravelDSDG", 150);
 		SmartDashboard.putData(" ProfileTest", new DriveStraightDistanceEllipse(100, 1000, 0));
 
 		SmartDashboard.putData("Turn with vision" , new TurnGyro());
-		
+
 		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
-		
+
 		SmartDashboard.putData("Extend", new ArmPistonSmartExtendInDestZone(90));
-		
+
 		SmartDashboard.putData("Open Claw", new ClawSetState(true));
 		SmartDashboard.putData("Close Claw", new ClawSetState(false));
 
@@ -251,7 +261,7 @@ public class OI {
 		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));
 		SmartDashboard.putData("Stop Climb Motor", new ClimbSetPercentPower(0));
 	}
-	
+
 	/**
 	 * Reads the top knob.
 	 * @return Raw position 0 (full ccw) to 11 (cw)
@@ -265,7 +275,7 @@ public class OI {
 		for(i=0;i<len; i++) {
 			if (knobReading<knobThreshold[i]) break;
 		}
-        
+
 		if(i==len)return TopKnobPositions[len-1];
 		return TopKnobPositions[i];
 	}
@@ -286,7 +296,7 @@ public class OI {
 
 		return i;
 	}
-	
+
 	/**
 	 * Reads the middle knob.
 	 * @return OI.MiddleKnob robot starting position constant for the current knob position
@@ -302,7 +312,7 @@ public class OI {
 	 */
 	public Command getMiddleKnobCommand() {
 		int i;
-		
+
 		i = readMiddleKnobRaw();
 		if (i<MiddleKnobCommands.length) {
 			return MiddleKnobCommands[i];
@@ -318,13 +328,13 @@ public class OI {
 	public int readBottomKnobRaw() {
 		double knobReading;
 		int i=0;
-		
+
 		knobReading = coPanel.getRawAxis(3);
 		int len=knobThreshold.length;
 		for(i=0;i<len; i++) {
 			if (knobReading<knobThreshold[i]) break;
 		}
-        
+
 		if(i==len)return (len-1);
 		return (i);
 	}
@@ -336,7 +346,7 @@ public class OI {
 	public BottomKnob readBottomKnob() {
 		return BottomKnobPositions[readBottomKnobRaw()];
 	}
-	
+
 	/**
 	 * Gets autonomous command to run based on bottom knob setting
 	 * @return Command to run
@@ -344,15 +354,15 @@ public class OI {
 	public Command getAutonomousCommand() {
 		return BottomKnobCommands[readBottomKnobRaw()];
 	}
-	
+
 	public AutoPlan readAutoPlan() {
 		return chooser_autoPlan.getSelected();
 	}
-	
+
 	public StartingPosition readStartPosition() {
 		return chooser_startPosition.getSelected();
 	}
-	
+
 	/**
 	 * Sets the drive direction
 	 * @param direction false = back in the front, true = intake in the front
@@ -360,7 +370,7 @@ public class OI {
 	public void setDriveDirection(boolean direction){
 		this.driveDirection = direction;
 	}
-	
+
 	/**
 	 * Gets the drive direction of the robot
 	 * @return false = back in the front, true = intake in the front
