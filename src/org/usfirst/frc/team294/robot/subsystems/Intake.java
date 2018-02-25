@@ -79,6 +79,14 @@ public class Intake extends Subsystem {
 		intakeDeployPiston.set(deployed);
 	}
 	
+	/**
+	 * Open or close the jaws on the intake
+	 * @param open true = open, false = close
+	 */
+	public void setIntakeOpen(boolean open) {
+		intakeOpenPiston.set(open);
+	}
+	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
 	// rightPercent) {
 	// intakeMotorLeft.set(ControlMode.PercentOutput, leftPercent);

@@ -7,17 +7,20 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeOpen extends Command {
+public class IntakeSetOpen extends Command {
 
-    public IntakeOpen() {
+	boolean open;
+	
+    public IntakeSetOpen(boolean open) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
+    	this.open = open;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.openIntake();
+    	Robot.intake.setIntakeOpen(open);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -27,7 +30,6 @@ public class IntakeOpen extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return true;
-  
     }
 
     // Called once after isFinished returns true
