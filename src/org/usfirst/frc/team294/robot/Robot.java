@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
 	public static Intake intake;
 	public static OI oi;
 	public static Climb climb;
+	public static PressureSensor pressureSensor;
 
 	public static FileLog log;
 	public static RobotPreferences robotPrefs;
