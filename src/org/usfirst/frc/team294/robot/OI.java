@@ -264,6 +264,8 @@ public class OI {
 		SmartDashboard.putData("Intake Cube", new IntakeAutoGrab());
 		SmartDashboard.putData("Open Intake", new IntakeOpen());
 		SmartDashboard.putData("Close Intake", new IntakeClose());
+		
+		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
 	}
 
 	/**

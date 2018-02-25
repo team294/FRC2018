@@ -42,21 +42,43 @@ public class Intake extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
+	
+	/**
+	 * Opens the intake jaws
+	 */
 	public void openIntake() {
 		intakeOpenPiston.set(true); // true is open
 	}
 
+	/**
+	 * Closes the intake jaws
+	 */
 	public void closeIntake() {
 		intakeOpenPiston.set(false); // false is close
 	}
 
+	/**
+	 * Deploys the entire intake mechanism
+	 */
 	public void deployIntake() {
 		intakeDeployPiston.set(true); // true is deploy
 	}
 
+	/**
+	 * Retracts the entire intake mechanism
+	 */
 	public void retractIntake() {
 		intakeDeployPiston.set(false); // false is retract
 	}
+	
+	/**
+	 * Deploys or retracts the intake based on parameter
+	 * @param deployed true = deployed, false = retracted
+	 */
+	public void setIntakeDeploy(boolean deployed) {
+		intakeDeployPiston.set(deployed);
+	}
+	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
 	// rightPercent) {
 	// intakeMotorLeft.set(ControlMode.PercentOutput, leftPercent);
@@ -96,14 +118,14 @@ public class Intake extends Subsystem {
 	/**
 	 * closes the intake jaws if the photo switch is triggered
 	 * 
-	 * @return true if closed, false if opened
+	 * @return true once claw is closed, false otherwise
 	 */
 	public boolean smartCloseIntake() {
 		// if object is detected with photoSwitch, close the intake
 		if (photoSwitch.get()) {
 			closeIntake();
 			return true;
-		}
+		} else
 		return false;
 	}
 
@@ -112,7 +134,6 @@ public class Intake extends Subsystem {
 	 */
 	public void outtake() {
 		setIntakeMotorPercent(RobotMap.intakePercentOut);
-		openIntake();
 	}
 
 	/**
@@ -133,6 +154,7 @@ public class Intake extends Subsystem {
 
 	public void periodic() {
 		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
+		SmartDashboard.putBoolean("Intake Photo", photoSwitch.get());
 	}
 
 	public void initDefaultCommand() {

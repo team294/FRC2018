@@ -6,7 +6,7 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This duplicates the function of IntakeCube comamnd and should be replaced
  */
 public class IntakeAutoGrab extends Command {
 
