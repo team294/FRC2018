@@ -2,12 +2,15 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import org.usfirst.frc.team294.utilities.*;
 
 /**
  * The subsystem controlling the arm angle (but not the piston)
@@ -23,15 +26,32 @@ public class ArmMotor extends Subsystem {
 
 	private final double MAX_UP_PERCENT_POWER = 0.5; // Up these speeds after testing. 0.8 before
 	private final double MAX_DOWN_PERCENT_POWER = -0.3; // -0.5 before
+	
+	//PID values
+	private final double kPu;
+	private final double kIu;
+	private final double kDu;
+	private final double kPd;
+	private final double kId;
+	private final double kDd;
+	private final double kF;
+	private double initAngle;
+	private double finalAngle;
+	private double prevError;
+	private double error;
+	private double intError; //integrated error
+	private double armMoment = 19.26*16*19.985/519;//11.87;
 
 	// variables to check if arm Encoder is reliable
 	private double armEncoderStartValue = getArmEncRaw();
 	public boolean joystickControl;
 	
+	double lastTime;
 	int loop = 0;
-
+	private ArmProfileGenerator trapezoid;
+	private double angle;
 	public ArmMotor() {
-
+		
 		// armMotor.set(ControlMode.Position, 3);
 		armMotor1.set(ControlMode.PercentOutput, 0);
 		armMotor2.set(ControlMode.Follower, RobotMap.armMotor1);
@@ -49,14 +69,47 @@ public class ArmMotor extends Subsystem {
 		// armMotor.configSetParameter(ParamEnum.eFeedbackNotContinuous, 0, 0x00, 0x00,
 		// 0x00); // Change parameter to 1 for non-continuous
 		armMotor1.selectProfileSlot(0, 0);
-		armMotor1.config_kF(0, 0.0, 10);
-		armMotor1.config_kP(0, 4.4, 10); // old term 90 with pot, 4.4 converted to new encoder
-		armMotor1.config_kI(0, 0.0, 10);
-		armMotor1.config_kD(0, 0.0, 10);
+		//armMotor1.config_kF(0, 0.0, 10);
+		//armMotor1.config_kP(0, 3.5, 10); // old term 90 with pot, 4.4 converted to new encoder
+		//armMotor1.config_kI(0, 0.0, 10);
+		//armMotor1.config_kD(0, 0.0, 10);
+		kPu = 0.035;
+		kIu = 0.0;
+		kDu = 0.02;
+		kPd = 0.035;
+		kId = 0.005;
+		kDd = 0.02;
+		kF = 0.2/armMoment;
 		armMotor1.configClosedloopRamp(0.25, 10);
 		armMotor1.configPeakOutputForward(MAX_UP_PERCENT_POWER, 10);
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
+		trapezoid = new ArmProfileGenerator(getArmDegrees(), getArmDegrees(), 0, 0, 0);
+		lastTime = System.currentTimeMillis();
 	}
+	
+	/**
+	 * 
+	 */
+	public void startPID(double angle) {
+		// TODO: add checks to make sure arm does not go outside of safe areas
+		// TODO: integrate checks with piston to avoid penalties for breaking frame
+		// perimeter
+		initAngle = getArmDegrees();
+		finalAngle = angle;
+		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 90, 50);
+		intError = 0;
+		prevError = 0;
+		error = 0;
+//		double encoderDegrees = angle * TICKS_PER_DEGREE;
+//		setArmPositionScaled(encoderDegrees);
+		
+	}
+	
+	/**
+	 * 
+	 */
+	
+	
 
 	/**
 	 * Controls the arm based on Percent VBUS FOR CALIBRATION ONLY DO NOT USE AT
@@ -66,19 +119,20 @@ public class ArmMotor extends Subsystem {
 	 *            voltage, minimum -0.3 and maximum 0.7
 	 */
 	public void setArmMotorToPercentPower(double percent) {
+
+		SmartDashboard.putNumber("Arm Motor Percent", percent);
 		if (percent > MAX_UP_PERCENT_POWER)
 			percent = MAX_UP_PERCENT_POWER; // Can be +/- 1 after testing
 		if (percent < MAX_DOWN_PERCENT_POWER)
 			percent = MAX_DOWN_PERCENT_POWER;
-		if (percent < .1 && percent > -.1)
-			percent = 0;
+//		if (percent < .1 && percent > -.1) // Need this for joystick deadzone
+//			percent = 0;
 		armMotor1.set(ControlMode.PercentOutput, percent);
 		System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
 				+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
 				+ armMotor1.getBusVoltage() + " V");
-		SmartDashboard.putNumber("Arm Motor Percent", percent);
 	}
-
+	
 	/**
 	 * Returns value of encoder on arm, adjusted for zero degree reference at level.
 	 * Also updates Smart Dashboard. </br>
@@ -151,11 +205,11 @@ public class ArmMotor extends Subsystem {
 	public void armIncrement(int difference, boolean increment) {
 		if (increment) {
 			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - difference)) {
-				setArmAngle(getArmDegrees() - difference);
+				startPID(getArmDegrees() - difference);
 			}
 		} else {
 			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + difference)) {
-				setArmAngle(getArmDegrees() + difference);
+				startPID(getArmDegrees() + difference);
 			}
 		}
 	}
@@ -166,16 +220,6 @@ public class ArmMotor extends Subsystem {
 	 * @param angle
 	 *            desired angle, in degrees
 	 */
-	public void setArmAngle(double angle) {
-		// TODO: add checks to make sure arm does not go outside of safe areas
-		// TODO: integrate checks with piston to avoid penalties for breaking frame
-		// perimeter
-		double encoderDegrees = angle * TICKS_PER_DEGREE;
-		setArmPositionScaled(encoderDegrees);
-		System.out.println("Setting arm to angle. Arm motor " + armMotor1.getDeviceID() + " set to angle " + angle + ", output "
-				+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
-				+ armMotor1.getBusVoltage() + " V");
-		}
 
 	/**
 	 * Sets the position of the arm based on scaled encoder ticks, and converts to
@@ -204,13 +248,7 @@ public class ArmMotor extends Subsystem {
 		}
 	}
 
-	/**
-	 * Sets the position of the arm in degrees according to the smart dashboard
-	 */
-	public void setArmFromSmartDashboard() {
-		double angle = SmartDashboard.getNumber("set Arm Angle", 0);
-		setArmAngle(angle); // For closed-loop testing purposes, passing in encoder values instead of angles
-	}
+	
 
 	/**
 	 * Gets the output voltage of the arm motor.</br>
@@ -278,7 +316,36 @@ public class ArmMotor extends Subsystem {
 				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
 		}
-//		checkEncoder();
+		
+		if(DriverStation.getInstance().isEnabled() && Robot.robotPrefs.armCalibrated && !Robot.armMotor.joystickControl) {
+			//if we are enabled, our arm is calibrated, and we are not trying to control the arm with the joystick, then run this block of code.
+			//this will read calculations from the motion profile and feed them to a pid controller which will calculate a percent power to control 
+			//the arm with.
+			trapezoid.updateProfileCalcs();
+			error =	trapezoid.getCurrentPosition() - getArmDegrees();
+			intError = intError + error*((System.currentTimeMillis() - lastTime)/1000); //measures time since the last periodic run
+			lastTime = System.currentTimeMillis();
+			double percentPower = kF*armMoment*Math.cos(Math.toRadians(getArmDegrees()));
+			//Gain schedule until stuff gets tuned
+			if(finalAngle - initAngle > 0)
+				percentPower += kPu * error + ((error-prevError)*kDu)+(kIu*intError);
+			else
+				percentPower += kPd * error + ((error-prevError)*kDd)+(kId*intError);
+			prevError = error;
+			SmartDashboard.putNumber("PID Error", error);
+			SmartDashboard.putNumber("PID percent power", percentPower);
+			SmartDashboard.putNumber("Profile getCurrentPosition", trapezoid.getCurrentPosition());
+			setArmMotorToPercentPower(percentPower);
+		} else if(!Robot.armMotor.joystickControl) {
+			//if we are not enabled, our arm isn't calibrated and/or we aren't controlling the robot with the joystick, then set power to zero
+			//and periodically reset the pid as it falls back to its default state.
+			setArmMotorToPercentPower(0);
+			if (Robot.robotPrefs.armCalibrated) startPID(getArmDegrees());
+		}else {
+			//if we are neither controlling the robot with the PID loop or disabled, we must be in joystick control mode and therefore we 
+			//should do nothing, letting the joystick control command run
+			if (Robot.robotPrefs.armCalibrated) startPID(getArmDegrees());
+		}
 	}
 
 	public void initDefaultCommand() {
