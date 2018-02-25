@@ -27,6 +27,7 @@ public class ArmMotor extends Subsystem {
 	private final double MAX_UP_PERCENT_POWER = 0.5; // Up these speeds after testing. 0.8 before
 	private final double MAX_DOWN_PERCENT_POWER = -0.3; // -0.5 before
 	
+	//PID values
 	private final double kPu;
 	private final double kIu;
 	private final double kDu;
@@ -38,13 +39,14 @@ public class ArmMotor extends Subsystem {
 	private double finalAngle;
 	private double prevError;
 	private double error;
-	private double intError;
+	private double intError; //integrated error
 	private double armMoment = 19.26*16*19.985/519;//11.87;
 
 	// variables to check if arm Encoder is reliable
 	private double armEncoderStartValue = getArmEncRaw();
 	public boolean joystickControl;
 	
+	double lastTime;
 	int loop = 0;
 	private ArmProfileGenerator trapezoid;
 	private double angle;
@@ -82,6 +84,7 @@ public class ArmMotor extends Subsystem {
 		armMotor1.configPeakOutputForward(MAX_UP_PERCENT_POWER, 10);
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
 		trapezoid = new ArmProfileGenerator(getArmDegrees(), getArmDegrees(), 0, 0, 0);
+		lastTime = System.currentTimeMillis();
 	}
 	
 	/**
@@ -129,7 +132,7 @@ public class ArmMotor extends Subsystem {
 				+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
 				+ armMotor1.getBusVoltage() + " V");
 	}
-
+	
 	/**
 	 * Returns value of encoder on arm, adjusted for zero degree reference at level.
 	 * Also updates Smart Dashboard. </br>
@@ -312,10 +315,16 @@ public class ArmMotor extends Subsystem {
 				// TODO uncomment and test for possible sign error
 				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
-		}if(DriverStation.getInstance().isEnabled()) {
+		}
+		
+		if(DriverStation.getInstance().isEnabled() && Robot.robotPrefs.armCalibrated && !Robot.armMotor.joystickControl) {
+			//if we are enabled, our arm is calibrated, and we are not trying to control the arm with the joystick, then run this block of code.
+			//this will read calculations from the motion profile and feed them to a pid controller which will calculate a percent power to control 
+			//the arm with.
 			trapezoid.updateProfileCalcs();
-			error = 	trapezoid.getCurrentPosition() - getArmDegrees();
-			intError = intError + error*.02;
+			error =	trapezoid.getCurrentPosition() - getArmDegrees();
+			intError = intError + error*(System.currentTimeMillis() - lastTime); //measures time since the last periodic run
+			lastTime = System.currentTimeMillis();
 			double percentPower = kF*armMoment*Math.cos(Math.toRadians(getArmDegrees()));
 			//Gain schedule until stuff gets tuned
 			if(finalAngle - initAngle > 0)
@@ -327,11 +336,16 @@ public class ArmMotor extends Subsystem {
 			SmartDashboard.putNumber("PID percent power", percentPower);
 			SmartDashboard.putNumber("Profile getCurrentPosition", trapezoid.getCurrentPosition());
 			setArmMotorToPercentPower(percentPower);
-		}else {
+		} else if(!Robot.armMotor.joystickControl) {
+			//if we are not enabled, our arm isn't calibrated and/or we aren't controlling the robot with the joystick, then set power to zero
+			//and periodically reset the pid as it falls back to its default state.
 			setArmMotorToPercentPower(0);
+			if (Robot.robotPrefs.armCalibrated) startPID(getArmDegrees());
+		}else {
+			//if we are neither controlling the robot with the PID loop or disabled, we must be in joystick control mode and therefore we 
+			//should do nothing, letting the joystick control command run
+			if (Robot.robotPrefs.armCalibrated) startPID(getArmDegrees());
 		}
-//		checkEncoder();
-		
 	}
 
 	public void initDefaultCommand() {
