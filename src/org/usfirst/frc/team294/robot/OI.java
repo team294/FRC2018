@@ -260,6 +260,12 @@ public class OI {
 		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(.50)); 
 		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));
 		SmartDashboard.putData("Stop Climb Motor", new ClimbSetPercentPower(0));
+		
+		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
+		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
+		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
+		
+		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
 	}
 
 	/**

@@ -108,7 +108,7 @@ public class Claw extends Subsystem {
 		if (photoSwitch.get()) {
 			closeClaw();
 			return true;
-		}
+		} else 
 		return false;
 	}
 	
@@ -128,6 +128,8 @@ public class Claw extends Subsystem {
 	public void periodic() {
 		SmartDashboard.putBoolean("PhotoSwitch Triggered", getPhotoSwitch());
 		SmartDashboard.putBoolean("Cube Present", getBumpSwitch());
+		
+		SmartDashboard.putBoolean("Arm Photo", photoSwitch.get());
 	}
 
 	public void initDefaultCommand() {
