@@ -98,7 +98,9 @@ public class RobotMap {
 	public static double upperBound = 102; // both pistons can be extended between Ang2 and Ang 3
 	public static double maxAngle = 130; // arm cannot extend upward past this angle
 	
-
+	//Auto is different for testing due to lab conditions (big pole exists)
+	//Changes auto for competition settings
+	public static boolean doesBigPoleExist = true;
 	
 	public enum ArmZones {
 		Low, Middle, High, Backwards

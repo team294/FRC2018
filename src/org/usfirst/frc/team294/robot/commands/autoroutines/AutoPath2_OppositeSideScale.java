@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoPath2_OppositeSideScale extends CommandGroup {
 
     public AutoPath2_OppositeSideScale(StartingPosition startPosition) {
+    	int angleMultiplier = 1; 
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -33,17 +34,12 @@ public class AutoPath2_OppositeSideScale extends CommandGroup {
 		addParallel(new ArmMoveToDestAngle(90)); // TODO Change Angle
     	switch (startPosition) {
 		case Left:
-			addSequential(new DriveStraightDistanceProfile(-200, 0, 150, 150));
-			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(-180, 90, 150, 150));
-			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(-50, -45)); // Drive and turn to -45 in one swoop
-			// Backwards dunk cube
-			addSequential(new DriveStraightDistanceProfile(50, 0)); // Drive back to "normal" angle
-			// Do second cube?
+			angleMultiplier = 1; 
+			
 			break;
 		case Right:
-			addSequential(new DriveStraightDistanceProfile(-200, 0, 150, 150));
+			angleMultiplier = -1;
+			/*addSequential(new DriveStraightDistanceProfile(-200, 0, 150, 150));
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(-180, -90, 150, 150));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
@@ -51,9 +47,19 @@ public class AutoPath2_OppositeSideScale extends CommandGroup {
 			//backwards dunk cube
 			addSequential(new DriveStraightDistanceProfile(50, 0)); //drive back to normal angle
 			// do second cube?
+			*/
 			break;
+			
 
 		}
+    	addSequential(new DriveStraightDistanceProfile(-200, 0, 150, 150));
+		addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
+		addSequential(new DriveStraightDistanceProfile(-180, 90 * angleMultiplier, 150, 150));
+		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
+		addSequential(new DriveStraightDistanceProfile(-50, -45 * angleMultiplier)); // Drive and turn to -45 in one swoop
+		// Backwards dunk cube
+		addSequential(new DriveStraightDistanceProfile(50, 0)); // Drive back to "normal" angle
+		// Do second cube?
 
 	}
 }

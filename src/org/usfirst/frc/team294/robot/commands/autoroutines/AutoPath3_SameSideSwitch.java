@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoPath3_SameSideSwitch extends CommandGroup {
 	
 	public AutoPath3_SameSideSwitch(StartingPosition startPosition) {
+		int angleMultiplier = 1;
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());
@@ -29,18 +30,23 @@ public class AutoPath3_SameSideSwitch extends CommandGroup {
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 		switch (startPosition) {
+		
 		case Left:
-			addSequential(new DriveStraightDistanceProfile(-154, 0, 150, 150));
-			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(26, -90));
+			angleMultiplier = 1;
+			
 			break;
 		case Right: 
-			addSequential(new DriveStraightDistanceProfile(-154, 0, 150, 150)); // it should go 157", but due to inconsistency we made it go 154"
-			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
-			addSequential( new DriveStraightDistanceProfile(26, 90));
-			// arm command 
+			angleMultiplier = -1;
+		
 			break;
-
+			
+		default:
+			break;
+			
 		}
+		
+		addSequential(new DriveStraightDistanceProfile(-154, 0, 150, 150));
+		addSequential(new TurnGyro(-90 * angleMultiplier, TurnGyro.Units.Degrees));
+		addSequential(new DriveStraightDistanceProfile(26, -90 * angleMultiplier));
 	}
 }
