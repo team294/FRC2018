@@ -4,7 +4,7 @@ import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ProfileGenerator {
+public class ArmProfileGenerator {
 	
 	public double currentMPDistance;  // Current distance travelled in positive motion profile (always positive)
 	public double targetMPDistance;	  // Target total distance in positive motion profile
@@ -17,6 +17,7 @@ public class ProfileGenerator {
 
 	public double currentAcceleration;
 	public double maxAcceleration;
+	public double stoppingAcceleration;
 
 	public double dt;
 	public double totalTime;
@@ -33,7 +34,7 @@ public class ProfileGenerator {
 	 * @param maxVelocity in inches per second
 	 * @param maxAcceleration in inches per second^2
 	 */
-	public ProfileGenerator(double initialPosition, double finalPosition, double initialVelocity, 
+	public ArmProfileGenerator(double initialPosition, double finalPosition, double initialVelocity, 
 			double maxVelocity, double maxAcceleration) {
 		this.initialPosition = initialPosition;
 		this.finalPosition = finalPosition;
@@ -46,6 +47,7 @@ public class ProfileGenerator {
 		this.currentVelocity = initialVelocity;
 		this.maxVelocity = Math.abs(maxVelocity);
 		this.maxAcceleration = maxAcceleration;
+		stoppingAcceleration = 2*maxAcceleration;
 		
 		// Save starting time
 		startTime = System.currentTimeMillis();
@@ -64,8 +66,8 @@ public class ProfileGenerator {
 		dt = ((double)(tempTime - currentTime))/1000.0;
 		currentTime = tempTime;		
 		
-		double stoppingDistance = 0.5*currentVelocity*currentVelocity/maxAcceleration;
-		if(targetMPDistance - currentMPDistance < stoppingDistance) currentAcceleration = -maxAcceleration;
+		double stoppingDistance = 0.5*currentVelocity*currentVelocity/stoppingAcceleration;
+		if(targetMPDistance - currentMPDistance < stoppingDistance) currentAcceleration = -stoppingAcceleration;
 		else if(currentVelocity < maxVelocity) currentAcceleration = maxAcceleration;
 		else currentAcceleration = 0;
 		

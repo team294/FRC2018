@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		armMotor.joystickControl = false;
 	}
 
 	@Override

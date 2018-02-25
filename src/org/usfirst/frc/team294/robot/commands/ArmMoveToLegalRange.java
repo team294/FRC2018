@@ -25,9 +25,9 @@ public class ArmMoveToLegalRange extends Command {
 		currentAng = (currentAng < RobotMap.minAngle) ? RobotMap.minAngle : currentAng;
 		currentAng = (currentAng > RobotMap.maxAngle) ? RobotMap.maxAngle : currentAng;
 		SmartDashboard.putNumber("Desired Angle", currentAng);
-		Robot.armMotor.setArmAngle(currentAng);
+		Robot.armMotor.startPID(currentAng);
 	}
-
+	//TODO tolcheck
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 	}
