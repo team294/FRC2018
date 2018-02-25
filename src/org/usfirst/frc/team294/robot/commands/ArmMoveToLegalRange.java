@@ -27,7 +27,7 @@ public class ArmMoveToLegalRange extends Command {
 		SmartDashboard.putNumber("Desired Angle", currentAng);
 		Robot.armMotor.startPID(currentAng);
 	}
-
+	//TODO tolcheck
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 	}
