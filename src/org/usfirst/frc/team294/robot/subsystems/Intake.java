@@ -5,6 +5,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -24,6 +25,20 @@ public class Intake extends Subsystem {
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
+
+	public Intake() {
+	intakeMotorLeft.set(ControlMode.PercentOutput, 0);
+	intakeMotorLeft.setNeutralMode(NeutralMode.Coast);
+	intakeMotorLeft.enableVoltageCompensation(true);
+	intakeMotorLeft.configVoltageCompSaturation(11.0, 0);
+	intakeMotorLeft.setInverted(true);
+
+	intakeMotorRight.set(ControlMode.PercentOutput, 0);
+	intakeMotorRight.setNeutralMode(NeutralMode.Coast);
+	intakeMotorRight.enableVoltageCompensation(true);
+	intakeMotorRight.configVoltageCompSaturation(11.0, 0);
+	intakeMotorRight.setInverted(false);
+	}
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
