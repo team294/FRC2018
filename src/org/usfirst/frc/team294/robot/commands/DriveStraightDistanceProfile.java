@@ -46,16 +46,42 @@ public class DriveStraightDistanceProfile extends Command {
 	private final double MPSpeed, MPAccel;
 	private double prevDistanceInches;
 
+	/**
+	 * Drive straight using a motion profile and default speed (80 in/sec) and default acceleration (80 in/sec^2).
+	 * @param distanceTravel Distance to travel, in inches
+	 * @param angleBase Absolute angle for direction of travel, in degrees.  0 = away from drivers,
+	 *   -90 = left (relative to drive stations), +90 = right (relative to drive stations)
+	 */
 	public DriveStraightDistanceProfile(double distanceTravel, double angleBase) {
 		this(distanceTravel, angleBase, 80, 80);
 	}
-
+	
+	/**
+	 * Drive straight using a motion profile.
+	 * @param distanceTravel Distance to travel, in inches
+	 * @param angleBase Absolute angle for direction of travel, in degrees.  0 = away from drivers,
+	 *   -90 = left (relative to drive stations), +90 = right (relative to drive stations)
+	 * @param MPSpeed Speed, in in/sec
+	 * @param MPAccel Acceleration, in in/sec^2
+	 */
 	public DriveStraightDistanceProfile(double distanceTravel, double angleBase, double MPSpeed, double MPAccel) {
 		requires(Robot.driveTrain);
 		this.targetDistance = distanceTravel;
 		this.angleBase = angleBase;
 		this.MPSpeed = MPSpeed;
 		this.MPAccel = MPAccel;
+	}
+	
+	/**
+	 * Drive straight using a motion profile, using parameters from ShuffleBoard
+	 * (DSDP_Distance_inches, DSDP_AngleBase, DSDP_Speed_ips, DSDP_Accel_ips2)
+	 */
+	public DriveStraightDistanceProfile() {
+		requires(Robot.driveTrain);
+		targetDistance = SmartDashboard.getNumber("DSDP_Distance_inches", 0);
+		angleBase = SmartDashboard.getNumber("DSDP_AngleBase", 0);
+		MPSpeed = SmartDashboard.getNumber("DSDP_Speed_ips", 80);
+		MPAccel = SmartDashboard.getNumber("DSDP_Accel_ips2", 80);
 	}
 
 	// Called just before this Command runs the first time
