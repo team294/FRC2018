@@ -323,7 +323,7 @@ public class ArmMotor extends Subsystem {
 			//the arm with.
 			trapezoid.updateProfileCalcs();
 			error =	trapezoid.getCurrentPosition() - getArmDegrees();
-			intError = intError + error*(System.currentTimeMillis() - lastTime); //measures time since the last periodic run
+			intError = intError + error*((System.currentTimeMillis() - lastTime)/1000); //measures time since the last periodic run
 			lastTime = System.currentTimeMillis();
 			double percentPower = kF*armMoment*Math.cos(Math.toRadians(getArmDegrees()));
 			//Gain schedule until stuff gets tuned
