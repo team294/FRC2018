@@ -23,7 +23,7 @@ public class IntakeCube extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.intake.deployIntake();
-    	Robot.intake.openIntake();
+//    	Robot.intake.openIntake();
     	Robot.intake.setIntakeMotorPercent(RobotMap.intakePercentIn);
     	done = false;
     }
