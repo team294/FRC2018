@@ -28,6 +28,7 @@ public class LoadCubeSequence extends CommandGroup {
         // arm.
     	
     	/* These commands are all individual because we want them to finish before we continue on to moving anything else, to avoid impacts */
+    	addSequential(new IntakeSetOpen(true));
     	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
     	addSequential(new ClawSetState(false)); // Close the claw while moving the arm
     	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,true)); // Move the arm to the intake position
