@@ -24,8 +24,8 @@ public class ArmMotor extends Subsystem {
 																		// magnetic encoder
 	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
 
-	private final double MAX_UP_PERCENT_POWER = 0.5; // Up these speeds after testing. 0.8 before
-	private final double MAX_DOWN_PERCENT_POWER = -0.3; // -0.5 before
+	private final double MAX_UP_PERCENT_POWER = 1.0; // Up these speeds after testing. 0.8 before
+	private final double MAX_DOWN_PERCENT_POWER = -1.0; // -0.5 before
 	
 	//PID values
 	private final double kPu;
@@ -96,7 +96,7 @@ public class ArmMotor extends Subsystem {
 		// perimeter
 		initAngle = getArmDegrees();
 		finalAngle = angle;
-		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 90, 50);
+		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 120, 180);
 		intError = 0;
 		prevError = 0;
 		error = 0;
