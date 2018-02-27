@@ -25,14 +25,14 @@ public class PressureSensor extends Subsystem {
     	return voltage;
     }
     
-    public  double getPressure() {
+    public  int getPressure() {			// integer is all the resolution we need for display
     	double voltage = getVoltage();
     	double inputVoltage = 4.8;
     	double pressure = (250 * (voltage / inputVoltage)) - 25;
-    	return pressure;
+    	return (int) pressure;
     }
 
     public void periodic() {
-    	SmartDashboard.putNumber("High Pressure", getPressure());
+    	SmartDashboard.putNumber("High Pressure", getPressure()); 
     }
 }
