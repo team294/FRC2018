@@ -1,15 +1,13 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class ArmMoveAndIntakeCube extends CommandGroup {
+public class LoadCubeForSwitchSequence extends CommandGroup {
 
-    public ArmMoveAndIntakeCube() {
+    public LoadCubeForSwitchSequence() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -26,11 +24,7 @@ public class ArmMoveAndIntakeCube extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
-    	addSequential(new ClawSetState(false));
-    	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,true));
-    	addSequential(new CubePickUp());
-    	
-    	
+    	addSequential(new IntakeCube());
+    	addSequential(new IntakeSetDeploy(true));
     }
 }

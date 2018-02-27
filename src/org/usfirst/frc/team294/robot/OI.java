@@ -216,7 +216,6 @@ public class OI {
 		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,false));
 		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,false));
 
-		SmartDashboard.putData("Move Arm and Intake Cube", new ArmMoveAndIntakeCube());
 
 
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
@@ -248,7 +247,6 @@ public class OI {
 
 		SmartDashboard.putData("Turn with vision" , new TurnGyro());
 
-		SmartDashboard.putData("Pick Up Cube", new CubePickUp());
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
 
@@ -260,6 +258,12 @@ public class OI {
 		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(.50)); 
 		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));
 		SmartDashboard.putData("Stop Climb Motor", new ClimbSetPercentPower(0));
+		
+		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
+		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
+		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
+		
+		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
 	}
 
 	/**
