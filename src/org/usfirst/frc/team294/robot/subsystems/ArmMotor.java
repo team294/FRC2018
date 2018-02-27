@@ -121,16 +121,18 @@ public class ArmMotor extends Subsystem {
 	public void setArmMotorToPercentPower(double percent) {
 
 		SmartDashboard.putNumber("Arm Motor Percent", percent);
-		if (percent > MAX_UP_PERCENT_POWER)
-			percent = MAX_UP_PERCENT_POWER; // Can be +/- 1 after testing
-		if (percent < MAX_DOWN_PERCENT_POWER)
-			percent = MAX_DOWN_PERCENT_POWER;
-//		if (percent < .1 && percent > -.1) // Need this for joystick deadzone
-//			percent = 0;
-		armMotor1.set(ControlMode.PercentOutput, percent);
-		System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
-				+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
-				+ armMotor1.getBusVoltage() + " V");
+		if (getArmDegrees() > RobotMap.armIntakeClearanceAng || Robot.intake.intakeDeployed()) {
+			if (percent > MAX_UP_PERCENT_POWER)
+				percent = MAX_UP_PERCENT_POWER; // Can be +/- 1 after testing
+			if (percent < MAX_DOWN_PERCENT_POWER)
+				percent = MAX_DOWN_PERCENT_POWER;
+//			if (percent < .1 && percent > -.1) // Need this for joystick deadzone
+//				percent = 0;
+			armMotor1.set(ControlMode.PercentOutput, percent);
+			System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
+					+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
+					+ armMotor1.getBusVoltage() + " V");
+		}
 	}
 	
 	/**

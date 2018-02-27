@@ -60,6 +60,9 @@ public class RobotMap {
 	public static double armSwitchPosLow = -5.0;
 	public static double armScaleLowPos = 60.0;
 	public static double armScaleBackwardsPos = 100.0;
+	
+	// Arm interlocking angle
+	public static double armIntakeClearanceAng = -18.0;
 
 	// Arm angle constants
 	public static double degreesPerTicks = 360.0 / 4096.0;

@@ -159,6 +159,10 @@ public class Intake extends Subsystem {
 	public boolean getPhotoSwitch() {
 		return photoSwitch.get();
 	}
+	
+	public boolean intakeDeployed() {
+		return intakeDeployPiston.get();
+	}
 
 	public void periodic() {
 		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
