@@ -30,18 +30,20 @@ public class ArmIntakeCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.claw.clawCloseIfPhotoSwitch(); // Close the claw on the arm when the photoswitch is triggered
     	SmartDashboard.putBoolean("Arm Smart Close Return", Robot.claw.clawCloseIfPhotoSwitch());
     	
-    	if(timeClawClosed == 1000) {
-    		timeClawClosed = Timer.getFPGATimestamp();
+    	// Close the claw on the arm when the photoswitch is triggered
+    	if (Robot.claw.clawCloseIfPhotoSwitch()) {
+    		if(timeClawClosed == 1000) {
+    			timeClawClosed = Timer.getFPGATimestamp();
+    		}
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	// if the claw has been closed 
-    	if (!Robot.claw.getBumpSwitch() || Timer.getFPGATimestamp() >= timeClawClosed + 1) {
+    	if (!Robot.claw.getBumpSwitch() || Timer.getFPGATimestamp() >= (timeClawClosed + 1)) {
     		end();
     		timeClawClosed = 1000;
     		return true;
