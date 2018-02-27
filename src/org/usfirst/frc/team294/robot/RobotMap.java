@@ -40,6 +40,9 @@ public class RobotMap {
 //	public static final int minorPistonRetractedLimitSwitch = 5; 
 //	public static final int minorPistonExtendedLimitSwitch = 6; 
 
+	// RoboRIO analog I/O addresses
+	public static final int pressureSensor = 0;
+	
 	//intake motor speeds
 	public static double intakePercentIn = 0.7; //need to be tested
 	public static double intakePercentOut = -0.4; // Slow speed for outtake
