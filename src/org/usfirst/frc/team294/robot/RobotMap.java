@@ -16,8 +16,8 @@ public class RobotMap {
 	public static final int armMotor2 = 31;
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
-	public static final int intakeMotorLeft = 50;
-	public static final int intakeMotorRight = 51;
+	public static final int intakeMotorLeft = 51;
+	public static final int intakeMotorRight = 50;
 	public static final int climbMotor1 = 60;
 	public static final int climbMotor2 = 61;
 
@@ -33,7 +33,7 @@ public class RobotMap {
 	
 	// RoboRIO digital I/O addresses
 	public static final int majorPistonRetractedLimitSwitch = 5; 
-//	public static final int majorPistonExtendedLimitSwitch = 1; 
+//	public static final int majorPistonExtendedLimitSwitch = 1;
 	public static int photoSwitchIntake = 2;
 	public static int photoSwitchClaw = 3;
 	public static int bumpSwitchClaw = 4;
@@ -44,12 +44,12 @@ public class RobotMap {
 	public static final int pressureSensor = 0;
 	
 	//intake motor speeds
-	public static double intakePercentIn = .7; //need to be tested
-	public static double intakePercentOut = -0.3;
+	public static double intakePercentIn = 0.7; //need to be tested
+	public static double intakePercentOut = -0.4; // Slow speed for outtake
 	
 	//claw motor speeds
-	public static double clawPercentIn = .7; //need to be tested
-	public static double clawPercentOut = -0.3;
+	public static double clawPercentIn = -0.7; //need to be tested
+	public static double clawPercentOut = 0.3;
 	
 
 	// Arm angle thresholds
@@ -63,6 +63,9 @@ public class RobotMap {
 	public static double armSwitchPosLow = -5.0;
 	public static double armScaleLowPos = 60.0;
 	public static double armScaleBackwardsPos = 100.0;
+	
+	// Arm interlocking angle
+	public static double armIntakeClearanceAng = -18.0;
 
 	// Arm angle constants
 	public static double degreesPerTicks = 360.0 / 4096.0;
@@ -100,8 +103,6 @@ public class RobotMap {
 	public static double middleBound = 35; // arm cannot extend between Ang1 and Ang2
 	public static double upperBound = 102; // both pistons can be extended between Ang2 and Ang 3
 	public static double maxAngle = 130; // arm cannot extend upward past this angle
-	
-
 	
 	public enum ArmZones {
 		Low, Middle, High, Backwards

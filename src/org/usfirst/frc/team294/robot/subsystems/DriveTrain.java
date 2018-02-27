@@ -287,4 +287,10 @@ public class DriveTrain extends Subsystem {
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithJoysticks());
 	}
+	
+	public void logMotorCurrents() {
+		Robot.log.writeLog("Left Motor Currents 1 2 3 " + leftMotor1.getOutputCurrent() + leftMotor2.getOutputCurrent() + leftMotor3.getOutputCurrent()
+				+ " Right Motor Currents 1 2 3 " + rightMotor1.getOutputCurrent() + rightMotor2.getOutputCurrent() + rightMotor3.getOutputCurrent());
+
+	}
 }

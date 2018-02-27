@@ -74,12 +74,11 @@ public class AutoSelection {
 	public AutoSelection() {
 		super();
 	}
-
+	
 	public void readGameData() {
 		int programSelected;
 		int fieldLayout;
 		AutoPlan autoPlan;
-
 		Timer timeSinceAutoStart = new Timer();
 		timeSinceAutoStart.start();
 		StartingPosition startPosition = Robot.oi.readStartPosition();

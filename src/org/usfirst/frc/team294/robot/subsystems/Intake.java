@@ -5,6 +5,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -25,23 +26,67 @@ public class Intake extends Subsystem {
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
 
+	public Intake() {
+	intakeMotorLeft.set(ControlMode.PercentOutput, 0);
+	intakeMotorLeft.setNeutralMode(NeutralMode.Coast);
+	intakeMotorLeft.enableVoltageCompensation(true);
+	intakeMotorLeft.configVoltageCompSaturation(11.0, 0);
+	intakeMotorLeft.setInverted(true);
+
+	intakeMotorRight.set(ControlMode.PercentOutput, 0);
+	intakeMotorRight.setNeutralMode(NeutralMode.Coast);
+	intakeMotorRight.enableVoltageCompensation(true);
+	intakeMotorRight.configVoltageCompSaturation(11.0, 0);
+	intakeMotorRight.setInverted(false);
+	}
+
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
+	
+	/**
+	 * Opens the intake jaws
+	 */
 	public void openIntake() {
 		intakeOpenPiston.set(true); // true is open
 	}
 
+	/**
+	 * Closes the intake jaws
+	 */
 	public void closeIntake() {
 		intakeOpenPiston.set(false); // false is close
 	}
 
+	/**
+	 * Deploys the entire intake mechanism
+	 */
 	public void deployIntake() {
 		intakeDeployPiston.set(true); // true is deploy
 	}
 
+	/**
+	 * Retracts the entire intake mechanism
+	 */
 	public void retractIntake() {
 		intakeDeployPiston.set(false); // false is retract
 	}
+	
+	/**
+	 * Deploys or retracts the intake based on parameter
+	 * @param deployed true = deployed, false = retracted
+	 */
+	public void setIntakeDeploy(boolean deployed) {
+		intakeDeployPiston.set(deployed);
+	}
+	
+	/**
+	 * Open or close the jaws on the intake
+	 * @param open true = open, false = close
+	 */
+	public void setIntakeOpen(boolean open) {
+		intakeOpenPiston.set(open);
+	}
+	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
 	// rightPercent) {
 	// intakeMotorLeft.set(ControlMode.PercentOutput, leftPercent);
@@ -81,14 +126,14 @@ public class Intake extends Subsystem {
 	/**
 	 * closes the intake jaws if the photo switch is triggered
 	 * 
-	 * @return true if closed, false if opened
+	 * @return true once claw is closed, false otherwise
 	 */
 	public boolean smartCloseIntake() {
 		// if object is detected with photoSwitch, close the intake
 		if (photoSwitch.get()) {
 			closeIntake();
 			return true;
-		}
+		} else
 		return false;
 	}
 
@@ -97,7 +142,6 @@ public class Intake extends Subsystem {
 	 */
 	public void outtake() {
 		setIntakeMotorPercent(RobotMap.intakePercentOut);
-		openIntake();
 	}
 
 	/**
@@ -115,9 +159,14 @@ public class Intake extends Subsystem {
 	public boolean getPhotoSwitch() {
 		return photoSwitch.get();
 	}
+	
+	public boolean intakeDeployed() {
+		return intakeDeployPiston.get();
+	}
 
 	public void periodic() {
 		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
+		SmartDashboard.putBoolean("Intake Photo", photoSwitch.get());
 	}
 
 	public void initDefaultCommand() {

@@ -7,8 +7,8 @@ import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * If starting on left or right, moves past baseline
- * If starting from middle, moves around pile of cubes and crosses baseline
+ * If starting on left or right, moves past baseline If starting from middle,
+ * moves around pile of cubes and crosses baseline
  */
 public class AutoPath7_Baseline extends CommandGroup {
 
@@ -24,5 +24,7 @@ public class AutoPath7_Baseline extends CommandGroup {
 		default:
 			addSequential(new DriveStraightDistanceProfile(-120, 0));
 		}
-	}
+	}	
 }
+
+// Grant's a cool guy.

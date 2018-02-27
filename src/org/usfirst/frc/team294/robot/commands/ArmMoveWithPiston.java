@@ -68,6 +68,6 @@ public class ArmMoveWithPiston extends CommandGroup {
 	 * @param position desired angle, from RobotMap.ArmPositions
 	 */
 	public ArmMoveWithPiston(ArmPositions position) {
-		this(position.getAngle(), true);
+		this(position.getAngle(), false);
 	}
 }

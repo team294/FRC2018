@@ -147,6 +147,8 @@ public class DriveStraightDistanceProfile extends Command {
 				+ ",distSpeedControl," + distSpeedControl + ",MPVelocity," + trapezoid.getCurrentVelocity()
 				+ ",tolCheckerValue," + tolCheck.success() + ",velCheckAverage," + velCheck.getAverage());
 
+		Robot.driveTrain.logMotorCurrents();
+		
 		SmartDashboard.putNumber("Distance Calculated", MPCurrentDistance);
 		SmartDashboard.putNumber("Distance Error", targetDistance - currentDistanceInches);
 		SmartDashboard.putNumber("Actual Distance", currentDistance);
