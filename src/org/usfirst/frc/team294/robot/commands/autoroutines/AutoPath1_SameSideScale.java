@@ -19,67 +19,24 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 			break;
 		case Right:
 			angleMultiplier = -1;
-			
-			
-			
-			/*addSequential(new DriveStraightDistanceProfile(-252, -5, 150, 150));
-			addSequential(new TurnGyro(-45, TurnGyro.Units.Degrees));
-			// Score Cube 1
-			addSequential(new TurnGyro(45, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(30, 45));
-			addSequential(new DriveStraightDistanceProfile(15, 0));
-			// Grab second cube
-			addSequential(new DriveStraightDistanceProfile(-20, 45));
-			addSequential(new DriveStraightDistanceProfile(-60, -45));
-			*/
-			
-			
-			
-			// Dunk second cube
 			break;
-			
-////			addSequential(new TurnGyro(-15 , TurnGyro.Units.Degrees));
-//			addSequential(new DriveStraightDistanceProfile(252,  -5)); //265
-//			addSequential(new TurnGyro(-45 , TurnGyro.Units.Degrees));
-//			// Score Cube
-//			addSequential(new TurnGyro(-120, TurnGyro.Units.Degrees));
-//			addSequential(new DriveStraightDistanceProfile(50, -120));
-//			addSequential(new TurnGyro(-180, TurnGyro.Units.Degrees));
-//			addSequential(new DriveStraightDistanceProfile(20, -180));
-//			// Grab Cube
-//			addSequential(new DriveStraightDistanceProfile(-20, -115));
-//			addSequential(new DriveStraightDistanceProfile(-20, -225));
-//			// Score Cube 2 Backwards
-			
-			// Dunk second cube
 		default:
 			break;
-			
-			
-			
-				
-	// Old reference code
-	////		addSequential(new TurnGyro(-15 , TurnGyro.Units.Degrees));
-	//		addSequential(new DriveStraightDistanceProfile(252,  -5)); //265
-	//		addSequential(new TurnGyro(-45 , TurnGyro.Units.Degrees));
-	//		// Score Cube
-	//		addSequential(new TurnGyro(-120, TurnGyro.Units.Degrees));
-	//		addSequential(new DriveStraightDistanceProfile(50, -120));
-	//		addSequential(new TurnGyro(-180, TurnGyro.Units.Degrees));
-	//		addSequential(new DriveStraightDistanceProfile(20, -180));
-	//		// Grab Cube
-	//		addSequential(new DriveStraightDistanceProfile(-20, -115));
-	//		addSequential(new DriveStraightDistanceProfile(-20, -225));
-	//		// Score Cube 2 Backwards
-			
 		}
+		
 		addSequential(new DriveStraightDistanceProfile(-252, 0, 150, 150));
 		addSequential(new TurnGyro(45 * angleMultiplier, TurnGyro.Units.Degrees));
+		
 		// Score cube 1
+		
 		addSequential(new TurnGyro(-45 * angleMultiplier, TurnGyro.Units.Degrees));
 		addSequential(new DriveStraightDistanceProfile(30, -45 * angleMultiplier));
-		addSequential(new DriveStraightDistanceProfile(15, 0));
+		// TODO We should TurnGyro before going from 45 degrees to 0 degrees
+		addSequential(new DriveStraightDistanceProfile(15, 0));  
+		// TODO We should TurnGyro before going from 0 degrees to 45 degrees
+		
 		// Grab second cube
+		
 		addSequential(new DriveStraightDistanceProfile(-20, -45 * angleMultiplier));
 		addSequential(new DriveStraightDistanceProfile(-60, 45 * angleMultiplier ));
 	}
