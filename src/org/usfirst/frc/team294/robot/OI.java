@@ -153,22 +153,22 @@ public class OI {
 		//xbB[1].whenPressed(new Command()); // Lower intake mechanism
 		//xbB[2].whenPressed(new PistonCommand()); // Arm Piston actuation
 		//xbB[3].whenPressed(new PistonCommand()); // Arm Piston actuation
-		//xbB[4].whenPressed(new Command()); // Raise intake mechanism
-		xbB[5].whenPressed(new LoadCubeSequence()); // Intake sequence
-		xbB[6].whenPressed(new PassiveOuttake()); // Outtake
+		xbB[4].whenPressed(new ClawSetState(true)); // Open Claw
+		xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
+		xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence
 		//xbB[7].whenPressed(new ClimbCommand()); // Reserved for climbing
 		//xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
-		xbB[9].whenPressed(new StopIntakeAndClaw()); // Stop flywheels
-		//xbB[10].whenPressed(new OverrideCommand()); // Override climb OR arm
+		//xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
+		xbB[10].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
 
-		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to scale backwards
-		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
+		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));  // Arm to intake position 
+		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to scale backwards
 		xbPovLeft.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to switch position
-		xbPovRight.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to alternate scale position
+		xbPovRight.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to scale fowards
 
 		// Xbox triggers
-		//xbLT.whenActive(new Command()); // Prepare to score cube (rev up flywheels), alternate climb/arm override
-		//xbRT.whenActive(new Command()); // Score cube
+		xbLT.whenActive(new ArmPistonSmartExtend()); // Prepare to score cube (rev up flywheels), alternate climb/arm override
+		xbRT.whenActive(new CubeShootOut()); // Score cube
 
 		Button armButton2 = new JoystickButton(armJoystick,2);
 		Button armButton3 = new JoystickButton(armJoystick,3);
@@ -215,8 +215,9 @@ public class OI {
 		SmartDashboard.putData("Score Forwards in Scale (extend)", new ArmMoveWithPiston(RobotMap.armScaleLowPos,true));
 		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,false));
 		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,false));
-
-
+		
+		SmartDashboard.putData("Arm Intake Cube", new ArmIntakeCube());
+		SmartDashboard.putData("Intake Set State", new IntakeSetDeploy(false));
 
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
 		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControlJoystick());
@@ -230,6 +231,8 @@ public class OI {
 		SmartDashboard.putData("Move Piston Within Parameters", new ArmMoveToLegalRange());
 
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
+		
+		SmartDashboard.putData("Retract Arm Pistons", new ArmPistonsRetract());
 
 		SmartDashboard.putData("DriveStraightDistanceProfile", new DriveStraightDistanceProfile(30, 0));
 

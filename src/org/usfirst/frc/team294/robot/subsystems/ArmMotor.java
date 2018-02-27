@@ -95,14 +95,22 @@ public class ArmMotor extends Subsystem {
 		// TODO: integrate checks with piston to avoid penalties for breaking frame
 		// perimeter
 		initAngle = getArmDegrees();
-		finalAngle = angle;
-		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 90, 50);
 		intError = 0;
 		prevError = 0;
 		error = 0;
+		if (!Robot.intake.intakeDeployed()) {
+			if (initAngle > RobotMap.armIntakeClearanceAng) {
+				if (angle <= RobotMap.armIntakeClearanceAng) {
+					angle = RobotMap.armIntakeClearanceAng;
+				}
+			} else {
+				angle = initAngle;
+			}
+		}
+		finalAngle = angle;
+		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 90, 50);
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;
 //		setArmPositionScaled(encoderDegrees);
-		
 	}
 	
 	/**
@@ -121,17 +129,17 @@ public class ArmMotor extends Subsystem {
 	public void setArmMotorToPercentPower(double percent) {
 
 		SmartDashboard.putNumber("Arm Motor Percent", percent);
-		if (percent > MAX_UP_PERCENT_POWER)
-			percent = MAX_UP_PERCENT_POWER; // Can be +/- 1 after testing
-		if (percent < MAX_DOWN_PERCENT_POWER)
-			percent = MAX_DOWN_PERCENT_POWER;
-//		if (percent < .1 && percent > -.1) // Need this for joystick deadzone
-//			percent = 0;
-		armMotor1.set(ControlMode.PercentOutput, percent);
-		System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
-				+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
-				+ armMotor1.getBusVoltage() + " V");
-	}
+			if (percent > MAX_UP_PERCENT_POWER)
+				percent = MAX_UP_PERCENT_POWER; // Can be +/- 1 after testing
+			if (percent < MAX_DOWN_PERCENT_POWER)
+				percent = MAX_DOWN_PERCENT_POWER;
+//			if (percent < .1 && percent > -.1) // Need this for joystick deadzone
+//				percent = 0;
+			armMotor1.set(ControlMode.PercentOutput, percent);
+			System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
+					+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
+					+ armMotor1.getBusVoltage() + " V");
+		}
 	
 	/**
 	 * Returns value of encoder on arm, adjusted for zero degree reference at level.
