@@ -25,7 +25,7 @@ public class PressureSensor extends Subsystem {
     	return voltage;
     }
     
-    public double getPressure() {
+    public  double getPressure() {
     	double voltage = getVoltage();
     	double inputVoltage = 4.8;
     	double pressure = (250 * (voltage / inputVoltage)) - 25;
