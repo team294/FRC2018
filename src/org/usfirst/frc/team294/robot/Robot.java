@@ -59,6 +59,8 @@ public class Robot extends TimedRobot {
 		claw = new Claw();
 		climb = new Climb();
 		intake = new Intake();
+		
+		// armMotor.armMotorsCurrentProtection();    needs to be tested
 
 		// Create auto selection utility
 		autoSelection = new AutoSelection();
