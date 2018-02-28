@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team294.robot.commands.autoroutines.*;
+import org.usfirst.frc.team294.robot.subsystems.PressureSensor;
 import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
 import org.usfirst.frc.team294.robot.triggers.POVTrigger;
 import org.usfirst.frc.team294.utilities.AutoSelection;
@@ -215,8 +216,9 @@ public class OI {
 		SmartDashboard.putData("Score Forwards in Scale (extend)", new ArmMoveWithPiston(RobotMap.armScaleLowPos,true));
 		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,false));
 		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,false));
-
-
+		
+		SmartDashboard.putData("Arm Intake Cube", new ArmIntakeCube());
+		SmartDashboard.putData("Intake Set State", new IntakeSetDeploy(false));
 
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
 		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControlJoystick());
@@ -261,11 +263,13 @@ public class OI {
 		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));
 		SmartDashboard.putData("Stop Climb Motor", new ClimbSetPercentPower(0));
 		
+
 		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
 		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
 		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
 		
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
+
 	}
 
 	/**

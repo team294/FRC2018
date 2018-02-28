@@ -24,6 +24,8 @@ public class Robot extends TimedRobot {
 	public static Intake intake;
 	public static OI oi;
 	public static Climb climb;
+	public static PressureSensor pressureSensor;
+	
 
 	public static FileLog log;
 	public static RobotPreferences robotPrefs;
@@ -59,7 +61,7 @@ public class Robot extends TimedRobot {
 		claw = new Claw();
 		climb = new Climb();
 		intake = new Intake();
-
+		pressureSensor = new PressureSensor();
 		// Create auto selection utility
 		autoSelection = new AutoSelection();
 

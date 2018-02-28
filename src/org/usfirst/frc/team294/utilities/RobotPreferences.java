@@ -11,6 +11,7 @@ public class RobotPreferences {
 	/*
 	 * all of the robot preferences
 	 */
+	public boolean inBCRLab;			// Set true if in the BCR lab (with a big pole in the middle of the field)
 	public boolean prototypeRobot;		// Set true if using code for prototype bots, false for practice and competition bots
 	public boolean driveDirection;		// true for reversed
 	public double wheelCircumference;	// wheel circumference, in inches
@@ -33,6 +34,7 @@ public class RobotPreferences {
 	 * Re-reads the robot preferences.
 	 */
 	public void refresh() {
+		inBCRLab = prefs.getBoolean("inBCRLab", false);
 		prototypeRobot = prefs.getBoolean("prototypeRobot", false); // true if testing code on a prototype, default to false (competition bot)
 		driveDirection = prefs.getBoolean("driveDirection", true);
 		wheelCircumference = prefs.getDouble("wheelDiameter", 6) * Math.PI;		
