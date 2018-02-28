@@ -218,7 +218,9 @@ public class OI {
 		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,false));
 		
 		SmartDashboard.putData("Arm Intake Cube", new ArmIntakeCube());
-		SmartDashboard.putData("Intake Set State", new IntakeSetDeploy(false));
+		SmartDashboard.putData("Intake Retract", new IntakeSetDeploy(false));
+		SmartDashboard.putData("Intake Deploy", new IntakeSetDeploy(true));
+		
 
 		//SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new ArmControl());
 		SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControlJoystick());

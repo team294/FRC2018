@@ -63,13 +63,6 @@ public class Intake extends Subsystem {
 	public void deployIntake() {
 		intakeDeployPiston.set(true); // true is deploy
 	}
-
-	/**
-	 * Retracts the entire intake mechanism
-	 */
-	public void retractIntake() {
-		intakeDeployPiston.set(false); // false is retract
-	}
 	
 	/**
 	 * Deploys or retracts the intake based on parameter
@@ -77,6 +70,9 @@ public class Intake extends Subsystem {
 	 */
 	public void setIntakeDeploy(boolean deployed) {
 		intakeDeployPiston.set(deployed);
+		if(!deployed) {
+			stop();
+		}
 	}
 	
 	/**

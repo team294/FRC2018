@@ -23,7 +23,7 @@ public class Shifter extends Subsystem {
 	 *            true for high gear, false for low gear
 	 */
 	public void setShift(boolean high) {
-		shifter.set(high ? false : true); // shifter false is high gear, shifter true is low gear
+		shifter.set(high ? false : true); // shifter true is high gear, shifter false is low gear
 		// TODO re-test shifter booleans (whether false is high gear)
 	}
 

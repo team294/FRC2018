@@ -53,7 +53,7 @@ public class ArmProfileGenerator {
 		startTime = System.currentTimeMillis();
 		currentTime = startTime;
 		
-		Robot.log.writeLogEcho("Profile generator,init pos," + initialPosition + ",final pos," + finalPosition );
+//		Robot.log.writeLogEcho("Profile generator,init pos," + initialPosition + ",final pos," + finalPosition );
 	}
 
 	/**

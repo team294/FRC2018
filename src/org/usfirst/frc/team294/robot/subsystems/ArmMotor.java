@@ -85,6 +85,7 @@ public class ArmMotor extends Subsystem {
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
 		trapezoid = new ArmProfileGenerator(getArmDegrees(), getArmDegrees(), 0, 0, 0);
 		lastTime = System.currentTimeMillis();
+		
 	}
 	
 	/**
@@ -353,12 +354,19 @@ public class ArmMotor extends Subsystem {
 			//if we are neither controlling the robot with the PID loop or disabled, we must be in joystick control mode and therefore we 
 			//should do nothing, letting the joystick control command run
 			if (Robot.robotPrefs.armCalibrated) startPID(getArmDegrees());
+			//TODO change all arm commands to run until angle is met
 		}
 	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new UpdateArmSmartDashboard());
+	}
+	
+	public void logMotorCurrents() {
+		Robot.log.writeLog("Arm motor 1 output Voltage " + armMotor1.getMotorOutputVoltage() + ",Arm motor 2 output Voltage " + armMotor2.getMotorOutputVoltage()
+		+ ",Arm motor 1 current " + armMotor1.getOutputCurrent() + ",ArmMotor 2 current " + armMotor2.getOutputCurrent());
+
 	}
 
 }
