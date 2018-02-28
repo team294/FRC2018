@@ -14,6 +14,7 @@ public class IntakeSetDeploy extends Command {
     public IntakeSetDeploy(boolean deploy) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.intake);
     	deployed = deploy;
     }
 

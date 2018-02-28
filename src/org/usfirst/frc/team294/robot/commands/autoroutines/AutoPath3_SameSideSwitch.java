@@ -2,9 +2,11 @@ package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
+import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -23,9 +25,13 @@ public class AutoPath3_SameSideSwitch extends CommandGroup {
 		default:
 			break;
 		}
-		
-		addSequential(new DriveStraightDistanceProfile(-154, 0, 150, 150));
+		addParallel(new IntakeSetDeploy(true));
+		addSequential(new DriveStraightDistanceProfile(-154, 0, 35, 150));
+		addParallel(new ArmMoveWithPiston(0, false));
 		addSequential(new TurnGyro(-90 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(26, -90 * angleMultiplier));
+		addParallel(new IntakeSetDeploy(false));
+		addSequential(new WaitCommand(.2));
+		addSequential(new DriveStraightDistanceProfile(30, -90 * angleMultiplier));  // 24 inches is just shy of the switch (really nice)
+		addSequential(new CubeLetGo());
 	}
 }
