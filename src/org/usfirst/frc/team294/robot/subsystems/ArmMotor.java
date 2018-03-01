@@ -364,8 +364,8 @@ public class ArmMotor extends Subsystem {
 	}
 	
 	public void logMotorCurrents() {
-		Robot.log.writeLog("Arm motor 1 output Voltage " + armMotor1.getMotorOutputVoltage() + ",Arm motor 2 output Voltage " + armMotor2.getMotorOutputVoltage()
-		+ ",Arm motor 1 current " + armMotor1.getOutputCurrent() + ",ArmMotor 2 current " + armMotor2.getOutputCurrent());
+		Robot.log.writeLog("Arm motor 1 output Voltage," + armMotor1.getMotorOutputVoltage() + ",Arm motor 2 output Voltage," + armMotor2.getMotorOutputVoltage()
+		+ ",Arm motor 1 current," + armMotor1.getOutputCurrent() + ",ArmMotor 2 current," + armMotor2.getOutputCurrent());
 
 	}
 
