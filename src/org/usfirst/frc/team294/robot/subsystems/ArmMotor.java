@@ -3,8 +3,8 @@ package org.usfirst.frc.team294.robot.subsystems;
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.ArmMotorSetToZero;
-import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot;
-import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
+//import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot;
+//import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
 import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -360,6 +360,9 @@ public class ArmMotor extends Subsystem {
 			//should do nothing, letting the joystick control command run
 			if (Robot.robotPrefs.armCalibrated) startPID(getArmDegrees());
 		}
+		
+		SmartDashboard.putNumber("Arm Left Motor voltage", armMotor1.getMotorOutputVoltage());
+		SmartDashboard.putNumber("Arm Left Motor current", armMotor1.getOutputCurrent());
 	}
 
 	public void initDefaultCommand() {

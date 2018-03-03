@@ -54,6 +54,7 @@ public class Intake extends Subsystem {
 	 */
 	public void intakeMotorsCurrentProtection(){
 		intakeMotorLeftCurrentTrigger.whenActive(new IntakeMotorSetToZero());
+		intakeMotorRightCurrentTrigger.whenActive(new IntakeMotorSetToZero());
 	}
 	
 	/**
@@ -176,6 +177,10 @@ public class Intake extends Subsystem {
 	public void periodic() {
 		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
 		SmartDashboard.putBoolean("Intake Photo", photoSwitch.get());
+		SmartDashboard.putNumber("Intake Left Motor voltage", intakeMotorLeft.getMotorOutputVoltage());
+		SmartDashboard.putNumber("Intake Right Motor voltage", intakeMotorRight.getMotorOutputVoltage());
+		SmartDashboard.putNumber("Intake Left Motor current", intakeMotorLeft.getOutputCurrent());
+		SmartDashboard.putNumber("Intake Right Motor current", intakeMotorRight.getOutputCurrent());
 	}
 
 	public void initDefaultCommand() {

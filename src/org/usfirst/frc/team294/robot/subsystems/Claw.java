@@ -51,6 +51,7 @@ public class Claw extends Subsystem {
 	 */
 	public void clawMotorsCurrentProtection(){
 		clawMotorLeftCurrentTrigger.whenActive(new ClawMotorSetToZero());
+		clawMotorRightCurrentTrigger.whenActive(new ClawMotorSetToZero());
 	}
 
 	// Put methods for controlling this subsystem
@@ -143,6 +144,11 @@ public class Claw extends Subsystem {
 		SmartDashboard.putBoolean("Cube Present", getBumpSwitch());
 		
 		SmartDashboard.putBoolean("Arm Photo", photoSwitch.get());
+		
+		SmartDashboard.putNumber("Claw Left Motor voltage", clawMotorLeft.getMotorOutputVoltage());
+		SmartDashboard.putNumber("Claw Right Motor voltage", clawMotorRight.getMotorOutputVoltage());
+		SmartDashboard.putNumber("Claw Left Motor current", clawMotorLeft.getOutputCurrent());
+		SmartDashboard.putNumber("Claw Right Motor current", clawMotorRight.getOutputCurrent());
 	}
 
 	public void initDefaultCommand() {
