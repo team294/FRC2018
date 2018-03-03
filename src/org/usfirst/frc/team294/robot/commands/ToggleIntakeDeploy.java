@@ -17,11 +17,19 @@ public class ToggleIntakeDeploy extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeDeploy(true);
+    	if(Robot.intake.intakeDeployed())
+    	{
+    		Robot.intake.setIntakeDeploy(false);
+    	}
+    	else
+    	{
+    		Robot.intake.setIntakeDeploy(true);
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -31,12 +39,12 @@ public class ToggleIntakeDeploy extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.setIntakeDeploy(false);
+    	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
+    	
     }
 }
