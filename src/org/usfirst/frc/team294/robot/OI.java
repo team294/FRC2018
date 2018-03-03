@@ -110,18 +110,15 @@ public class OI {
 				//right[i].whenPressed();  // Automatic cube pick up with vision
 				//left[i].whenPressed();  // Automatic cube pick up with vision
 			} else if (i == 3) {
-				right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive direction
-				left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive direction
+				//right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive direction
+				//left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive direction
 			} else if (i == 2) {
-				//right[i].whenPressed(); // Auto driving routines
-				//left[i].whenPressed(); // Auto driving routines
+				right[i].whenPressed(new Shift(false));
+				left[i].whenPressed(new Shift(true));
 			} else if (i == 4 || i == 5) {
 				right[i].whenPressed(new DriveWithJoysticks());
 				left[i].whenPressed(new DriveWithJoysticks());
-			} else {
-				right[i].whenPressed(new Shift(true));
-				left[i].whenPressed(new Shift(false));
-			}
+			} 
 		}
 
 		// Declare codriver panel switches
