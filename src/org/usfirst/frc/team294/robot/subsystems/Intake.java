@@ -58,41 +58,20 @@ public class Intake extends Subsystem {
 	}
 	
 	/**
-	 * Opens the intake jaws
-	 */
-	public void openIntake() {
-		intakeOpenPiston.set(true); // true is open
-	}
-
-	/**
-	 * Closes the intake jaws
-	 */
-	public void closeIntake() {
-		intakeOpenPiston.set(false); // false is close
-	}
-
-	/**
-	 * Deploys the entire intake mechanism
-	 */
-	public void deployIntake() {
-		if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
-			intakeDeployPiston.set(true); // true is deploy
-		} else if (Robot.armMotor.getArmDegrees() > (RobotMap.minAngle - 3) && Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
-			intakeDeployPiston.set(true); //true is deploy
-		} else {
-			intakeDeployPiston.set(false);
-		}
-	}
-	
-	/**
 	 * Deploys or retracts the intake based on parameter
 	 * @param deployed true = deployed, false = retracted
 	 */
 	public void setIntakeDeploy(boolean deployed) {
-		intakeDeployPiston.set(deployed);
-		if(!deployed) {
-			stop();
+		if(deployed) {
+			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
+				intakeDeployPiston.set(!deployed);
+			} else if (Robot.armMotor.getArmDegrees() > (RobotMap.minAngle - 3) && Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
+				intakeDeployPiston.set(!deployed);
+			}
+		} else {
+			intakeDeployPiston.set(deployed);
 		}
+		stop();
 	}
 	
 	/**
@@ -100,7 +79,12 @@ public class Intake extends Subsystem {
 	 * @param open true = open, false = close
 	 */
 	public void setIntakeOpen(boolean open) {
-		intakeOpenPiston.set(open);
+		if (open) {
+			intakeOpenPiston.set(open);
+		} else {
+			intakeOpenPiston.set(!open);
+		}
+		stop();
 	}
 	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
@@ -147,7 +131,7 @@ public class Intake extends Subsystem {
 	public boolean smartCloseIntake() {
 		// if object is detected with photoSwitch, close the intake
 		if (photoSwitch.get()) {
-			closeIntake();
+			setIntakeOpen(false);
 			return true;
 		} else
 		return false;
