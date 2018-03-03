@@ -64,6 +64,8 @@ public class Robot extends TimedRobot {
 		pressureSensor = new PressureSensor();
 		
 		// armMotor.armMotorsCurrentProtection();    needs to be tested
+		intake.intakeMotorsCurrentProtection();
+		claw.clawMotorsCurrentProtection();
 
 		// Create auto selection utility
 		autoSelection = new AutoSelection();

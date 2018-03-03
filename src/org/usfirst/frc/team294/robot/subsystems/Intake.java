@@ -29,8 +29,8 @@ public class Intake extends Subsystem {
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
 	
-	public final MotorCurrentTrigger intakeMotorLeftCurrentTrigger =  new MotorCurrentTrigger(intakeMotorLeft, 20, 2);
-	public final MotorCurrentTrigger intakeMotorRightCurrentTrigger =  new MotorCurrentTrigger(intakeMotorRight, 20, 2);
+	public final MotorCurrentTrigger intakeMotorLeftCurrentTrigger =  new MotorCurrentTrigger(intakeMotorLeft, 8, 4);
+	public final MotorCurrentTrigger intakeMotorRightCurrentTrigger =  new MotorCurrentTrigger(intakeMotorRight, 8, 4);
 
 	public Intake() {
 	intakeMotorLeft.set(ControlMode.PercentOutput, 0);

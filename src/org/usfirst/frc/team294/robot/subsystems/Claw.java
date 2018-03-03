@@ -27,8 +27,8 @@ public class Claw extends Subsystem {
 	private final TalonSRX clawMotorLeft = new TalonSRX(RobotMap.clawMotorLeft);
 	private final TalonSRX clawMotorRight = new TalonSRX(RobotMap.clawMotorRight);
 	
-	public final MotorCurrentTrigger clawMotorLeftCurrentTrigger =  new MotorCurrentTrigger(clawMotorLeft, 20, 2);
-	public final MotorCurrentTrigger clawMotorRightCurrentTrigger =  new MotorCurrentTrigger(clawMotorRight, 20, 2);
+	public final MotorCurrentTrigger clawMotorLeftCurrentTrigger =  new MotorCurrentTrigger(clawMotorLeft, 8, 4);
+	public final MotorCurrentTrigger clawMotorRightCurrentTrigger =  new MotorCurrentTrigger(clawMotorRight, 8, 4);
 	
 	public Claw() {
 		// Configure talons
