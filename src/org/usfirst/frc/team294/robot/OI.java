@@ -154,6 +154,7 @@ public class OI {
 		//xbB[1].whenPressed(new Command()); // Lower intake mechanism
 		//xbB[2].whenPressed(new PistonCommand()); // Arm Piston actuation
 		//xbB[3].whenPressed(new PistonCommand()); // Arm Piston actuation
+		xbB[2].whenPressed(new StopIntakeAndClaw()); // Stops all flywheels
 		xbB[4].whenPressed(new ClawSetState(true)); // Open Claw
 		xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
 		xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence
