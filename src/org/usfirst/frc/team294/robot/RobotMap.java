@@ -58,11 +58,11 @@ public class RobotMap {
 		
 
 	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
-	public static double armIntakePos = -50.0;
+	public static double armIntakePos = -53.0;
 	public static double armSwitchPosHigh = 5.0;
 	public static double armSwitchPosLow = -5.0;
-	public static double armScaleLowPos = 60.0;
-	public static double armScaleBackwardsPos = 100.0;
+	public static double armScaleLowPos = 80.0;
+	public static double armScaleBackwardsPos = 110.0;
 	
 	// Arm interlocking angle
 	public static double armIntakeClearanceAng = -18.0;
