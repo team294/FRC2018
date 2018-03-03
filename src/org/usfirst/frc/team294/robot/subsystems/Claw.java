@@ -2,6 +2,9 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.ArmMotorSetToZero;
+import org.usfirst.frc.team294.robot.commands.ClawMotorSetToZero;
+import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -24,6 +27,9 @@ public class Claw extends Subsystem {
 	private final TalonSRX clawMotorLeft = new TalonSRX(RobotMap.clawMotorLeft);
 	private final TalonSRX clawMotorRight = new TalonSRX(RobotMap.clawMotorRight);
 	
+	public final MotorCurrentTrigger clawMotorLeftCurrentTrigger =  new MotorCurrentTrigger(clawMotorLeft, 20, 2);
+	public final MotorCurrentTrigger clawMotorRightCurrentTrigger =  new MotorCurrentTrigger(clawMotorRight, 20, 2);
+	
 	public Claw() {
 		// Configure talons
 		clawMotorLeft.set(ControlMode.PercentOutput, 0);
@@ -39,6 +45,13 @@ public class Claw extends Subsystem {
 		clawMotorRight.configVoltageCompSaturation(11.0, 0);
 		clawMotorRight.configOpenloopRamp(0.2, 0);
 	}
+	
+	/**
+	 * Adds current protection to the claw motor. If the claw motor trips this, the claw will stop
+	 */
+	public void clawMotorsCurrentProtection(){
+		clawMotorLeftCurrentTrigger.whenActive(new ClawMotorSetToZero());
+	}
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -47,7 +60,7 @@ public class Claw extends Subsystem {
 		if (currentAngle <= RobotMap.angleClawCloseHigh && currentAngle >= RobotMap.angleClawCloseLow) {
 		}
 		else { */ // no longer need keep-out zone
-			clawPiston.set(true); // true is extend
+		clawPiston.set(true); // true is extend
 		//}
 	}
 
