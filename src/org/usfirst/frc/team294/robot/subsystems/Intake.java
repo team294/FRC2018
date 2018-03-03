@@ -64,11 +64,11 @@ public class Intake extends Subsystem {
 	public void setIntakeDeploy(boolean deployed) {
 		if (!deployed) {
 			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
-				intakeDeployPiston.set(!deployed);
-			} else if (Robot.armMotor.getArmDegrees() > (RobotMap.minAngle - 3) && Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
-				intakeDeployPiston.set(!deployed);
+				intakeDeployPiston.set(deployed);
+			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
+				intakeDeployPiston.set(deployed);
 			} else {
-			intakeDeployPiston.set(deployed);
+				intakeDeployPiston.set(!deployed);
 			}
 		} else {
 			intakeDeployPiston.set(deployed);
@@ -81,11 +81,7 @@ public class Intake extends Subsystem {
 	 * @param open true = open, false = close
 	 */
 	public void setIntakeOpen(boolean open) {
-		if (open) {
-			intakeOpenPiston.set(open);
-		} else {
-			intakeOpenPiston.set(!open);
-		}
+		intakeOpenPiston.set(open);
 		stop();
 	}
 	
