@@ -24,32 +24,15 @@ public class ArmMoveWithPiston extends CommandGroup {
 	 *            piston
 	 */
 	public ArmMoveWithPiston(double destAngle, boolean finalPistonPosition) {
-		// destAngle = SmartDashboard.getNumber("Desired Arm Angle (Piston Version)",
-		// 0);
-		// requires(Robot.protoArmMotor);
-		addSequential(new LogMessage("Arm Move started, angle = " + destAngle + ", finalPistonPosition = " + finalPistonPosition, true));
+		addSequential(new LogMessage("Arm Move,1,started,dest angle," + destAngle + ",finalPistonPosition," + finalPistonPosition, true));
 		addSequential(new ArmMoveToLegalRange());
-		addSequential(new LogMessage("Arm Move: in legal range", true));
+		addSequential(new LogMessage("Arm Move,2,in legal range", true));
 		addParallel(new ArmMoveToEdge(destAngle));
 		addSequential(new ArmPistonSmartRetract(destAngle, finalPistonPosition));
-		addSequential(new LogMessage("Arm Move: smart retract done", true));
+		addSequential(new LogMessage("Arm Move,3,smart retract done", true));
 		if (finalPistonPosition) addParallel(new ArmPistonSmartExtendInDestZone(destAngle));
 		addSequential(new ArmMoveToDestAngle(destAngle));
-		addSequential(new LogMessage("Arm Move: at dest angle", true));
-		
-		// }
-
-		/*
-		 * if (RobotMap.getArmZone(currentAngle) == RobotMap.getArmZone(destAngle)) {
-		 * addParallel(new ArmMoveToDestAngle(destAngle)); if (finalPistonPosition) {
-		 * addSequential(new ArmPistonSmartExtend()); } } else { addParallel(new
-		 * ArmMoveToEdge(destAngle)); addSequential(new ArmPistonRetractBoth());
-		 * addParallel(new ArmMoveToDestAngle(destAngle)); addSequential(new
-		 * ArmPistonSmartExtendInDestZone(destAngle));
-		 * 
-		 * }
-		 */
-
+		addSequential(new LogMessage("Arm Move,4,at dest angle", true));
 	}
 	
 	/**
