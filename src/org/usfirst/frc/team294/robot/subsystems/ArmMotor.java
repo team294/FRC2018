@@ -120,6 +120,8 @@ public class ArmMotor extends Subsystem {
 				angle = initAngle;
 			}
 		}
+		SmartDashboard.putNumber("arm initial angle", initAngle);
+		SmartDashboard.putNumber("arm target angle", angle);
 		finalAngle = angle;
 		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 120, 120);
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;
@@ -149,9 +151,9 @@ public class ArmMotor extends Subsystem {
 //			if (percent < .1 && percent > -.1) // Need this for joystick deadzone
 //				percent = 0;
 			armMotor1.set(ControlMode.PercentOutput, percent);
-			System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
-					+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
-					+ armMotor1.getBusVoltage() + " V");
+//			System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
+//					+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
+//					+ armMotor1.getBusVoltage() + " V");
 		}
 	
 	/**
