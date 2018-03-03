@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveStraightDistanceProfile extends Command {
 
+	private boolean driveUsingDashboardParams = false;
 	private double distErr = 0;
 	private double targetDistance, currentDistance;
 	private ToleranceChecker tolCheck;
@@ -43,7 +44,7 @@ public class DriveStraightDistanceProfile extends Command {
 	private double minSpeed = .1;
 	private double angleBase;
 	private ProfileGenerator trapezoid;
-	private final double MPSpeed, MPAccel;
+	private double MPSpeed, MPAccel;
 	private double prevDistanceInches;
 
 	/**
@@ -66,6 +67,7 @@ public class DriveStraightDistanceProfile extends Command {
 	 */
 	public DriveStraightDistanceProfile(double distanceTravel, double angleBase, double MPSpeed, double MPAccel) {
 		requires(Robot.driveTrain);
+		driveUsingDashboardParams = false;
 		this.targetDistance = distanceTravel;
 		this.angleBase = angleBase;
 		this.MPSpeed = MPSpeed;
@@ -78,16 +80,21 @@ public class DriveStraightDistanceProfile extends Command {
 	 */
 	public DriveStraightDistanceProfile() {
 		requires(Robot.driveTrain);
-		targetDistance = SmartDashboard.getNumber("DSDP_Distance_inches", 0);
-		angleBase = SmartDashboard.getNumber("DSDP_AngleBase", 0);
-		MPSpeed = SmartDashboard.getNumber("DSDP_Speed_ips", 80);
-		MPAccel = SmartDashboard.getNumber("DSDP_Accel_ips2", 80);
+		driveUsingDashboardParams = true;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		// distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
 		Robot.log.writeLog("DriveStraightdistanceProfile instantiated");
+		
+		if (driveUsingDashboardParams) {
+			targetDistance = SmartDashboard.getNumber("DSDP_Distance_inches", 0);
+			angleBase = SmartDashboard.getNumber("DSDP_AngleBase", 0);
+			MPSpeed = SmartDashboard.getNumber("DSDP_Speed_ips", 80);
+			MPAccel = SmartDashboard.getNumber("DSDP_Accel_ips2", 80);			
+		}
+		
 		distErr = 0;
 		prevDistErr = 0;
 		angleErr = 0;
@@ -132,7 +139,7 @@ public class DriveStraightDistanceProfile extends Command {
 			// Swap curve correction when in reverse
 
 			Robot.driveTrain.driveAtCurve(distSpeedControl, curve);
-			velCheck.addValue(targetDistance - currentDistanceInches);
+			velCheck.addValue(prevDistanceInches - currentDistanceInches);
 			prevDistErr = distErr;
 
 			double diffInches = currentDistanceInches - prevDistanceInches;
@@ -162,7 +169,7 @@ public class DriveStraightDistanceProfile extends Command {
 			SmartDashboard.putNumber("fSet Distance", targetDistance);
 			SmartDashboard.putNumber("fActual Distance", currentDistance);
 		}
-		return Math.abs(velCheck.getAverage()) < 1 || success;
+		return Math.abs(velCheck.getAverage()) < 0.1 || success;
 	}
 
 	// Called once after isFinished returns true

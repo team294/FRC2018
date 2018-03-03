@@ -7,20 +7,17 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeSetDeploy extends Command {
+public class ArmPistonsRetract extends Command {
 
-	boolean deployed;
-	
-    public IntakeSetDeploy(boolean deploy) {
+    public ArmPistonsRetract() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
-    	deployed = deploy;
+    	requires(Robot.armPiston);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeDeploy(deployed);
+		Robot.armPiston.smartRetract();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -29,7 +26,7 @@ public class IntakeSetDeploy extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true; // Write a test to see if intake changes state?
+        return true;
     }
 
     // Called once after isFinished returns true

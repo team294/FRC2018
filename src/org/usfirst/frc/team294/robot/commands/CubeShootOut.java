@@ -13,7 +13,7 @@ public class CubeShootOut extends Command {
 
 	private double leftPercent = 100; // may want to have different speeds
 	private double rightPercent = 100;
-	private double timeShot = 1000;
+	private double timeShot = 0;
 
 	public CubeShootOut() {
 		// Use requires() here to declare subsystem dependencies
@@ -26,23 +26,17 @@ public class CubeShootOut extends Command {
 	protected void initialize() {
 		Robot.claw.setClawMotorToPercentPower(leftPercent, rightPercent);
 		Robot.intake.setIntakeMotorPercent(leftPercent);
-		
+		timeShot = Timer.getFPGATimestamp();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.claw.setClawMotorToPercentPower(leftPercent, rightPercent);
-		if (timeShot == 1000) {
-			timeShot = Timer.getFPGATimestamp();
-		} else {
-		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		if ((!Robot.claw.getPhotoSwitch() && Timer.getFPGATimestamp() >= timeShot + 2) || Timer.getFPGATimestamp() >= timeShot + 3) {
-			end();
-			timeShot = 1000;
 			return true;
 		} else {
 			return false;

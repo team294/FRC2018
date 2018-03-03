@@ -24,6 +24,8 @@ public class Robot extends TimedRobot {
 	public static Intake intake;
 	public static OI oi;
 	public static Climb climb;
+	public static PressureSensor pressureSensor;
+	
 
 	public static FileLog log;
 	public static RobotPreferences robotPrefs;
@@ -59,6 +61,7 @@ public class Robot extends TimedRobot {
 		claw = new Claw();
 		climb = new Climb();
 		intake = new Intake();
+		pressureSensor = new PressureSensor();
 		
 		// armMotor.armMotorsCurrentProtection();    needs to be tested
 
@@ -112,7 +115,7 @@ public class Robot extends TimedRobot {
 
 		// schedule the autonomous command
 		if (autoSelection.autonomousCommand != null) {
-			Command shiftLow = new Shift(false);
+			Command shiftLow = new Shift(true);
 			shiftLow.start();
 			autoSelection.autonomousCommand.start();
 		}

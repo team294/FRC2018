@@ -77,13 +77,6 @@ public class Intake extends Subsystem {
 	public void deployIntake() {
 		intakeDeployPiston.set(true); // true is deploy
 	}
-
-	/**
-	 * Retracts the entire intake mechanism
-	 */
-	public void retractIntake() {
-		intakeDeployPiston.set(false); // false is retract
-	}
 	
 	/**
 	 * Deploys or retracts the intake based on parameter
@@ -91,6 +84,9 @@ public class Intake extends Subsystem {
 	 */
 	public void setIntakeDeploy(boolean deployed) {
 		intakeDeployPiston.set(deployed);
+		if(!deployed) {
+			stop();
+		}
 	}
 	
 	/**
@@ -172,6 +168,10 @@ public class Intake extends Subsystem {
 	 */
 	public boolean getPhotoSwitch() {
 		return photoSwitch.get();
+	}
+	
+	public boolean intakeDeployed() {
+		return intakeDeployPiston.get();
 	}
 
 	public void periodic() {
