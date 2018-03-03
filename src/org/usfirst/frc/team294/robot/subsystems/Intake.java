@@ -62,11 +62,13 @@ public class Intake extends Subsystem {
 	 * @param deployed true = deployed, false = retracted
 	 */
 	public void setIntakeDeploy(boolean deployed) {
-		if(deployed) {
+		if (!deployed) {
 			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
 				intakeDeployPiston.set(!deployed);
 			} else if (Robot.armMotor.getArmDegrees() > (RobotMap.minAngle - 3) && Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
 				intakeDeployPiston.set(!deployed);
+			} else {
+			intakeDeployPiston.set(deployed);
 			}
 		} else {
 			intakeDeployPiston.set(deployed);
