@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,10 +19,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Intake extends Subsystem {
-
+	
 	private final Solenoid intakeOpenPiston = new Solenoid(RobotMap.pneumaticIntakePistonOpen);
-	private final Solenoid intakeDeployPiston = new Solenoid(RobotMap.pneumaticIntakePistonDeploy);
-
+	//private final Solenoid intakeDeployPiston = new Solenoid(RobotMap.pneumaticIntakePistonDeploy);
+	private final DoubleSolenoid intakeDeployPiston = new DoubleSolenoid(RobotMap.pneumaticIntakePistonDeploy1, RobotMap.pneumaticIntakePistonDeploy2);
+	
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
@@ -61,14 +63,14 @@ public class Intake extends Subsystem {
 	 * Deploys the entire intake mechanism
 	 */
 	public void deployIntake() {
-		intakeDeployPiston.set(true); // true is deploy
+		intakeDeployPiston.set(DoubleSolenoid.Value.kForward); // true is deploy
 	}
 
 	/**
 	 * Retracts the entire intake mechanism
 	 */
 	public void retractIntake() {
-		intakeDeployPiston.set(false); // false is retract
+		intakeDeployPiston.set(DoubleSolenoid.Value.kReverse); // false is retract
 	}
 	
 	/**
@@ -76,7 +78,13 @@ public class Intake extends Subsystem {
 	 * @param deployed true = deployed, false = retracted
 	 */
 	public void setIntakeDeploy(boolean deployed) {
-		intakeDeployPiston.set(deployed);
+		if(deployed) {
+			intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
+		}
+		else {
+			intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);	
+		}
+		
 	}
 	
 	/**
