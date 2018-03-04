@@ -41,6 +41,7 @@ public class IntakeShootOut extends Command {
     	if ((!Robot.claw.getPhotoSwitch() && Timer.getFPGATimestamp() >= timeShot + 2) || Timer.getFPGATimestamp() >= timeShot + 3) {
 			end();
 			timeShot = 1000;
+			Robot.intake.updateCubeStatus();
 			return true;
 		} else {
 			return false;
