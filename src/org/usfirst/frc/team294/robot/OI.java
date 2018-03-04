@@ -110,18 +110,15 @@ public class OI {
 				//right[i].whenPressed();  // Automatic cube pick up with vision
 				//left[i].whenPressed();  // Automatic cube pick up with vision
 			} else if (i == 3) {
-				right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive direction
-				left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive direction
+				//right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive direction
+				//left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive direction
 			} else if (i == 2) {
-				//right[i].whenPressed(); // Auto driving routines
-				//left[i].whenPressed(); // Auto driving routines
+				right[i].whenPressed(new Shift(false));
+				left[i].whenPressed(new Shift(true));
 			} else if (i == 4 || i == 5) {
 				right[i].whenPressed(new DriveWithJoysticks());
 				left[i].whenPressed(new DriveWithJoysticks());
-			} else {
-				right[i].whenPressed(new Shift(true));
-				left[i].whenPressed(new Shift(false));
-			}
+			} 
 		}
 
 		// Declare codriver panel switches
@@ -153,7 +150,7 @@ public class OI {
 		// Xbox controller buttons
 		//xbB[1].whenPressed(new Command()); // Lower intake mechanism
 		//xbB[2].whenPressed(new PistonCommand()); // Arm Piston actuation
-		//xbB[3].whenPressed(new PistonCommand()); // Arm Piston actuation
+		xbB[3].whenPressed(new LoadCubeForSwitchSequence()); // Partial intake (load cube to intake only, not to claw)
 		xbB[4].whenPressed(new ClawSetState(true)); // Open Claw
 		xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
 		xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence

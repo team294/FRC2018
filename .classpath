@@ -11,5 +11,7 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar" sourcepath="/CTRE_Phoenix.sources"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
 	<classpathentry kind="var" path="rxtx"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/cscore-jni-1.1.0-20180104003536-all.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/ntcore-jni-4.0.0-20180104003424-all.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
