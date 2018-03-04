@@ -25,7 +25,7 @@ public class OuttakeAll extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	//addParallel(new IntakeShootOut()); //need to write correct intake out sequence TODO
+    	addParallel(new IntakeShootOut()); //need to write correct intake out sequence TODO
     	addSequential(new CubeShootOut()); 
     	
     }
