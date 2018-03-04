@@ -28,7 +28,8 @@ public class RobotMap {
 	public static final int pneumaticIntakePistonOpen = 2;
 	public static final int pneumaticClawPistonOut = 3;
 	public static final int pneumaticArmPistonMinorOut = 6;	
-	public static final int pneumaticIntakePistonDeploy = 1;
+	public static final int pneumaticIntakePistonDeploy1 = 1; 
+	public static final int pneumaticIntakePistonDeploy2 = 7;
 
 	
 	// RoboRIO digital I/O addresses

@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,10 +22,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Intake extends Subsystem {
-
+	private boolean deployed = false; 
+	
 	private final Solenoid intakeOpenPiston = new Solenoid(RobotMap.pneumaticIntakePistonOpen);
-	private final Solenoid intakeDeployPiston = new Solenoid(RobotMap.pneumaticIntakePistonDeploy);
-
+	//private final Solenoid intakeDeployPiston = new Solenoid(RobotMap.pneumaticIntakePistonDeploy);
+	private final DoubleSolenoid intakeDeployPiston = new DoubleSolenoid(RobotMap.pneumaticIntakePistonDeploy1, RobotMap.pneumaticIntakePistonDeploy2);
+	
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
@@ -75,18 +78,30 @@ public class Intake extends Subsystem {
 	 * Deploys the entire intake mechanism
 	 */
 	public void deployIntake() {
-		intakeDeployPiston.set(true); // true is deploy
+		intakeDeployPiston.set(DoubleSolenoid.Value.kForward); // true is deploy
 	}
+
+	/**
+	 * Retracts the entire intake mechanism
+	 */
+	public void retractIntake() {
+		intakeDeployPiston.set(DoubleSolenoid.Value.kReverse); // false is retract
+	}
+
 	
 	/**
 	 * Deploys or retracts the intake based on parameter
 	 * @param deployed true = deployed, false = retracted
 	 */
 	public void setIntakeDeploy(boolean deployed) {
-		intakeDeployPiston.set(deployed);
-		if(!deployed) {
+		if(deployed) {
+			intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
+		}
+		else {
+			intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
 			stop();
 		}
+		this.deployed = deployed;
 	}
 	
 	/**
@@ -171,7 +186,7 @@ public class Intake extends Subsystem {
 	}
 	
 	public boolean intakeDeployed() {
-		return intakeDeployPiston.get();
+		return deployed;
 	}
 
 	public void periodic() {
