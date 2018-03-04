@@ -26,6 +26,8 @@ public class Robot extends TimedRobot {
 	public static Climb climb;
 	public static PressureSensor pressureSensor;
 	
+	
+	
 
 	public static FileLog log;
 	public static RobotPreferences robotPrefs;
@@ -47,6 +49,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		// Create the log file first, so that any other code can use the file log
 		log = new FileLog();
+		cubeInIntake= false;
 		
 		// Read robot preferences **before** creating subsystems, so subsytems can use the preferences
 		robotPrefs = new RobotPreferences();
@@ -122,7 +125,9 @@ public class Robot extends TimedRobot {
 			autoSelection.autonomousCommand.start();
 		}
 	}
-
+	
+	
+	
 	/**
 	 * This function is called periodically during autonomous.
 	 */

@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,11 +24,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake extends Subsystem {
 
 	private final Solenoid intakeOpenPiston = new Solenoid(RobotMap.pneumaticIntakePistonOpen);
-	private final Solenoid intakeDeployPiston = new Solenoid(RobotMap.pneumaticIntakePistonDeploy);
+	private final DoubleSolenoid intakeDeployPiston = new DoubleSolenoid(RobotMap.pneumaticIntakePistonDeploy, RobotMap.pneumaticIntakePistonStow);  // Forward = deployed
 
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
+	public static boolean cubeInIntake;
+
 	
 	public final MotorCurrentTrigger intakeMotorLeftCurrentTrigger =  new MotorCurrentTrigger(intakeMotorLeft, 8, 4);
 	public final MotorCurrentTrigger intakeMotorRightCurrentTrigger =  new MotorCurrentTrigger(intakeMotorRight, 8, 4);
@@ -44,6 +47,7 @@ public class Intake extends Subsystem {
 	intakeMotorRight.enableVoltageCompensation(true);
 	intakeMotorRight.configVoltageCompSaturation(11.0, 0);
 	intakeMotorRight.setInverted(false);
+	cubeInIntake = false;
 	}
 
 	// Put methods for controlling this subsystem
@@ -58,35 +62,22 @@ public class Intake extends Subsystem {
 	}
 	
 	/**
-	 * Opens the intake jaws
-	 */
-	public void openIntake() {
-		intakeOpenPiston.set(true); // true is open
-	}
-
-	/**
-	 * Closes the intake jaws
-	 */
-	public void closeIntake() {
-		intakeOpenPiston.set(false); // false is close
-	}
-
-	/**
-	 * Deploys the entire intake mechanism
-	 */
-	public void deployIntake() {
-		intakeDeployPiston.set(true); // true is deploy
-	}
-	
-	/**
 	 * Deploys or retracts the intake based on parameter
 	 * @param deployed true = deployed, false = retracted
 	 */
 	public void setIntakeDeploy(boolean deployed) {
-		intakeDeployPiston.set(deployed);
-		if(!deployed) {
-			stop();
+		if (!deployed) {
+			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+			} else {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
+			}
+		} else {
+			intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
 		}
+		stop();
 	}
 	
 	/**
@@ -95,6 +86,14 @@ public class Intake extends Subsystem {
 	 */
 	public void setIntakeOpen(boolean open) {
 		intakeOpenPiston.set(open);
+		stop();
+	}
+	
+	public void updateCubeStatus() {
+		cubeInIntake = !cubeInIntake;
+	}
+	public boolean isCubeInIntake() {
+		return cubeInIntake;
 	}
 	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
@@ -141,7 +140,7 @@ public class Intake extends Subsystem {
 	public boolean smartCloseIntake() {
 		// if object is detected with photoSwitch, close the intake
 		if (photoSwitch.get()) {
-			closeIntake();
+			setIntakeOpen(false);
 			return true;
 		} else
 		return false;
@@ -171,7 +170,7 @@ public class Intake extends Subsystem {
 	}
 	
 	public boolean intakeDeployed() {
-		return intakeDeployPiston.get();
+		return intakeDeployPiston.get() == DoubleSolenoid.Value.kForward;
 	}
 
 	public void periodic() {
@@ -182,6 +181,7 @@ public class Intake extends Subsystem {
 		SmartDashboard.putNumber("Intake Left Motor current", intakeMotorLeft.getOutputCurrent());
 		SmartDashboard.putNumber("Intake Right Motor current", intakeMotorRight.getOutputCurrent());
 	}
+	
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

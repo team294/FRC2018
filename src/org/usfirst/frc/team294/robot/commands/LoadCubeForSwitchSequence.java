@@ -13,6 +13,7 @@ public class LoadCubeForSwitchSequence extends CommandGroup {
 	 * aka "partial intake"
 	 */
     public LoadCubeForSwitchSequence() {
+
     	addSequential(new ClawSetState(false));
     	addSequential(new IntakeSetOpen(true));
     	addSequential(new WaitCommand(.75));
