@@ -148,7 +148,7 @@ public class OI {
 		coP[14].whenPressed(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to alternate scale position
 
 		// Xbox controller buttons
-		xbB[1].whenPressed(new IntakeCube()); //grabs cube fully
+		xbB[1].whenPressed(new LoadCubeSequence()); //grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClaw()); // Stops all flywheels
 		xbB[3].whenPressed(new LoadCubeForSwitchSequence()); // Partial intake (load cube to intake only, not to claw)
 		xbB[4].whenPressed(new ClawSetState(true)); // Open Claw

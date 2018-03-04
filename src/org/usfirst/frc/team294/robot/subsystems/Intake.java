@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake extends Subsystem {
 
 	private final Solenoid intakeOpenPiston = new Solenoid(RobotMap.pneumaticIntakePistonOpen);
-	private final Solenoid intakeDeployPiston = new Solenoid(RobotMap.pneumaticIntakePistonDeploy);
+	private final DoubleSolenoid intakeDeployPiston = new DoubleSolenoid(RobotMap.pneumaticIntakePistonDeploy, RobotMap.pneumaticIntakePistonStow);  // Forward = deployed
 
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
@@ -64,14 +65,14 @@ public class Intake extends Subsystem {
 	public void setIntakeDeploy(boolean deployed) {
 		if (!deployed) {
 			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
-				intakeDeployPiston.set(deployed);
+				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
 			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
-				intakeDeployPiston.set(deployed);
+				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
 			} else {
-				intakeDeployPiston.set(!deployed);
+				intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
 			}
 		} else {
-			intakeDeployPiston.set(deployed);
+			intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
 		}
 		stop();
 	}
@@ -159,7 +160,7 @@ public class Intake extends Subsystem {
 	}
 	
 	public boolean intakeDeployed() {
-		return intakeDeployPiston.get();
+		return intakeDeployPiston.get() == DoubleSolenoid.Value.kForward;
 	}
 
 	public void periodic() {
