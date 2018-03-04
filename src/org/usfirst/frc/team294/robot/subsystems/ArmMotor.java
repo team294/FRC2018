@@ -2,6 +2,10 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.ArmMotorSetToZero;
+//import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot;
+//import org.usfirst.frc.team294.robot.commands.ConveyorSetFromRobot.States;
+import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
@@ -19,13 +23,14 @@ public class ArmMotor extends Subsystem {
 
 	private final TalonSRX armMotor1 = new TalonSRX(RobotMap.armMotor1);
 	private final TalonSRX armMotor2 = new TalonSRX(RobotMap.armMotor2);
-
+	public final MotorCurrentTrigger armMotor1CurrentTrigger =  new MotorCurrentTrigger(armMotor1, 20, 2);
+	
 	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks; // Put in robot.preferences or change proto arm to
 																		// magnetic encoder
 	private final double TICKS_PER_DEGREE = 1.0 / RobotMap.degreesPerTicks;
 
-	private final double MAX_UP_PERCENT_POWER = 0.5; // Up these speeds after testing. 0.8 before
-	private final double MAX_DOWN_PERCENT_POWER = -0.3; // -0.5 before
+	private final double MAX_UP_PERCENT_POWER = 1.0; // Up these speeds after testing. 0.8 before
+	private final double MAX_DOWN_PERCENT_POWER = -1.0; // -0.5 before
 	
 	//PID values
 	private final double kPu;
@@ -85,6 +90,14 @@ public class ArmMotor extends Subsystem {
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
 		trapezoid = new ArmProfileGenerator(getArmDegrees(), getArmDegrees(), 0, 0, 0);
 		lastTime = System.currentTimeMillis();
+		
+	}
+	
+	/**
+	 * Adds current protection to the arm motor. If the arm motor trips this, the arm will stop
+	 */
+	public void armMotorsCurrentProtection(){
+		armMotor1CurrentTrigger.whenActive(new ArmMotorSetToZero());
 	}
 	
 	/**
@@ -95,14 +108,24 @@ public class ArmMotor extends Subsystem {
 		// TODO: integrate checks with piston to avoid penalties for breaking frame
 		// perimeter
 		initAngle = getArmDegrees();
-		finalAngle = angle;
-		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 90, 50);
 		intError = 0;
 		prevError = 0;
 		error = 0;
+		if (!Robot.intake.intakeDeployed()) {
+			if (initAngle > RobotMap.armIntakeClearanceAng) {
+				if (angle <= RobotMap.armIntakeClearanceAng) {
+					angle = RobotMap.armIntakeClearanceAng;
+				}
+			} else {
+				angle = initAngle;
+			}
+		}
+		SmartDashboard.putNumber("arm initial angle", initAngle);
+		SmartDashboard.putNumber("arm target angle", angle);
+		finalAngle = angle;
+		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 120, 120);
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;
 //		setArmPositionScaled(encoderDegrees);
-		
 	}
 	
 	/**
@@ -121,17 +144,17 @@ public class ArmMotor extends Subsystem {
 	public void setArmMotorToPercentPower(double percent) {
 
 		SmartDashboard.putNumber("Arm Motor Percent", percent);
-		if (percent > MAX_UP_PERCENT_POWER)
-			percent = MAX_UP_PERCENT_POWER; // Can be +/- 1 after testing
-		if (percent < MAX_DOWN_PERCENT_POWER)
-			percent = MAX_DOWN_PERCENT_POWER;
-//		if (percent < .1 && percent > -.1) // Need this for joystick deadzone
-//			percent = 0;
-		armMotor1.set(ControlMode.PercentOutput, percent);
-		System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
-				+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
-				+ armMotor1.getBusVoltage() + " V");
-	}
+			if (percent > MAX_UP_PERCENT_POWER)
+				percent = MAX_UP_PERCENT_POWER; // Can be +/- 1 after testing
+			if (percent < MAX_DOWN_PERCENT_POWER)
+				percent = MAX_DOWN_PERCENT_POWER;
+//			if (percent < .1 && percent > -.1) // Need this for joystick deadzone
+//				percent = 0;
+			armMotor1.set(ControlMode.PercentOutput, percent);
+//			System.out.println("Arm motor " + armMotor1.getDeviceID() + " set to percent " + percent + ", output "
+//					+ armMotor1.getMotorOutputVoltage() + " V," + armMotor1.getOutputCurrent() + " A, Bus at "
+//					+ armMotor1.getBusVoltage() + " V");
+		}
 	
 	/**
 	 * Returns value of encoder on arm, adjusted for zero degree reference at level.
@@ -303,6 +326,8 @@ public class ArmMotor extends Subsystem {
 			SmartDashboard.putNumber("Arm Motor Error", armMotor1.getClosedLoopError(0));
 			SmartDashboard.putNumber("Arm Motor Target", armMotor1.getClosedLoopTarget(0));
 		}
+		SmartDashboard.putNumber("Arm Motor 1 Current", armMotor1.getOutputCurrent());
+		SmartDashboard.putNumber("Arm Motor 2 Current", armMotor2.getOutputCurrent());
 	}
 
 	public void periodic() {
@@ -345,12 +370,22 @@ public class ArmMotor extends Subsystem {
 			//if we are neither controlling the robot with the PID loop or disabled, we must be in joystick control mode and therefore we 
 			//should do nothing, letting the joystick control command run
 			if (Robot.robotPrefs.armCalibrated) startPID(getArmDegrees());
+			//TODO change all arm commands to run until angle is met
 		}
+		
+		SmartDashboard.putNumber("Arm Left Motor voltage", armMotor1.getMotorOutputVoltage());
+		SmartDashboard.putNumber("Arm Left Motor current", armMotor1.getOutputCurrent());
 	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new UpdateArmSmartDashboard());
+	}
+	
+	public void logMotorCurrents() {
+		Robot.log.writeLog("Arm motor 1 output Voltage," + armMotor1.getMotorOutputVoltage() + ",Arm motor 2 output Voltage," + armMotor2.getMotorOutputVoltage()
+		+ ",Arm motor 1 current," + armMotor1.getOutputCurrent() + ",ArmMotor 2 current," + armMotor2.getOutputCurrent());
+
 	}
 
 }

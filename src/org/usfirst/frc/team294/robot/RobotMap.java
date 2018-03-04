@@ -41,6 +41,9 @@ public class RobotMap {
 //	public static final int minorPistonRetractedLimitSwitch = 5; 
 //	public static final int minorPistonExtendedLimitSwitch = 6; 
 
+	// RoboRIO analog I/O addresses
+	public static final int pressureSensor = 0;
+	
 	//intake motor speeds
 	public static double intakePercentIn = 0.7; //need to be tested
 	public static double intakePercentOut = -0.4; // Slow speed for outtake
@@ -56,11 +59,14 @@ public class RobotMap {
 		
 
 	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
-	public static double armIntakePos = -50.0;
+	public static double armIntakePos = -53.0;
 	public static double armSwitchPosHigh = 5.0;
 	public static double armSwitchPosLow = -5.0;
-	public static double armScaleLowPos = 60.0;
-	public static double armScaleBackwardsPos = 100.0;
+	public static double armScaleLowPos = 80.0;
+	public static double armScaleBackwardsPos = 110.0;
+	
+	// Arm interlocking angle
+	public static double armIntakeClearanceAng = -18.0;
 
 	// Arm angle constants
 	public static double degreesPerTicks = 360.0 / 4096.0;
@@ -98,8 +104,6 @@ public class RobotMap {
 	public static double middleBound = 35; // arm cannot extend between Ang1 and Ang2
 	public static double upperBound = 102; // both pistons can be extended between Ang2 and Ang 3
 	public static double maxAngle = 130; // arm cannot extend upward past this angle
-	
-
 	
 	public enum ArmZones {
 		Low, Middle, High, Backwards

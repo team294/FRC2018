@@ -21,7 +21,7 @@ public class ArmMotorControlJoystick extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.armMotor.joystickControl=true;
-		double armVal = Robot.oi.armJoystick.getY();
+		double armVal = Robot.oi.xboxController.getY();
 		Robot.armMotor.setArmMotorToPercentPower(armVal);
 		Robot.armMotor.updateSmartDashboard();
 	}
