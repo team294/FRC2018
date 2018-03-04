@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class IntakeShootOut extends Command {
 
-	private double leftPercent = 100; // may want to have different speeds
-	private double rightPercent = 100;
+	private double leftPercent = -100; // may want to have different speeds
+	private double rightPercent = -100;
 	private double timeShot = 1000;
 	
     public IntakeShootOut() {
@@ -41,6 +41,7 @@ public class IntakeShootOut extends Command {
     	if ((!Robot.claw.getPhotoSwitch() && Timer.getFPGATimestamp() >= timeShot + 2) || Timer.getFPGATimestamp() >= timeShot + 3) {
 			end();
 			timeShot = 1000;
+			Robot.intake.updateCubeStatus();
 			return true;
 		} else {
 			return false;
