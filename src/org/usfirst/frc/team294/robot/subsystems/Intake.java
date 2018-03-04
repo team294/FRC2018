@@ -35,13 +35,13 @@ public class Intake extends Subsystem {
 
 	public Intake() {
 	intakeMotorLeft.set(ControlMode.PercentOutput, 0);
-	intakeMotorLeft.setNeutralMode(NeutralMode.Coast);
+	intakeMotorLeft.setNeutralMode(NeutralMode.Brake);
 	intakeMotorLeft.enableVoltageCompensation(true);
 	intakeMotorLeft.configVoltageCompSaturation(11.0, 0);
 	intakeMotorLeft.setInverted(true);
 
 	intakeMotorRight.set(ControlMode.PercentOutput, 0);
-	intakeMotorRight.setNeutralMode(NeutralMode.Coast);
+	intakeMotorRight.setNeutralMode(NeutralMode.Brake);
 	intakeMotorRight.enableVoltageCompensation(true);
 	intakeMotorRight.configVoltageCompSaturation(11.0, 0);
 	intakeMotorRight.setInverted(false);
@@ -92,7 +92,6 @@ public class Intake extends Subsystem {
 	 */
 	public void setIntakeOpen(boolean open) {
 		intakeOpenPiston.set(open);
-		stop();
 	}
 	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
