@@ -10,27 +10,11 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 /**
  *
  */
-public class SmartShoot extends CommandGroup {
+public class ArmSmartShoot extends CommandGroup {
 
-	ArmZones currentZone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
-	boolean intakePosition = Robot.intake.intakeDeployed();
-	
-	
-	
-    public SmartShoot() {
-    	
-    	addSequential(new ConditionalCommand(new ArmSmartShoot(), new ConditionalCommand(new Intake_Score(), new OuttakeAll()) { 
-			protected boolean condition() {
-				return Robot.intake.isCubeInIntake();
-			}} )	{
-			protected boolean condition() {
-				return Robot.claw.getPhotoSwitch();
-			}
-		});
-    	
-    	
+    public ArmSmartShoot() {
         // Add Commands here:
-        // e.g. addSequential(new Command1());	
+        // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
 
@@ -46,6 +30,13 @@ public class SmartShoot extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	
+    	addSequential(new ConditionalCommand(new OuttakeAll(), new ConditionalCommand(new ClawSetState(true), new CubeShootOut()) { 
+			protected boolean condition() {
+				return (RobotMap.getArmZone(Robot.armMotor.getArmDegrees()) == ArmZones.Middle);
+			}} )	{
+			protected boolean condition() {
+				return (RobotMap.getArmZone(Robot.armMotor.getArmDegrees()) == ArmZones.Low);
+			}
+		});
     }
 }
