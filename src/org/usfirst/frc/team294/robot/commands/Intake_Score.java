@@ -15,7 +15,7 @@ public class Intake_Score extends CommandGroup {
     	//addSequential(new IntakeSetDeploy(true)); // may want to add this if intake is up when running shoot command
         addParallel(new ClawSetMotorSpeed(0));
         addSequential(new IntakeCubeGrab());
-        addSequential(new IntakeSetDeploy(false));
+//        addSequential(new IntakeSetDeploy(false));
         addSequential(new IntakeShootOut());
         
 

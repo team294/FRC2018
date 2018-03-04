@@ -202,6 +202,7 @@ public class ArmMotor extends Subsystem {
 	 */
 	public double getArmDegrees() {
 		double armAngle = getArmEnc() * DEGREES_PER_TICK;
+		armAngle = (armAngle>180) ? armAngle-360 : armAngle;
 		SmartDashboard.putNumber("Arm angle Value", armAngle);
 		return (armAngle);
 	}

@@ -49,7 +49,6 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		// Create the log file first, so that any other code can use the file log
 		log = new FileLog();
-		cubeInIntake= false;
 		
 		// Read robot preferences **before** creating subsystems, so subsytems can use the preferences
 		robotPrefs = new RobotPreferences();

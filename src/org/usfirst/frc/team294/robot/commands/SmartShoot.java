@@ -19,7 +19,7 @@ public class SmartShoot extends CommandGroup {
 	
     public SmartShoot() {
     	
-    	addSequential(new ConditionalCommand(new ArmSmartShoot(), new ConditionalCommand(new Intake_Score(), new OuttakeAll()) { 
+    	addSequential(new ConditionalCommand(new ArmSmartShoot(), new ConditionalCommand(new IntakeShootOut(), new OuttakeAll()) { 
 			protected boolean condition() {
 				return Robot.intake.isCubeInIntake();
 			}} )	{
@@ -27,25 +27,6 @@ public class SmartShoot extends CommandGroup {
 				return Robot.claw.getPhotoSwitch();
 			}
 		});
-    	
-    	
-        // Add Commands here:
-        // e.g. addSequential(new Command1());	
-        //      addSequential(new Command2());
-        // these will run in order.
-
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
-    	
     	
     }
 }

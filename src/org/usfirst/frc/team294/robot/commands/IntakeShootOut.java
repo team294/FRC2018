@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class IntakeShootOut extends Command {
 
-	private double leftPercent = 100; // may want to have different speeds
-	private double rightPercent = 100;
+	private double leftPercent = -100; // may want to have different speeds
+	private double rightPercent = -100;
 	private double timeShot = 1000;
 	
     public IntakeShootOut() {

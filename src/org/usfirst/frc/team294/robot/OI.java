@@ -159,10 +159,10 @@ public class OI {
 		xbB[8].whenPressed(new ToggleIntakeOpen());
 //		xbB[9].whenPressed(new ToggleClawOpen());
 		//xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
-		xbB[9].toggleWhenPressed(new );
 		xbB[10].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
 
-		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));  // Arm to intake position 
+		xbPovUp.whenActive(new IntakeShootOut()); 
+//		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));  // Arm to intake position 
 		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to scale backwards
 		xbPovLeft.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to switch position
 		xbPovRight.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to scale fowards
@@ -170,6 +170,7 @@ public class OI {
 		// Xbox triggers
 		xbLT.whenActive(new ArmPistonSmartExtend()); // Prepare to score cube (rev up flywheels), alternate climb/arm override
 		xbRT.whenActive(new SmartShoot()); // Score cube
+		xbRT.whenActive(new IntakeShootOut()); // Score cube
 
 		Button armButton2 = new JoystickButton(armJoystick,2);
 		Button armButton3 = new JoystickButton(armJoystick,3);
