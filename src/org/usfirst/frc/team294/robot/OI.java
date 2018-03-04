@@ -152,25 +152,25 @@ public class OI {
 		xbB[2].whenPressed(new StopIntakeAndClaw()); // Stops all flywheels
 		xbB[3].whenPressed(new LoadCubeForSwitchSequence()); // Partial intake (load cube to intake only, not to claw)
 		xbB[4].whenPressed(new ToggleIntakeDeploy()); // Open Claw
-		xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
-		xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence
+		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Retract Pistons
+		xbB[6].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Intake Sequence
 		xbB[7].whenPressed(new ToggleClawOpen()); 
 		//xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
 		xbB[8].whenPressed(new ToggleIntakeOpen());
 //		xbB[9].whenPressed(new ToggleClawOpen());
 		//xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
-		xbB[10].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
+		xbB[9].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
 
 		xbPovUp.whenActive(new IntakeShootOut()); 
 //		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));  // Arm to intake position 
-		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to scale backwards
-		xbPovLeft.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to switch position
-		xbPovRight.whenActive(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Arm to scale fowards
+		xbPovDown.whenActive(new CubeLetGo()); // Arm to scale backwards
+		xbPovLeft.whenActive(new ArmPistonsRetract()); // Arm to switch position
+		xbPovRight.whenActive(new ArmPistonSmartExtend()); // Arm to scale fowards
 
 		// Xbox triggers
-		xbLT.whenActive(new ArmPistonSmartExtend()); // Prepare to score cube (rev up flywheels), alternate climb/arm override
-		xbRT.whenActive(new SmartShoot()); // Score cube
-		xbRT.whenActive(new IntakeShootOut()); // Score cube
+		xbLT.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Prepare to score cube (rev up flywheels), alternate climb/arm override
+		xbRT.whenActive(new CubeShootOut()); // Score cube
+//		xbRT.whenActive(new IntakeShootOut()); // Score cube
 
 		Button armButton2 = new JoystickButton(armJoystick,2);
 		Button armButton3 = new JoystickButton(armJoystick,3);
