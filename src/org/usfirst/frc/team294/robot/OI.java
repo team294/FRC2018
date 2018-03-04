@@ -115,20 +115,22 @@ public class OI {
 				// right[i].whenPressed(); // Automatic cube pick up with vision
 				// left[i].whenPressed(); // Automatic cube pick up with vision
 			} else if (i == 3) {
-				//right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive direction
-				//left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive direction
+				// right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive
+				// direction
+				// left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive
+				// direction
 			} else if (i == 2) {
-<<<<<<< HEAD
+
 				// right[i].whenPressed(); // Auto driving routines
 				// left[i].whenPressed(); // Auto driving routines
-=======
+
 				right[i].whenPressed(new Shift(false));
 				left[i].whenPressed(new Shift(true));
->>>>>>> refs/remotes/origin/master
+
 			} else if (i == 4 || i == 5) {
 				right[i].whenPressed(new DriveWithJoysticks());
 				left[i].whenPressed(new DriveWithJoysticks());
-			} 
+			}
 		}
 
 		// Declare codriver panel switches
@@ -159,7 +161,7 @@ public class OI {
 		coP[14].whenPressed(new ArmMoveWithPiston(ArmPositions.Switch)); // Arm to alternate scale position
 
 		// Xbox controller buttons
-<<<<<<< HEAD
+
 		// xbB[1].whenPressed(new Command()); // Lower intake mechanism
 		// xbB[2].whenPressed(new PistonCommand()); // Arm Piston actuation
 		// xbB[3].whenPressed(new PistonCommand()); // Arm Piston actuation
@@ -169,19 +171,18 @@ public class OI {
 		// xbB[7].whenPressed(new ClimbCommand()); // Reserved for climbing
 		// xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
 		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
-=======
-		xbB[1].whenPressed(new LoadCubeSequence()); //grabs cube fully
+
+		xbB[1].whenPressed(new LoadCubeSequence()); // grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClaw()); // Stops all flywheels
 		xbB[3].whenPressed(new LoadCubeForSwitchSequence()); // Partial intake (load cube to intake only, not to claw)
 		xbB[4].whenPressed(new ToggleIntakeDeploy()); // Open Claw
 		xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
 		xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence
-		xbB[7].whenPressed(new ToggleClawOpen()); 
-		//xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
+		xbB[7].whenPressed(new ToggleClawOpen());
+		// xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
 		xbB[8].whenPressed(new ToggleIntakeOpen());
-//		xbB[9].whenPressed(new ToggleClawOpen());
-		//xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
->>>>>>> refs/remotes/origin/master
+		// xbB[9].whenPressed(new ToggleClawOpen());
+		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 		xbB[10].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
 
 		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
