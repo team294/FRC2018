@@ -65,6 +65,11 @@ public class Robot extends TimedRobot {
 		climb = new Climb();
 		intake = new Intake();
 		pressureSensor = new PressureSensor();
+		
+		// armMotor.armMotorsCurrentProtection();    needs to be tested
+		intake.intakeMotorsCurrentProtection();
+		claw.clawMotorsCurrentProtection();
+
 		// Create auto selection utility
 		autoSelection = new AutoSelection();
 

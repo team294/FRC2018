@@ -3,6 +3,9 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.ClawMotorSetToZero;
+import org.usfirst.frc.team294.robot.commands.IntakeMotorSetToZero;
+import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -27,6 +30,10 @@ public class Intake extends Subsystem {
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
 	public static boolean cubeInIntake;
 
+	
+	public final MotorCurrentTrigger intakeMotorLeftCurrentTrigger =  new MotorCurrentTrigger(intakeMotorLeft, 8, 4);
+	public final MotorCurrentTrigger intakeMotorRightCurrentTrigger =  new MotorCurrentTrigger(intakeMotorRight, 8, 4);
+
 	public Intake() {
 	intakeMotorLeft.set(ControlMode.PercentOutput, 0);
 	intakeMotorLeft.setNeutralMode(NeutralMode.Coast);
@@ -44,6 +51,14 @@ public class Intake extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
+	
+	/**
+	 * Adds current protection to the intake motor. If the intake motor trips this, the intake will stop
+	 */
+	public void intakeMotorsCurrentProtection(){
+		intakeMotorLeftCurrentTrigger.whenActive(new IntakeMotorSetToZero());
+		intakeMotorRightCurrentTrigger.whenActive(new IntakeMotorSetToZero());
+	}
 	
 	/**
 	 * Opens the intake jaws
@@ -172,6 +187,10 @@ public class Intake extends Subsystem {
 	public void periodic() {
 		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
 		SmartDashboard.putBoolean("Intake Photo", photoSwitch.get());
+		SmartDashboard.putNumber("Intake Left Motor voltage", intakeMotorLeft.getMotorOutputVoltage());
+		SmartDashboard.putNumber("Intake Right Motor voltage", intakeMotorRight.getMotorOutputVoltage());
+		SmartDashboard.putNumber("Intake Left Motor current", intakeMotorLeft.getOutputCurrent());
+		SmartDashboard.putNumber("Intake Right Motor current", intakeMotorRight.getOutputCurrent());
 	}
 	
 
