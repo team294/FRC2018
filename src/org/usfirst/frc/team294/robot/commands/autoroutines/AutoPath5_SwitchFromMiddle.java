@@ -2,6 +2,7 @@ package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
+import org.usfirst.frc.team294.robot.commands.*;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -9,24 +10,33 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class AutoPath5_SwitchFromMiddle extends CommandGroup {
+	int angleMultiplier;
 
 	/**
 	 * Robot starts in the middle and puts cube on switch.
-	 * @param goLeft true = put cube on left plate, false = put cube on right plate
+	 * 
+	 * @param goLeft
+	 *            true = put cube on left plate, false = put cube on right plate
 	 */
-    public AutoPath5_SwitchFromMiddle(boolean goLeft) {
-		addSequential( new DriveStraightDistanceProfile(55, 0));
-    	if(goLeft) {
-    		addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
-    		addSequential(new DriveStraightDistanceProfile(60, -90));
-    		// arm code 
-    	} 
-    	else {
-    		addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
-    		addSequential(new DriveStraightDistanceProfile(50, 90));
-    		//arm code
-    	}
-		addSequential( new TurnGyro( 0, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(50, 0));
-    }
+	public AutoPath5_SwitchFromMiddle(boolean goLeft) {
+		if (goLeft) {
+			angleMultiplier = -1;
+		} else {
+			angleMultiplier = 1;
+		}
+		// addParallel (new ArmMoveWithIntake());
+		addSequential(new DriveStraightDistanceProfile(10, 0));
+		if (goLeft) {
+			addSequential(new DriveStraightDistanceProfile(95, angleMultiplier * 50, 100, 100));
+			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
+			addSequential(new DriveStraightDistanceProfile(15, 0, 100, 100));
+		}
+		else {
+			addSequential(new DriveStraightDistanceProfile(95, angleMultiplier * 40, 100, 100));
+			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
+			addSequential(new DriveStraightDistanceProfile(20, 0, 100, 100));
+		}
+		
+	}
+	// addSequential (new CubeLetGo());
 }

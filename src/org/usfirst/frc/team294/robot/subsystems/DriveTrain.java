@@ -232,7 +232,7 @@ public class DriveTrain extends Subsystem {
 	 * @return encoder position, in inches
 	 */
 	public double getAverageEncoderInches( ) {
-		return (getRightEncoderInches() + getRightEncoderInches() ) / 2.0;			
+		return (getRightEncoderInches() + getLeftEncoderInches() ) / 2.0;			
 	}
 	
 	/**
