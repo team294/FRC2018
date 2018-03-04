@@ -17,7 +17,11 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team294.robot.commands.autoroutines.*;
+
+import org.usfirst.frc.team294.robot.subsystems.Intake;
+
 import org.usfirst.frc.team294.robot.subsystems.PressureSensor;
+
 import org.usfirst.frc.team294.robot.triggers.AxisTrigger;
 import org.usfirst.frc.team294.robot.triggers.POVTrigger;
 import org.usfirst.frc.team294.utilities.AutoSelection;
@@ -214,6 +218,7 @@ public class OI {
 		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow,false));
 		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos,false));
 		
+
 		SmartDashboard.putData("Arm Intake Cube", new ArmIntakeCube());
 		SmartDashboard.putData("Intake Retract", new IntakeSetDeploy(false));
 		SmartDashboard.putData("Intake Deploy", new IntakeSetDeploy(true));
@@ -266,6 +271,8 @@ public class OI {
 		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
 		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
 		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
+		SmartDashboard.putData("Raise Intake", new IntakeSetDeploy(false));
+		SmartDashboard.putData("Lower Intake", new IntakeSetDeploy(true));
 		
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
 
