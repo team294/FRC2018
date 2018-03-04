@@ -3,6 +3,9 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.ClawMotorSetToZero;
+import org.usfirst.frc.team294.robot.commands.IntakeMotorSetToZero;
+import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -10,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,11 +24,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake extends Subsystem {
 
 	private final Solenoid intakeOpenPiston = new Solenoid(RobotMap.pneumaticIntakePistonOpen);
-	private final Solenoid intakeDeployPiston = new Solenoid(RobotMap.pneumaticIntakePistonDeploy);
+	private final DoubleSolenoid intakeDeployPiston = new DoubleSolenoid(RobotMap.pneumaticIntakePistonDeploy, RobotMap.pneumaticIntakePistonStow);  // Forward = deployed
 
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
+	
+	public final MotorCurrentTrigger intakeMotorLeftCurrentTrigger =  new MotorCurrentTrigger(intakeMotorLeft, 8, 4);
+	public final MotorCurrentTrigger intakeMotorRightCurrentTrigger =  new MotorCurrentTrigger(intakeMotorRight, 8, 4);
 
 	public Intake() {
 	intakeMotorLeft.set(ControlMode.PercentOutput, 0);
@@ -44,35 +51,39 @@ public class Intake extends Subsystem {
 	// here. Call these from Commands.
 	
 	/**
-	 * Opens the intake jaws
+	 * Adds current protection to the intake motor. If the intake motor trips this, the intake will stop
 	 */
-	public void openIntake() {
-		intakeOpenPiston.set(true); // true is open
-	}
-
-	/**
-	 * Closes the intake jaws
-	 */
-	public void closeIntake() {
-		intakeOpenPiston.set(false); // false is close
-	}
-
-	/**
-	 * Deploys the entire intake mechanism
-	 */
-	public void deployIntake() {
-		intakeDeployPiston.set(true); // true is deploy
+	public void intakeMotorsCurrentProtection(){
+		intakeMotorLeftCurrentTrigger.whenActive(new IntakeMotorSetToZero());
+		intakeMotorRightCurrentTrigger.whenActive(new IntakeMotorSetToZero());
 	}
 	
+	/**
+	 * Returns the state of the intake grabbers.
+	 * @return true = open, false = closed
+	 */
+	public boolean isIntakeOpen()
+	{
+		return intakeOpenPiston.get();
+	}
+
 	/**
 	 * Deploys or retracts the intake based on parameter
 	 * @param deployed true = deployed, false = retracted
 	 */
 	public void setIntakeDeploy(boolean deployed) {
-		intakeDeployPiston.set(deployed);
-		if(!deployed) {
-			stop();
+		if (!deployed) {
+			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+			} else {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
+			}
+		} else {
+			intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
 		}
+		stop();
 	}
 	
 	/**
@@ -81,6 +92,7 @@ public class Intake extends Subsystem {
 	 */
 	public void setIntakeOpen(boolean open) {
 		intakeOpenPiston.set(open);
+		stop();
 	}
 	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
@@ -127,7 +139,7 @@ public class Intake extends Subsystem {
 	public boolean smartCloseIntake() {
 		// if object is detected with photoSwitch, close the intake
 		if (photoSwitch.get()) {
-			closeIntake();
+			setIntakeOpen(false);
 			return true;
 		} else
 		return false;
@@ -157,12 +169,16 @@ public class Intake extends Subsystem {
 	}
 	
 	public boolean intakeDeployed() {
-		return intakeDeployPiston.get();
+		return intakeDeployPiston.get() == DoubleSolenoid.Value.kForward;
 	}
 
 	public void periodic() {
 		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
 		SmartDashboard.putBoolean("Intake Photo", photoSwitch.get());
+		SmartDashboard.putNumber("Intake Left Motor voltage", intakeMotorLeft.getMotorOutputVoltage());
+		SmartDashboard.putNumber("Intake Right Motor voltage", intakeMotorRight.getMotorOutputVoltage());
+		SmartDashboard.putNumber("Intake Left Motor current", intakeMotorLeft.getOutputCurrent());
+		SmartDashboard.putNumber("Intake Right Motor current", intakeMotorRight.getOutputCurrent());
 	}
 
 	public void initDefaultCommand() {

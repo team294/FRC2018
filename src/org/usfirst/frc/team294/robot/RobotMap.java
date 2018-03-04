@@ -29,6 +29,7 @@ public class RobotMap {
 	public static final int pneumaticClawPistonOut = 3;
 	public static final int pneumaticArmPistonMinorOut = 6;	
 	public static final int pneumaticIntakePistonDeploy = 1;
+	public static final int pneumaticIntakePistonStow = 7;
 
 	
 	// RoboRIO digital I/O addresses
@@ -58,11 +59,11 @@ public class RobotMap {
 		
 
 	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
-	public static double armIntakePos = -50.0;
+	public static double armIntakePos = -53.0;
 	public static double armSwitchPosHigh = 5.0;
 	public static double armSwitchPosLow = -5.0;
-	public static double armScaleLowPos = 60.0;
-	public static double armScaleBackwardsPos = 100.0;
+	public static double armScaleLowPos = 80.0;
+	public static double armScaleBackwardsPos = 110.0;
 	
 	// Arm interlocking angle
 	public static double armIntakeClearanceAng = -18.0;
