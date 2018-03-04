@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake extends Subsystem {
 
 	private final Solenoid intakeOpenPiston = new Solenoid(RobotMap.pneumaticIntakePistonOpen);
-	private final Solenoid intakeDeployPiston = new Solenoid(RobotMap.pneumaticIntakePistonDeploy);
+	private final DoubleSolenoid intakeDeployPiston = new DoubleSolenoid(RobotMap.pneumaticIntakePistonDeploy, RobotMap.pneumaticIntakePistonStow);  // Forward = deployed
 
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
@@ -58,40 +59,31 @@ public class Intake extends Subsystem {
 	}
 	
 	/**
-	 * Opens the intake jaws
+	 * Returns the state of the intake grabbers.
+	 * @return true = open, false = closed
 	 */
-	public void openIntake() {
-		intakeOpenPiston.set(true); // true is open
-	}
-
-	/**
-	 * Closes the intake jaws
-	 */
-	public void closeIntake() {
-		intakeOpenPiston.set(false); // false is close
-	}
-
-	/**
-	 * Deploys the entire intake mechanism
-	 */
-	public void deployIntake() {
-		intakeDeployPiston.set(true); // true is deploy
-	}
-	
 	public boolean isIntakeOpen()
 	{
 		return intakeOpenPiston.get();
 	}
-	
+
 	/**
 	 * Deploys or retracts the intake based on parameter
 	 * @param deployed true = deployed, false = retracted
 	 */
 	public void setIntakeDeploy(boolean deployed) {
-		intakeDeployPiston.set(deployed);
-		if(!deployed) {
-			stop();
+		if (!deployed) {
+			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+			} else {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
+			}
+		} else {
+			intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
 		}
+		stop();
 	}
 	
 	/**
@@ -100,6 +92,7 @@ public class Intake extends Subsystem {
 	 */
 	public void setIntakeOpen(boolean open) {
 		intakeOpenPiston.set(open);
+		stop();
 	}
 	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
@@ -146,7 +139,7 @@ public class Intake extends Subsystem {
 	public boolean smartCloseIntake() {
 		// if object is detected with photoSwitch, close the intake
 		if (photoSwitch.get()) {
-			closeIntake();
+			setIntakeOpen(false);
 			return true;
 		} else
 		return false;
@@ -176,7 +169,7 @@ public class Intake extends Subsystem {
 	}
 	
 	public boolean intakeDeployed() {
-		return intakeDeployPiston.get();
+		return intakeDeployPiston.get() == DoubleSolenoid.Value.kForward;
 	}
 
 	public void periodic() {

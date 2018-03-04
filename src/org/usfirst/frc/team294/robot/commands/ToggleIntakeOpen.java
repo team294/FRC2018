@@ -19,12 +19,12 @@ public class ToggleIntakeOpen extends Command {
     protected void initialize() {
     	if(Robot.intake.isIntakeOpen()) 
     	{
-    		Robot.intake.closeIntake();
+    		Robot.intake.setIntakeOpen(false);
     	}
     	
     	else 
     	{
-    		Robot.intake.openIntake();
+    		Robot.intake.setIntakeOpen(true);
     	}
     	
     }
