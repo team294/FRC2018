@@ -59,6 +59,15 @@ public class Intake extends Subsystem {
 	}
 	
 	/**
+	 * Returns the state of the intake grabbers.
+	 * @return true = open, false = closed
+	 */
+	public boolean isIntakeOpen()
+	{
+		return intakeOpenPiston.get();
+	}
+
+	/**
 	 * Deploys or retracts the intake based on parameter
 	 * @param deployed true = deployed, false = retracted
 	 */

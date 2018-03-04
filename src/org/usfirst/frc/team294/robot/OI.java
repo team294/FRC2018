@@ -151,11 +151,13 @@ public class OI {
 		xbB[1].whenPressed(new LoadCubeSequence()); //grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClaw()); // Stops all flywheels
 		xbB[3].whenPressed(new LoadCubeForSwitchSequence()); // Partial intake (load cube to intake only, not to claw)
-		xbB[4].whenPressed(new ClawSetState(true)); // Open Claw
+		xbB[4].whenPressed(new ToggleIntakeDeploy()); // Open Claw
 		xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
 		xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence
-		//xbB[7].whenPressed(new ClimbCommand()); // Reserved for climbing
+		xbB[7].whenPressed(new ToggleClawOpen()); 
 		//xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
+		xbB[8].whenPressed(new ToggleIntakeOpen());
+//		xbB[9].whenPressed(new ToggleClawOpen());
 		//xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 		xbB[10].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
 
