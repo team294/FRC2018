@@ -150,7 +150,7 @@ public class OI {
 		// Xbox controller buttons
 		//xbB[1].whenPressed(new Command()); // Lower intake mechanism
 		//xbB[2].whenPressed(new PistonCommand()); // Arm Piston actuation
-		//xbB[3].whenPressed(new PistonCommand()); // Arm Piston actuation
+		xbB[3].whenPressed(new LoadCubeForSwitchSequence()); // Partial intake (load cube to intake only, not to claw)
 		xbB[4].whenPressed(new ClawSetState(true)); // Open Claw
 		xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
 		xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence
