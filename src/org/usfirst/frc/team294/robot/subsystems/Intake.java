@@ -25,6 +25,7 @@ public class Intake extends Subsystem {
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
+	public static boolean cubeInIntake;
 
 	public Intake() {
 	intakeMotorLeft.set(ControlMode.PercentOutput, 0);
@@ -38,6 +39,7 @@ public class Intake extends Subsystem {
 	intakeMotorRight.enableVoltageCompensation(true);
 	intakeMotorRight.configVoltageCompSaturation(11.0, 0);
 	intakeMotorRight.setInverted(false);
+	cubeInIntake = false;
 	}
 
 	// Put methods for controlling this subsystem
@@ -81,6 +83,13 @@ public class Intake extends Subsystem {
 	 */
 	public void setIntakeOpen(boolean open) {
 		intakeOpenPiston.set(open);
+	}
+	
+	public void updateCubeStatus() {
+		cubeInIntake = !cubeInIntake;
+	}
+	public boolean isCubeInIntake() {
+		return cubeInIntake;
 	}
 	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
@@ -164,6 +173,7 @@ public class Intake extends Subsystem {
 		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
 		SmartDashboard.putBoolean("Intake Photo", photoSwitch.get());
 	}
+	
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

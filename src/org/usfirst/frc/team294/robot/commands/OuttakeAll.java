@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class LoadCubeForSwitchSequence extends CommandGroup {
+public class OuttakeAll extends CommandGroup {
 
-    public LoadCubeForSwitchSequence() {
+    public OuttakeAll() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -25,7 +25,8 @@ public class LoadCubeForSwitchSequence extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new IntakeCube());
-    	addSequential(new IntakeSetDeploy(true));
+    	//addParallel(new IntakeShootOut()); //need to write correct intake out sequence TODO
+    	addSequential(new CubeShootOut()); 
+    	
     }
 }

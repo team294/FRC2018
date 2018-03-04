@@ -19,7 +19,10 @@ public class IntakeCube extends Command {
         // eg. requires(chassis);
     	requires(Robot.intake);
     }
-
+    public IntakeCube(boolean partial) {
+    	requires(Robot.intake);
+    	Robot.intake.updateCubeStatus();
+    }
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.intake.deployIntake();
