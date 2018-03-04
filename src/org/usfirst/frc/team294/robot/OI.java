@@ -157,6 +157,7 @@ public class OI {
 		//xbB[7].whenPressed(new ClimbCommand()); // Reserved for climbing
 		//xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
 		//xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
+		xbB[9].toggleWhenPressed(new );
 		xbB[10].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
 
 		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));  // Arm to intake position 

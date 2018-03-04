@@ -1,36 +1,23 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc.team294.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
 
 /**
  *
  */
-public class Intake_Score extends Command {
+public class Intake_Score extends CommandGroup {
 
     public Intake_Score() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    }
+    	//addSequential(new IntakeSetDeploy(true)); // may want to add this if intake is up when running shoot command
+        addParallel(new ClawSetMotorSpeed(0));
+        addSequential(new IntakeCubeGrab());
+        addSequential(new IntakeSetDeploy(false));
+        addSequential(new IntakeShootOut());
+        
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    }
-
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return true;
-    }
-
-    // Called once after isFinished returns true
-    protected void end() {
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
     }
 }
