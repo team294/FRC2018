@@ -17,7 +17,16 @@ public class ToggleIntakeOpen extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeOpen(true);
+    	if(Robot.intake.isIntakeOpen()) 
+    	{
+    		Robot.intake.closeIntake();
+    	}
+    	
+    	else 
+    	{
+    		Robot.intake.openIntake();
+    	}
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -26,17 +35,17 @@ public class ToggleIntakeOpen extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.setIntakeOpen(false);
+    	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
+    	
     }
 }

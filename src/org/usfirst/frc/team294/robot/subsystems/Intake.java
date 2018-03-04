@@ -78,6 +78,11 @@ public class Intake extends Subsystem {
 		intakeDeployPiston.set(true); // true is deploy
 	}
 	
+	public boolean isIntakeOpen()
+	{
+		return intakeOpenPiston.get();
+	}
+	
 	/**
 	 * Deploys or retracts the intake based on parameter
 	 * @param deployed true = deployed, false = retracted

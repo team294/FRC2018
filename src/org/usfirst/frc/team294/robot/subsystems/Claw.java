@@ -68,6 +68,11 @@ public class Claw extends Subsystem {
 	public void closeClaw() {
 		clawPiston.set(false); // false is retract
 	}
+	
+	public boolean isClawOpen() 
+	{
+		return clawPiston.get();
+	}
 
 	public void setClawMotorToPercentPower(double leftPercent, double rightPercent) {
 		clawMotorLeft.set(ControlMode.PercentOutput, leftPercent);
