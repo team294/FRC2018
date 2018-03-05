@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmMotorCalibrateZero extends Command {
+public class ArmMotorCalibrateNeg55 extends Command {
 
 	/**
 	 * Calibrates the current position of the arm as the "zero" position (horizontal arm)
 	 */
-    public ArmMotorCalibrateZero() {
+    public ArmMotorCalibrateNeg55() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.armMotor); 

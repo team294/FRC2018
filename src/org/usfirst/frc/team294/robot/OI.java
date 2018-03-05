@@ -107,8 +107,8 @@ public class OI {
 			left[i] = new JoystickButton(leftJoystick, i);
 			right[i] = new JoystickButton(rightJoystick, i);
 			if (i == 1) {
-				//right[i].whenPressed();  // Automatic cube pick up with vision
-				//left[i].whenPressed();  // Automatic cube pick up with vision
+				left[i].whenPressed(new CubeLetGo());  // Automatic cube pick up with vision
+				right[i].whenPressed(new CubeShootOut());  // Automatic cube pick up with vision
 			} else if (i == 3) {
 				//right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive direction
 				//left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive direction
@@ -150,7 +150,7 @@ public class OI {
 		// Xbox controller buttons
 		xbB[1].whenPressed(new LoadCubeSequence()); //grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClaw()); // Stops all flywheels
-		xbB[3].whenPressed(new LoadCubeForSwitchSequence()); // Partial intake (load cube to intake only, not to claw)
+		xbB[3].whenPressed(new LoadCubeSequenceWithIntakeOpen()); // Partial intake (load cube to intake only, not to claw)
 		xbB[4].whenPressed(new ToggleIntakeDeploy()); // Open Claw
 		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Retract Pistons
 		xbB[6].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Intake Sequence
@@ -160,7 +160,8 @@ public class OI {
 //		xbB[9].whenPressed(new ToggleClawOpen());
 		//xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 		xbB[9].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
-
+		xbB[10].whenPressed(new ArmMoveWithPiston(ArmPositions.Intake));
+		
 		xbPovUp.whenActive(new IntakeShootOut()); 
 //		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));  // Arm to intake position 
 		xbPovDown.whenActive(new CubeLetGo()); // Arm to scale backwards
@@ -206,7 +207,7 @@ public class OI {
 		//SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
 		SmartDashboard.putData("Button Increment with Joystick", new ArmMotorIncrementAngle(true));
 
-		SmartDashboard.putData("Calibrate arm zero position", new ArmMotorCalibrateZero());
+		SmartDashboard.putData("Calibrate arm zero position", new ArmMotorCalibrateNeg55());
 
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));

@@ -18,7 +18,7 @@ public class LoadCubeForSwitchSequence extends CommandGroup {
     	addSequential(new IntakeSetOpen(true));
     	addSequential(new WaitCommand(.75));
     	addSequential(new IntakeCube());
-    	addSequential(new WaitCommand(0.15));
+    	addSequential(new WaitCommand(0.3));
     	addSequential(new IntakeMotorSetToZero());
     }
 }
