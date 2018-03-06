@@ -74,6 +74,11 @@ public class Claw extends Subsystem {
 		return clawPiston.get();
 	}
 
+	/**
+	 * sets left and right wheel percent power
+	 * @param leftPercent percent -1 (in) to 1 (out)
+	 * @param rightPercent percent -1 (in) to 1 (out)
+	 */
 	public void setClawMotorToPercentPower(double leftPercent, double rightPercent) {
 		clawMotorLeft.set(ControlMode.PercentOutput, leftPercent);
 		clawMotorRight.set(ControlMode.PercentOutput, rightPercent);

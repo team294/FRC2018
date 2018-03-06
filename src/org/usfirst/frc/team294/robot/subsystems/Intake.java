@@ -188,6 +188,7 @@ public class Intake extends Subsystem {
 		SmartDashboard.putNumber("Intake Right Motor voltage", intakeMotorRight.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Intake Left Motor current", intakeMotorLeft.getOutputCurrent());
 		SmartDashboard.putNumber("Intake Right Motor current", intakeMotorRight.getOutputCurrent());
+		SmartDashboard.putBoolean("Intake deployed", intakeDeployPiston.get() ==DoubleSolenoid.Value.kForward);
 	}
 	
 
