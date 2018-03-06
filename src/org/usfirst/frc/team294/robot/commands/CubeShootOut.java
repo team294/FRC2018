@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CubeShootOut extends Command {
 
-	private double leftPercent = 100; // may want to have different speeds
-	private double rightPercent = 100;
+	private double leftPercent = 66; // may want to have different speeds
+	private double rightPercent = 66;
 	private double timeShot = 0;
 
 	public CubeShootOut() {
@@ -25,7 +25,7 @@ public class CubeShootOut extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.claw.setClawMotorToPercentPower(leftPercent, rightPercent);
-		Robot.intake.setIntakeMotorPercent(leftPercent);
+		Robot.intake.setIntakeMotorPercent(-leftPercent);
 		timeShot = Timer.getFPGATimestamp();
 	}
 

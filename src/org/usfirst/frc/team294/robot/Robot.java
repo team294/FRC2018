@@ -1,7 +1,10 @@
 
 package org.usfirst.frc.team294.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot; 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -76,6 +79,16 @@ public class Robot extends TimedRobot {
 		networkTables = NetworkTableInstance.getDefault();
 		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
 
+		// USB drive camera
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+//	    camera.setVideoMode(VideoMode.PixelFormat.kYUYV, IMG_WIDTH, IMG_HEIGHT, IMG_FPS);
+	    camera.setExposureAuto();  // Start in auto exposure mode so that we can set brightness
+	    camera.setBrightness(15);  // Setting brightness only works correctly in auto exposure mode (?)
+//	    camera.getProperty("contrast").set(80);
+//	    camera.getProperty("saturation").set(60);
+	    camera.setExposureManual(20);
+//	    camera.setWhiteBalanceManual(2800);
+		
 		// Create the OI last, so that it can use commands that call subsystems
 		oi = new OI();
 	}

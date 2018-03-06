@@ -11,15 +11,15 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  * Sequence to load cube from intake to arm and reverse intake motors
  */
-public class LoadCubeSequence extends CommandGroup {
+public class LoadCubeSequenceWithIntakeOpen extends CommandGroup {
 
-    public LoadCubeSequence() {
+    public LoadCubeSequenceWithIntakeOpen() {
 
     	/* These commands are all individual because we want them to finish before we continue on to moving anything else, to avoid impacts */
     	
 
     	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
-    	addSequential(new IntakeSetOpen(false));
+    	addSequential(new IntakeSetOpen(true));
     	addSequential(new ClawSetState(false)); // Close the claw while moving the arm
     	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,true)); // Move the arm to the intake position
     	//    		TODO add checker to see if the intake is deployed and open before intaking can occur
