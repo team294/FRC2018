@@ -26,6 +26,8 @@ public class Robot extends TimedRobot {
 	public static Climb climb;
 	public static PressureSensor pressureSensor;
 	
+	
+	
 
 	public static FileLog log;
 	public static RobotPreferences robotPrefs;
@@ -122,7 +124,9 @@ public class Robot extends TimedRobot {
 			autoSelection.autonomousCommand.start();
 		}
 	}
-
+	
+	
+	
 	/**
 	 * This function is called periodically during autonomous.
 	 */
