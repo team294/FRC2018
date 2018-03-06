@@ -335,13 +335,13 @@ public class ArmMotor extends Subsystem {
 		updateSmartDashboard();
 		// Set armCalZero, if not already set, by using known value of lower limit
 		// switch
-		if (!Robot.robotPrefs.armCalibrated) {
+		//if (!Robot.robotPrefs.armCalibrated) {
 			SensorCollection sc = armMotor1.getSensorCollection();
 			if (sc.isRevLimitSwitchClosed()) {
 				// TODO uncomment and test for possible sign error
 				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
-		}
+		//}
 		
 		if(DriverStation.getInstance().isEnabled() && Robot.robotPrefs.armCalibrated && !Robot.armMotor.joystickControl) {
 			//if we are enabled, our arm is calibrated, and we are not trying to control the arm with the joystick, then run this block of code.
