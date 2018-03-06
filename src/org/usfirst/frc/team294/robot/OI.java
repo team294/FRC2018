@@ -196,7 +196,6 @@ public class OI {
 		xbRT.whenActive(new SmartShoot()); // Score cube
 		xbRT.whenActive(new IntakeShootOut()); // Score cube
 
-
 		Button armButton2 = new JoystickButton(armJoystick, 2);
 		Button armButton3 = new JoystickButton(armJoystick, 3);
 		armButton2.whenPressed(new ArmMotorIncrementAngle(false));

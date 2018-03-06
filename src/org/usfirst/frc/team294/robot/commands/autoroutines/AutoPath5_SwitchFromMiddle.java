@@ -24,19 +24,17 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		} else {
 			angleMultiplier = 1;
 		}
-		// addParallel (new ArmMoveWithIntake());
+		addParallel(new ArmMoveWithIntake());
 		addSequential(new DriveStraightDistanceProfile(10, 0));
 		if (goLeft) {
 			addSequential(new DriveStraightDistanceProfile(95, angleMultiplier * 50, 100, 100));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(15, 0, 100, 100));
-		}
-		else {
+		} else {
 			addSequential(new DriveStraightDistanceProfile(95, angleMultiplier * 40, 100, 100));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(20, 0, 100, 100));
 		}
-		
+		addSequential(new CubeLetGo());
 	}
-	// addSequential (new CubeLetGo());
 }
