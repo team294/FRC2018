@@ -11,6 +11,10 @@ public class IntakeSetDeploy extends Command {
 
 	boolean deployed;
 	
+	/**
+	 * Deploys or retracts the intake based on parameter
+	 * @param deploy true = deployed, false = retracted
+	 */
     public IntakeSetDeploy(boolean deploy) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

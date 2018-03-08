@@ -9,10 +9,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ClawSetMotorSpeed extends Command {
 
-	private int percent;
-    public ClawSetMotorSpeed(int inPercent) {
+	private double percent;
+	/**
+	 * Set the claw wheel speed
+	 * @param inPercent percent -1 (in) to 1 (out)
+	 */
+    public ClawSetMotorSpeed(double inPercent) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.claw);
     	percent = inPercent;
     }
 
