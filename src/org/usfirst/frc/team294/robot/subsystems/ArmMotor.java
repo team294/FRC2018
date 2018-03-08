@@ -107,6 +107,8 @@ public class ArmMotor extends Subsystem {
 		// TODO: add checks to make sure arm does not go outside of safe areas
 		// TODO: integrate checks with piston to avoid penalties for breaking frame
 		// perimeter
+		
+		
 		initAngle = getArmDegrees();
 		intError = 0;
 		prevError = 0;
@@ -120,8 +122,9 @@ public class ArmMotor extends Subsystem {
 				angle = initAngle;
 			}
 		}
-		SmartDashboard.putNumber("arm initial angle", initAngle);
-		SmartDashboard.putNumber("arm target angle", angle);
+		SmartDashboard.putNumber("Arm initial angle", initAngle);
+		SmartDashboard.putNumber("Arm target angle", angle);
+		Robot.log.writeLogEcho("Arm Start PID,initialAngle," + initAngle+ ",Destination Angle," + angle+",");
 		finalAngle = angle;
 		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 120, 120);
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;
@@ -370,6 +373,8 @@ public class ArmMotor extends Subsystem {
 		}else {
 			//if we are neither controlling the robot with the PID loop or disabled, we must be in joystick control mode and therefore we 
 			//should do nothing, letting the joystick control command run
+			
+			// Track the current joystick angle, so when joystick is disabled the PID will hold the current position
 			if (Robot.robotPrefs.armCalibrated) startPID(getArmDegrees());
 			//TODO change all arm commands to run until angle is met
 		}

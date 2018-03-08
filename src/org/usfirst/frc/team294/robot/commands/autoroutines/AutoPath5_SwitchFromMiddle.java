@@ -36,10 +36,6 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(20, 0, 50, 50));
 		}
-		addSequential(new ClawSetMotorSpeed(.75));
-		addSequential(new WaitCommand(.1));
-		addSequential(new ClawSetMotorSpeed(.5));
-		addSequential(new WaitCommand(0));
-		addSequential(new ClawSetMotorSpeed(0));
+		addSequential(new AutoSwitchShoot());
 	}
 }

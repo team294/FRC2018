@@ -165,9 +165,9 @@ public class OI {
 		// xbB[1].whenPressed(new Command()); // Lower intake mechanism
 		// xbB[2].whenPressed(new PistonCommand()); // Arm Piston actuation
 		// xbB[3].whenPressed(new PistonCommand()); // Arm Piston actuation
-		xbB[4].whenPressed(new ClawSetState(true)); // Open Claw
-		xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
-		xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence
+//		xbB[4].whenPressed(new ClawSetState(true)); // Open Claw
+//		xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
+//		xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence
 		// xbB[7].whenPressed(new ClimbCommand()); // Reserved for climbing
 		// xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
 		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
@@ -263,6 +263,7 @@ public class OI {
 		SmartDashboard.putData("Move Piston Within Parameters", new ArmMoveToLegalRange());
 
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
+		SmartDashboard.putData("Auto Switch Shoot", new AutoSwitchShoot());
 
 		SmartDashboard.putData("Retract Arm Pistons", new ArmPistonsRetract());
 

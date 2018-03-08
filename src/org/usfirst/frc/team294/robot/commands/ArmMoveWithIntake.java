@@ -3,7 +3,7 @@ package org.usfirst.frc.team294.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ *Sequence to move the intake out of the way and bring the arm to 0 degrees
  */
 public class ArmMoveWithIntake extends CommandGroup {
 
