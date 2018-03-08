@@ -116,9 +116,10 @@ public class ArmMotor extends Subsystem {
 				if (angle <= RobotMap.armIntakeClearanceAng) {
 					angle = RobotMap.armIntakeClearanceAng;
 				}
-			} else {
-				angle = initAngle;
 			}
+//				else {
+//				angle = initAngle;
+//			}
 		}
 		SmartDashboard.putNumber("arm initial angle", initAngle);
 		SmartDashboard.putNumber("arm target angle", angle);

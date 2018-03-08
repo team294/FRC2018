@@ -65,8 +65,7 @@ public class Intake extends Subsystem {
 	 * Returns the state of the intake grabbers.
 	 * @return true = open, false = closed
 	 */
-	public boolean isIntakeOpen()
-	{
+	public boolean isIntakeOpen() {
 		return intakeOpenPiston.get();
 	}
 
@@ -76,13 +75,13 @@ public class Intake extends Subsystem {
 	 */
 	public void setIntakeDeploy(boolean deployed) {
 		if (!deployed) {
-//			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
+			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
 				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
-//			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
-//				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
-//			} else {
-//				intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
-//			}
+			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+			} else {
+				intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
+			}
 		} else {
 			intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
 		}
