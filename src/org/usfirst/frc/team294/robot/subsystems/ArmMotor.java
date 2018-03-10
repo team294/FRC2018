@@ -124,7 +124,7 @@ public class ArmMotor extends Subsystem {
 			}
 			else {
 				SmartDashboard.putBoolean("Arm Intake Interlocked", true);
-				//					angle = initAngle;	
+				angle = finalAngle;	
 			}
 		}
 		SmartDashboard.putNumber("Arm initial angle", initAngle);
