@@ -273,6 +273,8 @@ public class OI {
 		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
 		
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
+		
+		SmartDashboard.putBoolean("Arm Movement Allowed", Robot.armMotor.armMovementAllowed);
 
 	}
 

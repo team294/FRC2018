@@ -51,6 +51,8 @@ public class ArmMotor extends Subsystem {
 	private double armEncoderStartValue = getArmEncRaw();
 	public boolean joystickControl;
 	
+	public boolean armMovementAllowed;
+	
 	double lastTime;
 	int loop = 0;
 	private ArmProfileGenerator trapezoid;
@@ -115,11 +117,14 @@ public class ArmMotor extends Subsystem {
 			if (initAngle > RobotMap.armIntakeClearanceAng) {
 				if (angle <= RobotMap.armIntakeClearanceAng) {
 					angle = RobotMap.armIntakeClearanceAng;
+					armMovementAllowed = false;
+					
 				}
 			}
-//				else {
-//				angle = initAngle;
-//			}
+				else {
+					armMovementAllowed = true;
+//					angle = initAngle;	
+				}
 		}
 		SmartDashboard.putNumber("arm initial angle", initAngle);
 		SmartDashboard.putNumber("arm target angle", angle);

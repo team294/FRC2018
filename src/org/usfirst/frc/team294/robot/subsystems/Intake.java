@@ -77,6 +77,7 @@ public class Intake extends Subsystem {
 		if (!deployed) {
 			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
 				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+				
 			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
 				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
 			} else {
