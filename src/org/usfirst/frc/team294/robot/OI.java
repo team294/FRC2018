@@ -184,11 +184,11 @@ public class OI {
 //		xbB[9].whenPressed(new ToggleClawOpen());
 		//xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 		xbB[9].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
-		xbB[10].whenPressed(new ArmMoveWithPiston(ArmPositions.Intake));
+//		xbB[10].whenPressed();
 		
 		xbPovUp.whenActive(new IntakeShootOut()); 
 //		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));  // Arm to intake position 
-		xbPovDown.whenActive(new CubeLetGo()); // Arm to scale backwards
+		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to scale backwards
 		xbPovLeft.whenActive(new ArmPistonsRetract()); // Arm to switch position
 		xbPovRight.whenActive(new ArmPistonSmartExtend()); // Arm to scale fowards
 
@@ -300,6 +300,8 @@ public class OI {
 		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
 
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
+		
+		SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 
 	}
 

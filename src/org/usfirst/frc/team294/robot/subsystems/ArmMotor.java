@@ -8,8 +8,6 @@ import org.usfirst.frc.team294.robot.commands.ArmMotorSetToZero;
 import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Preferences;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.*;
@@ -54,7 +52,7 @@ public class ArmMotor extends Subsystem {
 	double lastTime;
 	int loop = 0;
 	private ArmProfileGenerator trapezoid;
-	private double angle;
+
 	public ArmMotor() {
 		
 		// armMotor.set(ControlMode.Position, 3);
@@ -104,27 +102,49 @@ public class ArmMotor extends Subsystem {
 	 * 
 	 */
 	public void startPID(double angle) {
-		// TODO: add checks to make sure arm does not go outside of safe areas
 		// TODO: integrate checks with piston to avoid penalties for breaking frame
 		// perimeter
-		
+
+		// Check arm set angle for correct range
+		angle = (angle>180) ? angle-360 : angle;
+			
+		// Prevent arm from going outside of allowed range
+		angle = (angle > RobotMap.maxAngle) ? RobotMap.maxAngle : angle;
+		angle = (angle < RobotMap.minAngle) ? RobotMap.minAngle : angle;		
 		
 		initAngle = getArmDegrees();
 		intError = 0;
 		prevError = 0;
 		error = 0;
-		if (!Robot.intake.intakeDeployed()) {
-			if (initAngle > RobotMap.armIntakeClearanceAng) {
-				if (angle <= RobotMap.armIntakeClearanceAng) {
-					angle = RobotMap.armIntakeClearanceAng;
-				}
+		
+		if (!DriverStation.getInstance().isEnabled() || Robot.armMotor.joystickControl) {
+			// We are disabled or under joystick control, so just track the angle.
+			// I.e., we were called from periodic() using startPID(getArmDegrees());
+			SmartDashboard.putBoolean("Arm Intake Interlocked", getArmDegrees()<=RobotMap.armIntakeClearanceAng);
+		} else {
+			// We are enabled and under PID control
+			if (Robot.intake.isIntakeDeployed()) {
+				SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 			} else {
-				angle = initAngle;
+				if (initAngle > RobotMap.armIntakeClearanceAng) {
+					if (angle <= RobotMap.armIntakeClearanceAng) {
+						angle = RobotMap.armIntakeClearanceAng;
+						SmartDashboard.putBoolean("Arm Intake Interlocked", true);
+					} else {
+						SmartDashboard.putBoolean("Arm Intake Interlocked", false);					
+					}
+				}
+				else {
+					SmartDashboard.putBoolean("Arm Intake Interlocked", true);
+					angle = finalAngle;	
+				}
 			}
 		}
+		
 		SmartDashboard.putNumber("Arm initial angle", initAngle);
 		SmartDashboard.putNumber("Arm target angle", angle);
-		Robot.log.writeLogEcho("Arm Start PID,initialAngle," + initAngle+ ",Destination Angle," + angle+",");
+		Robot.log.writeLogEcho("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero  + ",initial raw encoder," + getArmEncRaw() + 
+				",initialAngle," + initAngle+ ",Destination Angle," + angle);
 		finalAngle = angle;
 		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 120, 120);
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;
@@ -341,7 +361,6 @@ public class ArmMotor extends Subsystem {
 		//if (!Robot.robotPrefs.armCalibrated) {
 			SensorCollection sc = armMotor1.getSensorCollection();
 			if (sc.isRevLimitSwitchClosed()) {
-				// TODO uncomment and test for possible sign error
 				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
 			}
 		//}

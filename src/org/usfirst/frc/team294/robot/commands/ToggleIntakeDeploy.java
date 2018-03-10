@@ -17,7 +17,7 @@ public class ToggleIntakeDeploy extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if(Robot.intake.intakeDeployed())
+    	if(Robot.intake.isIntakeDeployed())
     	{
     		Robot.intake.setIntakeDeploy(false);
     	}
