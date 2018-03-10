@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 
 
 /**
- * Sequence to load cube from intake to arm and reverse intake motors
+ * Sequence to load cube from intake to arm and reverse intake motors.
+ * Load with intake closed.
  */
 public class LoadCubeSequence extends CommandGroup {
 
@@ -22,8 +23,8 @@ public class LoadCubeSequence extends CommandGroup {
     	addSequential(new IntakeSetOpen(false));
     	addSequential(new ClawSetState(false)); // Close the claw while moving the arm
     	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,true)); // Move the arm to the intake position
-    	//    		TODO add checker to see if the intake is deployed and open before intaking can occur
-    	addSequential(new WaitCommand(.75));
+    	// TODO Commented out the Wait command.  If intake is closed, we shouldn't need to wait.
+    	//addSequential(new WaitCommand(.75));
     	addParallel(new IntakeCube()); // Open intake claw and start intaking, close when the photoswitch is triggered
     	addSequential(new ArmIntakeCube()); // Simultaneously, open the arm claw and being intaking. Exit when bumpswitch triggered.
     	addSequential(new PassiveOuttake()); // Start outtaking so we don't get a penalty
