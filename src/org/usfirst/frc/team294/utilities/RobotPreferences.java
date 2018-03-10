@@ -1,5 +1,7 @@
 package org.usfirst.frc.team294.utilities;
 
+import org.usfirst.frc.team294.robot.Robot;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -66,6 +68,9 @@ public class RobotPreferences {
 	public void setArmCalibration(double armCalZero, boolean writeCalToPreferences) {
 		this.armCalZero = armCalZero;
 		armCalibrated = true;
+		
+		// Reset arm target to current value, since we don't want the arm to jump based on the old set angle
+		
 		SmartDashboard.putBoolean("Arm Calibrated", armCalibrated);
 		if (writeCalToPreferences) {
 			prefs.putDouble("calibrationZeroDegrees", armCalZero);
