@@ -301,7 +301,7 @@ public class OI {
 
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
 		
-		SmartDashboard.putBoolean("Arm Movement Allowed", Robot.armMotor.armMovementAllowed);
+		SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 
 	}
 

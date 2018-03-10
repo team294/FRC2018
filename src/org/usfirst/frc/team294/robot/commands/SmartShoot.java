@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 public class SmartShoot extends CommandGroup {
 
 	ArmZones currentZone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
-	boolean intakePosition = Robot.intake.intakeDeployed();
+	boolean intakePosition = Robot.intake.isIntakeDeployed();
 	
 	
 	

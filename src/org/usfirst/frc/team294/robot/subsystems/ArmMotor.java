@@ -8,8 +8,6 @@ import org.usfirst.frc.team294.robot.commands.ArmMotorSetToZero;
 import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Preferences;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.*;
@@ -51,12 +49,10 @@ public class ArmMotor extends Subsystem {
 	private double armEncoderStartValue = getArmEncRaw();
 	public boolean joystickControl;
 	
-	public boolean armMovementAllowed;
-	
 	double lastTime;
 	int loop = 0;
 	private ArmProfileGenerator trapezoid;
-	private double angle;
+
 	public ArmMotor() {
 		
 		// armMotor.set(ControlMode.Position, 3);
@@ -115,22 +111,26 @@ public class ArmMotor extends Subsystem {
 		intError = 0;
 		prevError = 0;
 		error = 0;
-		if (!Robot.intake.intakeDeployed()) {
+		if (Robot.intake.isIntakeDeployed()) {
+			SmartDashboard.putBoolean("Arm Intake Interlocked", false);
+		} else {
 			if (initAngle > RobotMap.armIntakeClearanceAng) {
 				if (angle <= RobotMap.armIntakeClearanceAng) {
 					angle = RobotMap.armIntakeClearanceAng;
-					armMovementAllowed = false;
-					
+					SmartDashboard.putBoolean("Arm Intake Interlocked", true);
+				} else {
+					SmartDashboard.putBoolean("Arm Intake Interlocked", false);					
 				}
 			}
-				else {
-					armMovementAllowed = true;
-//					angle = initAngle;	
-				}
+			else {
+				SmartDashboard.putBoolean("Arm Intake Interlocked", true);
+				//					angle = initAngle;	
+			}
 		}
 		SmartDashboard.putNumber("Arm initial angle", initAngle);
 		SmartDashboard.putNumber("Arm target angle", angle);
-		Robot.log.writeLogEcho("Arm Start PID,initialAngle," + initAngle+ ",Destination Angle," + angle+",");
+		Robot.log.writeLogEcho("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero  + ",initial raw encoder," + getArmEncRaw() + 
+				",initialAngle," + initAngle+ ",Destination Angle," + angle);
 		finalAngle = angle;
 		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 120, 120);
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;

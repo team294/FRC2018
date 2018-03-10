@@ -177,7 +177,11 @@ public class Intake extends Subsystem {
 		return photoSwitch.get();
 	}
 	
-	public boolean intakeDeployed() {
+	/**
+	 * Gets the state of the intake
+	 * @return true = deployed, false = retracted or unknown state
+	 */
+	public boolean isIntakeDeployed() {
 		return intakeDeployPiston.get() == DoubleSolenoid.Value.kForward;
 	}
 
