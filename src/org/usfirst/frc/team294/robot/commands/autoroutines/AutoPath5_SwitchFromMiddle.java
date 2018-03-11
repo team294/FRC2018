@@ -24,18 +24,20 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		} else {
 			angleMultiplier = 1;
 		}
+		addParallel(new ClawSetMotorSpeed(-0.20));
 		addParallel(new ArmMoveWithIntake());
 		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
 		if (goLeft) {
 			addSequential(new DriveStraightDistanceProfile(95, angleMultiplier * 50, 100, 100));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(15, 0, 50, 50));
+			addSequential(new DriveStraightDistanceProfile(18, 0, 50, 50));
 		} else {
 			addSequential(new DriveStraightDistanceProfile(95, angleMultiplier * 40, 100, 100));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(20, 0, 50, 50));
+			addSequential(new DriveStraightDistanceProfile(18, 0, 50, 50));
 		}
 		addSequential(new AutoSwitchShoot());
+<<<<<<< HEAD
 		addSequential(new DriveStraightDistanceProfile(-10, 0, 100, 100));
         if (goLeft) {
 			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
@@ -56,5 +58,8 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
         }
 		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
 		addSequential(new AutoSwitchShoot());
+=======
+		
+>>>>>>> refs/remotes/origin/Jim-SwitchFromMiddle
 	}
 }

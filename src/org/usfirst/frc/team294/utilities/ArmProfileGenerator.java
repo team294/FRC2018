@@ -36,6 +36,19 @@ public class ArmProfileGenerator {
 	 */
 	public ArmProfileGenerator(double initialPosition, double finalPosition, double initialVelocity, 
 			double maxVelocity, double maxAcceleration) {
+		newProfile( initialPosition, finalPosition, initialVelocity, maxVelocity, maxAcceleration);
+	}
+	
+	/**
+	 * Resets profile generator with new parameters, starting now
+	 * @param initialPosition in inches
+	 * @param finalPosition in inches
+	 * @param initialVelocity in inches per second
+	 * @param maxVelocity in inches per second
+	 * @param maxAcceleration in inches per second^2
+	 */
+	public void newProfile(double initialPosition, double finalPosition, double initialVelocity, 
+			double maxVelocity, double maxAcceleration) {
 		this.initialPosition = initialPosition;
 		this.finalPosition = finalPosition;
 		

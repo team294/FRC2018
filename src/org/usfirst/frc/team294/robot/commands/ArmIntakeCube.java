@@ -43,7 +43,7 @@ public class ArmIntakeCube extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	// if the claw has been closed 
-    	if (!Robot.claw.getBumpSwitch() || Timer.getFPGATimestamp() >= (timeClawClosed + 1)) {
+    	if (Robot.claw.getBumpSwitch() || Timer.getFPGATimestamp() >= (timeClawClosed + 1)) {
     		end();
     		timeClawClosed = 1000;
     		return true;
