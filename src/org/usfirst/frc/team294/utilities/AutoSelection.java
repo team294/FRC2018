@@ -26,7 +26,7 @@ public class AutoSelection {
 	public static final int AUTO_PLANS = 6;
 
 	public enum AutoPlan {
-		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly
+		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly, TwoCubeSwitchOnly
 		// do not change the order of these
 	}
 
