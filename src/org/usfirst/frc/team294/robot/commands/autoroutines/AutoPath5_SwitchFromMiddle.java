@@ -25,6 +25,7 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		} else {
 			angleMultiplier = 1;
 		}
+		addParallel(new ClawSetMotorSpeed(-0.20));
 		addParallel(new ArmMoveWithIntake());
 		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
 		if (goLeft) {
@@ -37,5 +38,6 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 			addSequential(new DriveStraightDistanceProfile(20, 0, 50, 50));
 		}
 		addSequential(new AutoSwitchShoot());
+		
 	}
 }
