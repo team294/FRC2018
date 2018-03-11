@@ -31,11 +31,11 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		if (goLeft) {
 			addSequential(new DriveStraightDistanceProfile(95, angleMultiplier * 50, 100, 100));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(15, 0, 50, 50));
+			addSequential(new DriveStraightDistanceProfile(18, 0, 50, 50));
 		} else {
 			addSequential(new DriveStraightDistanceProfile(95, angleMultiplier * 40, 100, 100));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(20, 0, 50, 50));
+			addSequential(new DriveStraightDistanceProfile(18, 0, 50, 50));
 		}
 		addSequential(new AutoSwitchShoot());
 		
