@@ -37,7 +37,6 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 			addSequential(new DriveStraightDistanceProfile(18, 0, 50, 50));
 		}
 		addSequential(new AutoSwitchShoot());
-<<<<<<< HEAD
 		addSequential(new DriveStraightDistanceProfile(-10, 0, 100, 100));
         if (goLeft) {
 			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
@@ -58,8 +57,5 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
         }
 		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
 		addSequential(new AutoSwitchShoot());
-=======
-		
->>>>>>> refs/remotes/origin/Jim-SwitchFromMiddle
 	}
 }
