@@ -16,6 +16,13 @@ public class ArmMoveToEdge extends Command {
 	//private double currentAngle;
 	private ArmZones currZone;
 	public ToleranceChecker tolcheck;
+	
+	/**
+	 * Moves arm to the edge of the current zone, towards destAngle.
+	 * Use this to start the arm moving while waiting for a piston
+	 * to retract.
+	 * @param destAngle in degrees
+	 */
 	public ArmMoveToEdge(double destAngle) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -26,7 +33,7 @@ public class ArmMoveToEdge extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		currZone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
-		tolcheck = new ToleranceChecker(3, 10);
+		tolcheck = new ToleranceChecker(4, 10);
 		switch (currZone) {
 		case Low:
 			if (destAngle >= RobotMap.lowerBound) {
@@ -75,7 +82,7 @@ public class ArmMoveToEdge extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return true;
+		return tolcheck.success( Robot.armMotor.getArmDegrees() - destAngle);
 	}
 
 	// Called once after isFinished returns true

@@ -77,14 +77,17 @@ public class Intake extends Subsystem {
 		if (!deployed) {
 			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
 				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
-				
+				Robot.log.writeLogEcho("Intake,Retracting,arm is high");
 			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
 				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+				Robot.log.writeLogEcho("Intake,Retracting,arm is low");
 			} else {
 				intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
+				Robot.log.writeLogEcho("Intake,Deploying,arm is in keep-out region");
 			}
 		} else {
 			intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
+			Robot.log.writeLogEcho("Intake,Deploying");
 		}
 		stop();
 	}

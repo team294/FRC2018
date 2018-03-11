@@ -112,7 +112,7 @@ public class Claw extends Subsystem {
 	 * @return true = object is pressing bump switch
 	 */
 	public boolean getBumpSwitch() {
-		return bumpSwitch.get();
+		return !bumpSwitch.get();
 	}
 	
 	/**

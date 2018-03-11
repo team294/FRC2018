@@ -19,7 +19,7 @@ public class ArmMoveWithPiston extends CommandGroup {
 	 * @param destAngle
 	 *            Desired destination angle, in degrees. 0 is horizontal, + is up, -
 	 *            is down.
-	 * @param finalPistonPosition
+	 * @param finalPistonPosition (must be a constant)
 	 *            true = extend piston by end of arm movement, false = retract
 	 *            piston
 	 */
