@@ -12,6 +12,7 @@ public class ArmMoveWithIntake extends CommandGroup {
 
 	public ArmMoveWithIntake() {
 		addSequential(new IntakeSetDeploy(true));
+		addSequential(new WaitCommand(0.5));
 		addSequential(new ArmMoveWithPiston(RobotMap.armSwitchPosHigh, false));
 		addSequential(new IntakeSetDeploy(false));
 	}
