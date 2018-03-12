@@ -126,7 +126,7 @@ public class ArmMotor extends Subsystem {
 			if (Robot.intake.isIntakeDeployed()) {
 				SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 			} else {
-				if (initAngle > RobotMap.armIntakeClearanceAng) {
+				if (initAngle > RobotMap.armIntakeClearanceAng-3) {
 					if (angle <= RobotMap.armIntakeClearanceAng) {
 						angle = RobotMap.armIntakeClearanceAng;
 						SmartDashboard.putBoolean("Arm Intake Interlocked", true);
