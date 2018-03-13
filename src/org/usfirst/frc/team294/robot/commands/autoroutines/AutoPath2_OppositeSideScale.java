@@ -1,7 +1,7 @@
 package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.commands.ArmMoveToDestAngle;
-
+import org.usfirst.frc.team294.robot.commands.ClawSetMotorSpeed;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
@@ -26,10 +26,10 @@ public class AutoPath2_OppositeSideScale extends CommandGroup {
 			angleMultiplier = -1;
 			break;
 		}
-
-		addSequential(new DriveStraightDistanceProfile(-200, 0, 150, 150));
+		addParallel(new ClawSetMotorSpeed(-0.40));
+		addSequential(new DriveStraightDistanceProfile(-200, 0, 120, 150));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(-180, 90 * angleMultiplier, 150, 150));
+		addSequential(new DriveStraightDistanceProfile(-180, 90 * angleMultiplier, 120, 150));
 		addSequential(new TurnGyro(-45 * angleMultiplier, TurnGyro.Units.Degrees));
 		addSequential(new DriveStraightDistanceProfile(-50, -45 * angleMultiplier)); 
 		// Backwards dunk cube
