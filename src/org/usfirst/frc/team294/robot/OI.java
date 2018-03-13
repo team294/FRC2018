@@ -298,6 +298,8 @@ public class OI {
 		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
 		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
 		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
+		
+		SmartDashboard.putData("Invert Intake", new IntakeMotorsSetOpposite());
 
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
 		
