@@ -142,6 +142,11 @@ public class Intake extends Subsystem {
 		SmartDashboard.putNumber("Left Intake Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Intake Motor Percent:", percent);
 	}
+	
+	public void setIntakeMotorPercentOpposite() {
+		intakeMotorLeft.set(ControlMode.PercentOutput, 1.0);
+		intakeMotorRight.set(ControlMode.PercentOutput, -0.7);
+		}
 
 	/**
 	 * closes the intake jaws if the photo switch is triggered

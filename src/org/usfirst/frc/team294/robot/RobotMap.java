@@ -47,7 +47,6 @@ public class RobotMap {
 	//intake motor speeds
 	public static double intakePercentIn = 0.7; //need to be tested
 	public static double intakePercentOut = -0.4; // Slow speed for outtake
-	public static double intakePercentInReverse = 0.6; //for when cube gets stuck in intake
 	
 	//claw motor speeds
 	public static double clawPercentIn = -0.7; //need to be tested
