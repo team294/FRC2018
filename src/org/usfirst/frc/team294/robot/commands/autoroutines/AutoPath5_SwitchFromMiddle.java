@@ -37,25 +37,27 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 			addSequential(new DriveStraightDistanceProfile(18, 0, 50, 50));
 		}
 		addSequential(new AutoSwitchShoot());
-		addSequential(new DriveStraightDistanceProfile(-55, 0, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(-30, 0, 100, 100)); //should be -8
         if (goLeft) {
-			addSequential(new TurnGyro(55, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(45, 0, 100, 100));
+			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
+			addSequential(new DriveStraightDistanceProfile(45, 45, 100, 100));
 			addSequential(new ArmMoveWithPiston(-13.0, false));
 			addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentIn));
 			addParallel(new ArmIntakeCube());
-			addSequential(new DriveStraightDistanceProfile(-10, 0, 100, 100));
+			addSequential(new DriveStraightDistanceProfile(-10, -45, 100, 100));
 			addSequential(new TurnGyro(-45, TurnGyro.Units.Degrees));
         } else {
-			addSequential(new TurnGyro(-55, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(45, 0, 100, 100));
-			addSequential(new ArmMoveWithPiston(-13.0, false));
-			addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentIn));
-			addParallel(new ArmIntakeCube());
-			addSequential(new DriveStraightDistanceProfile(-10, 0, 100, 100));
-			addSequential(new TurnGyro(45, TurnGyro.Units.Degrees));
+			addParallel(new LoadCubeSequenceWithIntakeOpen());
+			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
+			addSequential(new DriveStraightDistanceProfile(60, -90, 100, 100));
+//			addSequential(new ArmMoveWithPiston(-13.0, false));
+//			addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentIn));
+//			addParallel(new ArmIntakeCube());
+			addParallel(new ArmMoveWithIntake());
+			addSequential(new DriveStraightDistanceProfile(-50, -90, 100, 100));
+			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
         }
-		addSequential(new DriveStraightDistanceProfile(55, 0, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(18, 0, 100, 100));
 		addSequential(new AutoSwitchShoot());
 	}
 }
