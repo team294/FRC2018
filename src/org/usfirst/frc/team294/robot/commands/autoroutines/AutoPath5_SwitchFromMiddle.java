@@ -48,8 +48,10 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 			addSequential(new TurnGyro(-45, TurnGyro.Units.Degrees));
         } else {
 			addParallel(new LoadCubeSequenceWithIntakeOpen());
+//			addSequential(new WaitCommand(5.0));			
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(60, -90, 100, 100));
+//			addSequential(new WaitCommand(2.0));
 //			addSequential(new ArmMoveWithPiston(-13.0, false));
 //			addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentIn));
 //			addParallel(new ArmIntakeCube());
