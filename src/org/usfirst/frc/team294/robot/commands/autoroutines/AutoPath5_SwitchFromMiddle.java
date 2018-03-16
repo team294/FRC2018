@@ -24,7 +24,9 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		} else {
 			angleMultiplier = 1;
 		}
-		addParallel(new ClawSetMotorSpeed(-0.40));
+		addParallel(new ClawSetMotorSpeed(-1.0));
+		addSequential(new WaitCommand(0.1)); 
+		addParallel(new ClawSetMotorSpeed(-0.4));
 		addParallel(new ArmMoveWithIntake());
 		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
 		if (goLeft) {
@@ -32,12 +34,12 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(18, 0, 50, 50));
 		} else {
-			addSequential(new DriveStraightDistanceProfile(95, angleMultiplier * 40, 100, 100));
+			addSequential(new DriveStraightDistanceProfile(95, angleMultiplier * 40, 100, 70));  // acceleration factor was 100 
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(18, 0, 50, 50));
 		}
 		addSequential(new AutoSwitchShoot());
-		addSequential(new DriveStraightDistanceProfile(-30, 0, 100, 100)); //should be -8
+		addSequential(new DriveStraightDistanceProfile(-8, 0, 100, 100)); //should be -8
         if (goLeft) {
 			addSequential(new TurnGyro(90, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(45, 45, 100, 100));
@@ -50,8 +52,8 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 			addParallel(new LoadCubeSequenceWithIntakeOpen());
 //			addSequential(new WaitCommand(5.0));			
 			addSequential(new TurnGyro(-90, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(60, -90, 100, 100));
-//			addSequential(new WaitCommand(2.0));
+			addSequential(new DriveStraightDistanceProfile(60, -90, 75, 100));  // speed was 100 
+			addSequential(new WaitCommand(5.0));
 //			addSequential(new ArmMoveWithPiston(-13.0, false));
 //			addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentIn));
 //			addParallel(new ArmIntakeCube());

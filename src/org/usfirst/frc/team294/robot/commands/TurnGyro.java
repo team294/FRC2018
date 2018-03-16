@@ -19,7 +19,7 @@ public class TurnGyro extends Command {
 	private double angleSpeedControl, amountTurn;
 	private double prevAngleError = 0, integratedError = 0, derivativeError = 0, angleError = 0;
 	private static final double dt = .02;
-	private final VelocityChecker velCheck = new VelocityChecker(.8);
+	private final VelocityChecker velCheck = new VelocityChecker(.2);  // was 0.8 
 	private final double kPdist = 0.045, // Proportional Term
 			kDdist = 0.0038, // Derivative Value
 			kIdist = 0; // Integral Term
@@ -87,7 +87,7 @@ public class TurnGyro extends Command {
 		velCheck.clearHistory();
 		// Robot.driveTrain.zeroGyroRoataion();
 
-		Robot.log.writeLogEcho("Amount to turn: " + amountTurn);
+		Robot.log.writeLogEcho("Turn gyro,destAngle," + amountTurn);
 
 	}
 
@@ -109,6 +109,7 @@ public class TurnGyro extends Command {
 		SmartDashboard.putNumber("Gyro Turn Dist Err:", angleError);
 		SmartDashboard.putNumber("Gyro Turn Perc Speed:", angleSpeedControl);
 		SmartDashboard.putNumber("Degrees to turn Robot: ", amountTurn);
+		Robot.log.writeLogEcho("Turn Gyro,destAngle," + amountTurn + ",currentAngle," + Robot.driveTrain.getGyroRotation() + ",averageVelocity," + velCheck.getAverage());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

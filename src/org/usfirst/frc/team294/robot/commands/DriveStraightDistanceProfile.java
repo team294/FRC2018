@@ -38,7 +38,7 @@ public class DriveStraightDistanceProfile extends Command {
 	private double kPangle = .06;
 	private double kIangle = .002;
 	private double kDangle = .1;
-	private final VelocityChecker velCheck = new VelocityChecker(.5);
+	private final VelocityChecker velCheck = new VelocityChecker(0.2);
 
 	private double curve;
 	private double minSpeed = .1;
@@ -100,7 +100,7 @@ public class DriveStraightDistanceProfile extends Command {
 		angleErr = 0;
 		success = false;
 		distSpeedControl = 0;
-		tolCheck = new ToleranceChecker(1, 10);
+		tolCheck = new ToleranceChecker(3, 5);
 		velCheck.clearHistory();
 		Robot.driveTrain.zeroLeftEncoder();
 		Robot.driveTrain.zeroRightEncoder();
@@ -150,7 +150,7 @@ public class DriveStraightDistanceProfile extends Command {
 			prevDistanceInches = currentDistanceInches;
 		}
 
-		Robot.log.writeLog("DSDProfile,currentDistance," + currentDistance + ",MPCurrentDistance," + MPCurrentDistance
+		Robot.log.writeLogEcho("DSDProfile,currentDistance," + currentDistance + ",MPCurrentDistance," + MPCurrentDistance
 				+ ",distSpeedControl," + distSpeedControl + ",MPVelocity," + trapezoid.getCurrentVelocity()
 				+ ",tolCheckerValue," + tolCheck.success() + ",velCheckAverage," + velCheck.getAverage());
 
@@ -176,7 +176,7 @@ public class DriveStraightDistanceProfile extends Command {
 	protected void end() {
 		// velCheck.dumpArray();
 		Robot.log.writeLogEcho(
-				"DriveStraightDistanceProfile ended, distError: " + distErr + ", velCheck: " + velCheck.getAverage());
+				"DriveStraightDistanceProfile ended, distError: " + (targetDistance - currentDistance) + ", velCheck: " + velCheck.getAverage());
 		Robot.driveTrain.driveAtCurve(0, 0);
 	}
 
