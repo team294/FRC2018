@@ -16,13 +16,15 @@ public class ArmPistonSmartExtendInDestZone extends Command {
 	private ArmZones destZone;
 	private boolean done;
 	
+	/**
+	 * Extend piston when the arm enters the zone for destAng
+	 * @param destAng destination angle, in degrees
+	 */
 	public ArmPistonSmartExtendInDestZone(double destAng) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.armPiston);
 		destZone = RobotMap.getArmZone(destAng);
-		if (destAng > RobotMap.upperBound || (destAng < RobotMap.middleBound && destAng > RobotMap.lowerBound)) done = true;
-		else done = false;
 	}
 
 	// Called just before this Command runs the first time
@@ -32,10 +34,14 @@ public class ArmPistonSmartExtendInDestZone extends Command {
 		// destAng > RobotMap.lowerBound)) {
 		//done = true;
 		// currentAng = Robot.protoArmMotor.getArmDegrees();
-		done = false;
+		if (destZone == RobotMap.ArmZones.Backwards || destZone == RobotMap.ArmZones.Middle)
+			done = true;
+		else
+			done = false;
+
+//		done = false;
 	}
 
-//}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {

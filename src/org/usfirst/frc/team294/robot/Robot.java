@@ -134,11 +134,11 @@ public class Robot extends TimedRobot {
 		if (autoSelection.autonomousCommand != null) {
 			Command shiftLow = new Shift(false);
 			shiftLow.start();
+			claw.closeClaw();
+			new IntakeSetDeploy(false);
 			autoSelection.autonomousCommand.start();
 		}
 	}
-	
-	
 	
 	/**
 	 * This function is called periodically during autonomous.

@@ -8,12 +8,11 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *Sequence to move the intake out of the way and bring the arm to the switch position
  */
-public class ArmMoveWithIntake extends CommandGroup {
+public class ArmMoveWithIntakeBack extends CommandGroup {
 
-	public ArmMoveWithIntake() {
+	public ArmMoveWithIntakeBack() {
 		addSequential(new IntakeSetDeploy(true));
 		addSequential(new WaitCommand(0.5));
-		addSequential(new ArmMoveWithPiston(RobotMap.armSwitchPosHigh, false));
-		addSequential(new IntakeSetDeploy(false));
+		addSequential(new ArmMoveWithPiston(RobotMap.armScaleLowPos, false));
 	}
 }

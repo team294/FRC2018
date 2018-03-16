@@ -126,7 +126,7 @@ public class ArmMotor extends Subsystem {
 			if (Robot.intake.isIntakeDeployed()) {
 				SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 			} else {
-				if (initAngle > RobotMap.armIntakeClearanceAng) {
+				if (initAngle > RobotMap.armIntakeClearanceAng-3) {
 					if (angle <= RobotMap.armIntakeClearanceAng) {
 						angle = RobotMap.armIntakeClearanceAng;
 						SmartDashboard.putBoolean("Arm Intake Interlocked", true);
@@ -146,7 +146,7 @@ public class ArmMotor extends Subsystem {
 		Robot.log.writeLogEcho("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero  + ",initial raw encoder," + getArmEncRaw() + 
 				",initialAngle," + initAngle+ ",Destination Angle," + angle);
 		finalAngle = angle;
-		trapezoid = new ArmProfileGenerator(initAngle, angle,0, 120, 120);
+		trapezoid.newProfile(initAngle, angle, 0, 120, 120);
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;
 //		setArmPositionScaled(encoderDegrees);
 	}
@@ -380,9 +380,14 @@ public class ArmMotor extends Subsystem {
 			else
 				percentPower += kPd * error + ((error-prevError)*kDd)+(kId*intError);
 			prevError = error;
-			SmartDashboard.putNumber("PID Error", error);
-			SmartDashboard.putNumber("PID percent power", percentPower);
-			SmartDashboard.putNumber("Profile getCurrentPosition", trapezoid.getCurrentPosition());
+			
+			SmartDashboard.putNumber("Arm PID Error", error);
+			SmartDashboard.putNumber("Arm PID percent power", percentPower);
+			SmartDashboard.putNumber("Arm Profile getCurrentPosition", trapezoid.getCurrentPosition());
+			if (Math.abs(finalAngle - getArmDegrees()) > 4.0)
+				Robot.log.writeLog("Arm PID,target angle," + finalAngle + ",current angle," + getArmDegrees() + ",profile angle," + trapezoid.getCurrentPosition() + 
+						",PID error," + error + ",PID power," + percentPower);
+			
 			setArmMotorToPercentPower(percentPower);
 		} else if(!Robot.armMotor.joystickControl) {
 			//if we are not enabled, our arm isn't calibrated and/or we aren't controlling the robot with the joystick, then set power to zero

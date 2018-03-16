@@ -13,6 +13,10 @@ public class ArmMoveToLegalRange extends Command {
 
 	private double currentAng;
 	
+	/**
+	 * If the arm is outside of the legal range (between RobotMap.minAngle and RobotMap.maxAngle,
+	 * then moves the arm to just inside the legal range.
+	 */
 	public ArmMoveToLegalRange() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);\

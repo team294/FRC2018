@@ -2,12 +2,15 @@ package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.commands.ArmMoveWithPiston;
+import org.usfirst.frc.team294.robot.commands.ClawSetMotorSpeed;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
-
+import org.usfirst.frc.team294.robot.commands.IntakeSetDeploy;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -26,24 +29,28 @@ public class AutoPath4_OppositeSideSwitchBack extends CommandGroup {
 			break;
 		}
 		
-		addSequential(new DriveStraightDistanceProfile(-230, 0, 150, 150));
+		addParallel(new ClawSetMotorSpeed(-0.40));
+		addSequential(new WaitCommand(0.1));
+		addParallel(new IntakeSetDeploy(true));
+		addSequential(new DriveStraightDistanceProfile(-230, 0, 100, 150));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
 		
-		if (Robot.robotPrefs.inBCRLab) {
+		/*if (Robot.robotPrefs.inBCRLab) {
 			// If on left, then just stop since we are at the beam
 			if (startPosition == StartingPosition.Left) return;
 
 			// If on right, then drive short because of beam then stop
 			addSequential(new DriveStraightDistanceProfile(-152, 90 * angleMultiplier, 150, 150)); // Actually go 165" but also
 			return;
-		}
+		} */
 		
-		addSequential(new DriveStraightDistanceProfile(-200, 90 * angleMultiplier, 150, 150));
+		addParallel(new ArmMoveWithPiston(0, false));
+		addSequential(new DriveStraightDistanceProfile(-200, 90 * angleMultiplier, 100, 150));
 		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
 		addSequential(new DriveStraightDistanceProfile(50, 0));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
 		addSequential(new DriveStraightDistanceProfile(20, 90 * angleMultiplier)); // Touch the Switch wall
-		// Score cube
+		addSequential(new AutoSwitchShoot());
 
 	}
 }

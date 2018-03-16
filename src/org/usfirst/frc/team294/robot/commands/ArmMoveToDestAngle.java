@@ -14,6 +14,10 @@ public class ArmMoveToDestAngle extends Command {
 	private double destAngle;
 	public ToleranceChecker tolcheck;
 	
+	/**
+	 * Move arm to destAngle
+	 * @param destAngle in degrees
+	 */
 	public ArmMoveToDestAngle(double destAngle) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -23,7 +27,7 @@ public class ArmMoveToDestAngle extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		tolcheck = new ToleranceChecker(3, 10);
+		tolcheck = new ToleranceChecker(4, 10);
 		destAngle = (destAngle > RobotMap.maxAngle) ? RobotMap.maxAngle : destAngle;
 		destAngle = (destAngle < RobotMap.minAngle) ? RobotMap.minAngle : destAngle;
 		Robot.armMotor.startPID(destAngle);
@@ -35,7 +39,7 @@ public class ArmMoveToDestAngle extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return true;
+		return tolcheck.success( Robot.armMotor.getArmDegrees() - destAngle);
 	}
 
 	// Called once after isFinished returns true
