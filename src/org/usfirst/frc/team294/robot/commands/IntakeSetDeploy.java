@@ -10,16 +10,32 @@ import edu.wpi.first.wpilibj.command.Command;
 public class IntakeSetDeploy extends Command {
 
 	boolean deployed;
+	boolean waitForMove; 
 	
 	/**
 	 * Deploys or retracts the intake based on parameter
 	 * @param deploy true = deployed, false = retracted
+	 * does not wait for the intake to move 
 	 */
     public IntakeSetDeploy(boolean deploy) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
     	deployed = deploy;
+    	waitForMove = false; 
+    }
+    
+    /**
+     * Deploys or retracts the intake based on parameter
+	 * @param deploy true = deployed, false = retracted
+     * @param waitForMove true = wait for intake to move, false = don't wait 
+     */
+    public IntakeSetDeploy(boolean deploy, boolean waitForMove) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.intake);
+    	deployed = deploy;
+    	this.waitForMove = waitForMove; 
     }
 
     // Called just before this Command runs the first time
@@ -34,7 +50,12 @@ public class IntakeSetDeploy extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true; // Write a test to see if intake changes state?
+    	if(waitForMove) {
+    		return timeSinceInitialized() > 0.5; 
+    	}
+    	else {
+    		return true; // Write a test to see if intake changes state?
+    	}
     }
 
     // Called once after isFinished returns true

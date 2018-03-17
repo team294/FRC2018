@@ -143,8 +143,8 @@ public class ArmMotor extends Subsystem {
 		
 		SmartDashboard.putNumber("Arm initial angle", initAngle);
 		SmartDashboard.putNumber("Arm target angle", angle);
-		Robot.log.writeLogEcho("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero  + ",initial raw encoder," + getArmEncRaw() + 
-				",initialAngle," + initAngle+ ",Destination Angle," + angle);
+		Robot.log.writeLog("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero  + ",initial raw encoder," + getArmEncRaw() + 
+				",initialAngle," + initAngle+ ",Destination Angle," + angle + ",intake deployed," + Robot.intake.isIntakeDeployed());
 		finalAngle = angle;
 		trapezoid.newProfile(initAngle, angle, 0, 120, 120);
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;

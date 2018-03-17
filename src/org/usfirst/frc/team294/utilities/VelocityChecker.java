@@ -49,6 +49,7 @@ public class VelocityChecker {
 	public void clearHistory() {
 		Arrays.fill(histArray, Double.MAX_VALUE); // Dont forget, histArray is filled with big numbers to skew avergae
 													// at start
+		histArrayIndex = 0;
 	}
 	
 	/**
@@ -66,8 +67,10 @@ public class VelocityChecker {
 	public double getAverage() {
 		double sum = 0;
 		for (double d : histArray) {
+//			System.out.print(d + ","); 
 			sum += d;
 		}
+//		System.out.println("avg = " + sum/histArray.length);
 		return sum / histArray.length;
 	}
 }

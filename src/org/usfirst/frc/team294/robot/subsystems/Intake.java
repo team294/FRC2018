@@ -30,6 +30,7 @@ public class Intake extends Subsystem {
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
 	public static boolean cubeInIntake;
+	private DoubleSolenoid.Value intakeState = DoubleSolenoid.Value.kOff;
 
 	
 	public final MotorCurrentTrigger intakeMotorLeftCurrentTrigger =  new MotorCurrentTrigger(intakeMotorLeft, 8, 4);
@@ -74,22 +75,26 @@ public class Intake extends Subsystem {
 	 * @param deployed true = deployed, false = retracted
 	 */
 	public void setIntakeDeploy(boolean deployed) {
+		// Track intake state in software (variable intakeState), so that we
+		// can read back the intake state change faster than the CanBus
+		// roundtrip
 		if (!deployed) {
 			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
-				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+				intakeState = DoubleSolenoid.Value.kReverse;
 				Robot.log.writeLogEcho("Intake,Retracting,arm is high");
 			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
-				intakeDeployPiston.set(DoubleSolenoid.Value.kReverse);
+				intakeState = DoubleSolenoid.Value.kReverse;
 				Robot.log.writeLogEcho("Intake,Retracting,arm is low");
 			} else {
-				intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
+				intakeState = DoubleSolenoid.Value.kForward;
 				Robot.log.writeLogEcho("Intake,Deploying,arm is in keep-out region");
 			}
 		} else {
-			intakeDeployPiston.set(DoubleSolenoid.Value.kForward);
+			intakeState = DoubleSolenoid.Value.kForward;
 			Robot.log.writeLogEcho("Intake,Deploying");
 		}
-		stop();
+		intakeDeployPiston.set(intakeState);
+//		stop();
 	}
 	
 	/**
@@ -185,7 +190,7 @@ public class Intake extends Subsystem {
 	 * @return true = deployed, false = retracted or unknown state
 	 */
 	public boolean isIntakeDeployed() {
-		return intakeDeployPiston.get() == DoubleSolenoid.Value.kForward;
+		return intakeState == DoubleSolenoid.Value.kForward;
 	}
 
 	public void periodic() {

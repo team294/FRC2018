@@ -1,9 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -11,9 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CubeLetGo extends Command {
 
-	private double leftPercent = 50; // may want to have different speeds
-	private double rightPercent = 50;
-	private double timeLetGo;
+	private double leftPercent = 0.50; // may want to have different speeds
+	private double rightPercent = 0.50;
 
 	public CubeLetGo() {
 		// Use requires() here to declare subsystem dependencies
@@ -29,19 +26,14 @@ public class CubeLetGo extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.claw.openClaw();
-		Robot.claw.setClawMotorToPercentPower(leftPercent, rightPercent);
-		if (timeLetGo == 1000) {
-			timeLetGo = Timer.getFPGATimestamp();
-		} else {
-		}
+//		Robot.claw.openClaw();
+//		Robot.claw.setClawMotorToPercentPower(leftPercent, rightPercent);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (Timer.getFPGATimestamp() >= timeLetGo + 2) {
+		if (timeSinceInitialized() >=  0.3) {
 			end();
-			timeLetGo = 1000;
 			return true;
 		} else {
 			return false;

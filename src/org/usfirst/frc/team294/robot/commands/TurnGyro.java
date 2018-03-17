@@ -18,10 +18,11 @@ public class TurnGyro extends Command {
 
 	private double angleSpeedControl, amountTurn;
 	private double prevAngleError = 0, integratedError = 0, derivativeError = 0, angleError = 0;
+	private double prevAngle, currAngle;
 	private static final double dt = .02;
-	private final VelocityChecker velCheck = new VelocityChecker(.8);
+	private final VelocityChecker velCheck = new VelocityChecker(0.2);  // was 0.8 
 	private final double kPdist = 0.045, // Proportional Term
-			kDdist = 0.0038, // Derivative Value
+			kDdist = 0.002,//38, // Derivative Value
 			kIdist = 0; // Integral Term
 	private boolean useVisionForAngle;
 
@@ -80,6 +81,7 @@ public class TurnGyro extends Command {
 			}
 		}
 		prevAngleError = 0;
+		prevAngle = Robot.driveTrain.getGyroRotation();
 		integratedError = 0;
 		derivativeError = 0;
 		angleError = 0;
@@ -87,14 +89,15 @@ public class TurnGyro extends Command {
 		velCheck.clearHistory();
 		// Robot.driveTrain.zeroGyroRoataion();
 
-		Robot.log.writeLogEcho("Amount to turn: " + amountTurn);
+		Robot.log.writeLogEcho("Turn gyro,destAngle," + amountTurn);
 
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		SmartDashboard.putNumber("Gyro Levels:", Robot.driveTrain.getGyroRotation());
-		angleError = amountTurn - Robot.driveTrain.getGyroRotation();
+		currAngle = Robot.driveTrain.getGyroRotation();
+		SmartDashboard.putNumber("Gyro Levels:", currAngle);
+		angleError = amountTurn - currAngle;
 		angleError = angleError < -180 ? angleError + 360 : angleError;
 		angleError = angleError > 180 ? angleError - 360 : angleError;
 		integratedError += angleError * dt;
@@ -104,17 +107,19 @@ public class TurnGyro extends Command {
 		angleSpeedControl = angleSpeedControl < .4 && angleSpeedControl > 0 ? .4 : angleSpeedControl;
 		angleSpeedControl = angleSpeedControl > -.4 && angleSpeedControl < 0 ? -.4 : angleSpeedControl;
 		Robot.driveTrain.tankDrive(angleSpeedControl, -angleSpeedControl);
-		velCheck.addValue(angleError - prevAngleError);
+		velCheck.addValue(currAngle - prevAngle);
 		prevAngleError = angleError;
+		prevAngle = currAngle;
 		SmartDashboard.putNumber("Gyro Turn Dist Err:", angleError);
 		SmartDashboard.putNumber("Gyro Turn Perc Speed:", angleSpeedControl);
 		SmartDashboard.putNumber("Degrees to turn Robot: ", amountTurn);
+		Robot.log.writeLogEcho("Turn Gyro,destAngle," + amountTurn + ",currentAngle," + currAngle + ",averageVelocity," + velCheck.getAverage());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		// return velCheck.getAverage() < 1 || Math.abs(angleError) <= 1;
-		return velCheck.getAverage() < 1;
+		return Math.abs(velCheck.getAverage()) < 0.1;
 	}
 
 	// Called once after isFinished returns true
