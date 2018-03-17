@@ -22,7 +22,7 @@ public class LoadCubeSequenceWithIntakeOpen extends CommandGroup {
     	addSequential(new IntakeSetOpen(true));
     	addSequential(new ClawSetState(false)); // Close the claw while moving the arm
     	addSequential(new LogMessage("loadCube, 1 intake claw set",true)); 
-    	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,true)); // Move the arm to the intake position
+    	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,false)); // Move the arm to the intake position
     	addSequential(new LogMessage("loadCube, 2 arm finished moving",true)); 
 
     	//    		TODO add checker to see if the intake is deployed and open before intaking can occur

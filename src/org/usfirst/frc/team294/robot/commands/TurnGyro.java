@@ -115,7 +115,7 @@ public class TurnGyro extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		// return velCheck.getAverage() < 1 || Math.abs(angleError) <= 1;
-		return velCheck.getAverage() < 1;
+		return velCheck.getAverage() < 0.1;
 	}
 
 	// Called once after isFinished returns true

@@ -49,6 +49,7 @@ public class VelocityChecker {
 	public void clearHistory() {
 		Arrays.fill(histArray, Double.MAX_VALUE); // Dont forget, histArray is filled with big numbers to skew avergae
 													// at start
+		histArrayIndex = 0;
 	}
 	
 	/**
@@ -64,6 +65,7 @@ public class VelocityChecker {
 	 * @return running average
 	 */
 	public double getAverage() {
+		System.out.println(histArray); 
 		double sum = 0;
 		for (double d : histArray) {
 			sum += d;

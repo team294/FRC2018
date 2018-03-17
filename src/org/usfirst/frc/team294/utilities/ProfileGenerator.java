@@ -63,8 +63,8 @@ public class ProfileGenerator {
 		long tempTime = System.currentTimeMillis();
 		dt = ((double)(tempTime - currentTime))/1000.0;
 		currentTime = tempTime;		
-		
-		double stoppingDistance = 0.5*currentVelocity*currentVelocity/maxAcceleration;
+		double stoppingVelocity = currentVelocity + dt*maxAcceleration; 
+		double stoppingDistance = 0.5*stoppingVelocity*stoppingVelocity/maxAcceleration;
 		if(targetMPDistance - currentMPDistance < stoppingDistance) currentAcceleration = -maxAcceleration;
 		else if(currentVelocity < maxVelocity) currentAcceleration = maxAcceleration;
 		else currentAcceleration = 0;

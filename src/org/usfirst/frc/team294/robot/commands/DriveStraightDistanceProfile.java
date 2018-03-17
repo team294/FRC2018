@@ -139,7 +139,7 @@ public class DriveStraightDistanceProfile extends Command {
 			// Swap curve correction when in reverse
 
 			Robot.driveTrain.driveAtCurve(distSpeedControl, curve);
-			velCheck.addValue(prevDistanceInches - currentDistanceInches);
+			velCheck.addValue(currentDistanceInches - prevDistanceInches);
 			prevDistErr = distErr;
 
 			double diffInches = currentDistanceInches - prevDistanceInches;
@@ -169,7 +169,7 @@ public class DriveStraightDistanceProfile extends Command {
 			SmartDashboard.putNumber("fSet Distance", targetDistance);
 			SmartDashboard.putNumber("fActual Distance", currentDistance);
 		}
-		return Math.abs(velCheck.getAverage()) < 0.1 || success;
+		return Math.abs(velCheck.getAverage()) < 0.05 || success;
 	}
 
 	// Called once after isFinished returns true

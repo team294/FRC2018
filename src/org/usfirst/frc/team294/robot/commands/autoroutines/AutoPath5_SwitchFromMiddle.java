@@ -58,10 +58,10 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 //			addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentIn));
 //			addParallel(new ArmIntakeCube());
 			addParallel(new ArmMoveWithIntake());
-			addSequential(new DriveStraightDistanceProfile(-50, -90, 100, 100));
+			addSequential(new DriveStraightDistanceProfile(-50, -80, 100, 100));
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
         }
-		addSequential(new DriveStraightDistanceProfile(18, 0, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(25, 0, 100, 100));
 		addSequential(new AutoSwitchShoot());
 	}
 }
