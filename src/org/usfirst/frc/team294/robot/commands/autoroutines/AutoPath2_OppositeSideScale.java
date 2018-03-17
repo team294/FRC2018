@@ -1,41 +1,64 @@
 package org.usfirst.frc.team294.robot.commands.autoroutines;
 
+import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.ArmMoveToDestAngle;
+import org.usfirst.frc.team294.robot.commands.ArmMoveWithIntake;
+import org.usfirst.frc.team294.robot.commands.ArmMoveWithIntakeBack;
+import org.usfirst.frc.team294.robot.commands.ArmMoveWithPiston;
+import org.usfirst.frc.team294.robot.commands.ArmPistonSmartExtendInDestZone;
 import org.usfirst.frc.team294.robot.commands.ClawSetMotorSpeed;
+import org.usfirst.frc.team294.robot.commands.CubeShootOut;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
+import org.usfirst.frc.team294.robot.commands.IntakeSetDeploy;
+import org.usfirst.frc.team294.robot.commands.IntakeSetOpen;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
 import org.usfirst.frc.team294.robot.commands.TurnGyro.Units.*;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  */
 public class AutoPath2_OppositeSideScale extends CommandGroup {
 
-    public AutoPath2_OppositeSideScale(StartingPosition startPosition) {
-    	int angleMultiplier = 1; 
-
-		addParallel(new ArmMoveToDestAngle(90)); // TODO Change Angle
+	public AutoPath2_OppositeSideScale(StartingPosition startPosition) {
+		int angleMultiplier = 1;
 
 		switch (startPosition) {
 		case Left:
-			angleMultiplier = 1; 
+			angleMultiplier = 1;
 			break;
 		case Right:
 			angleMultiplier = -1;
 			break;
 		}
 		addParallel(new ClawSetMotorSpeed(-0.40));
-		addSequential(new DriveStraightDistanceProfile(-200, 0, 120, 150));
+		addSequential(new WaitCommand(0.1));
+		addParallel(new ArmMoveWithIntake());
+//		addSequential(new IntakeSetOpen(true));
+		addSequential(new DriveStraightDistanceProfile(-220, 0, 100, 100));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(-180, 90 * angleMultiplier, 120, 150));
-		addSequential(new TurnGyro(-45 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(-50, -45 * angleMultiplier)); 
-		// Backwards dunk cube
-		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(50, 0)); // Drive back to "normal" angle
-		// Do second cube?
+		addSequential(new DriveStraightDistanceProfile(-215, 90 * angleMultiplier, 100, 100));
+		addSequential(new TurnGyro(150 * angleMultiplier, TurnGyro.Units.Degrees));
+		addParallel(new ArmMoveWithIntakeBack());
+		addSequential(new DriveStraightDistanceProfile(50, 150 * angleMultiplier, 100, 100));
+		addParallel(new ArmPistonSmartExtendInDestZone(RobotMap.armScaleLowPos));
+		addSequential(new WaitCommand(0.5));
+		addSequential(new CubeShootOut());
+
+		// addParallel(new ClawSetMotorSpeed(-0.40));
+		// addSequential(new DriveStraightDistanceProfile(-200, 0, 120, 150));
+		// addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
+		// addSequential(new DriveStraightDistanceProfile(-180, 90 * angleMultiplier,
+		// 120, 150));
+		// addSequential(new TurnGyro(-45 * angleMultiplier, TurnGyro.Units.Degrees));
+		// addSequential(new DriveStraightDistanceProfile(-50, -45 * angleMultiplier));
+		// // Backwards dunk cube
+		// addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
+		// addSequential(new DriveStraightDistanceProfile(50, 0)); // Drive back to
+		// "normal" angle
+		// // Do second cube?
 
 	}
 }

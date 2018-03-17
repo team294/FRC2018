@@ -30,8 +30,8 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addParallel(new ArmMoveWithIntakeBack());
 		addSequential(new DriveStraightDistanceProfile(-246, 6*angleMultiplier, 100, 100));
 		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, true));
-		addSequential(new TurnGyro(35 * angleMultiplier, TurnGyro.Units.Degrees));
-	//	addSequential(new WaitCommand(0.2));
+		addSequential(new TurnGyro(30 * angleMultiplier, TurnGyro.Units.Degrees));
+		addSequential(new WaitCommand(0.25));
 		addSequential(new CubeShootOut());
 		
 		// Score cube 1

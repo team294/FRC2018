@@ -34,9 +34,9 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		// Go forward to switch
 		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
 		if (goLeft) {
-			addSequential(new DriveStraightDistanceProfile(105, 45 * angleMultiplier, 100, 70)); // acceleration factor was 100 
+			addSequential(new DriveStraightDistanceProfile(105, 45 * angleMultiplier, 100, 100)); // acceleration factor was 70 
 		} else {
-			addSequential(new DriveStraightDistanceProfile(95, 40 * angleMultiplier, 100, 70));  // acceleration factor was 100 
+			addSequential(new DriveStraightDistanceProfile(95, 40 * angleMultiplier, 100, 100));  // acceleration factor was 70 
 		}
 		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
 		addSequential(new DriveStraightDistanceProfile(18, 0, 100, 100));
@@ -55,18 +55,18 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		
 		// Drive towards cubes and pick one up
 		addSequential(new DriveStraightDistanceProfile(65, -90 * angleMultiplier, 65, 60));  // front cube:  65 in, 55 ips, 100 ips2
-		addSequential(new WaitCommand(0.5));
+		addSequential(new WaitCommand(0.25)); // was 0.5
 		//			addSequential(new ArmMoveWithPiston(-13.0, false));
 		//			addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentIn));
 		//			addParallel(new ArmIntakeCube());
 		
 		// Raise arm and go back to our side of the switch
 		addParallel(new ArmMoveWithIntake());
-		addSequential(new DriveStraightDistanceProfile(-60, -90 * angleMultiplier, 100, 100));  // front cube:  -60 in
+		addSequential(new DriveStraightDistanceProfile(-60, -90 * angleMultiplier, 100, 100));  // front cube:  -60 in, acceleration factor was 100
 		
 		// Turn to switch, go forward, and shoot
 		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(30, 0, 100, 100));  // front cube:  30 in
+		addSequential(new DriveStraightDistanceProfile(30, 0, 100, 100));  // front cube:  30 in, acceleration factor was 100
 		addSequential(new AutoSwitchShoot());
 	}
 }
