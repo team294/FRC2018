@@ -44,6 +44,7 @@ public class ArmMotor extends Subsystem {
 	private double error;
 	private double intError; //integrated error
 	private double armMoment = 19.26*16*19.985/519;//11.87;
+	private double previousArmAngle;
 
 	// variables to check if arm Encoder is reliable
 	private double armEncoderStartValue = getArmEncRaw();
@@ -54,7 +55,7 @@ public class ArmMotor extends Subsystem {
 	private ArmProfileGenerator trapezoid;
 
 	public ArmMotor() {
-		
+		previousArmAngle = getArmDegrees();
 		// armMotor.set(ControlMode.Position, 3);
 		armMotor1.set(ControlMode.PercentOutput, 0);
 		armMotor2.set(ControlMode.Follower, RobotMap.armMotor1);
@@ -367,7 +368,15 @@ public class ArmMotor extends Subsystem {
 				Robot.log.writeLogEcho("Arm auto cal post,target angle," + finalAngle + ",current angle," + getArmDegrees() 
 				+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
 			}
+			
 		//}
+		//the following two boolean statement checks for sudden jumps in arm degree value as well as whether the arm is inside a reasonable boundary.
+		if((previousArmAngle - getArmDegrees())> 50) {
+			Robot.robotPrefs.armCalibrated = false;
+		}
+		if(getArmDegrees() > 140 || getArmDegrees() < -58) {
+			Robot.robotPrefs.armCalibrated = false;
+		}
 		
 		if(DriverStation.getInstance().isEnabled() && Robot.robotPrefs.armCalibrated && !Robot.armMotor.joystickControl) {
 			//if we are enabled, our arm is calibrated, and we are not trying to control the arm with the joystick, then run this block of code.
@@ -407,6 +416,7 @@ public class ArmMotor extends Subsystem {
 			//TODO change all arm commands to run until angle is met
 		}
 		
+		previousArmAngle = getArmDegrees();
 		SmartDashboard.putNumber("Arm Left Motor voltage", armMotor1.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Arm Left Motor current", armMotor1.getOutputCurrent());
 	}
