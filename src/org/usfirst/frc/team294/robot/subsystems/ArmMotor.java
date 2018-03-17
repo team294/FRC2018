@@ -369,7 +369,11 @@ public class ArmMotor extends Subsystem {
 		//if (!Robot.robotPrefs.armCalibrated) {
 			SensorCollection sc = armMotor1.getSensorCollection();
 			if (sc.isRevLimitSwitchClosed()) {
+				Robot.log.writeLogEcho("Arm auto cal pre,target angle," + finalAngle + ",current angle," + getArmDegrees() 
+					+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
 				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
+				Robot.log.writeLogEcho("Arm auto cal post,target angle," + finalAngle + ",current angle," + getArmDegrees() 
+				+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
 			}
 		//}
 		
@@ -392,9 +396,9 @@ public class ArmMotor extends Subsystem {
 			SmartDashboard.putNumber("Arm PID Error", error);
 			SmartDashboard.putNumber("Arm PID percent power", percentPower);
 			SmartDashboard.putNumber("Arm Profile getCurrentPosition", trapezoid.getCurrentPosition());
-			if (Math.abs(finalAngle - getArmDegrees()) > 4.0)
+//			if (Math.abs(finalAngle - getArmDegrees()) > 4.0)
 				Robot.log.writeLog("Arm PID,target angle," + finalAngle + ",current angle," + getArmDegrees() + ",profile angle," + trapezoid.getCurrentPosition() + 
-						",PID error," + error + ",PID power," + percentPower);
+						",PID error," + error + ",PID power," + percentPower + ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
 			
 			setArmMotorToPercentPower(percentPower);
 		} else if(!Robot.armMotor.joystickControl) {
