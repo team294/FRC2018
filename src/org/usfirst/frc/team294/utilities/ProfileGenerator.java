@@ -20,6 +20,9 @@ public class ProfileGenerator {
 
 	public double dt;
 	public double totalTime;
+	
+	public double stoppingDistance;
+	public boolean doneFlag;
 		
 	private double directionSign;  // +1 if finalPoistion>InitialPosition, -1 if not
 	
@@ -51,6 +54,9 @@ public class ProfileGenerator {
 		startTime = System.currentTimeMillis();
 		currentTime = startTime;
 		
+		stoppingDistance = 0;
+		doneFlag = false;
+		
 		Robot.log.writeLogEcho("Profile generator,init pos," + initialPosition + ",final pos," + finalPosition );
 	}
 
@@ -64,16 +70,45 @@ public class ProfileGenerator {
 		dt = ((double)(tempTime - currentTime))/1000.0;
 		currentTime = tempTime;		
 		double stoppingVelocity = currentVelocity + dt*maxAcceleration; 
-		double stoppingDistance = 0.5*stoppingVelocity*stoppingVelocity/maxAcceleration;
+		stoppingDistance = 0.5*stoppingVelocity*stoppingVelocity/maxAcceleration;
 		if(targetMPDistance - currentMPDistance < stoppingDistance) currentAcceleration = -maxAcceleration;
 		else if(currentVelocity < maxVelocity) currentAcceleration = maxAcceleration;
 		else currentAcceleration = 0;
+		
+		/*if(currentMPDistance <= 0.5*targetMPDistance)
+		{
+			currentMPDistance = currentMPDistance + currentVelocity*dt;
+			currentVelocity = currentVelocity + maxAcceleration*dt;
+			if(currentVelocity >= maxVelocity)
+			{
+				if(stoppingDistance == 0)
+					stoppingDistance = currentMPDistance;
+				currentVelocity = maxVelocity;
+			}else
+			{
+				currentMPDistance = currentMPDistance + 0.5*maxAcceleration*dt*dt;
+			}
+		} else
+		{
+			if(targetMPDistance - currentMPDistance <= stoppingDistance || stoppingDistance == 0) {
+				currentMPDistance = currentMPDistance + currentVelocity*dt - 0.5*maxAcceleration*dt*dt;
+				currentVelocity = currentVelocity - maxAcceleration*dt;
+			}else
+			{
+				currentMPDistance = currentMPDistance + currentVelocity*dt;
+			}
+		}*/
 		
 		currentVelocity = currentVelocity + currentAcceleration*dt;
 		
 		if(currentVelocity > maxVelocity) currentVelocity = maxVelocity;
 		currentMPDistance = currentMPDistance + currentVelocity*dt;
-		if(currentMPDistance > targetMPDistance) currentMPDistance = targetMPDistance;
+		if(currentMPDistance >= targetMPDistance-0.05 || doneFlag) 
+		{
+			doneFlag = true;
+			currentMPDistance = targetMPDistance;
+			currentVelocity = 0;
+		}
 		SmartDashboard.putNumber("Profile Position", currentMPDistance);
 		SmartDashboard.putNumber("Profile Velocity", currentVelocity);
 		//Robot.log.writeLog("Profile generator,time since start," + getTimeSinceProfileStart() + ",dt," + dt +

@@ -24,7 +24,7 @@ public class DriveStraightDistanceProfile extends Command {
 	private boolean success;
 	private double distSpeedControl;
 
-	private final double kPdist = .08, kDdist = .2, kIdist = 0.00, kFdist = .006; // not used
+	private final double kPdist = .08, kDdist = .3, kIdist = 0.00, kFdist = 0;//.006; // not used
 	// private final double kPdist = .05, kDdist = 0, kIdist = 0.00, kFdist = .009;
 	// // not used
 	// old kPdist = .05, .2 old kDdist = .37 old kFdist = .008
@@ -38,7 +38,7 @@ public class DriveStraightDistanceProfile extends Command {
 	private double kPangle = .06;
 	private double kIangle = .002;
 	private double kDangle = .1;
-	private final VelocityChecker velCheck = new VelocityChecker(0.2);
+	private final VelocityChecker velCheck = new VelocityChecker(0.3); // 0.4
 
 	private double curve;
 	private double minSpeed = .1;
@@ -169,7 +169,7 @@ public class DriveStraightDistanceProfile extends Command {
 			SmartDashboard.putNumber("fSet Distance", targetDistance);
 			SmartDashboard.putNumber("fActual Distance", currentDistance);
 		}
-		return Math.abs(velCheck.getAverage()) < 0.05 || success;
+		return (Math.abs(velCheck.getAverage()) < 0.2) || success; //0.05
 	}
 
 	// Called once after isFinished returns true

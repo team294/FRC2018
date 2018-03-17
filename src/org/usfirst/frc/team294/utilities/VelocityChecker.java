@@ -65,11 +65,12 @@ public class VelocityChecker {
 	 * @return running average
 	 */
 	public double getAverage() {
-		System.out.println(histArray); 
 		double sum = 0;
 		for (double d : histArray) {
+//			System.out.print(d + ","); 
 			sum += d;
 		}
+//		System.out.println("avg = " + sum/histArray.length);
 		return sum / histArray.length;
 	}
 }
