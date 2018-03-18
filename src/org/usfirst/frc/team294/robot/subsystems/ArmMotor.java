@@ -189,7 +189,14 @@ public class ArmMotor extends Subsystem {
 	 * The value at that read should then be entered into the armCalZero field.
 	 **/
 	public double getArmEnc() {
-		double encValue = getArmEncRaw() - Robot.robotPrefs.armCalZero;
+		double encRaw = getArmEncRaw();
+		double encValue = encRaw - Robot.robotPrefs.armCalZero;
+		//Update ArmCalZero if the encoder has rolled over (take care of this in the angle measurement instead
+//		if (encValue > 4096)
+//			Robot.robotPrefs.armCalZero = Robot.robotPrefs.armCalZero + 4096;
+//		else if(encValue < 0)
+//			Robot.robotPrefs.armCalZero = Robot.robotPrefs.armCalZero - 4096;
+//		encValue = encRaw - Robot.robotPrefs.armCalZero;
 		SmartDashboard.putNumber("Arm Enc (calibrated)", encValue);
 		return (encValue);
 	}
@@ -226,7 +233,8 @@ public class ArmMotor extends Subsystem {
 	 */
 	public double getArmDegrees() {
 		double armAngle = getArmEnc() * DEGREES_PER_TICK;
-		armAngle = (armAngle>180) ? armAngle-360 : armAngle;
+		armAngle = armAngle % 360.0;   				// In case the magentic encoder wraps around 360 degrees
+		armAngle = (armAngle>180) ? armAngle-360 : armAngle;  // Convert to range -180 to +180
 		SmartDashboard.putNumber("Arm angle Value", armAngle);
 		return (armAngle);
 	}
