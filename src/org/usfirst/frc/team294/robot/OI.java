@@ -85,7 +85,7 @@ public class OI {
 	public Joystick rightJoystick = new Joystick(1); // Right Joystick is in port 1
 	public Joystick coPanel = new Joystick(2);
 	public Joystick xboxController = new Joystick(3);
-	public Joystick armJoystick = new Joystick(4); // Arm Joystick is in port 4
+//	public Joystick armJoystick = new Joystick(4); // Arm Joystick is in port 4
 
 	private boolean driveDirection = true; // Easy switching drive direction
 
@@ -197,10 +197,10 @@ public class OI {
 		xbRT.whenActive(new CubeShootOut()); // Score cube
 //		xbRT.whenActive(new IntakeShootOut()); // Score cube
 
-		Button armButton2 = new JoystickButton(armJoystick, 2);
-		Button armButton3 = new JoystickButton(armJoystick, 3);
-		armButton2.whenPressed(new ArmMotorIncrementAngle(false));
-		armButton3.whenPressed(new ArmMotorIncrementAngle(true));
+//		Button armButton2 = new JoystickButton(armJoystick, 2);
+//		Button armButton3 = new JoystickButton(armJoystick, 3);
+//		armButton2.whenPressed(new ArmMotorIncrementAngle(false));
+//		armButton3.whenPressed(new ArmMotorIncrementAngle(true));
 
 		// Initialize our auto plan chooser
 		// Software is okay for testing. This should be hardware switches at

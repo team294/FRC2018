@@ -143,8 +143,8 @@ public class ArmMotor extends Subsystem {
 		
 		SmartDashboard.putNumber("Arm initial angle", initAngle);
 		SmartDashboard.putNumber("Arm target angle", angle);
-		Robot.log.writeLogEcho("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero  + ",initial raw encoder," + getArmEncRaw() + 
-				",initialAngle," + initAngle+ ",Destination Angle," + angle);
+		Robot.log.writeLog("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero  + ",initial raw encoder," + getArmEncRaw() + 
+				",initialAngle," + initAngle+ ",Destination Angle," + angle + ",intake deployed," + Robot.intake.isIntakeDeployed());
 		finalAngle = angle;
 		trapezoid.newProfile(initAngle, angle, 0, 120, 120);
 //		double encoderDegrees = angle * TICKS_PER_DEGREE;
@@ -188,7 +188,14 @@ public class ArmMotor extends Subsystem {
 	 * The value at that read should then be entered into the armCalZero field.
 	 **/
 	public double getArmEnc() {
-		double encValue = getArmEncRaw() - Robot.robotPrefs.armCalZero;
+		double encRaw = getArmEncRaw();
+		double encValue = encRaw - Robot.robotPrefs.armCalZero;
+		//Update ArmCalZero if the encoder has rolled over (take care of this in the angle measurement instead
+//		if (encValue > 4096)
+//			Robot.robotPrefs.armCalZero = Robot.robotPrefs.armCalZero + 4096;
+//		else if(encValue < 0)
+//			Robot.robotPrefs.armCalZero = Robot.robotPrefs.armCalZero - 4096;
+//		encValue = encRaw - Robot.robotPrefs.armCalZero;
 		SmartDashboard.putNumber("Arm Enc (calibrated)", encValue);
 		return (encValue);
 	}
@@ -225,7 +232,8 @@ public class ArmMotor extends Subsystem {
 	 */
 	public double getArmDegrees() {
 		double armAngle = getArmEnc() * DEGREES_PER_TICK;
-		armAngle = (armAngle>180) ? armAngle-360 : armAngle;
+		armAngle = armAngle % 360.0;   				// In case the magentic encoder wraps around 360 degrees
+		armAngle = (armAngle>180) ? armAngle-360 : armAngle;  // Convert to range -180 to +180
 		SmartDashboard.putNumber("Arm angle Value", armAngle);
 		return (armAngle);
 	}
@@ -361,7 +369,11 @@ public class ArmMotor extends Subsystem {
 		//if (!Robot.robotPrefs.armCalibrated) {
 			SensorCollection sc = armMotor1.getSensorCollection();
 			if (sc.isRevLimitSwitchClosed()) {
+				Robot.log.writeLogEcho("Arm auto cal pre,target angle," + finalAngle + ",current angle," + getArmDegrees() 
+					+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
 				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
+				Robot.log.writeLogEcho("Arm auto cal post,target angle," + finalAngle + ",current angle," + getArmDegrees() 
+				+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
 			}
 		//}
 		
@@ -384,9 +396,9 @@ public class ArmMotor extends Subsystem {
 			SmartDashboard.putNumber("Arm PID Error", error);
 			SmartDashboard.putNumber("Arm PID percent power", percentPower);
 			SmartDashboard.putNumber("Arm Profile getCurrentPosition", trapezoid.getCurrentPosition());
-			if (Math.abs(finalAngle - getArmDegrees()) > 4.0)
+//			if (Math.abs(finalAngle - getArmDegrees()) > 4.0)
 				Robot.log.writeLog("Arm PID,target angle," + finalAngle + ",current angle," + getArmDegrees() + ",profile angle," + trapezoid.getCurrentPosition() + 
-						",PID error," + error + ",PID power," + percentPower);
+						",PID error," + error + ",PID power," + percentPower + ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
 			
 			setArmMotorToPercentPower(percentPower);
 		} else if(!Robot.armMotor.joystickControl) {

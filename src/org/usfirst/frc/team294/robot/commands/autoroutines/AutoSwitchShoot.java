@@ -17,9 +17,9 @@ public class AutoSwitchShoot extends CommandGroup {
 		addSequential(new ClawSetMotorSpeed(.50));
 		addSequential(new WaitCommand(.15));
 		addSequential(new CubeLetGo());
-		addSequential(new ClawSetMotorSpeed(.50));
-		addSequential(new WaitCommand(1));
-		addSequential(new ClawSetMotorSpeed(0));
+//		addSequential(new ClawSetMotorSpeed(.50));
+//		addSequential(new WaitCommand(1));
+//		addSequential(new ClawSetMotorSpeed(0));
 		
     }
 }
