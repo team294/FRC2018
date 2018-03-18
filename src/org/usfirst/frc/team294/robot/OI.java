@@ -153,7 +153,7 @@ public class OI {
 		// coP[6].whenPressed(new Command()); // Intake mechanism up
 		// coP[7].whenPressed(new Command()); // Intake mechanism down
 		coP[8].whenPressed(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
-		coP[9].whenPressed(new PassiveOuttake()); // Outtake
+		coP[9].whenPressed(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Outtake
 		coP[10].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to backwards for scale
 		coP[11].whenPressed(new LoadCubeSequence()); // Intake sequence
 		// coP[12].whenPressed(new Command()); // TBD

@@ -163,13 +163,6 @@ public class Intake extends Subsystem {
 	}
 
 	/**
-	 * opens the intake jaws and sets the motors to reverse
-	 */
-	public void outtake() {
-		setIntakeMotorPercent(RobotMap.intakePercentOut);
-	}
-
-	/**
 	 * stops the intake motors
 	 */
 	public void stop() {

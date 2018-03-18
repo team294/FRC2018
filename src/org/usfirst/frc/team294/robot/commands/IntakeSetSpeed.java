@@ -8,17 +8,18 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *opens the intake jaws and sets the motors to outtake
  */
-public class PassiveOuttake extends Command {
+public class IntakeSetSpeed extends Command {
 
-    public PassiveOuttake() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+	double percentPower;
+	
+    public IntakeSetSpeed(double percentPower) {
+        this.percentPower = percentPower;
     	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.outtake(); // Sets the intake motors to reverse
+    	Robot.intake.setIntakeMotorPercent(percentPower); // Sets the intake motors to specified percent
     }
 
     // Called repeatedly when this Command is scheduled to run
