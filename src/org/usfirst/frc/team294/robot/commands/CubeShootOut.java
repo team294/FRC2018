@@ -36,7 +36,7 @@ public class CubeShootOut extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if ((!Robot.claw.getPhotoSwitch() && Timer.getFPGATimestamp() >= timeShot + 2) || Timer.getFPGATimestamp() >= timeShot + 3) {
+		if ((!Robot.claw.getPhotoSwitch() && Timer.getFPGATimestamp() >= timeShot + 1) || Timer.getFPGATimestamp() >= timeShot + 3) {
 			return true;
 		} else {
 			return false;

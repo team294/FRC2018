@@ -29,19 +29,24 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addParallel(new ClawSetMotorSpeed(-0.40));
 		addSequential(new WaitCommand(0.1));
 		addParallel(new ArmMoveWithIntakeBack());
-		addSequential(new DriveStraightDistanceProfile(-246, 6 * angleMultiplier, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(-245, 6 * angleMultiplier, 100, 100));
 		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, true));
-		addSequential(new TurnGyro(35 * angleMultiplier, TurnGyro.Units.Degrees));
-		// addSequential(new WaitCommand(0.2));
+		addSequential(new TurnGyro(30 * angleMultiplier, TurnGyro.Units.Degrees));
+		 addSequential(new WaitCommand(0.1));
 		addSequential(new CubeShootOut());
+		//addSequential(new WaitCommand(.25));
+		addParallel(new LoadCubeSequenceWithIntakeOpen());
+		addSequential(new TurnGyro(-35 * angleMultiplier, TurnGyro.Units.Degrees));
 		addSequential(new WaitCommand(.5));
-		addSequential(new ArmMoveWithPiston(-55, false));
-		addSequential(new TurnGyro(135 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new TurnGyro());
-		addSequential(new DriveStraightDistanceProfile(-60, Robot.driveTrain.getGyroRotation(), 95, 150));
-		addSequential(new IntakeCube());
-		addSequential(new DriveStraightDistanceProfile(60, Robot.driveTrain.getGyroRotation(), 95, 150));
-		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, true));
+		//addSequential(new TurnGyro());
+		//addParallel(new IntakeCube());
+		addSequential(new DriveStraightDistanceProfile(25, -35 * angleMultiplier, 100, 100));
+		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
+		addSequential(new DriveStraightDistanceProfile(30, 0, 100, 100));
+		addSequential(new WaitCommand(.75));
+		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, false));//true));
+		addSequential(new DriveStraightDistanceProfile(-47, 0 * angleMultiplier, 100, 100));
+		addSequential(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, false));//true)); // enforce the arm being up before shooting
 		addSequential(new CubeShootOut());
 
 		// Score cube 1
