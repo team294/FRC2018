@@ -30,6 +30,9 @@ public class Intake extends Subsystem {
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
 	public static boolean cubeInIntake;
+	public double lastMotorCurrent = 0;
+	public double motorCurrent = 0; 
+	public boolean currentDecreasing;
 	private DoubleSolenoid.Value intakeState = DoubleSolenoid.Value.kOff;
 
 	
@@ -117,6 +120,16 @@ public class Intake extends Subsystem {
     	Robot.log.writeLogEcho("Intake Right Motor Current: " + intakeMotorRight.getOutputCurrent());
 	}
 	
+	public boolean isCurrentDecreasing() {
+		motorCurrent = intakeMotorLeft.getOutputCurrent();
+		if ((motorCurrent - lastMotorCurrent) < 0) {
+			return true;
+		} else {
+			lastMotorCurrent = motorCurrent;
+			return false;
+		}
+	}
+	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
 	// rightPercent) {
 	// intakeMotorLeft.set(ControlMode.PercentOutput, leftPercent);
@@ -154,8 +167,8 @@ public class Intake extends Subsystem {
 	}
 	
 	public void setIntakeMotorPercentOpposite() {
-		intakeMotorLeft.set(ControlMode.PercentOutput, 1.0);
-		intakeMotorRight.set(ControlMode.PercentOutput, -0.7);
+		intakeMotorLeft.set(ControlMode.PercentOutput, -1.0);
+		intakeMotorRight.set(ControlMode.PercentOutput, 1.0);
 		}
 
 	/**

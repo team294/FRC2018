@@ -371,11 +371,11 @@ public class ArmMotor extends Subsystem {
 		//if (!Robot.robotPrefs.armCalibrated) {
 		SensorCollection sc = armMotor1.getSensorCollection();
 		if (sc.isRevLimitSwitchClosed()) {
-			Robot.log.writeLogEcho("Arm auto cal pre,target angle," + finalAngle + ",current angle," + getArmDegrees() 
-			+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
+/*			Robot.log.writeLogEcho("Arm auto cal pre,target angle," + finalAngle + ",current angle," + getArmDegrees() 
+			+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero); */
 			Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
-			Robot.log.writeLogEcho("Arm auto cal post,target angle," + finalAngle + ",current angle," + getArmDegrees() 
-			+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
+/*			Robot.log.writeLogEcho("Arm auto cal post,target angle," + finalAngle + ",current angle," + getArmDegrees() 
+			+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero); */
 		}
 		//}
 			

@@ -71,7 +71,7 @@ public class RobotPreferences {
 		
 		// Reset arm target to current value, since we don't want the arm to jump based on the old set angle
 		Robot.armMotor.startPID( Robot.armMotor.getArmDegrees());
-		Robot.log.writeLogEcho("Arm set calibration,arm cal zero," + armCalZero + ",raw enc," + Robot.armMotor.getArmEncRaw() + ",arm angle," + Robot.armMotor.getArmDegrees());
+//		Robot.log.writeLogEcho("Arm set calibration,arm cal zero," + armCalZero + ",raw enc," + Robot.armMotor.getArmEncRaw() + ",arm angle," + Robot.armMotor.getArmDegrees());
 		
 		SmartDashboard.putBoolean("Arm Calibrated", armCalibrated);
 		if (writeCalToPreferences) {
