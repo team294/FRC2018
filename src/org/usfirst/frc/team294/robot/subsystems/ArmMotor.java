@@ -44,6 +44,7 @@ public class ArmMotor extends Subsystem {
 	private double error;
 	private double intError; //integrated error
 	private double armMoment = 19.26*16*19.985/519;//11.87;
+	private double previousArmAngle;
 
 	// variables to check if arm Encoder is reliable
 	private double armEncoderStartValue = getArmEncRaw();
@@ -54,7 +55,6 @@ public class ArmMotor extends Subsystem {
 	private ArmProfileGenerator trapezoid;
 
 	public ArmMotor() {
-		
 		// armMotor.set(ControlMode.Position, 3);
 		armMotor1.set(ControlMode.PercentOutput, 0);
 		armMotor2.set(ControlMode.Follower, RobotMap.armMotor1);
@@ -86,6 +86,9 @@ public class ArmMotor extends Subsystem {
 		armMotor1.configClosedloopRamp(0.25, 10);
 		armMotor1.configPeakOutputForward(MAX_UP_PERCENT_POWER, 10);
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
+
+		// Set up PID and watchdogs
+		previousArmAngle = getArmDegrees();
 		trapezoid = new ArmProfileGenerator(getArmDegrees(), getArmDegrees(), 0, 0, 0);
 		lastTime = System.currentTimeMillis();
 		
@@ -364,18 +367,27 @@ public class ArmMotor extends Subsystem {
 
 	public void periodic() {
 		updateSmartDashboard();
-		// Set armCalZero, if not already set, by using known value of lower limit
-		// switch
+		// Set armCalZero, when limit switch is hit [(was) if not already set], by using known value of lower limit switch
 		//if (!Robot.robotPrefs.armCalibrated) {
-			SensorCollection sc = armMotor1.getSensorCollection();
-			if (sc.isRevLimitSwitchClosed()) {
-				Robot.log.writeLogEcho("Arm auto cal pre,target angle," + finalAngle + ",current angle," + getArmDegrees() 
-					+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
-				Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
-				Robot.log.writeLogEcho("Arm auto cal post,target angle," + finalAngle + ",current angle," + getArmDegrees() 
-				+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
-			}
+		SensorCollection sc = armMotor1.getSensorCollection();
+		if (sc.isRevLimitSwitchClosed()) {
+			Robot.log.writeLogEcho("Arm auto cal pre,target angle," + finalAngle + ",current angle," + getArmDegrees() 
+			+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
+			Robot.robotPrefs.setArmCalibration( getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
+			Robot.log.writeLogEcho("Arm auto cal post,target angle," + finalAngle + ",current angle," + getArmDegrees() 
+			+ ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
+		}
 		//}
+			
+		// The following boolean statement checks for sudden jumps in arm degree value.
+		// Need to verify:  What happens if we just calibrated the arm?  Will previousArmAngle be meaningless, then we trigger this?
+//		if((previousArmAngle - getArmDegrees())> 50) {
+//			Robot.robotPrefs.armCalibrated = false;
+//		}
+		//the following boolean statement checks whether the arm is inside a reasonable boundary.
+		if(getArmDegrees() > 140 || getArmDegrees() < -58) {
+			Robot.robotPrefs.armCalibrated = false;
+		}
 		
 		if(DriverStation.getInstance().isEnabled() && Robot.robotPrefs.armCalibrated && !Robot.armMotor.joystickControl) {
 			//if we are enabled, our arm is calibrated, and we are not trying to control the arm with the joystick, then run this block of code.
@@ -415,6 +427,7 @@ public class ArmMotor extends Subsystem {
 			//TODO change all arm commands to run until angle is met
 		}
 		
+		previousArmAngle = getArmDegrees();
 		SmartDashboard.putNumber("Arm Left Motor voltage", armMotor1.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Arm Left Motor current", armMotor1.getOutputCurrent());
 	}
