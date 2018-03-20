@@ -16,11 +16,14 @@ public class ArmPistonSmartRetract extends Command {
 	double destAngle;
 
 	/**
-	 * Retracts piston if needed to keep arm length legal when moving
-	 * between the current arm position and destAngle.
-	 * @param destAngle Angle the arm is moving to, in degrees
-	 * @param pistonFinal Desired piston position when command finishes.
-	 * True = keep current position, false = retract.
+	 * Retracts piston if needed to keep arm length legal when moving between the
+	 * current arm position and destAngle.
+	 * 
+	 * @param destAngle
+	 *            Angle the arm is moving to, in degrees
+	 * @param pistonFinal
+	 *            Desired piston position when command finishes. True = keep current
+	 *            position, false = retract.
 	 */
 	public ArmPistonSmartRetract(double destAngle, boolean pistonFinal) {
 		// Use requires() here to declare subsystem dependencies
@@ -35,11 +38,14 @@ public class ArmPistonSmartRetract extends Command {
 		this.retract = false;
 		ArmZones currentZone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		ArmZones destZone = RobotMap.getArmZone(destAngle);
-		if (currentZone == ArmZones.Middle /* || currentZone == ArmZones.Backwards */ || currentZone != destZone
-				|| !pistonFinal) {
+		if (destZone == ArmZones.Middle || destZone == ArmZones.Backwards
+				|| (currentZone == ArmZones.Low && destZone == ArmZones.High)
+				|| (currentZone == ArmZones.High && destZone == ArmZones.Low) || !pistonFinal) {
 			// If arm is in the middle or backwards zone set pistons to retracted
 			Robot.armPiston.smartRetract();
 			retract = true;
+		} else {
+			Robot.armPiston.smartExtend();
 		}
 	}
 
@@ -53,7 +59,7 @@ public class ArmPistonSmartRetract extends Command {
 			return true;
 
 		else if ((Robot.armPiston.getMajor() == PistonPositions.Retracted))
-			//	&& (Robot.armPiston.getMinor() == PistonPositions.Retracted))
+			// && (Robot.armPiston.getMinor() == PistonPositions.Retracted))
 
 			return true;
 		return false;
