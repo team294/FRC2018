@@ -111,6 +111,11 @@ public class Intake extends Subsystem {
 	public boolean isCubeInIntake() {
 		return cubeInIntake;
 	}
+
+	public void logMotorCurrents() {
+    	Robot.log.writeLogEcho("Intake Left Motor Current: " + intakeMotorLeft.getOutputCurrent());
+    	Robot.log.writeLogEcho("Intake Right Motor Current: " + intakeMotorRight.getOutputCurrent());
+	}
 	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
 	// rightPercent) {
