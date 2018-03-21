@@ -17,7 +17,7 @@ public class IntakeCubeGrab extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeMotorPercent(-50);
+    	Robot.intake.setIntakeMotorPercent(-0.5);
     	Robot.intake.smartCloseIntake();
     }
 

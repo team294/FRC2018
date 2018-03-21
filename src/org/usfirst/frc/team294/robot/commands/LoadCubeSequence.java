@@ -27,6 +27,7 @@ public class LoadCubeSequence extends CommandGroup {
     	//addSequential(new WaitCommand(.75));
     	addParallel(new IntakeCube()); // Open intake claw and start intaking, close when the photoswitch is triggered
     	addSequential(new ArmIntakeCube()); // Simultaneously, open the arm claw and being intaking. Exit when bumpswitch triggered, then lower claw speed to hold cube
+    	addSequential(new WaitCommand(0.5));
     	addSequential(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Start outtaking so we don't get a penalty
 	}
 }

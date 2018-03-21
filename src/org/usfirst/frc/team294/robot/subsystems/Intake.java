@@ -122,7 +122,8 @@ public class Intake extends Subsystem {
 	
 	public boolean isCurrentDecreasing() {
 		motorCurrent = intakeMotorLeft.getOutputCurrent();
-		if ((motorCurrent - lastMotorCurrent) < 0) {
+		if ((motorCurrent - lastMotorCurrent) < -1) {
+			lastMotorCurrent = 0;
 			return true;
 		} else {
 			lastMotorCurrent = motorCurrent;
@@ -167,8 +168,8 @@ public class Intake extends Subsystem {
 	}
 	
 	public void setIntakeMotorPercentOpposite() {
-		intakeMotorLeft.set(ControlMode.PercentOutput, -1.0);
-		intakeMotorRight.set(ControlMode.PercentOutput, 1.0);
+		intakeMotorLeft.set(ControlMode.PercentOutput, -0.7);
+		intakeMotorRight.set(ControlMode.PercentOutput, 0.7);
 		}
 
 	/**
