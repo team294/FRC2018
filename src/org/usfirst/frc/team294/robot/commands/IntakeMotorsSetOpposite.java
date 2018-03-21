@@ -6,6 +6,8 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.WaitCommand;
+
 
 /**
  *
@@ -18,7 +20,8 @@ public class IntakeMotorsSetOpposite extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeMotorPercentOpposite();
+    	Robot.intake.setIntakeMotorPercent(0.0);  // Set to 0 volts to start current test at 0
+    	new WaitCommand(0.1);			// insure that a new current is read
     }
 
     // Called repeatedly when this Command is scheduled to run
