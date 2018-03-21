@@ -4,7 +4,7 @@ package org.usfirst.frc.team294.robot;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.networktables.*;
-import edu.wpi.first.wpilibj.CameraServer;
+// import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot; 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -78,7 +78,8 @@ public class Robot extends TimedRobot {
 		// Network Tables for driver's display
 		networkTables = NetworkTableInstance.getDefault();
 		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
-
+		
+/**								Commented out UsbCamera since the video info is now sent through RaspberryPi
 		// USB drive camera
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 //	    camera.setVideoMode(VideoMode.PixelFormat.kYUYV, IMG_WIDTH, IMG_HEIGHT, IMG_FPS);
@@ -88,7 +89,7 @@ public class Robot extends TimedRobot {
 //	    camera.getProperty("saturation").set(60);
 	    camera.setExposureManual(20);
 //	    camera.setWhiteBalanceManual(2800);
-		
+**/		
 		// Create the OI last, so that it can use commands that call subsystems
 		oi = new OI();
 	}
