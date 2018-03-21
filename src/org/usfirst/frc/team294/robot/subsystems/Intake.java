@@ -168,8 +168,8 @@ public class Intake extends Subsystem {
 	}
 	
 	public void setIntakeMotorPercentOpposite() {
-		intakeMotorLeft.set(ControlMode.PercentOutput, -0.7);
-		intakeMotorRight.set(ControlMode.PercentOutput, 0.7);
+		intakeMotorLeft.set(ControlMode.PercentOutput, -0.8);
+		intakeMotorRight.set(ControlMode.PercentOutput, 0.8);
 		}
 
 	/**
