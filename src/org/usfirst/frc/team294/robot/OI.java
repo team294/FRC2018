@@ -186,7 +186,7 @@ public class OI {
 		xbB[9].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
 //		xbB[10].whenPressed();
 		
-		xbPovUp.whenActive(new IntakeShootOut()); 
+		xbPovUp.whenActive(new IntakeInvertAndGrab()); 
 //		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));  // Arm to intake position 
 		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to scale backwards
 		xbPovLeft.whenActive(new ArmPistonsRetract()); // Arm to switch position
@@ -298,6 +298,9 @@ public class OI {
 		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
 		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
 		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
+		
+		SmartDashboard.putData("Invert Intake", new IntakeMotorsSetOpposite());
+		SmartDashboard.putData("Re-Intake Cube", new IntakeInvertAndGrab());
 
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
 		

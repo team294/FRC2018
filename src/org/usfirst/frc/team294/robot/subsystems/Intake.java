@@ -30,6 +30,9 @@ public class Intake extends Subsystem {
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
 	public static boolean cubeInIntake;
+	public double lastMotorCurrent = 0;
+	public double motorCurrent = 0; 
+	public boolean currentDecreasing;
 	private DoubleSolenoid.Value intakeState = DoubleSolenoid.Value.kOff;
 
 	
@@ -111,6 +114,22 @@ public class Intake extends Subsystem {
 	public boolean isCubeInIntake() {
 		return cubeInIntake;
 	}
+
+	public void logMotorCurrents() {
+    	Robot.log.writeLogEcho("Intake Left Motor Current: " + intakeMotorLeft.getOutputCurrent());
+    	Robot.log.writeLogEcho("Intake Right Motor Current: " + intakeMotorRight.getOutputCurrent());
+	}
+	
+	public boolean isCurrentDecreasing() {
+		motorCurrent = intakeMotorLeft.getOutputCurrent();
+		if ((motorCurrent - lastMotorCurrent) < -1) {
+			lastMotorCurrent = 0;
+			return true;
+		} else {
+			lastMotorCurrent = motorCurrent;
+			return false;
+		}
+	}
 	
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
 	// rightPercent) {
@@ -147,6 +166,11 @@ public class Intake extends Subsystem {
 		SmartDashboard.putNumber("Left Intake Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Intake Motor Percent:", percent);
 	}
+	
+	public void setIntakeMotorPercentOpposite() {
+		intakeMotorLeft.set(ControlMode.PercentOutput, -0.8);
+		intakeMotorRight.set(ControlMode.PercentOutput, 0.8);
+		}
 
 	/**
 	 * closes the intake jaws if the photo switch is triggered

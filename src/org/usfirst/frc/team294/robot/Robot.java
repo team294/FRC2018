@@ -84,7 +84,7 @@ public class Robot extends TimedRobot {
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 //	    camera.setVideoMode(VideoMode.PixelFormat.kYUYV, IMG_WIDTH, IMG_HEIGHT, IMG_FPS);
 	    camera.setExposureAuto();  // Start in auto exposure mode so that we can set brightness
-	    camera.setBrightness(15);  // Setting brightness only works correctly in auto exposure mode (?)
+	    camera.setBrightness(10);  // Setting brightness only works correctly in auto exposure mode (?)
 //	    camera.getProperty("contrast").set(80);
 //	    camera.getProperty("saturation").set(60);
 	    camera.setExposureManual(20);
