@@ -205,20 +205,20 @@ public class OI {
 		// Initialize our auto plan chooser
 		// Software is okay for testing. This should be hardware switches at
 		// competition.
-		chooser_autoPlan.addDefault("do Closest, if both far do scale", AutoPlan.ClosestSwitchScale_FFScale);
+		chooser_autoPlan.addObject("do Closest, if both far do scale", AutoPlan.ClosestSwitchScale_FFScale);
 		chooser_autoPlan.addObject("do Closest, if both far do switch from front",
 				AutoPlan.ClosestSwitchScale_FFSwitchFront); // Should never need this routine
 		chooser_autoPlan.addObject("do closest, if both far do switch from back",
 				AutoPlan.ClosestSwitchScale_FFSwitchBack);
 		chooser_autoPlan.addObject("do Scale only", AutoPlan.ScaleOnly);
-		chooser_autoPlan.addObject("do Switch only from middle", AutoPlan.SwitchOnly);
+		chooser_autoPlan.addDefault("do Switch only from middle", AutoPlan.SwitchOnly);
 		chooser_autoPlan.addObject("Go to baseline", AutoPlan.BaselineOnly);
 		// chooser_autoPlan.addObject("2Cube", 5);
 		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
 		SmartDashboard.putData("AutoTest1", new AutoTest1());
 		SmartDashboard.putData("Auto 5 Middle Auto Switch", new AutoPath5_SwitchFromMiddle(true));
-		chooser_startPosition.addDefault("Left", StartingPosition.Left);
-		chooser_startPosition.addObject("Middle", StartingPosition.Middle);
+		chooser_startPosition.addObject("Left", StartingPosition.Left);
+		chooser_startPosition.addDefault("Middle", StartingPosition.Middle);
 		chooser_startPosition.addObject("Right", StartingPosition.Right);
 
 		// Smart Dashboard Commands

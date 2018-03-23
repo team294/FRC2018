@@ -35,6 +35,9 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		 addSequential(new WaitCommand(0.1));
 		addSequential(new CubeShootOut());
 		//addSequential(new WaitCommand(.25));
+		
+		// Load 2nd cube
+//		addParallel(new LoadCubeSequence());
 		addParallel(new LoadCubeSequenceWithIntakeOpen());
 		addSequential(new TurnGyro(-35 * angleMultiplier, TurnGyro.Units.Degrees));
 		addSequential(new WaitCommand(.5));
