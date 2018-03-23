@@ -21,7 +21,7 @@ public class IntakeMotorsSetOpposite extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.intake.setIntakeMotorPercent(0.0);  // Set to 0 volts to start current test at 0
-    	new WaitCommand(0.25);			// insure that a new current is read
+//    	new WaitCommand(0.25);			// insure that a new current is read  // This doesn't do anything.  Creating a command in a command won't execute the command
     }
 
     // Called repeatedly when this Command is scheduled to run
