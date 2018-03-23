@@ -54,11 +54,10 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		//			addSequential(new WaitCommand(0.2));
 		
 		// Drive towards cubes and pick one up
+/*		The following code drives forward to pick up the 2nd cube
 		addSequential(new DriveStraightDistanceProfile(65, -90 * angleMultiplier, 65, 60));  // front cube:  65 in, 55 ips, 100 ips2
-		addSequential(new WaitCommand(0.25)); // was 0.5
-		//			addSequential(new ArmMoveWithPiston(-13.0, false));
-		//			addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentIn));
-		//			addParallel(new ArmIntakeCube());
+		addSequential(new WaitCommand(0.25)); // was 0.5	
+*/	
 	/*
 		// the following code is used to score the second cube in the switch after intaking it
 		// Raise arm and go back to our side of the switch

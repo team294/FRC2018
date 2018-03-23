@@ -48,7 +48,8 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addSequential(new DriveStraightDistanceProfile(-48, 0 * angleMultiplier, 100, 100));
 		addSequential(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, false));//true)); // enforce the arm being up before shooting
 		addSequential(new CubeShootOut());
-		addSequential(new ArmMoveWithPiston(RobotMap.armScaleLowPos, false));//true)); // enforce the arm being up before shooting
+//		addSequential(new ArmMoveWithPiston(RobotMap.armScaleLowPos, false));//true)); // enforce the arm being up before shooting
+		addSequential(new ArmMoveWithPiston(90, false));//true)); // move arm to +90, since the arm will stay there when disabled
 		
 
 		// Score cube 1
