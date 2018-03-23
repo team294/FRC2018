@@ -59,7 +59,8 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		//			addSequential(new ArmMoveWithPiston(-13.0, false));
 		//			addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentIn));
 		//			addParallel(new ArmIntakeCube());
-		
+	/*
+		// the following code is used to score the second cube in the switch after intaking it
 		// Raise arm and go back to our side of the switch
 		addParallel(new ArmMoveWithIntake());
 		addSequential(new DriveStraightDistanceProfile(-60, -90 * angleMultiplier, 100, 100));  // front cube:  -60 in, acceleration factor was 100
@@ -68,5 +69,6 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
 		addSequential(new DriveStraightDistanceProfile(30, 0, 100, 100));  // front cube:  30 in, acceleration factor was 100
 		addSequential(new AutoSwitchShoot());
+	*/
 	}
 }

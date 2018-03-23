@@ -47,6 +47,8 @@ public class AutoPath2_OppositeSideScale extends CommandGroup {
 		addSequential(new WaitCommand(0.5));
 		//addSequential(new WaitCommand(0.5));
 		addSequential(new CubeShootOut());
+		addSequential(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, false));//true)); // enforce the arm being up before shooting
+		
 
 		// addParallel(new ClawSetMotorSpeed(-0.40));
 		// addSequential(new DriveStraightDistanceProfile(-200, 0, 120, 150));
