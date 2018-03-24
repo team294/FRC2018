@@ -311,18 +311,12 @@ public class OI {
 	}
 
 	/**
-	 * Sets the Xbox controller rumble power if robot is enabled and not in autonomous mode.
-	 * If in auto or disabled, then turns off rumble.
+	 * Sets the Xbox controller rumble power.
 	 * @param percentRumble, value 0 to 1
 	 */
 	public void setXBoxRumble(double percentRumble) {
-		if (!DriverStation.getInstance().isAutonomous() && DriverStation.getInstance().isEnabled()) {
-			xboxController.setRumble(RumbleType.kLeftRumble, percentRumble);
-			xboxController.setRumble(RumbleType.kRightRumble, percentRumble);
-		} else {
-			xboxController.setRumble(RumbleType.kLeftRumble, 0);
-			xboxController.setRumble(RumbleType.kRightRumble, 0);			
-		}
+		xboxController.setRumble(RumbleType.kLeftRumble, percentRumble);
+		xboxController.setRumble(RumbleType.kRightRumble, percentRumble);
 	}
 
 	/**

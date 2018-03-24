@@ -101,6 +101,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		log.writeLogEcho("Robot disabled.");
+
 		armMotor.joystickControl = false;
 	}
 

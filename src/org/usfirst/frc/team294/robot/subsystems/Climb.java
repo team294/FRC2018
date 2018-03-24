@@ -12,12 +12,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class Climb extends Subsystem {
-	private final TalonSRX climbMotor1 = new TalonSRX(RobotMap.climbMotor1);
+
+	// We are using the power plug for climbMotor1 to run the intake LEDs, so commenting out the talon until we get power to it.
+	//	private final TalonSRX climbMotor1 = new TalonSRX(RobotMap.climbMotor1);
 	private final TalonSRX climbMotor2 = new TalonSRX(RobotMap.climbMotor2);
 
 	public Climb() {
 		// Configure talons
-		climbMotor1.set(ControlMode.Follower, RobotMap.climbMotor2);
+//		climbMotor1.set(ControlMode.Follower, RobotMap.climbMotor2);
 		climbMotor2.set(ControlMode.PercentOutput, 0);
 		climbMotor2.setNeutralMode(NeutralMode.Brake); 
 		climbMotor2.enableVoltageCompensation(true);

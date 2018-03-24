@@ -44,6 +44,9 @@ public class RobotMap {
 	// RoboRIO analog I/O addresses
 	public static final int pressureSensor = 0;
 	
+	// RoboRio relay channels
+	public static final int LEDIntakingIn = 0;
+	
 	//intake motor speeds
 	public static double intakePercentIn = 0.7; //need to be tested
 	public static double intakePercentOut = -0.4; // Slow speed for outtake
