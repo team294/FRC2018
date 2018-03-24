@@ -211,6 +211,8 @@ public class Intake extends Subsystem {
 	}
 
 	public void periodic() {
+		Robot.oi.setXBoxRumble( intakeMotorLeft.getMotorOutputPercent() > 0.1 ? 0.7 : 0);
+		
 		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
 		SmartDashboard.putBoolean("Intake Photo", photoSwitch.get());
 		SmartDashboard.putNumber("Intake Left Motor voltage", intakeMotorLeft.getMotorOutputVoltage());

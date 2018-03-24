@@ -8,6 +8,8 @@ import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import org.usfirst.frc.team294.robot.commands.*;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -306,6 +308,21 @@ public class OI {
 		
 		SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 
+	}
+
+	/**
+	 * Sets the Xbox controller rumble power if robot is enabled and not in autonomous mode.
+	 * If in auto or disabled, then turns off rumble.
+	 * @param percentRumble, value 0 to 1
+	 */
+	public void setXBoxRumble(double percentRumble) {
+		if (!DriverStation.getInstance().isAutonomous() && DriverStation.getInstance().isEnabled()) {
+			xboxController.setRumble(RumbleType.kLeftRumble, percentRumble);
+			xboxController.setRumble(RumbleType.kRightRumble, percentRumble);
+		} else {
+			xboxController.setRumble(RumbleType.kLeftRumble, 0);
+			xboxController.setRumble(RumbleType.kRightRumble, 0);			
+		}
 	}
 
 	/**
