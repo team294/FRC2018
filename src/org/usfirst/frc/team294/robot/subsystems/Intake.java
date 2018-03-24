@@ -31,6 +31,7 @@ public class Intake extends Subsystem {
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
+	private final Relay ledIntakingIn = new Relay(RobotMap.LEDIntakingIn);
 	
 	public static boolean cubeInIntake;
 	public double lastMotorCurrent = 0;
@@ -219,6 +220,7 @@ public class Intake extends Subsystem {
 		if (!DriverStation.getInstance().isAutonomous() && DriverStation.getInstance().isEnabled() && 
 				(intakeMotorLeft.getMotorOutputPercent() > 0.1)) {
 			Robot.oi.setXBoxRumble(0.7); 
+			ledIntakingIn.set(Relay.Value.kForward);
 		} else {
 			Robot.oi.setXBoxRumble(0);
 			ledIntakingIn.set(Relay.Value.kOff);
