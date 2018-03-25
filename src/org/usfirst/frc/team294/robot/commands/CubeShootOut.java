@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CubeShootOut extends Command {
 
+	//TODO fix this!!!!  Perecents should be -1 to +1. 
 	private double leftPercent = 66; // may want to have different speeds
 	private double rightPercent = 66;
 	private double timeShot = 0;
@@ -20,6 +21,19 @@ public class CubeShootOut extends Command {
 		// eg. requires(chassis);
 		requires(Robot.claw);
 		requires(Robot.intake);
+	}
+
+	/**
+	 * Shoot cube at given power
+	 * @param percentPower -1 to +1, + to shoot out
+	 */
+	public CubeShootOut(double percentPower) {
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+		requires(Robot.claw);
+		requires(Robot.intake);
+		leftPercent = percentPower;
+		rightPercent = percentPower;
 	}
 
 	// Called just before this Command runs the first time

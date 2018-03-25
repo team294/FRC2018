@@ -33,13 +33,13 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addParallel(new ArmMoveWithIntakeBack());
 
 		// Drive to scale
-		addSequential(new DriveStraightDistanceProfile(-245, 6 * angleMultiplier, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(-243, 6 * angleMultiplier, 100, 100));  // was -245 in
 		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, true));
 		
 		// Turn then shoot cube in scale
 		addSequential(new TurnGyro(30 * angleMultiplier, TurnGyro.Units.Degrees));
 		 addSequential(new WaitCommand(0.1));
-		addSequential(new CubeShootOut());
+		addSequential(new CubeShootOut(0.8));  // Was full speed (1.0)
 		//addSequential(new WaitCommand(.25));
 		
 		// Load 2nd cube
@@ -51,7 +51,12 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		//addParallel(new IntakeCube());
 		addSequential(new DriveStraightDistanceProfile(25, -35 * angleMultiplier, 100, 100));
 		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(33, 0, 100, 100));
+		
+		// Turn towards closest cube using vision, if vision is working and we see a cube (otherwise do nothing and continue sequence)
+		addSequential(new TurnGyro());
+
+		// Final movement foward to grab 2nd cube
+		addSequential(new DriveStraightDistanceProfile(31, 0, 100, 100));   // Was 33 in
 		addSequential(new WaitCommand(.75));
 
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube

@@ -14,6 +14,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,6 +31,8 @@ public class Intake extends Subsystem {
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
+	private final Relay ledIntakingIn = new Relay(RobotMap.LEDIntakingIn);
+	
 	public static boolean cubeInIntake;
 	public double lastMotorCurrent = 0;
 	public double motorCurrent = 0; 
@@ -51,6 +55,8 @@ public class Intake extends Subsystem {
 	intakeMotorRight.enableVoltageCompensation(true);
 	intakeMotorRight.configVoltageCompSaturation(11.0, 0);
 	intakeMotorRight.setInverted(false);
+	
+	ledIntakingIn.set(Relay.Value.kOff);
 	cubeInIntake = false;
 	}
 
@@ -211,6 +217,15 @@ public class Intake extends Subsystem {
 	}
 
 	public void periodic() {
+		if (!DriverStation.getInstance().isAutonomous() && DriverStation.getInstance().isEnabled() && 
+				(intakeMotorLeft.getMotorOutputPercent() > 0.1)) {
+			Robot.oi.setXBoxRumble(0.7); 
+			ledIntakingIn.set(Relay.Value.kForward);
+		} else {
+			Robot.oi.setXBoxRumble(0);
+			ledIntakingIn.set(Relay.Value.kOff);
+		}
+
 		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
 		SmartDashboard.putBoolean("Intake Photo", photoSwitch.get());
 		SmartDashboard.putNumber("Intake Left Motor voltage", intakeMotorLeft.getMotorOutputVoltage());

@@ -8,6 +8,8 @@ import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import org.usfirst.frc.team294.robot.commands.*;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -306,6 +308,15 @@ public class OI {
 		
 		SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 
+	}
+
+	/**
+	 * Sets the Xbox controller rumble power.
+	 * @param percentRumble, value 0 to 1
+	 */
+	public void setXBoxRumble(double percentRumble) {
+		xboxController.setRumble(RumbleType.kLeftRumble, percentRumble);
+		xboxController.setRumble(RumbleType.kRightRumble, percentRumble);
 	}
 
 	/**
