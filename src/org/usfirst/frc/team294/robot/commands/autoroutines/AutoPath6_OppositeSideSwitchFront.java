@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.commands.autoroutines;
 
+import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.ArmMoveWithPiston;
 import org.usfirst.frc.team294.robot.commands.ClawSetMotorSpeed;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
@@ -26,7 +27,7 @@ public class AutoPath6_OppositeSideSwitchFront extends CommandGroup {
 			angleMultiplier = -1;
 			break;
 		}
-		addParallel(new ClawSetMotorSpeed(-0.40));
+		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addParallel(new IntakeSetDeploy(true));
 		addSequential(new DriveStraightDistanceProfile(-53, 0, 100, 100));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));

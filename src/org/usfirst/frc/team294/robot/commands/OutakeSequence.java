@@ -3,7 +3,7 @@ package org.usfirst.frc.team294.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ * TODO Command group never called
  */
 public class OutakeSequence extends CommandGroup {
 

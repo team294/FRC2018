@@ -11,16 +11,17 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CubeShootOut extends Command {
 
-	//TODO fix this!!!!  Perecents should be -1 to +1. 
-	private double leftPercent = 66; // may want to have different speeds
-	private double rightPercent = 66;
 	private double timeShot = 0;
+	private double clawPercent;
+	private double intakePercent;
 
 	public CubeShootOut() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.claw);
 		requires(Robot.intake);
+		this.clawPercent = RobotMap.clawPercentShootOut;
+		this.intakePercent = RobotMap.intakePercentShootOut;
 	}
 
 	/**
@@ -32,20 +33,20 @@ public class CubeShootOut extends Command {
 		// eg. requires(chassis);
 		requires(Robot.claw);
 		requires(Robot.intake);
-		leftPercent = percentPower;
-		rightPercent = percentPower;
+		this.clawPercent = percentPower;
+		this.intakePercent = -percentPower;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.claw.setClawMotorToPercentPower(leftPercent, rightPercent);
-		Robot.intake.setIntakeMotorPercent(-leftPercent);
+		Robot.claw.setClawMotorPercent(clawPercent);
+		Robot.intake.setIntakeMotorPercent(intakePercent);
 		timeShot = Timer.getFPGATimestamp();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.claw.setClawMotorToPercentPower(leftPercent, rightPercent);
+		Robot.claw.setClawMotorPercent(clawPercent);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -59,7 +60,7 @@ public class CubeShootOut extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.claw.setClawMotorToPercentPower(0, 0);
+    	Robot.claw.stop();
 		//sets intake motor back to its most recent non-zero, inward speed
 		Robot.intake.setIntakeMotorPercent(RobotMap.intakePercentOut);
 	}

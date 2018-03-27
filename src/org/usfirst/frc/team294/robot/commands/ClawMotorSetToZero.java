@@ -16,7 +16,7 @@ public class ClawMotorSetToZero extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.claw.setClawMotorToPercentPower(0.0, 0.0);
+    	Robot.claw.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run

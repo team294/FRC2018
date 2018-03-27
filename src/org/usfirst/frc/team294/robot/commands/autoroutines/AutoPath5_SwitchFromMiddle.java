@@ -26,9 +26,9 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		}
 		
 		// Go to drive config
-		addParallel(new ClawSetMotorSpeed(-1.0));
+		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentInFully));
 		addSequential(new WaitCommand(0.1)); 
-		addParallel(new ClawSetMotorSpeed(-0.4));
+		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addParallel(new ArmMoveWithIntake());
 		
 		// Go forward to switch

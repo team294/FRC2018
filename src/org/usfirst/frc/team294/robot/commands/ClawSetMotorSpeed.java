@@ -11,7 +11,7 @@ public class ClawSetMotorSpeed extends Command {
 
 	private double percent;
 	/**
-	 * Set the claw wheel speed
+	 * Set the claw wheel speed based on parameter
 	 * @param inPercent percent -1 (in) to 1 (out)
 	 */
     public ClawSetMotorSpeed(double inPercent) {
@@ -23,7 +23,7 @@ public class ClawSetMotorSpeed extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.claw.setClawMotorToPercentPower(percent, percent);
+    	Robot.claw.setClawMotorPercent(percent);
     }
 
     // Called repeatedly when this Command is scheduled to run

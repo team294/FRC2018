@@ -26,10 +26,10 @@ public class Claw extends Subsystem {
 
 	private final TalonSRX clawMotorLeft = new TalonSRX(RobotMap.clawMotorLeft);
 	private final TalonSRX clawMotorRight = new TalonSRX(RobotMap.clawMotorRight);
-	
-	public final MotorCurrentTrigger clawMotorLeftCurrentTrigger =  new MotorCurrentTrigger(clawMotorLeft, 8, 4);
-	public final MotorCurrentTrigger clawMotorRightCurrentTrigger =  new MotorCurrentTrigger(clawMotorRight, 8, 4);
-	
+
+	public final MotorCurrentTrigger clawMotorLeftCurrentTrigger = new MotorCurrentTrigger(clawMotorLeft, 8, 4);
+	public final MotorCurrentTrigger clawMotorRightCurrentTrigger = new MotorCurrentTrigger(clawMotorRight, 8, 4);
+
 	public Claw() {
 		// Configure talons
 		clawMotorLeft.set(ControlMode.PercentOutput, 0);
@@ -45,54 +45,42 @@ public class Claw extends Subsystem {
 		clawMotorRight.configVoltageCompSaturation(11.0, 0);
 		clawMotorRight.configOpenloopRamp(0.2, 0);
 	}
-	
+
 	/**
-	 * Adds current protection to the claw motor. If the claw motor trips this, the claw will stop
+	 * Adds current protection to the claw motor. If the claw motor trips this, the
+	 * claw will stop
 	 */
-	public void clawMotorsCurrentProtection(){
+	public void clawMotorsCurrentProtection() {
 		clawMotorLeftCurrentTrigger.whenActive(new ClawMotorSetToZero());
 		clawMotorRightCurrentTrigger.whenActive(new ClawMotorSetToZero());
 	}
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	public void openClaw() {										// this logic is funky  Clean up
-		/* double currentAngle = Robot.armMotor.getArmDegrees();
-		if (currentAngle <= RobotMap.angleClawCloseHigh && currentAngle >= RobotMap.angleClawCloseLow) {
-		}
-		else { */ // no longer need keep-out zone
+	public void openClaw() { // this logic is funky Clean up
+		/*
+		 * double currentAngle = Robot.armMotor.getArmDegrees(); if (currentAngle <=
+		 * RobotMap.angleClawCloseHigh && currentAngle >= RobotMap.angleClawCloseLow) {
+		 * } else {
+		 */ // no longer need keep-out zone
 		clawPiston.set(true); // true is extend
-		//}
+		// }
 	}
 
 	public void closeClaw() {
 		clawPiston.set(false); // false is retract
 	}
-	
-	public boolean isClawOpen() 
-	{
+
+	public boolean isClawOpen() {
 		return clawPiston.get();
 	}
 
 	/**
 	 * sets left and right wheel percent power
-	 * @param leftPercent percent -1 (in) to 1 (out)
-	 * @param rightPercent percent -1 (in) to 1 (out)
+	 * 
+	 * @param percent
+	 *            -1 (in) to 1 (out)
 	 */
-	public void setClawMotorToPercentPower(double leftPercent, double rightPercent) {
-		clawMotorLeft.set(ControlMode.PercentOutput, leftPercent);
-		clawMotorRight.set(ControlMode.PercentOutput, rightPercent);
-		System.out.println("Left Claw motor " + clawMotorLeft.getDeviceID() + " set to percent " + leftPercent + ", output "
-				+ clawMotorLeft.getMotorOutputVoltage() + " V," + clawMotorLeft.getOutputCurrent() + " A, Bus at "
-				+ clawMotorLeft.getBusVoltage() + " V");
-		System.out.println("Right Claw motor " + clawMotorRight.getDeviceID() + " set to percent " + rightPercent
-				+ ", output " + clawMotorRight.getMotorOutputVoltage() + " V," + clawMotorRight.getOutputCurrent()
-				+ " A, Bus at " + clawMotorRight.getBusVoltage() + " V");
-		SmartDashboard.putNumber("Left Claw Motor Percent:", leftPercent);
-		SmartDashboard.putNumber("Right Claw Motor Percent:", rightPercent);
-		
-	}
-	
 	public void setClawMotorPercent(double percent) {
 		clawMotorLeft.set(ControlMode.PercentOutput, percent);
 		clawMotorRight.set(ControlMode.PercentOutput, percent);
@@ -104,27 +92,29 @@ public class Claw extends Subsystem {
 				+ " A, Bus at " + clawMotorRight.getBusVoltage() + " V");
 		SmartDashboard.putNumber("Left Claw Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Claw Motor Percent:", percent);
-		
 	}
-	
+
 	/**
 	 * Reads the value of the bump switch
+	 * 
 	 * @return true = object is pressing bump switch
 	 */
 	public boolean getBumpSwitch() {
 		return !bumpSwitch.get();
 	}
-	
+
 	/**
 	 * Reads the value of the photo switch
+	 * 
 	 * @return true = object is breaking the photo beam
 	 */
 	public boolean getPhotoSwitch() {
 		return photoSwitch.get();
 	}
-	
+
 	/**
 	 * closes the intake jaws if the photo switch is triggered
+	 * 
 	 * @return true if closed, false if opened
 	 */
 	public boolean clawCloseIfPhotoSwitch() {
@@ -132,29 +122,31 @@ public class Claw extends Subsystem {
 		if (photoSwitch.get()) {
 			closeClaw();
 			return true;
-		} else 
-		return false;
+		} else
+			return false;
 	}
-	
+
 	/**
-	 * stops the claw motors
+	 * stops the claw motors sets the claw motors to 0.0
 	 */
 	public void stop() {
 		setClawMotorPercent(0.0);
 	}
 
-	/* public double getClawMotorPower() {
-		double voltage = (clawMotorLeft.getMotorOutputPercent() + clawMotorRight.getMotorOutputPercent()) / 2;
-		SmartDashboard.putNumber("Arm Motor Output Voltage", voltage);
-		return voltage;
-	} */
+	/*
+	 * public double getClawMotorPower() { double voltage =
+	 * (clawMotorLeft.getMotorOutputPercent() +
+	 * clawMotorRight.getMotorOutputPercent()) / 2;
+	 * SmartDashboard.putNumber("Arm Motor Output Voltage", voltage); return
+	 * voltage; }
+	 */
 
 	public void periodic() {
 		SmartDashboard.putBoolean("PhotoSwitch Triggered", getPhotoSwitch());
 		SmartDashboard.putBoolean("Cube Present", getBumpSwitch());
-		
+
 		SmartDashboard.putBoolean("Arm Photo", photoSwitch.get());
-		
+
 		SmartDashboard.putNumber("Claw Left Motor voltage", clawMotorLeft.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Claw Right Motor voltage", clawMotorRight.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Claw Left Motor current", clawMotorLeft.getOutputCurrent());

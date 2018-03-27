@@ -54,13 +54,13 @@ public class ArmIntakeCube extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.claw.setClawMotorPercent(-0.4);
+    	Robot.claw.setClawMotorPercent(RobotMap.clawPercentDefault);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	//stop claw motors
-    	Robot.claw.setClawMotorPercent(0);
+    	Robot.claw.stop();
     }
 }

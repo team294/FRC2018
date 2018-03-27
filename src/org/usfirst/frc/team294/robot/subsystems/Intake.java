@@ -158,7 +158,7 @@ public class Intake extends Subsystem {
 	/**
 	 * sets the intake motors to a percentage
 	 * 
-	 * @param percent
+	 * @param percent -1 (out) to 1 (in)
 	 */
 	public void setIntakeMotorPercent(double percent) {
 		intakeMotorLeft.set(ControlMode.PercentOutput, percent);

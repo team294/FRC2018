@@ -2,7 +2,6 @@ package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.RobotMap.ArmZones;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
@@ -28,7 +27,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		default:
 			break;
 		}
-		addParallel(new ClawSetMotorSpeed(-0.40));
+		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addSequential(new WaitCommand(0.1));
 		addParallel(new ArmMoveWithIntakeBack());
 
@@ -39,7 +38,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		// Turn then shoot cube in scale
 		addSequential(new TurnGyro(30 * angleMultiplier, TurnGyro.Units.Degrees));
 		 addSequential(new WaitCommand(0.1));
-		addSequential(new CubeShootOut(0.8));  // Was full speed (1.0)
+		addSequential(new CubeShootOut(RobotMap.clawPercentShootOutScale));  // Was full speed (1.0)
 		//addSequential(new WaitCommand(.25));
 		
 		// Load 2nd cube
