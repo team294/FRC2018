@@ -3,7 +3,6 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.ClawMotorSetToZero;
 import org.usfirst.frc.team294.robot.commands.IntakeMotorSetToZero;
 import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 

@@ -38,7 +38,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		// Turn then shoot cube in scale
 		addSequential(new TurnGyro(30 * angleMultiplier, TurnGyro.Units.Degrees));
 		 addSequential(new WaitCommand(0.1));
-		addSequential(new CubeShootOut(RobotMap.clawPercentShootOutScale));  // Was full speed (1.0)
+		addSequential(new CubeShootOut(RobotMap.clawPercentShootOut));  // Was full speed (1.0)
 		//addSequential(new WaitCommand(.25));
 		
 		// Load 2nd cube

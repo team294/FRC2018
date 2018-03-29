@@ -59,7 +59,6 @@ public class RobotMap {
 	public static double clawPercentOut = 0.3; // Slow speed for outtake
 	public static double clawPercentLetGo = 0.5; // Speed to help drop cube
 	public static double clawPercentShootOut = 0.66; // Fast speed for shooting cube out
-	public static double clawPercentShootOutScale = 0.8; // Almost full for shooting cube in scale in auto
 	public static double clawPercentSwitchShoot = 0.75; // Beginning outtake speed of claw for scoring in switch
 
 	// Arm angle thresholds
