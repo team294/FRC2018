@@ -35,10 +35,10 @@ public class AutoPath2_OppositeSideScale extends CommandGroup {
 //		addSequential(new IntakeSetOpen(true));
 		addSequential(new DriveStraightDistanceProfile(-220, 0, 100, 100));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(-225, 90 * angleMultiplier, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(-220, 90 * angleMultiplier, 100, 100)); // was -220
 		addParallel(new ArmMoveWithIntakeBack());
 		addSequential(new TurnGyro(165 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(36, 165 * angleMultiplier, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(40, 165 * angleMultiplier, 100, 100)); // was 36
 		addSequential(new ArmPistonSmartExtendInDestZone(RobotMap.armScaleLowPos));
 		addSequential(new WaitCommand(0.5));
 		//addSequential(new WaitCommand(0.5));
