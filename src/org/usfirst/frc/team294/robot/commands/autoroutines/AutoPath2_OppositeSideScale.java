@@ -1,7 +1,6 @@
 package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.ArmMoveToDestAngle;
 import org.usfirst.frc.team294.robot.commands.ArmMoveWithIntake;
 import org.usfirst.frc.team294.robot.commands.ArmMoveWithIntakeBack;
 import org.usfirst.frc.team294.robot.commands.ArmMoveWithPiston;
@@ -9,11 +8,8 @@ import org.usfirst.frc.team294.robot.commands.ArmPistonSmartExtendInDestZone;
 import org.usfirst.frc.team294.robot.commands.ClawSetMotorSpeed;
 import org.usfirst.frc.team294.robot.commands.CubeShootOut;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
-import org.usfirst.frc.team294.robot.commands.IntakeSetDeploy;
-import org.usfirst.frc.team294.robot.commands.IntakeSetOpen;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
-import org.usfirst.frc.team294.robot.commands.TurnGyro.Units.*;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
@@ -33,16 +29,16 @@ public class AutoPath2_OppositeSideScale extends CommandGroup {
 			angleMultiplier = -1;
 			break;
 		}
-		addParallel(new ClawSetMotorSpeed(-0.40));
+		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addSequential(new WaitCommand(0.1));
 		addParallel(new ArmMoveWithIntake());
 //		addSequential(new IntakeSetOpen(true));
 		addSequential(new DriveStraightDistanceProfile(-220, 0, 100, 100));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(-225, 90 * angleMultiplier, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(-220, 90 * angleMultiplier, 100, 100)); // was -220
 		addParallel(new ArmMoveWithIntakeBack());
 		addSequential(new TurnGyro(165 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(36, 165 * angleMultiplier, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(40, 165 * angleMultiplier, 100, 100)); // was 36
 		addSequential(new ArmPistonSmartExtendInDestZone(RobotMap.armScaleLowPos));
 		addSequential(new WaitCommand(0.5));
 		//addSequential(new WaitCommand(0.5));

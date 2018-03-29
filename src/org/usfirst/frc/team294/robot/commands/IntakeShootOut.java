@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class IntakeShootOut extends Command {
 
-	private double leftPercent = -100; // may want to have different speeds
-	private double rightPercent = -100;
 	private double timeShot = 1000;
 	
     public IntakeShootOut() {
@@ -23,13 +21,13 @@ public class IntakeShootOut extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeMotorPercent(leftPercent);
+    	Robot.intake.setIntakeMotorPercent(RobotMap.intakePercentIntakeShootOut);
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.setIntakeMotorPercent(leftPercent);
+    	Robot.intake.setIntakeMotorPercent(RobotMap.intakePercentIntakeShootOut);
 		if (timeShot == 1000) {
 			timeShot = Timer.getFPGATimestamp();
 		} else {

@@ -2,7 +2,6 @@ package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.RobotMap.ArmZones;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
@@ -28,18 +27,18 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		default:
 			break;
 		}
-		addParallel(new ClawSetMotorSpeed(-0.40));
+		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addSequential(new WaitCommand(0.1));
 		addParallel(new ArmMoveWithIntakeBack());
 
 		// Drive to scale
-		addSequential(new DriveStraightDistanceProfile(-243, 6 * angleMultiplier, 100, 100));  // was -245 in
+		addSequential(new DriveStraightDistanceProfile(-244, 6 * angleMultiplier, 100, 100));  // was -243 in but that wasn't far enough
 		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, true));
 		
 		// Turn then shoot cube in scale
 		addSequential(new TurnGyro(30 * angleMultiplier, TurnGyro.Units.Degrees));
 		 addSequential(new WaitCommand(0.1));
-		addSequential(new CubeShootOut(0.8));  // Was full speed (1.0)
+		addSequential(new CubeShootOut(RobotMap.clawPercentShootOut));  // Was full speed (1.0)
 		//addSequential(new WaitCommand(.25));
 		
 		// Load 2nd cube
@@ -56,7 +55,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addSequential(new TurnGyro());
 
 		// Final movement foward to grab 2nd cube
-		addSequential(new DriveStraightDistanceProfile(31, 0, 100, 100));   // Was 33 in
+		addSequential(new DriveStraightDistanceProfile(32, 0, 100, 100));   // Was 33 in
 		addSequential(new WaitCommand(.75));
 
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube

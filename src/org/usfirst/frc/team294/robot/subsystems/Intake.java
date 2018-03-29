@@ -3,7 +3,6 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.ClawMotorSetToZero;
 import org.usfirst.frc.team294.robot.commands.IntakeMotorSetToZero;
 import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
@@ -158,7 +157,7 @@ public class Intake extends Subsystem {
 	/**
 	 * sets the intake motors to a percentage
 	 * 
-	 * @param percent
+	 * @param percent -1 (out) to 1 (in)
 	 */
 	public void setIntakeMotorPercent(double percent) {
 		intakeMotorLeft.set(ControlMode.PercentOutput, percent);

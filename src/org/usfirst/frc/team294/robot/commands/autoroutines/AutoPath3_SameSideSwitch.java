@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.commands.autoroutines;
 
+import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
@@ -23,7 +24,7 @@ public class AutoPath3_SameSideSwitch extends CommandGroup {
 		default:
 			break;
 		}
-		addParallel(new ClawSetMotorSpeed(-0.40));
+		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addParallel(new IntakeSetDeploy(true));
 		addSequential(new DriveStraightDistanceProfile(-154, 0, 100, 100));
 		addParallel(new ArmMoveWithPiston(0, false));

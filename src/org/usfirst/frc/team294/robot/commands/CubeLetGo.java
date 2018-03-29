@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,10 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class CubeLetGo extends Command {
-
-	private double leftPercent = 0.50; // may want to have different speeds
-	private double rightPercent = 0.50;
-
+	
 	public CubeLetGo() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -21,7 +19,7 @@ public class CubeLetGo extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.claw.openClaw();
-		Robot.claw.setClawMotorToPercentPower(leftPercent, rightPercent);
+		Robot.claw.setClawMotorPercent(RobotMap.clawPercentLetGo);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -42,12 +40,12 @@ public class CubeLetGo extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.claw.setClawMotorToPercentPower(0, 0);
+    	Robot.claw.stop();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.claw.setClawMotorToPercentPower(0, 0);
+    	Robot.claw.stop();
 	}
 }
