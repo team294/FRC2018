@@ -60,7 +60,11 @@ public class ArmProfileGenerator {
 		this.currentVelocity = initialVelocity;
 		this.maxVelocity = Math.abs(maxVelocity);
 		this.maxAcceleration = maxAcceleration;
-		stoppingAcceleration = 2*maxAcceleration;
+		if(initialPosition > finalPosition) {
+			stoppingAcceleration = maxAcceleration;
+		}else {
+			stoppingAcceleration = .75*maxAcceleration;	
+		}
 		
 		// Save starting time
 		startTime = System.currentTimeMillis();
