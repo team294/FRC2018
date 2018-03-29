@@ -4,6 +4,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.ArmMotorSetToZero;
 import org.usfirst.frc.team294.robot.commands.ClawMotorSetToZero;
+import org.usfirst.frc.team294.robot.commands.ClawSetMotorSpeed;
 import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -51,8 +52,8 @@ public class Claw extends Subsystem {
 	 * claw will stop
 	 */
 	public void clawMotorsCurrentProtection() {
-		clawMotorLeftCurrentTrigger.whenActive(new ClawMotorSetToZero());
-		clawMotorRightCurrentTrigger.whenActive(new ClawMotorSetToZero());
+		clawMotorLeftCurrentTrigger.whenActive(new ClawSetMotorSpeed(0.0));
+		clawMotorRightCurrentTrigger.whenActive(new ClawSetMotorSpeed(0.0));
 	}
 
 	// Put methods for controlling this subsystem
