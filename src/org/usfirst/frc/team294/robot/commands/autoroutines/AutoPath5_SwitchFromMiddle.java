@@ -24,50 +24,47 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		} else {
 			angleMultiplier = 1;
 		}
+
 		
 		// Go to drive config
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentInFully));
+		addParallel(new IntakeSetDeploy(false));
 		addSequential(new WaitCommand(0.1)); 
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addParallel(new ArmMoveWithIntake());
-		
-		// Go forward to switch
-		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
+//		
+//		// Go forward to switch
+//		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
 		if (goLeft) {
-			addSequential(new DriveStraightDistanceProfile(105, 45 * angleMultiplier, 100, 100)); // acceleration factor was 70 
-		} else {
-			addSequential(new DriveStraightDistanceProfile(95, 40 * angleMultiplier, 100, 100));  // acceleration factor was 70 
+			addSequential(new DriveStraightDistanceProfile(118, 19 * angleMultiplier, 100, 100)); // acceleration factor was 7, distance was 110
+			
+		} else { // going right
+			addSequential(new DriveStraightDistanceProfile(108, 19 * angleMultiplier, 100, 100));  // acceleration factor was 70, distance was 100
+			addSequential(new AutoSwitchShoot());
+			addParallel(new LoadCubeSequence());
+			addSequential(new DriveStraightDistanceProfile(-105, 23 * angleMultiplier, 100, 100));  // acceleration factor was 70 
+			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
+			//addSequential(new TurnGyro());
+			addSequential(new DriveStraightDistanceProfile(60, 0, 100, 100));
+			addParallel(new ArmMoveWithIntake());
+			addSequential(new DriveStraightDistanceProfile(-60, 0, 100, 100));
+			addSequential(new TurnGyro(22, TurnGyro.Units.Degrees));
+			addSequential(new DriveStraightDistanceProfile(108, 25 * angleMultiplier, 100, 100));  // acceleration factor was 70 
+			addSequential(new AutoSwitchShoot());
 		}
-		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(18, 0, 100, 100));
 		
-		// Shoot out cube
-		addSequential(new AutoSwitchShoot());
+/*		addSequential(new DriveStraightDistanceProfile(-50, 20, 100, 100));
+		addSequential(new TurnGyro(45, TurnGyro.Units.Degrees));
+		addSequential(new DriveStraightDistanceProfile(10, 20, 100, 100));		
+		addSequential(new TurnGyro(-45, TurnGyro.Units.Degrees));
+		addSequential(new DriveStraightDistanceProfile(50, 20, 100, 100));
+		addSequential(new AutoSwitchShoot()); */
 		
-		// Back up to get next cube
-		addSequential(new DriveStraightDistanceProfile(-23, 0, 100, 100)); //should be -8 for middle cube, -23 for front cube
-
-		// Lower arm and turn towards cube pile 
-		addParallel(new LoadCubeSequence());  // was WithIntakeOpen
-		//			addSequential(new WaitCommand(5.0));			
-		addSequential(new TurnGyro(-90 * angleMultiplier, TurnGyro.Units.Degrees));
-		//			addSequential(new WaitCommand(0.2));
-		
-		// Drive towards cubes and pick one up
-/*		The following code drives forward to pick up the 2nd cube
-		addSequential(new DriveStraightDistanceProfile(65, -90 * angleMultiplier, 65, 60));  // front cube:  65 in, 55 ips, 100 ips2
-		addSequential(new WaitCommand(0.25)); // was 0.5	
-*/	
-	/*
-		// the following code is used to score the second cube in the switch after intaking it
-		// Raise arm and go back to our side of the switch
-		addParallel(new ArmMoveWithIntake());
-		addSequential(new DriveStraightDistanceProfile(-60, -90 * angleMultiplier, 100, 100));  // front cube:  -60 in, acceleration factor was 100
-		
-		// Turn to switch, go forward, and shoot
-		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(30, 0, 100, 100));  // front cube:  30 in, acceleration factor was 100
-		addSequential(new AutoSwitchShoot());
-	*/
+//		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));	
+//		addSequential(new WaitCommand(0.2));
+//		addSequential(new DriveStraightDistanceProfile(40, 0, 100, 100));
+//		addSequential(new DriveStraightDistanceProfile(-10, 0, 100, 100));
+//		addSequential(new TurnGyro(45, TurnGyro.Units.Degrees));
+//		addSequential(new DriveStraightDistanceProfile(30, 45*angleMultiplier, 100, 100));
 	}
 }
