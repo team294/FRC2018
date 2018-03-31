@@ -5,6 +5,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 
@@ -22,7 +23,12 @@ public class LoadCubeSequence extends CommandGroup {
     	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
     	addSequential(new IntakeSetOpen(false));
     	addSequential(new ClawSetState(false)); // Close the claw while moving the arm
-    	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,true)); // Move the arm to the intake position
+    	addSequential(new ConditionalCommand(new ArmMoveWithPiston(RobotMap.armIntakePos,true)){
+    		protected boolean condition(){
+    			return (Robot.armMotor.getArmDegrees()>-45); 
+    		}
+    		// Move the arm to the intake position
+    	});
     	// TODO Commented out the Wait command.  If intake is closed, we shouldn't need to wait.
     	//addSequential(new WaitCommand(.75));
     	addParallel(new IntakeCube()); // Open intake claw and start intaking, close when the photoswitch is triggered

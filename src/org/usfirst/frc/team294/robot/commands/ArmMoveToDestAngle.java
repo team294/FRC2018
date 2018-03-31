@@ -41,7 +41,7 @@ public class ArmMoveToDestAngle extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		Robot.log.writeLogEcho("armMoveToDestAngle,destAngle," + destAngle + ",currentAngle," + Robot.armMotor.getArmDegrees());
-		return tolcheck.success( Robot.armMotor.getArmDegrees() - destAngle);
+		return (Math.abs( Robot.armMotor.getArmDegrees() - destAngle) <4);
 	}
 
 	// Called once after isFinished returns true
