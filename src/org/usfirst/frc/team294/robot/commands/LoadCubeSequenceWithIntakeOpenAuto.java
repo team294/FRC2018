@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  * Sequence to load cube from intake to arm and reverse intake motors
  */
-public class LoadCubeSequenceWithIntakeOpen extends CommandGroup {
+public class LoadCubeSequenceWithIntakeOpenAuto extends CommandGroup {
 
-    public LoadCubeSequenceWithIntakeOpen() {
+    public LoadCubeSequenceWithIntakeOpenAuto() {
 
     	/* These commands are all individual because we want them to finish before we continue on to moving anything else, to avoid impacts */
     	

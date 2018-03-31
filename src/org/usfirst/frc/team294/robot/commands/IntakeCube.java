@@ -13,15 +13,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IntakeCube extends Command {
 
 	boolean done = false;
+	boolean autoClose = true;
 	
     public IntakeCube() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
     }
-    public IntakeCube(boolean partial) {
+    public IntakeCube(boolean autoClose) {
     	requires(Robot.intake);
-    	Robot.intake.updateCubeStatus();
+    	this.autoClose = autoClose;
     }
     // Called just before this Command runs the first time
     protected void initialize() {
@@ -32,8 +33,12 @@ public class IntakeCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	done = Robot.intake.smartCloseIntake();
-    	SmartDashboard.putBoolean("Smart Close Intake Return", done);
+    	if(autoClose) {
+    		done = Robot.intake.smartCloseIntake();
+        	SmartDashboard.putBoolean("Smart Close Intake Return", done);	
+    	}else {
+    		done=true;
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -49,6 +54,9 @@ public class IntakeCube extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.intake.stop();
+    	if(autoClose) {
+        	Robot.intake.stop();
+    	}
+    	Robot.intake.setIntakeOpen(false);
     }
 }
