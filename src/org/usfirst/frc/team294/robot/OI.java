@@ -176,7 +176,7 @@ public class OI {
 
 		xbB[1].whenPressed(new LoadCubeSequence()); // grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClaw()); // Stops all flywheels
-		xbB[3].whenPressed(new LoadCubeSequenceWithIntakeOpen()); // Partial intake (load cube to intake only, not to claw)
+		xbB[3].whenPressed(new LoadCubeWithIntakeOpenTeleop()); // Partial intake (load cube to intake only, not to claw)
 		xbB[4].whenPressed(new ToggleIntakeDeploy()); // Open Claw
 		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Retract Pistons
 		xbB[6].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Intake Sequence
