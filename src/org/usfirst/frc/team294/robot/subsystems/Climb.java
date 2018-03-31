@@ -44,6 +44,7 @@ public class Climb extends Subsystem {
 	// Deploys Climb Piston, but only in the last 30 seconds of the match
 	public void deployClimbPiston() 
 	{
+
 		if (DriverStation.getInstance().getMatchTime() <= 30) 
 		{
 			climbPiston.set(Value.kForward);
