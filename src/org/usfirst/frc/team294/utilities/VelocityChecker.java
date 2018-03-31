@@ -56,7 +56,7 @@ public class VelocityChecker {
 	 * Dumps the HistArray to standard out and the file log
 	 */
 	public void dumpArray() {
-		Robot.log.writeLogEcho("Hist Array dump: "+Arrays.toString(histArray));
+		Robot.generalLog.writeLogEcho("Hist Array dump: "+Arrays.toString(histArray));
 	}
 
 	/**

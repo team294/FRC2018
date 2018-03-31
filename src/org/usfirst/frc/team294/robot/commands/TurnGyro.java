@@ -85,12 +85,9 @@ public class TurnGyro extends Command {
 		integratedError = 0;
 		derivativeError = 0;
 		angleError = 0;
-		Robot.log.writeLog("Turn Gyro initialized");
+		Robot.generalLog.writeLog("Turn Gyro initialized");
 		velCheck.clearHistory();
 		// Robot.driveTrain.zeroGyroRoataion();
-
-		Robot.log.writeLogEcho("Turn gyro,destAngle," + amountTurn);
-
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -113,7 +110,7 @@ public class TurnGyro extends Command {
 		SmartDashboard.putNumber("Gyro Turn Dist Err:", angleError);
 		SmartDashboard.putNumber("Gyro Turn Perc Speed:", angleSpeedControl);
 		SmartDashboard.putNumber("Degrees to turn Robot: ", amountTurn);
-		Robot.log.writeLogEcho("Turn Gyro,destAngle," + amountTurn + ",currentAngle," + currAngle + ",averageVelocity," + velCheck.getAverage());
+		Robot.generalLog.writeLogEcho("Turn Gyro,destAngle," + amountTurn + ",averageVelocity," + velCheck.getAverage());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -124,7 +121,7 @@ public class TurnGyro extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.log.writeLog(
+		Robot.generalLog.writeLog(
 				"Turn Gyro ended with average of: " + velCheck.getAverage() + ", and a distErr of: " + angleError);
 		Robot.driveTrain.tankDrive(0, 0);
 	}
@@ -132,7 +129,7 @@ public class TurnGyro extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.log.writeLog("Turn Gyro interrupted.");
+		Robot.generalLog.writeLog("Turn Gyro interrupted.");
 		end();
 	}
 }

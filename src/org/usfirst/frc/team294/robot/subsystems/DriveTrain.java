@@ -282,15 +282,35 @@ public class DriveTrain extends Subsystem {
 		//getGyroRotation();
 		getLeftEncoderInches();
 		getRightEncoderInches();
+		
+		updateDriveLog();
 	}
 	
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithJoysticks());
 	}
 	
-	public void logMotorCurrents() {
-		Robot.log.writeLog("Left Motor Currents 1 2 3 " + leftMotor1.getOutputCurrent() + leftMotor2.getOutputCurrent() + leftMotor3.getOutputCurrent()
-				+ " Right Motor Currents 1 2 3 " + rightMotor1.getOutputCurrent() + rightMotor2.getOutputCurrent() + rightMotor3.getOutputCurrent());
-
+	public void updateDriveLog() {
+		Robot.driveLog.writeLog("Left Motor 1 Output Voltage," + leftMotor1.getMotorOutputVoltage()
+				+ ",Left Motor 1 Output Current," + leftMotor1.getOutputCurrent() + ",Left Motor 1 Output Percent,"
+				+ leftMotor1.getMotorOutputPercent() + ",Left Motor 2 Output Voltage,"
+				+ leftMotor2.getMotorOutputVoltage() + ",Left Motor 2 Output Current," + leftMotor2.getOutputCurrent()
+				+ ",Left Motor 2 Output Percent," + leftMotor2.getMotorOutputPercent() + ",Left Motor 3 Output Voltage,"
+				+ leftMotor3.getMotorOutputVoltage() + ",Left Motor 3 Output Current," + leftMotor3.getOutputCurrent()
+				+ ",Left Motor 3 Output Percent," + leftMotor3.getMotorOutputPercent()
+				+ ",Right Motor 1 Output Voltage," + rightMotor1.getMotorOutputVoltage()
+				+ ",Right Motor 1 Output Current," + rightMotor1.getOutputCurrent() + ",Right Motor 1 Output Percent,"
+				+ rightMotor1.getMotorOutputPercent() + ",Right Motor 2 Output Voltage,"
+				+ rightMotor2.getMotorOutputVoltage() + ",Right Motor 2 Output Current,"
+				+ rightMotor2.getOutputCurrent() + ",Right Motor 2 Output Percent,"
+				+ rightMotor2.getMotorOutputPercent() + ",Right Motor 3 Output Voltage,"
+				+ rightMotor3.getMotorOutputVoltage() + ",Right Motor 3 Output Current,"
+				+ rightMotor3.getOutputCurrent() + ",Right Motor 3 Output Percent,"
+				+ rightMotor3.getMotorOutputPercent() + ",Left Encoder Inches," + getLeftEncoderInches()
+				+ ",Left Encoder Ticks," + getLeftEncoderInches() + ",Right Encoder Inches," + getRightEncoderInches()
+				+ ",Right Encoder Ticks," + getRightEncoderTicks() + ",Average Encoder Inches,"
+				+ getAverageEncoderInches() + ",Gyro Rotation," + getGyroRotation() + ",Field Position X,"
+				+ getFieldPositionX() + ",Field Position Y," + getFieldPositionY() + ",High Gear,"
+				+ Robot.shifter.isShifterInHighGear());
 	}
 }

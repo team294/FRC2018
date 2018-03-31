@@ -144,17 +144,29 @@ public class Claw extends Subsystem {
 	public void periodic() {
 		SmartDashboard.putBoolean("PhotoSwitch Triggered", getPhotoSwitch());
 		SmartDashboard.putBoolean("Cube Present", getBumpSwitch());
-
 		SmartDashboard.putBoolean("Arm Photo", photoSwitch.get());
-
+		
 		SmartDashboard.putNumber("Claw Left Motor voltage", clawMotorLeft.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Claw Right Motor voltage", clawMotorRight.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Claw Left Motor current", clawMotorLeft.getOutputCurrent());
 		SmartDashboard.putNumber("Claw Right Motor current", clawMotorRight.getOutputCurrent());
+		
+		updateClawLog();
 	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
+	}
+
+	public void updateClawLog() {
+		Robot.clawLog.writeLog("Claw Motor Left Output Voltage," + clawMotorLeft.getMotorOutputVoltage()
+				+ ",Claw Motor Left Output Current," + clawMotorLeft.getOutputCurrent()
+				+ ",Claw Motor Left Output Percent," + clawMotorLeft.getMotorOutputPercent()
+				+ "Claw Motor Right Output Voltage," + clawMotorRight.getMotorOutputVoltage()
+				+ ",Claw Motor Right Output Current," + clawMotorRight.getOutputCurrent()
+				+ ",Claw Motor Right Output Percent," + clawMotorRight.getMotorOutputPercent() + ",Claw Open,"
+				+ Robot.claw.isClawOpen() + ",Claw PhotoSwitch Triggered," + Robot.claw.getPhotoSwitch()
+				+ ",Claw BumpSwitch Triggered," + Robot.claw.getBumpSwitch());
 	}
 }
