@@ -24,7 +24,7 @@ public class DriveStraightDistanceProfile extends Command {
 	private boolean success;
 	private double distSpeedControl;
 
-	private final double kPdist = .08, kDdist = .3, kIdist = 0.00, kFdist = 0;//.006; // not used
+	private final double kPdist = .08, kDdist = .3, kIdist = 0.00, kFdist = 0;// .006; // not used
 	// private final double kPdist = .05, kDdist = 0, kIdist = 0.00, kFdist = .009;
 	// // not used
 	// old kPdist = .05, .2 old kDdist = .37 old kFdist = .008
@@ -48,22 +48,33 @@ public class DriveStraightDistanceProfile extends Command {
 	private double prevDistanceInches;
 
 	/**
-	 * Drive straight using a motion profile and default speed (80 in/sec) and default acceleration (80 in/sec^2).
-	 * @param distanceTravel Distance to travel, in inches
-	 * @param angleBase Absolute angle for direction of travel, in degrees.  0 = away from drivers,
-	 *   -90 = left (relative to drive stations), +90 = right (relative to drive stations)
+	 * Drive straight using a motion profile and default speed (80 in/sec) and
+	 * default acceleration (80 in/sec^2).
+	 * 
+	 * @param distanceTravel
+	 *            Distance to travel, in inches
+	 * @param angleBase
+	 *            Absolute angle for direction of travel, in degrees. 0 = away from
+	 *            drivers, -90 = left (relative to drive stations), +90 = right
+	 *            (relative to drive stations)
 	 */
 	public DriveStraightDistanceProfile(double distanceTravel, double angleBase) {
 		this(distanceTravel, angleBase, 80, 80);
 	}
-	
+
 	/**
 	 * Drive straight using a motion profile.
-	 * @param distanceTravel Distance to travel, in inches
-	 * @param angleBase Absolute angle for direction of travel, in degrees.  0 = away from drivers,
-	 *   -90 = left (relative to drive stations), +90 = right (relative to drive stations)
-	 * @param MPSpeed Speed, in in/sec
-	 * @param MPAccel Acceleration, in in/sec^2
+	 * 
+	 * @param distanceTravel
+	 *            Distance to travel, in inches
+	 * @param angleBase
+	 *            Absolute angle for direction of travel, in degrees. 0 = away from
+	 *            drivers, -90 = left (relative to drive stations), +90 = right
+	 *            (relative to drive stations)
+	 * @param MPSpeed
+	 *            Speed, in in/sec
+	 * @param MPAccel
+	 *            Acceleration, in in/sec^2
 	 */
 	public DriveStraightDistanceProfile(double distanceTravel, double angleBase, double MPSpeed, double MPAccel) {
 		requires(Robot.driveTrain);
@@ -73,7 +84,7 @@ public class DriveStraightDistanceProfile extends Command {
 		this.MPSpeed = MPSpeed;
 		this.MPAccel = MPAccel;
 	}
-	
+
 	/**
 	 * Drive straight using a motion profile, using parameters from ShuffleBoard
 	 * (DSDP_Distance_inches, DSDP_AngleBase, DSDP_Speed_ips, DSDP_Accel_ips2)
@@ -86,15 +97,15 @@ public class DriveStraightDistanceProfile extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		// distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
-		Robot.log.writeLog("DriveStraightdistanceProfile instantiated");
-		
+		Robot.generalLog.writeLog("DriveStraightdistanceProfile instantiated");
+
 		if (driveUsingDashboardParams) {
 			targetDistance = SmartDashboard.getNumber("DSDP_Distance_inches", 0);
 			angleBase = SmartDashboard.getNumber("DSDP_AngleBase", 0);
 			MPSpeed = SmartDashboard.getNumber("DSDP_Speed_ips", 80);
-			MPAccel = SmartDashboard.getNumber("DSDP_Accel_ips2", 80);			
+			MPAccel = SmartDashboard.getNumber("DSDP_Accel_ips2", 80);
 		}
-		
+
 		distErr = 0;
 		prevDistErr = 0;
 		angleErr = 0;
@@ -144,18 +155,20 @@ public class DriveStraightDistanceProfile extends Command {
 
 			double diffInches = currentDistanceInches - prevDistanceInches;
 
-			Robot.driveTrain.addFieldPositionX(diffInches * Math.cos(Math.toRadians(Robot.driveTrain.getGyroRotation())));
-			Robot.driveTrain.addFieldPositionY(diffInches * Math.sin(Math.toRadians(Robot.driveTrain.getGyroRotation())));
+			Robot.driveTrain
+					.addFieldPositionX(diffInches * Math.cos(Math.toRadians(Robot.driveTrain.getGyroRotation())));
+			Robot.driveTrain
+					.addFieldPositionY(diffInches * Math.sin(Math.toRadians(Robot.driveTrain.getGyroRotation())));
 
 			prevDistanceInches = currentDistanceInches;
 		}
 
-		Robot.log.writeLogEcho("DSDProfile,currentDistance," + currentDistance + ",MPCurrentDistance," + MPCurrentDistance
-				+ ",distSpeedControl," + distSpeedControl + ",MPVelocity," + trapezoid.getCurrentVelocity()
-				+ ",tolCheckerValue," + tolCheck.success() + ",velCheckAverage," + velCheck.getAverage());
+		Robot.generalLog.writeLogEcho("MPCurrentDistance," + MPCurrentDistance + ",distSpeedControl," + distSpeedControl
+				+ ",MPVelocity," + trapezoid.getCurrentVelocity() + ",tolCheckerValue," + tolCheck.success()
+				+ ",velCheckAverage," + velCheck.getAverage()); //DSD Profile Specific logging
 
-		Robot.driveTrain.logMotorCurrents();
-		
+		Robot.driveTrain.updateDriveLog();
+
 		SmartDashboard.putNumber("Distance Calculated", MPCurrentDistance);
 		SmartDashboard.putNumber("Distance Error", targetDistance - currentDistanceInches);
 		SmartDashboard.putNumber("Actual Distance", currentDistance);
@@ -169,21 +182,21 @@ public class DriveStraightDistanceProfile extends Command {
 			SmartDashboard.putNumber("fSet Distance", targetDistance);
 			SmartDashboard.putNumber("fActual Distance", currentDistance);
 		}
-		return (Math.abs(velCheck.getAverage()) < 0.2) || success; //0.05
+		return (Math.abs(velCheck.getAverage()) < 0.2) || success; // 0.05
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		// velCheck.dumpArray();
-		Robot.log.writeLogEcho(
-				"DriveStraightDistanceProfile ended, distError: " + (targetDistance - currentDistance) + ", velCheck: " + velCheck.getAverage());
+		Robot.generalLog.writeLogEcho("DriveStraightDistanceProfile ended, distError: " + (targetDistance - currentDistance)
+				+ ", velCheck: " + velCheck.getAverage());
 		Robot.driveTrain.driveAtCurve(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.log.writeLog("DriveStraightdistanceProfile interrupted");
+		Robot.generalLog.writeLog("DriveStraightdistanceProfile interrupted");
 		end();
 	}
 }

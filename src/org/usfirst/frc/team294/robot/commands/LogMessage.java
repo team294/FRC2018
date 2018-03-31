@@ -27,9 +27,9 @@ public class LogMessage extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	if (echo)
-    		Robot.log.writeLogEcho(msg);
+    		Robot.generalLog.writeLogEcho(msg);
     	else
-    		Robot.log.writeLog(msg);
+    		Robot.generalLog.writeLog(msg);
     }
 
     // Called repeatedly when this Command is scheduled to run

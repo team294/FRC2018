@@ -57,7 +57,7 @@ public class ProfileGenerator {
 		stoppingDistance = 0;
 		doneFlag = false;
 		
-		Robot.log.writeLogEcho("Profile generator,init pos," + initialPosition + ",final pos," + finalPosition );
+		Robot.generalLog.writeLogEcho("Profile generator,init pos," + initialPosition + ",final pos," + finalPosition );
 	}
 
 	/**

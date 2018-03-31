@@ -28,7 +28,6 @@ public class IntakeMotorsSetOpposite extends Command {
     protected void execute() {
     	if (timeSinceInitialized()>0.15) {
     		Robot.intake.setIntakeMotorPercentOpposite();
-    		Robot.intake.logMotorCurrents();
     	}
     }
 
