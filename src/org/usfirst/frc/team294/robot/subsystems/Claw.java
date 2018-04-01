@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -84,12 +85,13 @@ public class Claw extends Subsystem {
 	public void setClawMotorPercent(double percent) {
 		clawMotorLeft.set(ControlMode.PercentOutput, percent);
 		clawMotorRight.set(ControlMode.PercentOutput, percent);
-		System.out.println("Left Claw motor " + clawMotorLeft.getDeviceID() + " set to percent " + percent + ", output "
+/**		System.out.println("Left Claw motor " + clawMotorLeft.getDeviceID() + " set to percent " + percent + ", output "
 				+ clawMotorLeft.getMotorOutputVoltage() + " V," + clawMotorLeft.getOutputCurrent() + " A, Bus at "
 				+ clawMotorLeft.getBusVoltage() + " V");
 		System.out.println("Right Claw motor " + clawMotorRight.getDeviceID() + " set to percent " + percent
 				+ ", output " + clawMotorRight.getMotorOutputVoltage() + " V," + clawMotorRight.getOutputCurrent()
 				+ " A, Bus at " + clawMotorRight.getBusVoltage() + " V");
+**/
 		SmartDashboard.putNumber("Left Claw Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Claw Motor Percent:", percent);
 	}
@@ -144,17 +146,32 @@ public class Claw extends Subsystem {
 	public void periodic() {
 		SmartDashboard.putBoolean("PhotoSwitch Triggered", getPhotoSwitch());
 		SmartDashboard.putBoolean("Cube Present", getBumpSwitch());
-
 		SmartDashboard.putBoolean("Arm Photo", photoSwitch.get());
 
 		SmartDashboard.putNumber("Claw Left Motor voltage", clawMotorLeft.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Claw Right Motor voltage", clawMotorRight.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Claw Left Motor current", clawMotorLeft.getOutputCurrent());
 		SmartDashboard.putNumber("Claw Right Motor current", clawMotorRight.getOutputCurrent());
+
+		if (DriverStation.getInstance().isEnabled()) {
+			// TODO Is logging ok here?  Log less often?
+//			updateClawLog();
+		}
 	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
+	}
+
+	public void updateClawLog() {
+		Robot.log.writeLog("Claw Motor Left Output Voltage," + clawMotorLeft.getMotorOutputVoltage()
+				+ ",Claw Motor Left Output Current," + clawMotorLeft.getOutputCurrent()
+				+ ",Claw Motor Left Output Percent," + clawMotorLeft.getMotorOutputPercent()
+				+ "Claw Motor Right Output Voltage," + clawMotorRight.getMotorOutputVoltage()
+				+ ",Claw Motor Right Output Current," + clawMotorRight.getOutputCurrent()
+				+ ",Claw Motor Right Output Percent," + clawMotorRight.getMotorOutputPercent() + ",Claw Open,"
+				+ Robot.claw.isClawOpen() + ",Claw PhotoSwitch Triggered," + Robot.claw.getPhotoSwitch()
+				+ ",Claw BumpSwitch Triggered," + Robot.claw.getBumpSwitch());
 	}
 }

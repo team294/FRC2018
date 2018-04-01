@@ -151,7 +151,7 @@ public class ArmMotor extends Subsystem {
 		SmartDashboard.putNumber("Arm initial angle", initAngle);
 		SmartDashboard.putNumber("Arm target angle", angle);
 		finalAngle = angle;
-		trapezoid.newProfile(initAngle, angle, 0, 120, 120);
+		trapezoid.newProfile(initAngle, angle, 0, 150, 150); // was 120
 		// double encoderDegrees = angle * TICKS_PER_DEGREE;
 		// setArmPositionScaled(encoderDegrees);
 	}
@@ -422,10 +422,6 @@ public class ArmMotor extends Subsystem {
 			SmartDashboard.putNumber("Arm PID percent power", percentPower);
 			SmartDashboard.putNumber("Arm Profile getCurrentPosition", trapezoid.getCurrentPosition());
 			// if (Math.abs(finalAngle - getArmDegrees()) > 4.0)
-			Robot.log.writeLog("Arm PID,target angle," + finalAngle + ",current angle," + getArmDegrees()
-					+ ",profile angle," + trapezoid.getCurrentPosition() + ",PID error," + error + ",PID power,"
-					+ percentPower + ",arm raw enc," + getArmEncRaw() + ",arm cal zero," + Robot.robotPrefs.armCalZero);
-
 			setArmMotorToPercentPower(percentPower);
 		} else if (!Robot.armMotor.joystickControl) {
 			// if we are not enabled, our arm isn't calibrated and/or we aren't controlling
@@ -445,10 +441,13 @@ public class ArmMotor extends Subsystem {
 				startPID(getArmDegrees());
 			// TODO change all arm commands to run until angle is met
 		}
-
 		previousArmAngle = getArmDegrees();
 		SmartDashboard.putNumber("Arm Left Motor voltage", armMotor1.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Arm Left Motor current", armMotor1.getOutputCurrent());
+		
+		if(DriverStation.getInstance().isEnabled() && (Math.abs(finalAngle - getArmDegrees()) > 4.0) ) {
+			updateArmLog();
+		}
 	}
 
 	public void initDefaultCommand() {
@@ -456,11 +455,16 @@ public class ArmMotor extends Subsystem {
 		// setDefaultCommand(new UpdateArmSmartDashboard());
 	}
 
-	public void logMotorCurrents() {
-		Robot.log.writeLog("Arm motor 1 output Voltage," + armMotor1.getMotorOutputVoltage()
-				+ ",Arm motor 2 output Voltage," + armMotor2.getMotorOutputVoltage() + ",Arm motor 1 current,"
-				+ armMotor1.getOutputCurrent() + ",ArmMotor 2 current," + armMotor2.getOutputCurrent());
-
+	public void updateArmLog() {
+		Robot.log.writeLog("Arm Motor 1 Output Voltage," + armMotor1.getMotorOutputVoltage()
+				+ ",Arm Motor 1 Output Current," + armMotor1.getOutputCurrent() + ",Arm Motor 1 Output Percent,"
+				+ armMotor1.getMotorOutputPercent() + ",Arm Motor 2 Output Voltage," + armMotor2.getMotorOutputVoltage()
+				+ ",Arm Motor 2 Output Current," + armMotor2.getOutputCurrent() + ",Arm Motor 2 Output Percent,"
+				+ armMotor2.getMotorOutputPercent() + ",Arm Cal Zero," + Robot.robotPrefs.armCalZero
+				+ ",Arm Angle in Degrees," + getArmDegrees() + ",Arm Angle in Ticks Raw," + getArmEncRaw()
+				+ ",Arm Angle in Ticks Calibrated," + getArmEnc() + ",Arm Motion Profile Angle,"
+				+ trapezoid.getCurrentPosition() + ",Arm Final Angle," + finalAngle + ",Arm Initial Angle," + initAngle
+				+ ",Arm Target Angle," + getCurrentArmTarget() + ",Arm Error Current," + error + ",Arm Error Previous,"
+				+ prevError + ",Integrated Error," + intError + ",Arm Piston Position," + Robot.armPiston.getMajor());
 	}
-
 }

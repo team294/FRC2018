@@ -27,9 +27,10 @@ public class RobotMap {
 	public static final int pneumaticArmPistonMajorOut = 5;
 	public static final int pneumaticIntakePistonOpen = 2;
 	public static final int pneumaticClawPistonOut = 3;
-	public static final int pneumaticArmPistonMinorOut = 6;
+//	public static final int pneumaticArmPistonMinorOut = 6;
 	public static final int pneumaticIntakePistonDeploy = 1;
 	public static final int pneumaticIntakePistonStow = 7;
+	public static final int pneumaticClimbPistonRetract = 6;
 
 	// RoboRIO digital I/O addresses
 	public static final int majorPistonRetractedLimitSwitch = 5;
@@ -60,6 +61,9 @@ public class RobotMap {
 	public static double clawPercentLetGo = 0.5; // Speed to help drop cube
 	public static double clawPercentShootOut = 0.66; // Fast speed for shooting cube out
 	public static double clawPercentSwitchShoot = 0.75; // Beginning outtake speed of claw for scoring in switch
+	
+	// climb motor speeds
+	public static double climbPercent = -1.0; // needs to probably be -1.0 after testing	
 
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup
@@ -71,6 +75,7 @@ public class RobotMap {
 	public static double armSwitchPosLow = -5.0;
 	public static double armScaleLowPos = 60.0;
 	public static double armScaleBackwardsPos = 110.0;
+	public static double armClimbPos = 87.0;
 
 	// Arm interlocking angle
 	public static double armIntakeClearanceAng = -18.0;

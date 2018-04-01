@@ -23,7 +23,7 @@ public class ArmPiston extends Subsystem {
 
 	private final DoubleSolenoid armPistonMajor = new DoubleSolenoid(RobotMap.pneumaticArmPistonMajorOut,
 			RobotMap.pneumaticArmPistonMajorIn);
-	private final Solenoid armPistonMinorSingle = new Solenoid(RobotMap.pneumaticArmPistonMinorOut);
+//	private final Solenoid armPistonMinorSingle = new Solenoid(RobotMap.pneumaticArmPistonMinorOut);
 
 	// Limit switches for pistons
 	private final DigitalInput majorLimitRetract = new DigitalInput(RobotMap.majorPistonRetractedLimitSwitch);
@@ -78,13 +78,13 @@ public class ArmPiston extends Subsystem {
 	 *            PistonPositions.Retracted </br>
 	 *            <b>Other values are ignored</b>
 	 */
-	public void setMinor(RobotMap.PistonPositions position) {
+/*	public void setMinor(RobotMap.PistonPositions position) {
 			if (position == RobotMap.PistonPositions.Extended)
 				armPistonMinorSingle.set(true);
 			if (position == RobotMap.PistonPositions.Retracted)
 				armPistonMinorSingle.set(false);
 	}
-
+*/
 	/**
 	 * returns position of major piston according to sensors
 	 * 
@@ -180,15 +180,15 @@ public class ArmPiston extends Subsystem {
 		if (zone == ArmZones.Low) {
 			setMajor(PistonPositions.Retracted);
 			//setMinor(PistonPositions.Extended);
-			setMinor(PistonPositions.Retracted);
+//			setMinor(PistonPositions.Retracted);
 			return true;
 		} else if (zone == ArmZones.High) {
 			setMajor(PistonPositions.Extended);
-			setMinor(PistonPositions.Extended);
+//			setMinor(PistonPositions.Extended);
 			return true;
 		} else {
 			setMajor(PistonPositions.Retracted);
-			setMinor(PistonPositions.Retracted);
+//			setMinor(PistonPositions.Retracted);
 			return false;
 		}
 	}
@@ -215,7 +215,7 @@ public class ArmPiston extends Subsystem {
 	 * 
 	 * @return true if piston extended, false otherwise
 	 */
-	public boolean smartExtendMinor() {
+/*	public boolean smartExtendMinor() {
 		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		if (zone == ArmZones.High || zone == ArmZones.Low) {
 			setMinor(PistonPositions.Extended);
@@ -225,13 +225,13 @@ public class ArmPiston extends Subsystem {
 			return false;
 		}
 	}
-
+*/
 	/**
 	 * Retracts both pistons
 	 */
 	public void smartRetract() {
 		setMajor(PistonPositions.Retracted);
-		setMinor(PistonPositions.Retracted);
+//		setMinor(PistonPositions.Retracted);
 	}
 
 	public void periodic() {

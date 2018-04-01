@@ -25,53 +25,55 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake extends Subsystem {
 
 	private final Solenoid intakeOpenPiston = new Solenoid(RobotMap.pneumaticIntakePistonOpen);
-	private final DoubleSolenoid intakeDeployPiston = new DoubleSolenoid(RobotMap.pneumaticIntakePistonDeploy, RobotMap.pneumaticIntakePistonStow);  // Forward = deployed
+	private final DoubleSolenoid intakeDeployPiston = new DoubleSolenoid(RobotMap.pneumaticIntakePistonDeploy,
+			RobotMap.pneumaticIntakePistonStow); // Forward = deployed
 
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
 	private final Relay ledIntakingIn = new Relay(RobotMap.LEDIntakingIn);
-	
+
 	public static boolean cubeInIntake;
 	public double lastMotorCurrent = 0;
-	public double motorCurrent = 0; 
+	public double motorCurrent = 0;
 	public boolean currentDecreasing;
 	private DoubleSolenoid.Value intakeState = DoubleSolenoid.Value.kOff;
 
-	
-	public final MotorCurrentTrigger intakeMotorLeftCurrentTrigger =  new MotorCurrentTrigger(intakeMotorLeft, 8, 4);
-	public final MotorCurrentTrigger intakeMotorRightCurrentTrigger =  new MotorCurrentTrigger(intakeMotorRight, 8, 4);
+	public final MotorCurrentTrigger intakeMotorLeftCurrentTrigger = new MotorCurrentTrigger(intakeMotorLeft, 8, 4);
+	public final MotorCurrentTrigger intakeMotorRightCurrentTrigger = new MotorCurrentTrigger(intakeMotorRight, 8, 4);
 
 	public Intake() {
-	intakeMotorLeft.set(ControlMode.PercentOutput, 0);
-	intakeMotorLeft.setNeutralMode(NeutralMode.Brake);
-	intakeMotorLeft.enableVoltageCompensation(true);
-	intakeMotorLeft.configVoltageCompSaturation(11.0, 0);
-	intakeMotorLeft.setInverted(true);
+		intakeMotorLeft.set(ControlMode.PercentOutput, 0);
+		intakeMotorLeft.setNeutralMode(NeutralMode.Brake);
+		intakeMotorLeft.enableVoltageCompensation(true);
+		intakeMotorLeft.configVoltageCompSaturation(11.0, 0);
+		intakeMotorLeft.setInverted(true);
 
-	intakeMotorRight.set(ControlMode.PercentOutput, 0);
-	intakeMotorRight.setNeutralMode(NeutralMode.Brake);
-	intakeMotorRight.enableVoltageCompensation(true);
-	intakeMotorRight.configVoltageCompSaturation(11.0, 0);
-	intakeMotorRight.setInverted(false);
-	
-	ledIntakingIn.set(Relay.Value.kOff);
-	cubeInIntake = false;
+		intakeMotorRight.set(ControlMode.PercentOutput, 0);
+		intakeMotorRight.setNeutralMode(NeutralMode.Brake);
+		intakeMotorRight.enableVoltageCompensation(true);
+		intakeMotorRight.configVoltageCompSaturation(11.0, 0);
+		intakeMotorRight.setInverted(false);
+
+		ledIntakingIn.set(Relay.Value.kOff);
+		cubeInIntake = false;
 	}
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	
+
 	/**
-	 * Adds current protection to the intake motor. If the intake motor trips this, the intake will stop
+	 * Adds current protection to the intake motor. If the intake motor trips this,
+	 * the intake will stop
 	 */
-	public void intakeMotorsCurrentProtection(){
+	public void intakeMotorsCurrentProtection() {
 		intakeMotorLeftCurrentTrigger.whenActive(new IntakeMotorSetToZero());
 		intakeMotorRightCurrentTrigger.whenActive(new IntakeMotorSetToZero());
 	}
-	
+
 	/**
 	 * Returns the state of the intake grabbers.
+	 * 
 	 * @return true = open, false = closed
 	 */
 	public boolean isIntakeOpen() {
@@ -80,7 +82,9 @@ public class Intake extends Subsystem {
 
 	/**
 	 * Deploys or retracts the intake based on parameter
-	 * @param deployed true = deployed, false = retracted
+	 * 
+	 * @param deployed
+	 *            true = deployed, false = retracted
 	 */
 	public void setIntakeDeploy(boolean deployed) {
 		// Track intake state in software (variable intakeState), so that we
@@ -102,29 +106,27 @@ public class Intake extends Subsystem {
 			Robot.log.writeLogEcho("Intake,Deploying");
 		}
 		intakeDeployPiston.set(intakeState);
-//		stop();
+		// stop();
 	}
-	
+
 	/**
 	 * Open or close the jaws on the intake
-	 * @param open true = open, false = close
+	 * 
+	 * @param open
+	 *            true = open, false = close
 	 */
 	public void setIntakeOpen(boolean open) {
 		intakeOpenPiston.set(open);
 	}
-	
+
 	public void updateCubeStatus() {
 		cubeInIntake = !cubeInIntake;
 	}
+
 	public boolean isCubeInIntake() {
 		return cubeInIntake;
 	}
 
-	public void logMotorCurrents() {
-    	Robot.log.writeLogEcho("Intake Left Motor Current: " + intakeMotorLeft.getOutputCurrent());
-    	Robot.log.writeLogEcho("Intake Right Motor Current: " + intakeMotorRight.getOutputCurrent());
-	}
-	
 	public boolean isCurrentDecreasing() {
 		motorCurrent = intakeMotorLeft.getOutputCurrent();
 		if ((motorCurrent - lastMotorCurrent) < -1) {
@@ -135,7 +137,7 @@ public class Intake extends Subsystem {
 			return false;
 		}
 	}
-	
+
 	// public void setIntakeMotorToPercentPower(double leftPercent, double
 	// rightPercent) {
 	// intakeMotorLeft.set(ControlMode.PercentOutput, leftPercent);
@@ -157,7 +159,8 @@ public class Intake extends Subsystem {
 	/**
 	 * sets the intake motors to a percentage
 	 * 
-	 * @param percent -1 (out) to 1 (in)
+	 * @param percent
+	 *            -1 (out) to 1 (in)
 	 */
 	public void setIntakeMotorPercent(double percent) {
 		intakeMotorLeft.set(ControlMode.PercentOutput, percent);
@@ -171,11 +174,11 @@ public class Intake extends Subsystem {
 		SmartDashboard.putNumber("Left Intake Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Intake Motor Percent:", percent);
 	}
-	
+
 	public void setIntakeMotorPercentOpposite() {
 		intakeMotorLeft.set(ControlMode.PercentOutput, -0.8);
 		intakeMotorRight.set(ControlMode.PercentOutput, 0.8);
-		}
+	}
 
 	/**
 	 * closes the intake jaws if the photo switch is triggered
@@ -188,7 +191,7 @@ public class Intake extends Subsystem {
 			setIntakeOpen(false);
 			return true;
 		} else
-		return false;
+			return false;
 	}
 
 	/**
@@ -206,9 +209,10 @@ public class Intake extends Subsystem {
 	public boolean getPhotoSwitch() {
 		return photoSwitch.get();
 	}
-	
+
 	/**
 	 * Gets the state of the intake
+	 * 
 	 * @return true = deployed, false = retracted or unknown state
 	 */
 	public boolean isIntakeDeployed() {
@@ -216,9 +220,9 @@ public class Intake extends Subsystem {
 	}
 
 	public void periodic() {
-		if (!DriverStation.getInstance().isAutonomous() && DriverStation.getInstance().isEnabled() && 
-				(intakeMotorLeft.getMotorOutputPercent() > 0.1)) {
-			Robot.oi.setXBoxRumble(0.7); 
+		if (!DriverStation.getInstance().isAutonomous() && DriverStation.getInstance().isEnabled()
+				&& (intakeMotorLeft.getMotorOutputPercent() > 0.1)) {
+			Robot.oi.setXBoxRumble(0.7);
 			ledIntakingIn.set(Relay.Value.kForward);
 		} else {
 			Robot.oi.setXBoxRumble(0);
@@ -231,9 +235,13 @@ public class Intake extends Subsystem {
 		SmartDashboard.putNumber("Intake Right Motor voltage", intakeMotorRight.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Intake Left Motor current", intakeMotorLeft.getOutputCurrent());
 		SmartDashboard.putNumber("Intake Right Motor current", intakeMotorRight.getOutputCurrent());
-		SmartDashboard.putBoolean("Intake deployed", intakeDeployPiston.get() ==DoubleSolenoid.Value.kForward);
+		SmartDashboard.putBoolean("Intake deployed", intakeDeployPiston.get() == DoubleSolenoid.Value.kForward);
+
+		if (DriverStation.getInstance().isEnabled()) {
+			// TODO Is logging ok here?  Log less often?
+//			updateIntakeLog();
+		}
 	}
-	
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
@@ -243,4 +251,14 @@ public class Intake extends Subsystem {
 		// or another command shuts them off or changes speed.
 	}
 
+	public void updateIntakeLog() {
+		Robot.log.writeLog("Intake Motor Left Output Voltage," + intakeMotorLeft.getMotorOutputVoltage()
+				+ ",Intake Motor Left Output Current," + intakeMotorLeft.getOutputCurrent()
+				+ ",Intake Motor Left Output Percent," + intakeMotorLeft.getMotorOutputPercent()
+				+ ",Intake Motor Right Output Voltage," + intakeMotorRight.getMotorOutputVoltage()
+				+ ",Intake Motor Right Output Current," + intakeMotorRight.getOutputCurrent()
+				+ ",Intake Motor Right Output Percent," + intakeMotorRight.getMotorOutputPercent() + ",Intake Deployed,"
+				+ Robot.intake.isIntakeDeployed() + ",Intake Open," + Robot.intake.isIntakeOpen()
+				+ ",Intake PhotoSwitchTriggered," + Robot.intake.isCubeInIntake());
+	}
 }
