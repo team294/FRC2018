@@ -97,7 +97,7 @@ public class DriveStraightDistanceProfile extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		// distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
-		Robot.generalLog.writeLog("DriveStraightdistanceProfile instantiated");
+		Robot.log.writeLog("DriveStraightdistanceProfile instantiated");
 
 		if (driveUsingDashboardParams) {
 			targetDistance = SmartDashboard.getNumber("DSDP_Distance_inches", 0);
@@ -163,7 +163,7 @@ public class DriveStraightDistanceProfile extends Command {
 			prevDistanceInches = currentDistanceInches;
 		}
 
-		Robot.generalLog.writeLogEcho("MPCurrentDistance," + MPCurrentDistance + ",distSpeedControl," + distSpeedControl
+		Robot.log.writeLogEcho("MPCurrentDistance," + MPCurrentDistance + ",distSpeedControl," + distSpeedControl
 				+ ",MPVelocity," + trapezoid.getCurrentVelocity() + ",tolCheckerValue," + tolCheck.success()
 				+ ",velCheckAverage," + velCheck.getAverage()); //DSD Profile Specific logging
 
@@ -188,7 +188,7 @@ public class DriveStraightDistanceProfile extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		// velCheck.dumpArray();
-		Robot.generalLog.writeLogEcho("DriveStraightDistanceProfile ended, distError: " + (targetDistance - currentDistance)
+		Robot.log.writeLogEcho("DriveStraightDistanceProfile ended, distError: " + (targetDistance - currentDistance)
 				+ ", velCheck: " + velCheck.getAverage());
 		Robot.driveTrain.driveAtCurve(0, 0);
 	}
@@ -196,7 +196,7 @@ public class DriveStraightDistanceProfile extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.generalLog.writeLog("DriveStraightdistanceProfile interrupted");
+		Robot.log.writeLog("DriveStraightdistanceProfile interrupted");
 		end();
 	}
 }

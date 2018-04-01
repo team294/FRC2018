@@ -307,7 +307,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void updateDriveLog() {
-		Robot.driveLog.writeLog("Left Motor 1 Output Voltage," + leftMotor1.getMotorOutputVoltage()
+		Robot.log.writeLog("Left Motor 1 Output Voltage," + leftMotor1.getMotorOutputVoltage()
 				+ ",Left Motor 1 Output Current," + leftMotor1.getOutputCurrent() + ",Left Motor 1 Output Percent,"
 				+ leftMotor1.getMotorOutputPercent() + ",Left Motor 2 Output Voltage,"
 				+ leftMotor2.getMotorOutputVoltage() + ",Left Motor 2 Output Current," + leftMotor2.getOutputCurrent()

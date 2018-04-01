@@ -29,12 +29,7 @@ public class Robot extends TimedRobot {
 	public static Climb climb;
 	public static PressureSensor pressureSensor;
 
-	public static FileLog armLog;
-	public static FileLog driveLog;
-	public static FileLog intakeLog;
-	public static FileLog clawLog;
-	public static FileLog climbLog;
-	public static FileLog generalLog;
+	public static FileLog log;
 	public static RobotPreferences robotPrefs;
 
 	public static VisionData visionData;
@@ -53,13 +48,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		// Create the log file first, so that any other code can use the file log
-		armLog = new FileLog();
-		driveLog = new FileLog();
-		intakeLog = new FileLog();
-		clawLog = new FileLog();
-		climbLog = new FileLog();
-		generalLog = new FileLog(); // for anything non-subsystem specific, testing purposes, or robot states
-									// (disabled, teleop, etc.)
+		log = new FileLog(); 
 
 		// Read robot preferences **before** creating subsystems, so subsytems can use
 		// the preferences
@@ -80,6 +69,7 @@ public class Robot extends TimedRobot {
 		// armMotor.armMotorsCurrentProtection(); needs to be tested
 		intake.intakeMotorsCurrentProtection();
 		claw.clawMotorsCurrentProtection();
+		climb.deployClimbPiston(false);
 
 		// Create auto selection utility
 		autoSelection = new AutoSelection();
@@ -111,7 +101,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		generalLog.writeLogEcho("Robot disabled.");
+		log.writeLogEcho("Robot disabled.");
 
 		armMotor.joystickControl = false;
 	}
@@ -135,7 +125,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		generalLog.writeLogEcho("Autonomous mode started.");
+		log.writeLogEcho("Autonomous mode started.");
 
 		autoSelection.readGameData();
 
@@ -175,7 +165,7 @@ public class Robot extends TimedRobot {
 		driveTrain.setFieldPositionX(0); // TODO remove later
 		driveTrain.setFieldPositionY(0); // TODO remove later
 
-		generalLog.writeLogEcho("Teleop mode started.");
+		log.writeLogEcho("Teleop mode started.");
 	}
 
 	/**

@@ -99,8 +99,8 @@ public class AutoSelection {
 			autonomousCommand = new AutoPath7_Baseline(startPosition);
 			programSelected = 7;
 			fieldLayout = -9999;
-			Robot.generalLog.writeLogEcho("Could not read field information from FMS");
-			Robot.generalLog.writeLogEcho("Ran Auto Path 7 (Go to baseline), side = " + startPosition.name());
+			Robot.log.writeLogEcho("Could not read field information from FMS");
+			Robot.log.writeLogEcho("Ran Auto Path 7 (Go to baseline), side = " + startPosition.name());
 
 		} else {
 			// We have valid game data from the FMS!
@@ -156,31 +156,31 @@ public class AutoSelection {
 			switch (programSelected) {
 			case 1:
 				autonomousCommand = new AutoPath1_SameSideScale(startPosition);
-				Robot.generalLog.writeLogEcho("Ran Auto Path 1 (same side scale), side = " + startPosition.name());
+				Robot.log.writeLogEcho("Ran Auto Path 1 (same side scale), side = " + startPosition.name());
 				break;
 			case 2:
 				autonomousCommand = new AutoPath2_OppositeSideScale(startPosition);
-				Robot.generalLog.writeLogEcho("Ran Auto Path 2 (opposite side scale), side = " + startPosition.name());
+				Robot.log.writeLogEcho("Ran Auto Path 2 (opposite side scale), side = " + startPosition.name());
 				break;
 			case 3:
 				autonomousCommand = new AutoPath3_SameSideSwitch(startPosition);
-				Robot.generalLog.writeLogEcho("Ran Auto Path 3 (same side switch), side = " + startPosition.name());
+				Robot.log.writeLogEcho("Ran Auto Path 3 (same side switch), side = " + startPosition.name());
 				break;
 			case 4:
 				autonomousCommand = new AutoPath4_OppositeSideSwitchBack(startPosition);
-				Robot.generalLog.writeLogEcho("Ran Auto Path 4 (opposite side switch back), side = " + startPosition.name());
+				Robot.log.writeLogEcho("Ran Auto Path 4 (opposite side switch back), side = " + startPosition.name());
 				break;
 			case 5:
 				autonomousCommand = new AutoPath5_SwitchFromMiddle(allianceSwitchLeft);
-				Robot.generalLog.writeLogEcho("Ran Auto Path 5 (switch from middle), left = " + allianceSwitchLeft);
+				Robot.log.writeLogEcho("Ran Auto Path 5 (switch from middle), left = " + allianceSwitchLeft);
 				break;
 			case 6:
 				autonomousCommand = new AutoPath6_OppositeSideSwitchFront(startPosition);
-				Robot.generalLog.writeLogEcho("Ran Auto Path 6 (opposite side switch front), side = " + startPosition.name());
+				Robot.log.writeLogEcho("Ran Auto Path 6 (opposite side switch front), side = " + startPosition.name());
 				break;
 			case 7:
 				autonomousCommand = new AutoPath7_Baseline(startPosition);
-				Robot.generalLog.writeLogEcho("Ran Auto Path 7 (Go to baseline), side = " + startPosition.name());
+				Robot.log.writeLogEcho("Ran Auto Path 7 (Go to baseline), side = " + startPosition.name());
 				break;
 			}
 		}

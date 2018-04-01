@@ -8,16 +8,19 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ClimbPistonDeploy extends Command {
+	
+	boolean state; //true is deployed
 
-    public ClimbPistonDeploy() {
+    public ClimbPistonDeploy(boolean state) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.climb);
+    	this.state = state;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.climb.deployClimbPiston();
+    	Robot.climb.deployClimbPiston(state); 
     }
 
     // Called repeatedly when this Command is scheduled to run

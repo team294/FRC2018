@@ -93,17 +93,17 @@ public class Intake extends Subsystem {
 		if (!deployed) {
 			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
 				intakeState = DoubleSolenoid.Value.kReverse;
-				Robot.intakeLog.writeLogEcho("Intake,Retracting,arm is high");
+				Robot.log.writeLogEcho("Intake,Retracting,arm is high");
 			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
 				intakeState = DoubleSolenoid.Value.kReverse;
-				Robot.intakeLog.writeLogEcho("Intake,Retracting,arm is low");
+				Robot.log.writeLogEcho("Intake,Retracting,arm is low");
 			} else {
 				intakeState = DoubleSolenoid.Value.kForward;
-				Robot.intakeLog.writeLogEcho("Intake,Deploying,arm is in keep-out region");
+				Robot.log.writeLogEcho("Intake,Deploying,arm is in keep-out region");
 			}
 		} else {
 			intakeState = DoubleSolenoid.Value.kForward;
-			Robot.intakeLog.writeLogEcho("Intake,Deploying");
+			Robot.log.writeLogEcho("Intake,Deploying");
 		}
 		intakeDeployPiston.set(intakeState);
 		// stop();
@@ -251,7 +251,7 @@ public class Intake extends Subsystem {
 	}
 
 	public void updateIntakeLog() {
-		Robot.intakeLog.writeLog("Intake Motor Left Output Voltage," + intakeMotorLeft.getMotorOutputVoltage()
+		Robot.log.writeLog("Intake Motor Left Output Voltage," + intakeMotorLeft.getMotorOutputVoltage()
 				+ ",Intake Motor Left Output Current," + intakeMotorLeft.getOutputCurrent()
 				+ ",Intake Motor Left Output Percent," + intakeMotorLeft.getMotorOutputPercent()
 				+ ",Intake Motor Right Output Voltage," + intakeMotorRight.getMotorOutputVoltage()

@@ -143,7 +143,7 @@ public class ArmMotor extends Subsystem {
 					angle = finalAngle;
 				}
 			}
-			Robot.generalLog.writeLog("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero + ",initial raw encoder,"
+			Robot.log.writeLog("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero + ",initial raw encoder,"
 					+ getArmEncRaw() + ",initialAngle," + initAngle + ",Destination Angle," + angle
 					+ ",intake deployed," + Robot.intake.isIntakeDeployed());
 		}
@@ -456,7 +456,7 @@ public class ArmMotor extends Subsystem {
 	}
 
 	public void updateArmLog() {
-		Robot.armLog.writeLog("Arm Motor 1 Output Voltage," + armMotor1.getMotorOutputVoltage()
+		Robot.log.writeLog("Arm Motor 1 Output Voltage," + armMotor1.getMotorOutputVoltage()
 				+ ",Arm Motor 1 Output Current," + armMotor1.getOutputCurrent() + ",Arm Motor 1 Output Percent,"
 				+ armMotor1.getMotorOutputPercent() + ",Arm Motor 2 Output Voltage," + armMotor2.getMotorOutputVoltage()
 				+ ",Arm Motor 2 Output Current," + armMotor2.getOutputCurrent() + ",Arm Motor 2 Output Percent,"

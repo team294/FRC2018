@@ -27,6 +27,6 @@ public class ClimbPreparation extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addParallel(new ArmMoveWithPiston(RobotMap.armClimbPos, false));
-    	addSequential(new ClimbPistonDeploy());
+    	addSequential(new ClimbPistonDeploy(true));
     }
 }

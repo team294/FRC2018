@@ -164,7 +164,7 @@ public class Claw extends Subsystem {
 	}
 
 	public void updateClawLog() {
-		Robot.clawLog.writeLog("Claw Motor Left Output Voltage," + clawMotorLeft.getMotorOutputVoltage()
+		Robot.log.writeLog("Claw Motor Left Output Voltage," + clawMotorLeft.getMotorOutputVoltage()
 				+ ",Claw Motor Left Output Current," + clawMotorLeft.getOutputCurrent()
 				+ ",Claw Motor Left Output Percent," + clawMotorLeft.getMotorOutputPercent()
 				+ "Claw Motor Right Output Voltage," + clawMotorRight.getMotorOutputVoltage()
