@@ -32,7 +32,8 @@ public class ClimbMotorSequence extends CommandGroup {
     	addParallel(new ArmMoveWithPiston(RobotMap.armIntakePos, false));
 
     	addSequential(new WaitCommand(0.5));
-    	addParallel(new ClimbSetPercentPower(-.7));		// make 1.0 after testing
+    	addParallel(new ClimbSetPercentPower(RobotMap.climbPercent));
     	addSequential(new WaitCommand(10.0));			//  test this time or add sensor when over 12 inches
+    	addSequential(new ClimbSetPercentPower(0));
     }
 }

@@ -63,5 +63,5 @@ public class Climb extends Subsystem {
 	public void setClimbMotors(double percentPower) {
 		climbMotor2.set(ControlMode.PercentOutput, percentPower);
 	}
-
+	
 }

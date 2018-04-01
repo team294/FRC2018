@@ -85,12 +85,13 @@ public class Claw extends Subsystem {
 	public void setClawMotorPercent(double percent) {
 		clawMotorLeft.set(ControlMode.PercentOutput, percent);
 		clawMotorRight.set(ControlMode.PercentOutput, percent);
-		System.out.println("Left Claw motor " + clawMotorLeft.getDeviceID() + " set to percent " + percent + ", output "
+/**		System.out.println("Left Claw motor " + clawMotorLeft.getDeviceID() + " set to percent " + percent + ", output "
 				+ clawMotorLeft.getMotorOutputVoltage() + " V," + clawMotorLeft.getOutputCurrent() + " A, Bus at "
 				+ clawMotorLeft.getBusVoltage() + " V");
 		System.out.println("Right Claw motor " + clawMotorRight.getDeviceID() + " set to percent " + percent
 				+ ", output " + clawMotorRight.getMotorOutputVoltage() + " V," + clawMotorRight.getOutputCurrent()
 				+ " A, Bus at " + clawMotorRight.getBusVoltage() + " V");
+**/
 		SmartDashboard.putNumber("Left Claw Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Claw Motor Percent:", percent);
 	}
