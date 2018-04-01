@@ -36,10 +36,13 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 //		// Go forward to switch
 //		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
 		if (goLeft) {
-			addSequential(new DriveStraightDistanceProfile(118, 19 * angleMultiplier, 100, 100)); // acceleration factor was 7, distance was 110
+			addSequential(new DriveStraightDistanceProfile(118, 26 * angleMultiplier, 100, 100)); // acceleration factor was 7, distance was 110
+			
 			
 		} else { // going right
-			addSequential(new DriveStraightDistanceProfile(108, 19 * angleMultiplier, 100, 100));  // acceleration factor was 70, distance was 100
+			addSequential(new DriveStraightDistanceProfile(108, 19 * angleMultiplier, 100, 100));  // acceleration factor was 70, distance was 100	
+		}
+		
 			addSequential(new AutoSwitchShoot());
 			addParallel(new LoadCubeSequence());
 			addSequential(new DriveStraightDistanceProfile(-105, 23 * angleMultiplier, 100, 100));  // acceleration factor was 70 
@@ -48,10 +51,9 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 			addSequential(new DriveStraightDistanceProfile(60, 0, 100, 100));
 			addParallel(new ArmMoveWithIntake());
 			addSequential(new DriveStraightDistanceProfile(-60, 0, 100, 100));
-			addSequential(new TurnGyro(22, TurnGyro.Units.Degrees));
+			addSequential(new TurnGyro(22 * angleMultiplier, TurnGyro.Units.Degrees));
 			addSequential(new DriveStraightDistanceProfile(108, 25 * angleMultiplier, 100, 100));  // acceleration factor was 70 
 			addSequential(new AutoSwitchShoot());
-		}
 		
 /*		addSequential(new DriveStraightDistanceProfile(-50, 20, 100, 100));
 		addSequential(new TurnGyro(45, TurnGyro.Units.Degrees));
