@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -145,13 +146,15 @@ public class Claw extends Subsystem {
 		SmartDashboard.putBoolean("PhotoSwitch Triggered", getPhotoSwitch());
 		SmartDashboard.putBoolean("Cube Present", getBumpSwitch());
 		SmartDashboard.putBoolean("Arm Photo", photoSwitch.get());
-		
+
 		SmartDashboard.putNumber("Claw Left Motor voltage", clawMotorLeft.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Claw Right Motor voltage", clawMotorRight.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Claw Left Motor current", clawMotorLeft.getOutputCurrent());
 		SmartDashboard.putNumber("Claw Right Motor current", clawMotorRight.getOutputCurrent());
-		
-		updateClawLog();
+
+		if (DriverStation.getInstance().isEnabled()) {
+			updateClawLog();
+		}
 	}
 
 	public void initDefaultCommand() {

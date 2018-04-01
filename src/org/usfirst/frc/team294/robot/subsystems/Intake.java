@@ -236,8 +236,10 @@ public class Intake extends Subsystem {
 		SmartDashboard.putNumber("Intake Left Motor current", intakeMotorLeft.getOutputCurrent());
 		SmartDashboard.putNumber("Intake Right Motor current", intakeMotorRight.getOutputCurrent());
 		SmartDashboard.putBoolean("Intake deployed", intakeDeployPiston.get() == DoubleSolenoid.Value.kForward);
-		
-		updateIntakeLog();
+
+		if (DriverStation.getInstance().isEnabled()) {
+			updateIntakeLog();
+		}
 	}
 
 	public void initDefaultCommand() {
@@ -254,8 +256,8 @@ public class Intake extends Subsystem {
 				+ ",Intake Motor Left Output Percent," + intakeMotorLeft.getMotorOutputPercent()
 				+ ",Intake Motor Right Output Voltage," + intakeMotorRight.getMotorOutputVoltage()
 				+ ",Intake Motor Right Output Current," + intakeMotorRight.getOutputCurrent()
-				+ ",Intake Motor Right Output Percent," + intakeMotorRight.getMotorOutputPercent()
-				+ ",Intake Deployed," + Robot.intake.isIntakeDeployed() + ",Intake Open," + Robot.intake.isIntakeOpen()
+				+ ",Intake Motor Right Output Percent," + intakeMotorRight.getMotorOutputPercent() + ",Intake Deployed,"
+				+ Robot.intake.isIntakeDeployed() + ",Intake Open," + Robot.intake.isIntakeOpen()
 				+ ",Intake PhotoSwitchTriggered," + Robot.intake.isCubeInIntake());
 	}
 }

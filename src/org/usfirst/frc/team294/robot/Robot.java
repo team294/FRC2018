@@ -171,9 +171,9 @@ public class Robot extends TimedRobot {
 		if (autoSelection.autonomousCommand != null) {
 			autoSelection.autonomousCommand.cancel();
 		}
-		driveTrain.zeroGyroRotation(); // todo remove later
-		driveTrain.setFieldPositionX(0); // todo remove later
-		driveTrain.setFieldPositionY(0); // todo remove later
+		driveTrain.zeroGyroRotation(); // TODO remove later
+		driveTrain.setFieldPositionX(0); // TODO remove later
+		driveTrain.setFieldPositionY(0); // TODO remove later
 
 		generalLog.writeLogEcho("Teleop mode started.");
 	}
