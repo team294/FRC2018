@@ -87,7 +87,7 @@ public class OI {
 	public Joystick rightJoystick = new Joystick(1); // Right Joystick is in port 1
 	public Joystick coPanel = new Joystick(2);
 	public Joystick xboxController = new Joystick(3);
-//	public Joystick armJoystick = new Joystick(4); // Arm Joystick is in port 4
+	// public Joystick armJoystick = new Joystick(4); // Arm Joystick is in port 4
 
 	private boolean driveDirection = true; // Easy switching drive direction
 
@@ -114,8 +114,8 @@ public class OI {
 			left[i] = new JoystickButton(leftJoystick, i);
 			right[i] = new JoystickButton(rightJoystick, i);
 			if (i == 1) {
-				left[i].whenPressed(new CubeLetGo());  // Automatic cube pick up with vision
-				right[i].whenPressed(new CubeShootOut());  // Automatic cube pick up with vision
+				left[i].whenPressed(new CubeLetGo()); // Automatic cube pick up with vision
+				right[i].whenPressed(new CubeShootOut()); // Automatic cube pick up with vision
 			} else if (i == 3) {
 				// right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive
 				// direction
@@ -167,42 +167,45 @@ public class OI {
 		// xbB[1].whenPressed(new Command()); // Lower intake mechanism
 		// xbB[2].whenPressed(new PistonCommand()); // Arm Piston actuation
 		// xbB[3].whenPressed(new PistonCommand()); // Arm Piston actuation
-//		xbB[4].whenPressed(new ClawSetState(true)); // Open Claw
-//		xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
-//		xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence
+		// xbB[4].whenPressed(new ClawSetState(true)); // Open Claw
+		// xbB[5].whenPressed(new ArmPistonsRetract()); // Retract Pistons
+		// xbB[6].whenPressed(new LoadCubeSequence()); // Intake Sequence
 		// xbB[7].whenPressed(new ClimbCommand()); // Reserved for climbing
 		// xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
 		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 
 		xbB[1].whenPressed(new LoadCubeSequence()); // grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClaw()); // Stops all flywheels
-		xbB[3].whenPressed(new LoadCubeSequenceWithIntakeOpen()); // Partial intake (load cube to intake only, not to claw)
+		xbB[3].whenPressed(new LoadCubeSequenceWithIntakeOpen()); // Partial intake (load cube to intake only, not to
+																	// claw)
 		xbB[4].whenPressed(new ToggleIntakeDeploy()); // Open Claw
 		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Retract Pistons
 		xbB[6].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Intake Sequence
-		xbB[7].whenPressed(new ToggleClawOpen()); 
-		//xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
+		xbB[7].whenPressed(new ToggleClawOpen());
+		// xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
 		xbB[8].whenPressed(new ToggleIntakeOpen());
-//		xbB[9].whenPressed(new ToggleClawOpen());
-		//xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
+		// xbB[9].whenPressed(new ToggleClawOpen());
+		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 		xbB[9].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
-//		xbB[10].whenPressed();
-		
-		xbPovUp.whenActive(new IntakeInvertAndGrab()); 
-//		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));  // Arm to intake position 
+		// xbB[10].whenPressed();
+
+		xbPovUp.whenActive(new IntakeInvertAndGrab());
+		// xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to
+		// intake position
 		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to scale backwards
 		xbPovLeft.whenActive(new ArmPistonsRetract()); // Arm to switch position
 		xbPovRight.whenActive(new ArmPistonSmartExtend()); // Arm to scale fowards
 
 		// Xbox triggers
-		xbLT.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Prepare to score cube (rev up flywheels), alternate climb/arm override
+		xbLT.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Prepare to score cube (rev up flywheels),
+																		// alternate climb/arm override
 		xbRT.whenActive(new CubeShootOut()); // Score cube
-//		xbRT.whenActive(new IntakeShootOut()); // Score cube
+		// xbRT.whenActive(new IntakeShootOut()); // Score cube
 
-//		Button armButton2 = new JoystickButton(armJoystick, 2);
-//		Button armButton3 = new JoystickButton(armJoystick, 3);
-//		armButton2.whenPressed(new ArmMotorIncrementAngle(false));
-//		armButton3.whenPressed(new ArmMotorIncrementAngle(true));
+		// Button armButton2 = new JoystickButton(armJoystick, 2);
+		// Button armButton3 = new JoystickButton(armJoystick, 3);
+		// armButton2.whenPressed(new ArmMotorIncrementAngle(false));
+		// armButton3.whenPressed(new ArmMotorIncrementAngle(true));
 
 		// Initialize our auto plan chooser
 		// Software is okay for testing. This should be hardware switches at
@@ -296,23 +299,27 @@ public class OI {
 		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(.50));
 		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));
 		SmartDashboard.putData("Stop Climb Motor", new ClimbSetPercentPower(0));
+		SmartDashboard.putData("Climb Preperation", new ClimbPreparation());
+		SmartDashboard.putData("Turn Climb Motors", new ClimbMotorTurn());
 
 		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
 		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
 		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
-		
+
 		SmartDashboard.putData("Invert Intake", new IntakeMotorsSetOpposite());
 		SmartDashboard.putData("Re-Intake Cube", new IntakeInvertAndGrab());
 
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
-		
+
 		SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 
 	}
 
 	/**
 	 * Sets the Xbox controller rumble power.
-	 * @param percentRumble, value 0 to 1
+	 * 
+	 * @param percentRumble,
+	 *            value 0 to 1
 	 */
 	public void setXBoxRumble(double percentRumble) {
 		xboxController.setRumble(RumbleType.kLeftRumble, percentRumble);
