@@ -30,6 +30,8 @@ public class RobotMap {
 	public static final int pneumaticArmPistonMinorOut = 6;
 	public static final int pneumaticIntakePistonDeploy = 1;
 	public static final int pneumaticIntakePistonStow = 7;
+	public static final int pneumaticClimbPistonIn = 8;
+	public static final int pneumaticClimbPistonOut = 9;
 
 	// RoboRIO digital I/O addresses
 	public static final int majorPistonRetractedLimitSwitch = 5;
@@ -71,6 +73,7 @@ public class RobotMap {
 	public static double armSwitchPosLow = -5.0;
 	public static double armScaleLowPos = 60.0;
 	public static double armScaleBackwardsPos = 110.0;
+	public static double armClimbPos = 90.0;
 
 	// Arm interlocking angle
 	public static double armIntakeClearanceAng = -18.0;
