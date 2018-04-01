@@ -1,5 +1,8 @@
 package org.usfirst.frc.team294.robot.commands;
 
+import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
@@ -25,9 +28,11 @@ public class ClimbMotorSequence extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addParallel(new ArmMoveToDestAngle(75.0));
+ 
+    	addParallel(new ArmMoveWithPiston(RobotMap.armIntakePos, false));
+
     	addSequential(new WaitCommand(0.5));
-    	addParallel(new ClimbSetPercentPower(0.5));
-    	addSequential(new WaitCommand(10.0));
+    	addParallel(new ClimbSetPercentPower(-.7));		// make 1.0 after testing
+    	addSequential(new WaitCommand(10.0));			//  test this time or add sensor when over 12 inches
     }
 }

@@ -22,17 +22,19 @@ public class Climb extends Subsystem {
 	// commenting out the talon until we get power to it.
 	private final TalonSRX climbMotor1 = new TalonSRX(RobotMap.climbMotor1);
 	private final TalonSRX climbMotor2 = new TalonSRX(RobotMap.climbMotor2);
-	private final Solenoid climbPiston = new Solenoid(RobotMap.pneumaticClimbPistonOut,
-			RobotMap.pneumaticClimbPistonIn);
+	private final Solenoid climbPiston = new Solenoid(RobotMap.pneumaticClimbPistonRetract);
 
 	public Climb() {
 		// Configure talons
-		climbMotor1.set(ControlMode.Follower, RobotMap.climbMotor2);
 		climbMotor2.set(ControlMode.PercentOutput, 0);
 		climbMotor2.setNeutralMode(NeutralMode.Brake);
 		climbMotor2.enableVoltageCompensation(true);
 		climbMotor2.configVoltageCompSaturation(11.0, 0);
-		//climbMotor2.configOpenloopRamp(0.2, 0);
+		climbMotor1.set(ControlMode.PercentOutput, 0);
+		climbMotor1.setNeutralMode(NeutralMode.Brake);
+		climbMotor1.enableVoltageCompensation(true);
+		climbMotor1.configVoltageCompSaturation(11.0, 0);
+		climbMotor1.set(ControlMode.Follower, RobotMap.climbMotor2);
 	}
 
 

@@ -299,7 +299,9 @@ public class OI {
 		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(.50));
 		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));
 		SmartDashboard.putData("Stop Climb Motor", new ClimbSetPercentPower(0));
+
 		SmartDashboard.putData("Climb Preperation", new ClimbPreparation());
+		SmartDashboard.putData("Climb Sequence", new ClimbMotorSequence());
 		SmartDashboard.putData("Turn Climb Motors", new ClimbMotorTurn());
 
 		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
