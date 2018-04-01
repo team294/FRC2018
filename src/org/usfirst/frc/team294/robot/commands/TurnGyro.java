@@ -88,9 +88,6 @@ public class TurnGyro extends Command {
 		Robot.log.writeLog("Turn Gyro initialized");
 		velCheck.clearHistory();
 		// Robot.driveTrain.zeroGyroRoataion();
-
-		Robot.log.writeLogEcho("Turn gyro,destAngle," + amountTurn);
-
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -113,7 +110,7 @@ public class TurnGyro extends Command {
 		SmartDashboard.putNumber("Gyro Turn Dist Err:", angleError);
 		SmartDashboard.putNumber("Gyro Turn Perc Speed:", angleSpeedControl);
 		SmartDashboard.putNumber("Degrees to turn Robot: ", amountTurn);
-		Robot.log.writeLogEcho("Turn Gyro,destAngle," + amountTurn + ",currentAngle," + currAngle + ",averageVelocity," + velCheck.getAverage());
+		Robot.log.writeLogEcho("Turn Gyro,destAngle," + amountTurn + ",currentAngle," + currAngle + ",averageVelocity," + velCheck.getAverage()); 
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

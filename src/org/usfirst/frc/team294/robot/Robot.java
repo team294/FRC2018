@@ -5,7 +5,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.networktables.*;
 // import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.TimedRobot; 
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -28,9 +28,6 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Climb climb;
 	public static PressureSensor pressureSensor;
-	
-	
-	
 
 	public static FileLog log;
 	public static RobotPreferences robotPrefs;
@@ -51,11 +48,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		// Create the log file first, so that any other code can use the file log
-		log = new FileLog();
-		
-		// Read robot preferences **before** creating subsystems, so subsytems can use the preferences
+		log = new FileLog(); 
+
+		// Read robot preferences **before** creating subsystems, so subsytems can use
+		// the preferences
 		robotPrefs = new RobotPreferences();
-		
+
 		// Create Vision object before subsystems
 		visionData = new VisionData();
 		// Create subsystems
@@ -67,10 +65,13 @@ public class Robot extends TimedRobot {
 		climb = new Climb();
 		intake = new Intake();
 		pressureSensor = new PressureSensor();
-		
-		// armMotor.armMotorsCurrentProtection();    needs to be tested
+
+		// armMotor.armMotorsCurrentProtection(); needs to be tested
 		intake.intakeMotorsCurrentProtection();
 		claw.clawMotorsCurrentProtection();
+		
+		// Reset single-sided solenoid to default state, so solenoid doesn't move when we download new code
+		climb.deployClimbPiston(false);		
 
 		// Create auto selection utility
 		autoSelection = new AutoSelection();
@@ -78,18 +79,19 @@ public class Robot extends TimedRobot {
 		// Network Tables for driver's display
 		networkTables = NetworkTableInstance.getDefault();
 		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
-		
-/**								Commented out UsbCamera since the video info is now sent through RaspberryPi
-		// USB drive camera
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-//	    camera.setVideoMode(VideoMode.PixelFormat.kYUYV, IMG_WIDTH, IMG_HEIGHT, IMG_FPS);
-	    camera.setExposureAuto();  // Start in auto exposure mode so that we can set brightness
-	    camera.setBrightness(10);  // Setting brightness only works correctly in auto exposure mode (?)
-//	    camera.getProperty("contrast").set(80);
-//	    camera.getProperty("saturation").set(60);
-	    camera.setExposureManual(20);
-//	    camera.setWhiteBalanceManual(2800);
-**/		
+
+		/**
+		 * Commented out UsbCamera since the video info is now sent through RaspberryPi
+		 * // USB drive camera UsbCamera camera =
+		 * CameraServer.getInstance().startAutomaticCapture(); //
+		 * camera.setVideoMode(VideoMode.PixelFormat.kYUYV, IMG_WIDTH, IMG_HEIGHT,
+		 * IMG_FPS); camera.setExposureAuto(); // Start in auto exposure mode so that we
+		 * can set brightness camera.setBrightness(10); // Setting brightness only works
+		 * correctly in auto exposure mode (?) //
+		 * camera.getProperty("contrast").set(80); //
+		 * camera.getProperty("saturation").set(60); camera.setExposureManual(20); //
+		 * camera.setWhiteBalanceManual(2800);
+		 **/
 		// Create the OI last, so that it can use commands that call subsystems
 		oi = new OI();
 	}
@@ -142,7 +144,7 @@ public class Robot extends TimedRobot {
 			autoSelection.autonomousCommand.start();
 		}
 	}
-	
+
 	/**
 	 * This function is called periodically during autonomous.
 	 */
@@ -161,9 +163,9 @@ public class Robot extends TimedRobot {
 		if (autoSelection.autonomousCommand != null) {
 			autoSelection.autonomousCommand.cancel();
 		}
-		driveTrain.zeroGyroRotation(); // todo remove later
-		driveTrain.setFieldPositionX(0); // todo remove later
-		driveTrain.setFieldPositionY(0); // todo remove later
+		driveTrain.zeroGyroRotation(); // TODO remove later
+		driveTrain.setFieldPositionX(0); // TODO remove later
+		driveTrain.setFieldPositionY(0); // TODO remove later
 
 		log.writeLogEcho("Teleop mode started.");
 	}

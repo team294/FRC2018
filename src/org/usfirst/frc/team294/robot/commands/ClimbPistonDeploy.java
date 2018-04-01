@@ -1,33 +1,26 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Not being used, since there is no minor limit switch
+ *
  */
-public class ArmPistonSetMinorState extends Command {
-
-	PistonPositions state;
-	boolean moving = false;
+public class ClimbPistonDeploy extends Command {
 	
-	/**
-	 * Sets the state of the minor piston
-	 * @param state RobotMap.PistonPositions. Values other then Extended (including Null and Moving) will retract pistons
-	 */
-    public ArmPistonSetMinorState(PistonPositions state) {
+	boolean state; //true is deployed
+
+    public ClimbPistonDeploy(boolean state) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.armPiston);
+    	requires(Robot.climb);
     	this.state = state;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (state == PistonPositions.Extended) moving = Robot.armPiston.smartExtendMinor();
-    	else Robot.armPiston.setMinor(PistonPositions.Retracted);
+    	Robot.climb.deployClimbPiston(state); 
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,7 +29,6 @@ public class ArmPistonSetMinorState extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    //	if (moving) return Robot.armPiston.getMinor() != PistonPositions.Moving;
         return true;
     }
 
