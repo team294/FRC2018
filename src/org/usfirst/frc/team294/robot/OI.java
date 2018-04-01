@@ -196,7 +196,7 @@ public class OI {
 
 		// Xbox triggers
 		xbLT.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Prepare to score cube (rev up flywheels), alternate climb/arm override
-		xbRT.whenActive(new CubeShootOut()); // Score cube
+		xbRT.whenActive(new CubeShootOut(1)); // Score cube
 //		xbRT.whenActive(new IntakeShootOut()); // Score cube
 
 //		Button armButton2 = new JoystickButton(armJoystick, 2);

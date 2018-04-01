@@ -21,14 +21,15 @@ public class LoadCubeSequence extends CommandGroup {
     	
 
     	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
-    	addSequential(new IntakeSetOpen(false));
-    	addSequential(new ClawSetState(false)); // Close the claw while moving the arm
-    	addSequential(new ConditionalCommand(new ArmMoveWithPiston(RobotMap.armIntakePos,true)){
+    	addSequential(new IntakeSetOpen(false));// Close the claw while moving the arm
+    	addSequential(new ConditionalCommand(new ClawSetState(false)){
     		protected boolean condition(){
     			return (Robot.armMotor.getArmDegrees()>-45); 
     		}
     		// Move the arm to the intake position
     	});
+    	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,true)); // Close the claw while moving the arm
+    	
     	// TODO Commented out the Wait command.  If intake is closed, we shouldn't need to wait.
     	//addSequential(new WaitCommand(.75));
     	addParallel(new IntakeCube()); // Open intake claw and start intaking, close when the photoswitch is triggered

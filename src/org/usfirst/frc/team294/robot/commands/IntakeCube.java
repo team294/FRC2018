@@ -37,7 +37,7 @@ public class IntakeCube extends Command {
     		done = Robot.intake.smartCloseIntake();
         	SmartDashboard.putBoolean("Smart Close Intake Return", done);	
     	}else {
-    		done=true;
+    		done=false;
     	}
     }
 
@@ -57,6 +57,5 @@ public class IntakeCube extends Command {
     	if(autoClose) {
         	Robot.intake.stop();
     	}
-    	Robot.intake.setIntakeOpen(false);
     }
 }
