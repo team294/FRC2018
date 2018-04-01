@@ -28,7 +28,7 @@ public class Climb extends Subsystem {
 
 	public Climb() {
 		// Configure talons
-		// climbMotor1.set(ControlMode.Follower, RobotMap.climbMotor2);
+		//climbMotor1.set(ControlMode.Follower, RobotMap.climbMotor2);
 		climbMotor2.set(ControlMode.PercentOutput, 0);
 		climbMotor2.setNeutralMode(NeutralMode.Brake);
 		climbMotor2.enableVoltageCompensation(true);
@@ -36,16 +36,11 @@ public class Climb extends Subsystem {
 		climbMotor2.configOpenloopRamp(0.2, 0);
 	}
 
-	public void setArmForClimb() 
-	{
-		new ArmMoveWithPiston(RobotMap.armClimbPos, false).start();
-	}
 
 	// Deploys Climb Piston, but only in the last 30 seconds of the match
-	public void deployClimbPiston() 
-	{
-		if (DriverStation.getInstance().getMatchTime() <= 30) 
-		{
+	public void deployClimbPiston() {
+
+		if (DriverStation.getInstance().getMatchTime() <= 30) {
 			climbPiston.set(Value.kForward);
 		}
 	}
