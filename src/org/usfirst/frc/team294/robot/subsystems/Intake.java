@@ -238,7 +238,8 @@ public class Intake extends Subsystem {
 		SmartDashboard.putBoolean("Intake deployed", intakeDeployPiston.get() == DoubleSolenoid.Value.kForward);
 
 		if (DriverStation.getInstance().isEnabled()) {
-			updateIntakeLog();
+			// TODO Is logging ok here?  Log less often?
+//			updateIntakeLog();
 		}
 	}
 

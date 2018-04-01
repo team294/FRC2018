@@ -69,7 +69,9 @@ public class Robot extends TimedRobot {
 		// armMotor.armMotorsCurrentProtection(); needs to be tested
 		intake.intakeMotorsCurrentProtection();
 		claw.clawMotorsCurrentProtection();
-		climb.deployClimbPiston(false);
+		
+		// Reset single-sided solenoid to default state, so solenoid doesn't move when we download new code
+		climb.deployClimbPiston(false);		
 
 		// Create auto selection utility
 		autoSelection = new AutoSelection();

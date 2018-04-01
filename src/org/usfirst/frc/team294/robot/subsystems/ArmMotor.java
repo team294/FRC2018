@@ -445,7 +445,7 @@ public class ArmMotor extends Subsystem {
 		SmartDashboard.putNumber("Arm Left Motor voltage", armMotor1.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Arm Left Motor current", armMotor1.getOutputCurrent());
 		
-		if(DriverStation.getInstance().isEnabled()) {
+		if(DriverStation.getInstance().isEnabled() && (Math.abs(finalAngle - getArmDegrees()) > 4.0) ) {
 			updateArmLog();
 		}
 	}

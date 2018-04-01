@@ -154,7 +154,8 @@ public class Claw extends Subsystem {
 		SmartDashboard.putNumber("Claw Right Motor current", clawMotorRight.getOutputCurrent());
 
 		if (DriverStation.getInstance().isEnabled()) {
-			updateClawLog();
+			// TODO Is logging ok here?  Log less often?
+//			updateClawLog();
 		}
 	}
 

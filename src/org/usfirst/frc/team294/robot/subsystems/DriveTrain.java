@@ -298,7 +298,8 @@ public class DriveTrain extends Subsystem {
 		getRightEncoderInches();
 
 		if (DriverStation.getInstance().isEnabled()) {
-			updateDriveLog();
+			// TODO Is logging ok here?  Log less often?
+//			updateDriveLog();
 		}
 	}
 
