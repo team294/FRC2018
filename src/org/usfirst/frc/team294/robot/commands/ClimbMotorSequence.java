@@ -1,15 +1,14 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  */
-public class ClimbPreparation extends CommandGroup {
+public class ClimbMotorSequence extends CommandGroup {
 
-    public ClimbPreparation() {
+    public ClimbMotorSequence() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -26,7 +25,9 @@ public class ClimbPreparation extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addParallel(new ArmMoveWithPiston(RobotMap.armClimbPos, false));
-    	addSequential(new ClimbPistonDeploy());
+    	addParallel(new ArmMoveToDestAngle(75.0));
+    	addSequential(new WaitCommand(0.5));
+    	addParallel(new ClimbSetPercentPower(0.5));
+    	addSequential(new WaitCommand(10.0));
     }
 }
