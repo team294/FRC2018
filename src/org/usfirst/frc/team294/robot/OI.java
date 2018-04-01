@@ -176,8 +176,7 @@ public class OI {
 
 		xbB[1].whenPressed(new LoadCubeSequence()); // grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClaw()); // Stops all flywheels
-		xbB[3].whenPressed(new LoadCubeSequenceWithIntakeOpen()); // Partial intake (load cube to intake only, not to
-																	// claw)
+		xbB[3].whenPressed(new LoadCubeWithIntakeOpenTeleop()); // Partial intake (load cube to intake only, not to claw)
 		xbB[4].whenPressed(new ToggleIntakeDeploy()); // Open Claw
 		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Retract Pistons
 		xbB[6].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Intake Sequence
@@ -197,10 +196,9 @@ public class OI {
 		xbPovRight.whenActive(new ArmPistonSmartExtend()); // Arm to scale fowards
 
 		// Xbox triggers
-		xbLT.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Prepare to score cube (rev up flywheels),
-																		// alternate climb/arm override
-		xbRT.whenActive(new CubeShootOut()); // Score cube
-		// xbRT.whenActive(new IntakeShootOut()); // Score cube
+		xbLT.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Prepare to score cube (rev up flywheels), alternate climb/arm override
+		xbRT.whenActive(new CubeShootOut(1)); // Score cube
+//		xbRT.whenActive(new IntakeShootOut()); // Score cube
 
 		// Button armButton2 = new JoystickButton(armJoystick, 2);
 		// Button armButton3 = new JoystickButton(armJoystick, 3);
