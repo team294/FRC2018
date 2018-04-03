@@ -37,6 +37,8 @@ public class Robot extends TimedRobot {
 
 	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
 	public static boolean driveDirection; // true for reversed
+	
+	public static boolean beforeFirstEnable = true;  // true before the first time the robot is enabled after booting or loading code
 
 	public NetworkTableInstance networkTables;
 	public NetworkTable coDisplay;
@@ -53,6 +55,9 @@ public class Robot extends TimedRobot {
 		// Read robot preferences **before** creating subsystems, so subsytems can use
 		// the preferences
 		robotPrefs = new RobotPreferences();
+		
+		// Set variable that the robot has not been enabled
+		beforeFirstEnable = true;
 
 		// Create Vision object before subsystems
 		visionData = new VisionData();
@@ -129,6 +134,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		log.writeLogEcho("Autonomous mode started.");
+		
+		// Set variable that the robot has been enabled
+		beforeFirstEnable = false;
 
 		autoSelection.readGameData();
 
@@ -169,6 +177,9 @@ public class Robot extends TimedRobot {
 		driveTrain.setFieldPositionY(0); // TODO remove later
 
 		log.writeLogEcho("Teleop mode started.");
+		
+		// Set variable that the robot has been enabled
+		beforeFirstEnable = false;
 	}
 
 	/**

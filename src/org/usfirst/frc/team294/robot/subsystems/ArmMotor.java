@@ -152,9 +152,9 @@ public class ArmMotor extends Subsystem {
 		SmartDashboard.putNumber("Arm target angle", angle);
 		finalAngle = angle;
 		if(initAngle< angle) {
-			trapezoid.newProfile(initAngle, angle, 0, 150, 150); // was 120
+			trapezoid.newProfile(initAngle, angle, 0, 180, 160); // was 150, 150
 		}else {
-			trapezoid.newProfile(initAngle, angle, 0, 180, 200);
+			trapezoid.newProfile(initAngle, angle, 0, 180, 160);  // was 150, 150
 		}
 		// double encoderDegrees = angle * TICKS_PER_DEGREE;
 		// setArmPositionScaled(encoderDegrees);
@@ -373,22 +373,22 @@ public class ArmMotor extends Subsystem {
 		updateSmartDashboard();
 		// Set armCalZero, when limit switch is hit [(was) if not already set], by using
 		// known value of lower limit switch
-		// if (!Robot.robotPrefs.armCalibrated) {
-		SensorCollection sc = armMotor1.getSensorCollection();
-		if (sc.isRevLimitSwitchClosed()) {
-			/*
-			 * Robot.log.writeLogEcho("Arm auto cal pre,target angle," + finalAngle +
-			 * ",current angle," + getArmDegrees() + ",arm raw enc," + getArmEncRaw() +
-			 * ",arm cal zero," + Robot.robotPrefs.armCalZero);
-			 */
-			Robot.robotPrefs.setArmCalibration(getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
-			/*
-			 * Robot.log.writeLogEcho("Arm auto cal post,target angle," + finalAngle +
-			 * ",current angle," + getArmDegrees() + ",arm raw enc," + getArmEncRaw() +
-			 * ",arm cal zero," + Robot.robotPrefs.armCalZero);
-			 */
+		if (!Robot.robotPrefs.armCalibrated || Robot.beforeFirstEnable) {
+			SensorCollection sc = armMotor1.getSensorCollection();
+			if (sc.isRevLimitSwitchClosed()) {
+				/*
+				 * Robot.log.writeLogEcho("Arm auto cal pre,target angle," + finalAngle +
+				 * ",current angle," + getArmDegrees() + ",arm raw enc," + getArmEncRaw() +
+				 * ",arm cal zero," + Robot.robotPrefs.armCalZero);
+				 */
+				Robot.robotPrefs.setArmCalibration(getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
+				/*
+				 * Robot.log.writeLogEcho("Arm auto cal post,target angle," + finalAngle +
+				 * ",current angle," + getArmDegrees() + ",arm raw enc," + getArmEncRaw() +
+				 * ",arm cal zero," + Robot.robotPrefs.armCalZero);
+				 */
+			}
 		}
-		// }
 
 		// The following boolean statement checks for sudden jumps in arm degree value.
 		// Need to verify: What happens if we just calibrated the arm? Will

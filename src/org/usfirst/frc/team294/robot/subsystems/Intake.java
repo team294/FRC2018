@@ -94,7 +94,7 @@ public class Intake extends Subsystem {
 			if (Robot.armMotor.getArmDegrees() > (RobotMap.armIntakeClearanceAng + 3)) {
 				intakeState = DoubleSolenoid.Value.kReverse;
 				Robot.log.writeLogEcho("Intake,Retracting,arm is high");
-			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 3)) {
+			} else if (Robot.armMotor.getArmDegrees() < (RobotMap.minAngle + 6)) {   // was minAngle+3
 				intakeState = DoubleSolenoid.Value.kReverse;
 				Robot.log.writeLogEcho("Intake,Retracting,arm is low");
 			} else {
@@ -129,6 +129,7 @@ public class Intake extends Subsystem {
 
 	public boolean isCurrentDecreasing() {
 		motorCurrent = intakeMotorLeft.getOutputCurrent();
+//		SmartDashboard.putNumber("Intake Left Motor Delta Current", motorCurrent - lastMotorCurrent);
 		if ((motorCurrent - lastMotorCurrent) < -1) {
 			lastMotorCurrent = 0;
 			return true;
@@ -165,19 +166,23 @@ public class Intake extends Subsystem {
 	public void setIntakeMotorPercent(double percent) {
 		intakeMotorLeft.set(ControlMode.PercentOutput, percent);
 		intakeMotorRight.set(ControlMode.PercentOutput, percent);
-		System.out.println("Left Intake motor " + intakeMotorLeft.getDeviceID() + " set to percent " + percent
+/**		System.out.println("Left Intake motor " + intakeMotorLeft.getDeviceID() + " set to percent " + percent
 				+ ", output " + intakeMotorLeft.getMotorOutputVoltage() + " V," + intakeMotorLeft.getOutputCurrent()
 				+ " A, Bus at " + intakeMotorLeft.getBusVoltage() + " V");
 		System.out.println("Right Intake motor " + intakeMotorRight.getDeviceID() + " set to percent " + percent
 				+ ", output " + intakeMotorRight.getMotorOutputVoltage() + " V," + intakeMotorRight.getOutputCurrent()
 				+ " A, Bus at " + intakeMotorRight.getBusVoltage() + " V");
-		SmartDashboard.putNumber("Left Intake Motor Percent:", percent);
+**/		SmartDashboard.putNumber("Left Intake Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Intake Motor Percent:", percent);
 	}
 
-	public void setIntakeMotorPercentOpposite() {
-		intakeMotorLeft.set(ControlMode.PercentOutput, -0.8);
-		intakeMotorRight.set(ControlMode.PercentOutput, 0.8);
+	/**
+	 * Sets the intake motors to opposite directions
+	 * @param percentPower -1.0 (right out, left in) to +1.0 (right in, left out)
+	 */
+	public void setIntakeMotorPercentOpposite(double percentPower) {
+		intakeMotorLeft.set(ControlMode.PercentOutput, -percentPower);
+		intakeMotorRight.set(ControlMode.PercentOutput, percentPower);
 	}
 
 	/**
