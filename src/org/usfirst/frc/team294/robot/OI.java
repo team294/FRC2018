@@ -118,7 +118,7 @@ public class OI {
 				right[i].whenPressed(new CubeShootOut()); // Automatic cube pick up with vision
 			} else if (i == 3) {
 				 right[i].whenPressed(new ClimbMotorSequence()); // Switch drive
-				left[i].whenPressed(new ClimbPreparation());
+				//left[i].whenPressed(new ClimbPreparation());
 				 // direction
 				// left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive
 				// direction
@@ -149,8 +149,8 @@ public class OI {
 		}
 
 		// Bind commands to the codriver panel switches
-		// coP[1].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
-		// coP[2].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
+		//coP[1].whenPressed(new ClimbPreparation()); // Preps for climb
+		coP[2].whenPressed(new ClimbMotorSequence()); // Does  climb sequence
 		coP[3].whenPressed(new StopIntakeAndClawAndClimb()); // Stop all flywheels
 		// coP[4].whenPressed(new Command()); // Prepare to score cube (rev up
 		// flywheels), alternate override for arm
