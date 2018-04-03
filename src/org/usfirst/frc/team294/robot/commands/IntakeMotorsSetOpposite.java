@@ -27,7 +27,7 @@ public class IntakeMotorsSetOpposite extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if (timeSinceInitialized()>0.15) {
-    		Robot.intake.setIntakeMotorPercentOpposite();
+    		Robot.intake.setIntakeMotorPercentOpposite(0.5);
     	}
     }
 
