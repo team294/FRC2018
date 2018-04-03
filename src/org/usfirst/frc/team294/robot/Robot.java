@@ -104,8 +104,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		log.writeLogEcho("Robot disabled.");
-
+		climb.setClimbMotors(0);
 		armMotor.joystickControl = false;
+		climb.deployClimbPiston(false);
 	}
 
 	@Override

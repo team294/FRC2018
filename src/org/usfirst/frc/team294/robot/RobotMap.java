@@ -54,7 +54,7 @@ public class RobotMap {
 	public static double intakePercentIntakeShootOut = -1.0; // TODO speed needs to be checked in command
 
 	// claw motor speeds
-	public static double clawPercentDefault = -0.4; // Constant intake speed to prevent cube from dropping out of claw
+	public static double clawPercentDefault = -0.35; // Constant intake speed to prevent cube from dropping out of claw
 	public static double clawPercentIn = -0.7; // need to be tested
 	public static double clawPercentInFully = -1.0; // Used to make sure cube is in claw TODO check if necessary
 	public static double clawPercentOut = 0.3; // Slow speed for outtake

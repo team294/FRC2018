@@ -11,16 +11,15 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  * Sequence to load cube from intake to arm and reverse intake motors
  */
-public class LoadCubeSequenceWithIntakeOpen extends CommandGroup {
+public class LoadCubeWithIntakeOpenTeleop extends CommandGroup {
 
-    public LoadCubeSequenceWithIntakeOpen() {
+    public LoadCubeWithIntakeOpenTeleop() {
 
     	/* These commands are all individual because we want them to finish before we continue on to moving anything else, to avoid impacts */
     	
 
     	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
-    	addSequential(new IntakeSetOpen(true));
-    	addSequential(new ClawSetState(false)); // Close the claw while moving the arm
+    	addSequential(new IntakeSetOpen(true)); // Close the claw while moving the arm
     	addSequential(new WaitCommand(0.2));
     	addSequential(new LogMessage("loadCube, 1 intake claw set",true)); 
     	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,false)); // Move the arm to the intake position
@@ -28,9 +27,7 @@ public class LoadCubeSequenceWithIntakeOpen extends CommandGroup {
 
     	//    		TODO add checker to see if the intake is deployed and open before intaking can occur
     	addSequential(new WaitCommand(0.3));		// Was 0.75 sec
-    	addParallel(new IntakeCube()); // Open intake claw and start intaking, close when the photoswitch is triggered
+    	addParallel(new IntakeCube(false)); // Open intake claw and start intaking, close when the photoswitch is triggered
     	addSequential(new ArmIntakeCube()); // Simultaneously, open the arm claw and being intaking. Exit when bumpswitch triggered, then lower claw speed to hold cube
-    	addSequential(new LogMessage("loadCube, 3 finished arm intake cube",true));
-    	addSequential(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Start outtaking so we don't get a penalty
 	}
 }
