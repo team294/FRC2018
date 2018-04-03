@@ -117,8 +117,9 @@ public class OI {
 				left[i].whenPressed(new CubeLetGo()); // Automatic cube pick up with vision
 				right[i].whenPressed(new CubeShootOut()); // Automatic cube pick up with vision
 			} else if (i == 3) {
-				// right[i].whenPressed(new SwitchDriveDirection(true)); // Switch drive
-				// direction
+				 right[i].whenPressed(new ClimbMotorSequence()); // Switch drive
+				left[i].whenPressed(new ClimbPreparation());
+				 // direction
 				// left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive
 				// direction
 			} else if (i == 2) {
@@ -132,6 +133,8 @@ public class OI {
 			} else if (i == 4 || i == 5) {
 				right[i].whenPressed(new DriveWithJoysticks());
 				left[i].whenPressed(new DriveWithJoysticks());
+			}else if(i ==5) {
+				 right[i].whenPressed(new CubeShootOut(1));
 			}
 		}
 
@@ -148,7 +151,7 @@ public class OI {
 		// Bind commands to the codriver panel switches
 		// coP[1].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
 		// coP[2].whenPressed(new ClimbCommand()); // Reserved for climbing sequences
-		coP[3].whenPressed(new StopIntakeAndClaw()); // Stop all flywheels
+		coP[3].whenPressed(new StopIntakeAndClawAndClimb()); // Stop all flywheels
 		// coP[4].whenPressed(new Command()); // Prepare to score cube (rev up
 		// flywheels), alternate override for arm
 		// coP[5].whenPressed(new Command()); // Score cube
@@ -175,7 +178,7 @@ public class OI {
 		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 
 		xbB[1].whenPressed(new LoadCubeSequence()); // grabs cube fully
-		xbB[2].whenPressed(new StopIntakeAndClaw()); // Stops all flywheels
+		xbB[2].whenPressed(new StopIntakeAndClawAndClimb()); // Stops all flywheels
 		xbB[3].whenPressed(new LoadCubeWithIntakeOpenTeleop()); // Partial intake (load cube to intake only, not to claw)
 		xbB[4].whenPressed(new ToggleIntakeDeploy()); // Open Claw
 		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Retract Pistons
