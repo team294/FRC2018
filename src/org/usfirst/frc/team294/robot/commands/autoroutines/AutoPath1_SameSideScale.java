@@ -32,30 +32,31 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addParallel(new ArmMoveWithIntakeBack());
 
 		// Drive to scale
-		addSequential(new DriveStraightDistanceProfile(-244, 6 * angleMultiplier, 100, 100));  // was -243 in but that wasn't far enough
+		addSequential(new DriveStraightDistanceProfile(-246, 6 * angleMultiplier, 100, 80));  // was -244 in but that wasn't far enough  -244, 6, 100, 100
 		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, true));
 		
 		// Turn then shoot cube in scale
 		addSequential(new TurnGyro(30 * angleMultiplier, TurnGyro.Units.Degrees));
 		 addSequential(new WaitCommand(0.1));
-		addSequential(new CubeShootOut(RobotMap.clawPercentShootOut));  // Was full speed (1.0)
+		addSequential(new CubeShootOut(0.75));  // Was 0.66
 		//addSequential(new WaitCommand(.25));
 		
 		// Load 2nd cube
 //		addParallel(new LoadCubeSequence());
 		addParallel(new LoadCubeSequenceWithIntakeOpenAuto());
-		addSequential(new TurnGyro(-35 * angleMultiplier, TurnGyro.Units.Degrees));
+		addSequential(new DriveStraightDistanceProfile(20, 0 * angleMultiplier, 100, 80));  // NEW NEW NEW
+		addSequential(new TurnGyro(-75 * angleMultiplier, TurnGyro.Units.Degrees));  // was -35
 		addSequential(new WaitCommand(.5));
 		//addSequential(new TurnGyro());
 		//addParallel(new IntakeCube());
-		addSequential(new DriveStraightDistanceProfile(25, -35 * angleMultiplier, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(34, -75 * angleMultiplier, 100, 80));   // was 25, -35, 100, 100;  better 33, -35, 100, 80
 		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
 		
 		// Turn towards closest cube using vision, if vision is working and we see a cube (otherwise do nothing and continue sequence)
 		addSequential(new TurnGyro());
 
 		// Final movement foward to grab 2nd cube
-		addSequential(new DriveStraightDistanceProfile(32, 0, 100, 100));   // Was 33 in
+		addSequential(new DriveStraightDistanceProfile(15, 0, 100, 100));   // Was 32 in
 		addSequential(new WaitCommand(.75));
 
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
