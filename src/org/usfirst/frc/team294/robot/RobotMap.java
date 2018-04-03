@@ -63,7 +63,7 @@ public class RobotMap {
 	public static double clawPercentSwitchShoot = 0.75; // Beginning outtake speed of claw for scoring in switch
 	
 	// climb motor speeds
-	public static double climbPercent = -1.0; 	
+	public static double climbPercent = -1.0; // needs to probably be -1.0 after testing	
 
 	// Arm angle thresholds
 	public static double lowThreshold; // Low threshold for ground pickup
