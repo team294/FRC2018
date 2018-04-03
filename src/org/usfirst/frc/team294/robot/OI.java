@@ -303,7 +303,6 @@ public class OI {
 
 		SmartDashboard.putData("Climb Preperation", new ClimbPreparation());
 		SmartDashboard.putData("Climb Sequence", new ClimbMotorSequence());
-		SmartDashboard.putData("Turn Climb Motors", new ClimbMotorTurn());
 
 		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
 		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
