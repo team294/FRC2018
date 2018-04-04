@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.commands.autoroutines;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.*;
 
@@ -44,11 +45,15 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		}
 		
 			addSequential(new AutoSwitchShoot());
-			addParallel(new LoadCubeSequence());
+//			addParallel(new LoadCubeSequence());
+			addParallel(new LoadCubeSequenceWithIntakeOpenAuto());	// open claw to allow for more error on position
 			addSequential(new DriveStraightDistanceProfile(-105, 23 * angleMultiplier, 100, 100));  // acceleration factor was 70 
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
 			//addSequential(new TurnGyro());
 			addSequential(new DriveStraightDistanceProfile(60, 0, 100, 100));
+			if (Robot.claw.clawCloseIfPhotoSwitch()) {
+				addSequential(new ArmIntakeCube());	// The cube isn't in!  This won't terminate if there isn't a cube, so we will be in position to pick up a cube and not waste time
+			}
 			addParallel(new ArmMoveWithIntake());
 			addSequential(new DriveStraightDistanceProfile(-60, 0, 100, 100));
 			addSequential(new TurnGyro(22 * angleMultiplier, TurnGyro.Units.Degrees));
