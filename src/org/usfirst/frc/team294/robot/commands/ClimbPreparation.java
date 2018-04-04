@@ -26,6 +26,7 @@ public class ClimbPreparation extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	addSequential(new IntakeSetDeploy(true));
     	addParallel(new ArmMoveWithPiston(RobotMap.armClimbPos, false));
     	addSequential(new ClimbPistonDeploy(true));
     }
