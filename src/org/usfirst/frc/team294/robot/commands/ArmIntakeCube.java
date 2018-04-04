@@ -61,6 +61,5 @@ public class ArmIntakeCube extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	//stop claw motors
-    	Robot.claw.stop();
-    }
+    	Robot.claw.setClawMotorPercent(RobotMap.clawPercentDefault);    }
 }

@@ -130,7 +130,7 @@ public class OI {
 				right[i].whenPressed(new Shift(false));
 				left[i].whenPressed(new Shift(true));
 
-			} else if (i == 4 || i == 5) {
+			} else if (i == 4) {
 				right[i].whenPressed(new DriveWithJoysticks());
 				left[i].whenPressed(new DriveWithJoysticks());
 			}else if(i ==5) {
@@ -157,7 +157,7 @@ public class OI {
 		// coP[5].whenPressed(new Command()); // Score cube
 		// coP[6].whenPressed(new Command()); // Intake mechanism up
 		// coP[7].whenPressed(new Command()); // Intake mechanism down
-		coP[8].whenPressed(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
+		coP[8].whenPressed(new ClimbPreparation()); // Arm to intake position
 		coP[9].whenPressed(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Outtake
 		coP[10].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to backwards for scale
 		coP[11].whenPressed(new LoadCubeSequence()); // Intake sequence
@@ -189,7 +189,7 @@ public class OI {
 		// xbB[9].whenPressed(new ToggleClawOpen());
 		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 		xbB[9].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
-		// xbB[10].whenPressed();
+		 xbB[10].whenPressed(new ArmMoveWithPiston(37, false));
 
 		xbPovUp.whenActive(new IntakeInvertAndGrab());
 		// xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to
