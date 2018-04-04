@@ -149,9 +149,9 @@ public class OI {
 		}
 
 		// Bind commands to the codriver panel switches
-		//coP[1].whenPressed(new ClimbPreparation()); // Preps for climb
+		coP[1].whileHeld(new ClimbSetPercentPower(RobotMap.climbPercent, false)); // Preps for climb
 		coP[2].whenPressed(new ClimbMotorSequence()); // Does  climb sequence
-		coP[3].whenPressed(new StopIntakeAndClawAndClimb()); // Stop all flywheels
+		coP[3].whileHeld(new ClimbSetPercentPower(.2,false)); // Stop all flywheels
 		// coP[4].whenPressed(new Command()); // Prepare to score cube (rev up
 		// flywheels), alternate override for arm
 		// coP[5].whenPressed(new Command()); // Score cube

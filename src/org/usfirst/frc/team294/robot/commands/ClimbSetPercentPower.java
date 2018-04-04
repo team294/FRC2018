@@ -8,13 +8,20 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ClimbSetPercentPower extends Command {
-	private double percentPower; 
+	private double percentPower;
+	private boolean terminate;
     public ClimbSetPercentPower(double percentPower) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	this.percentPower = percentPower;
     	requires(Robot.climb);
-    	
+    	terminate = true;
+    }
+    
+    public ClimbSetPercentPower(double percentPower, boolean terminate) {
+    	this.terminate = terminate;
+    	this.percentPower = percentPower;
+    	requires(Robot.climb);
     }
 
     // Called just before this Command runs the first time
@@ -28,7 +35,7 @@ public class ClimbSetPercentPower extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return terminate;
     }
 
     // Called once after isFinished returns true
@@ -38,5 +45,6 @@ public class ClimbSetPercentPower extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.climb.setClimbMotors(0);
     }
 }
