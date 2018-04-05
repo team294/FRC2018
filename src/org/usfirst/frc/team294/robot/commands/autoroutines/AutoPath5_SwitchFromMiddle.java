@@ -45,13 +45,15 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		}
 		
 			addSequential(new AutoSwitchShoot());
-//			addParallel(new LoadCubeSequence());
-			addParallel(new LoadCubeSequenceWithIntakeOpenAuto());	// open claw to allow for more error on position
 			addSequential(new DriveStraightDistanceProfile(-105, 23 * angleMultiplier, 100, 100));  // acceleration factor was 70 
+			addParallel(new LoadCubeSequence());	
 			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			//addSequential(new TurnGyro());
+			//addSequential(new TurnGyro()); 
+//			addParallel(new LoadCubeSequenceWithIntakeOpenAuto());	// open claw to allow for more error on position
+			addParallel(new LoadCubeSequence());
+			//addParallel(new IntakeSetOpen(true));		// This was needed to force orpen intake,  it closed before moving forward
 			addSequential(new DriveStraightDistanceProfile(60, 0, 100, 100));
-			if (Robot.claw.clawCloseIfPhotoSwitch()) {
+			if (Robot.claw.getPhotoSwitch()) {
 				addSequential(new ArmIntakeCube());	// The cube isn't in!  This won't terminate if there isn't a cube, so we will be in position to pick up a cube and not waste time
 			}
 			addParallel(new ArmMoveWithIntake());
