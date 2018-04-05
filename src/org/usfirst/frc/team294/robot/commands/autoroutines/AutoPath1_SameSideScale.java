@@ -53,7 +53,9 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
 		
 		// Turn towards closest cube using vision, if vision is working and we see a cube (otherwise do nothing and continue sequence)
-		addSequential(new TurnGyro());
+		// Commented out, since RPi was removed from robot
+		// IMPORTANT: If you use vision, then change the angle of the next DriveStraight = 9999 (use current heading)
+//		addSequential(new TurnGyro());
 
 		// Final movement foward to grab 2nd cube
 		addSequential(new DriveStraightDistanceProfile(15, 0, 100, 100));   // Was 32 in

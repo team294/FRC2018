@@ -72,6 +72,7 @@ public class DriveStraightDistanceProfile extends Command {
 	 *            Absolute angle for direction of travel, in degrees. 0 = away from
 	 *            drivers, -90 = left (relative to drive stations), +90 = right
 	 *            (relative to drive stations)
+	 *            ***Special Case*** 9999 = go straight using current robot heading
 	 * @param MPSpeed
 	 *            Speed, in in/sec
 	 * @param MPAccel
@@ -104,6 +105,11 @@ public class DriveStraightDistanceProfile extends Command {
 			angleBase = SmartDashboard.getNumber("DSDP_AngleBase", 0);
 			MPSpeed = SmartDashboard.getNumber("DSDP_Speed_ips", 80);
 			MPAccel = SmartDashboard.getNumber("DSDP_Accel_ips2", 80);
+		}
+		
+		// Special case:  If angle = 9999, then drive straight on current heading
+		if (angleBase == 9999) {
+			angleBase = Robot.driveTrain.getGyroRotation();
 		}
 
 		Robot.log.writeLogEcho("DriveStraightdistanceProfile,started,distance inches," + 
