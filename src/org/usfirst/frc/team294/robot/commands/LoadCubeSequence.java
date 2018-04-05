@@ -21,7 +21,7 @@ public class LoadCubeSequence extends CommandGroup {
     	
 
     	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
-    	addSequential(new IntakeSetOpen(false));// Close the claw while moving the arm
+    	addSequential(new IntakeSetOpen(false));// Close the intake while moving the arm
     	addSequential(new ConditionalCommand(new ClawSetState(false)){
     		protected boolean condition(){
     			return (Robot.armMotor.getArmDegrees()>-45); 
