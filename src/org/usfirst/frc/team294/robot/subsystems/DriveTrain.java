@@ -27,12 +27,15 @@ public class DriveTrain extends Subsystem {
 	private final WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.leftMotor1);
 	private final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.leftMotor2);
 	private final WPI_TalonSRX leftMotor3 = new WPI_TalonSRX(RobotMap.leftMotor3);
-	public final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor2, rightMotor2); // MAYBE CHANGE merge
-																								// conflicts??
-	// errors.
-	private AHRS ahrs;
-	private double yawZero = 0;
+	public final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor2, rightMotor2); 
 
+	// Gyro variables
+	private AHRS ahrs;
+	private double yawZero = 0;			// Track gyro zero here to minimize latency in CanBus
+
+	// Timer for logging motor data
+	private int periodicCount = 0;
+	
 	private double fieldX;
 	private double fieldY;
 
@@ -298,8 +301,11 @@ public class DriveTrain extends Subsystem {
 		getRightEncoderInches();
 
 		if (DriverStation.getInstance().isEnabled()) {
-			// TODO Is logging ok here?  Log less often?
-//			updateDriveLog();
+			// Log every 50 cycles (~1 second)
+			if ( (++periodicCount)>=50 ) {
+				updateDriveLog();
+				periodicCount = 0;
+			}
 		}
 	}
 

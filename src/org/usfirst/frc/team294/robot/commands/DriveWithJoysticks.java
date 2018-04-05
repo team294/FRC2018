@@ -49,8 +49,6 @@ public class DriveWithJoysticks extends Command {
     		Robot.driveTrain.tankDrive(-leftVal, -rightVal);
     	else
     		Robot.driveTrain.tankDrive(rightVal, leftVal);
-    	
-    	Robot.driveTrain.updateDriveLog();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

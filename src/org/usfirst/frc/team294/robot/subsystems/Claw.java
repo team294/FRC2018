@@ -65,14 +65,21 @@ public class Claw extends Subsystem {
 		 * } else {
 		 */ // no longer need keep-out zone
 		clawPiston.set(true); // true is extend
+		Robot.log.writeLogEcho("Claw,opening");
 		// }
 	}
 
 	public void closeClaw() {
 		clawPiston.set(false); // false is retract
+		Robot.log.writeLogEcho("Claw,closing");
 	}
 
+	/**
+	 * Checks if claw is open
+	 * @return true = open, false = closed
+	 */
 	public boolean isClawOpen() {
+		Robot.log.writeLog("Claw,isClawOpen," + clawPiston.get());
 		return clawPiston.get();
 	}
 
@@ -92,6 +99,7 @@ public class Claw extends Subsystem {
 				+ ", output " + clawMotorRight.getMotorOutputVoltage() + " V," + clawMotorRight.getOutputCurrent()
 				+ " A, Bus at " + clawMotorRight.getBusVoltage() + " V");
 **/
+		Robot.log.writeLogEcho("Claw,set percent," + percent);
 		SmartDashboard.putNumber("Left Claw Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Claw Motor Percent:", percent);
 	}
@@ -146,7 +154,7 @@ public class Claw extends Subsystem {
 	public void periodic() {
 		SmartDashboard.putBoolean("PhotoSwitch Triggered", getPhotoSwitch());
 		SmartDashboard.putBoolean("Cube Present", getBumpSwitch());
-		SmartDashboard.putBoolean("Arm Photo", photoSwitch.get());
+		SmartDashboard.putBoolean("Arm Photo", getPhotoSwitch());
 
 		SmartDashboard.putNumber("Claw Left Motor voltage", clawMotorLeft.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Claw Right Motor voltage", clawMotorRight.getMotorOutputVoltage());

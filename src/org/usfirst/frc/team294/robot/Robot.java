@@ -4,6 +4,7 @@ package org.usfirst.frc.team294.robot;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.DriverStation;
 // import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,6 +14,7 @@ import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.utilities.AutoSelection;
 import org.usfirst.frc.team294.utilities.FileLog;
+import org.usfirst.frc.team294.utilities.LEDSet;
 import org.usfirst.frc.team294.utilities.RobotPreferences;
 import org.usfirst.frc.team294.utilities.VisionData;
 
@@ -29,6 +31,8 @@ public class Robot extends TimedRobot {
 	public static Climb climb;
 	public static PressureSensor pressureSensor;
 
+	public static LEDSet mainLEDs;
+	
 	public static FileLog log;
 	public static RobotPreferences robotPrefs;
 
@@ -59,8 +63,10 @@ public class Robot extends TimedRobot {
 		// Set variable that the robot has not been enabled
 		beforeFirstEnable = true;
 
-		// Create Vision object before subsystems
+		// Create Vision and LED objects before subsystems
 		visionData = new VisionData();
+		mainLEDs = new LEDSet(RobotMap.LEDMain);
+		
 		// Create subsystems
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
@@ -161,6 +167,13 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		driveTrain.getGyroRotation();
+
+		// Control LED colors
+		if (intake.getIntakeMotorPercent() > 0.1) {
+			Robot.mainLEDs.setPurple();
+		} else {
+			Robot.mainLEDs.setOff();
+		}
 	}
 
 	@Override
@@ -188,6 +201,22 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		// Control LED colors
+		if (climb.getClimbMotorPercentPower() < -0.1) {
+			// Robot is climbing
+			Robot.oi.setXBoxRumble(0);
+			Robot.mainLEDs.setRed();
+		} else if (climb.getClimbMotorPercentPower() > 0.1) {
+			Robot.oi.setXBoxRumble(0);
+			Robot.mainLEDs.setBlue();
+		} else if (intake.getIntakeMotorPercent() > 0.1) {
+			Robot.oi.setXBoxRumble(0.7);
+			Robot.mainLEDs.setPurple();
+		} else {
+			Robot.oi.setXBoxRumble(0);
+			Robot.mainLEDs.setOff();
+		}
 	}
 
 	/**

@@ -41,7 +41,7 @@ public class IntakeSetDeploy extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.intake.setIntakeDeploy(deployed);
-    	Robot.log.writeLogEcho("Intake Command," + (deployed ? "deploy" : "retract"));
+//    	Robot.log.writeLogEcho("Intake Command," + (deployed ? "deploy" : "retract"));		// intake.setIntakeDeploy() does lots of logging
     }
 
     // Called repeatedly when this Command is scheduled to run

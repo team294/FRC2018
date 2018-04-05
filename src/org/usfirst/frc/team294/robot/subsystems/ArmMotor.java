@@ -90,7 +90,8 @@ public class ArmMotor extends Subsystem {
 
 		// Set up PID and watchdogs
 		previousArmAngle = getArmDegrees();
-		trapezoid = new ArmProfileGenerator(getArmDegrees(), getArmDegrees(), 0, 0, 0);
+		finalAngle = previousArmAngle;
+		trapezoid = new ArmProfileGenerator(finalAngle, finalAngle, 0, 0, 0);
 		lastTime = System.currentTimeMillis();
 
 	}
@@ -104,12 +105,10 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * 
+	 * Sets target angle for arm PID.
+	 * @param angle in degrees
 	 */
 	public void startPID(double angle) {
-		// TODO: integrate checks with piston to avoid penalties for breaking frame
-		// perimeter
-
 		// Check arm set angle for correct range
 		angle = (angle > 180) ? angle - 360 : angle;
 
@@ -159,10 +158,6 @@ public class ArmMotor extends Subsystem {
 		// double encoderDegrees = angle * TICKS_PER_DEGREE;
 		// setArmPositionScaled(encoderDegrees);
 	}
-
-	/**
-	 * 
-	 */
 
 	/**
 	 * Controls the arm based on Percent VBUS FOR CALIBRATION ONLY DO NOT USE AT

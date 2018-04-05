@@ -294,8 +294,8 @@ public class OI {
 
 		SmartDashboard.putData("Extend", new ArmPistonSmartExtendInDestZone(90));
 
-		SmartDashboard.putData("Open Claw", new ClawSetState(true));
-		SmartDashboard.putData("Close Claw", new ClawSetState(false));
+		SmartDashboard.putData("Open Claw", new ClawSetOpen(true));
+		SmartDashboard.putData("Close Claw", new ClawSetOpen(false));
 
 		SmartDashboard.putData("Set Climb Motor to 50% forwards", new ClimbSetPercentPower(.50));
 		SmartDashboard.putData("Set Climb Motor to 50% backwards", new ClimbSetPercentPower(-.50));

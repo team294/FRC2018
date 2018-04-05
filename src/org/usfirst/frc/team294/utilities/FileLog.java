@@ -34,7 +34,7 @@ public class FileLog {
 			final SimpleDateFormat fileDateFormat = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
 
 			try {
-				fileWriter = new FileWriter(fileName + "." + fileDateFormat.format(System.currentTimeMillis()) + ".txt", true);
+				fileWriter = new FileWriter(fileName + "." + fileDateFormat.format(System.currentTimeMillis()) + ".csv", true);
 				fileWriter.write("----------------------------\n");
 				fileWriter.write(dateFormat.format(System.currentTimeMillis()) + ",  FileLog open.\n");
 				fileWriter.flush();

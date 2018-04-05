@@ -22,13 +22,13 @@ public class LoadCubeSequence extends CommandGroup {
 
     	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
     	addSequential(new IntakeSetOpen(false));// Close the intake while moving the arm
-    	addSequential(new ConditionalCommand(new ClawSetState(false)){
+    	addSequential(new ConditionalCommand(new ClawSetOpen(false)){
     		protected boolean condition(){
     			return (Robot.armMotor.getArmDegrees()>-45); 
     		}
     		// Move the arm to the intake position
     	});
-    	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,true)); // Close the claw while moving the arm
+    	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos, false)); // Close the claw while moving the arm
     	
     	// TODO Commented out the Wait command.  If intake is closed, we shouldn't need to wait.
     	//addSequential(new WaitCommand(.75));

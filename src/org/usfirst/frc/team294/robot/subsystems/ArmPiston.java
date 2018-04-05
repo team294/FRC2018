@@ -64,10 +64,15 @@ public class ArmPiston extends Subsystem {
 	 *            <b>Other values are ignored</b>
 	 */
 	public void setMajor(RobotMap.PistonPositions position) {
-		if (position == RobotMap.PistonPositions.Extended)
+		if (position == RobotMap.PistonPositions.Extended) {
 			armPistonMajor.set(Value.kForward);
-		if (position == RobotMap.PistonPositions.Retracted)
+			Robot.log.writeLogEcho("Arm Piston,Extend");
+		}
+
+		if (position == RobotMap.PistonPositions.Retracted) {
 			armPistonMajor.set(Value.kReverse);
+			Robot.log.writeLogEcho("Arm Piston,Retract");
+		}
 	}
 
 	/**

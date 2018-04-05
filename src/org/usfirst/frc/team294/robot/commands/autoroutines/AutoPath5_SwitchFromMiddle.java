@@ -5,6 +5,7 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.*;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
@@ -25,7 +26,6 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		} else {
 			angleMultiplier = 1;
 		}
-
 		
 		// Go to drive config
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentInFully));
@@ -33,8 +33,8 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		addSequential(new WaitCommand(0.1)); 
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addParallel(new ArmMoveWithIntake());
-//		
-//		// Go forward to switch
+		
+		// Go forward to switch
 //		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
 		if (goLeft) {
 			addSequential(new DriveStraightDistanceProfile(118, 26 * angleMultiplier, 100, 100)); // acceleration factor was 7, distance was 110
@@ -44,36 +44,53 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 			addSequential(new DriveStraightDistanceProfile(108, 19 * angleMultiplier, 100, 100));  // acceleration factor was 70, distance was 100	
 		}
 		
-			addSequential(new AutoSwitchShoot());
-			addSequential(new DriveStraightDistanceProfile(-105, 23 * angleMultiplier, 100, 100));  // acceleration factor was 70 
-			addParallel(new LoadCubeSequence());	
-			addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
-			//addSequential(new TurnGyro()); 
-//			addParallel(new LoadCubeSequenceWithIntakeOpenAuto());	// open claw to allow for more error on position
-			addParallel(new LoadCubeSequence());
-			//addParallel(new IntakeSetOpen(true));		// This was needed to force orpen intake,  it closed before moving forward
-			addSequential(new DriveStraightDistanceProfile(60, 0, 100, 100));
-			if (Robot.claw.getPhotoSwitch()) {
-				addSequential(new ArmIntakeCube());	// The cube isn't in!  This won't terminate if there isn't a cube, so we will be in position to pick up a cube and not waste time
+		// Shoot out first cube
+		addSequential(new AutoSwitchShoot());
+		
+		// Back away from switch to front of cube pile
+		addSequential(new DriveStraightDistanceProfile(-105, 23 * angleMultiplier, 100, 100));  // acceleration factor was 70 
+		
+		// Start intake and drive forward to grab 2nd cube
+		addParallel(new LoadCubeSequence());
+//		addParallel(new LoadCubeSequenceWithIntakeOpenAuto());
+		
+		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
+		//addSequential(new TurnGyro()); 
+		//			addParallel(new LoadCubeSequenceWithIntakeOpenAuto());	// open claw to allow for more error on position
+		//addParallel(new LoadCubeSequence());		// TODO: This was redundant, but need to check!!!!
+		//addParallel(new IntakeSetOpen(true));		// This was needed to force orpen intake,  it closed before moving forward
+		addSequential(new DriveStraightDistanceProfile(60, 0, 100, 100));
+		
+		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
+    	addSequential(new ConditionalCommand(new IntakeInvertAndGrab()) {
+			protected boolean condition() {
+				return (Robot.intake.getPhotoSwitch() && !Robot.claw.getPhotoSwitch());
 			}
-			addParallel(new ArmMoveWithIntake());
-			addSequential(new DriveStraightDistanceProfile(-60, 0, 100, 100));
-			addSequential(new TurnGyro(22 * angleMultiplier, TurnGyro.Units.Degrees));
-			addSequential(new DriveStraightDistanceProfile(108, 25 * angleMultiplier, 100, 100));  // acceleration factor was 70 
-			addSequential(new AutoSwitchShoot());
+		});
+		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
+    	addSequential(new ConditionalCommand(new IntakeInvertAndGrab()) {
+			protected boolean condition() {
+				return (Robot.intake.getPhotoSwitch() && !Robot.claw.getPhotoSwitch());
+			}
+		});
+
+		// If we don't have the cube in the claw, then stop (well, wait 15 sec to end of auto mode)
+    	addSequential(new ConditionalCommand(new WaitCommand(15)) {
+			protected boolean condition() {
+				return (!Robot.claw.getPhotoSwitch());
+			}
+		});
+
+		// Move arm up to switch position and back away from pile
+		addParallel(new ArmMoveWithIntake());
+		addSequential(new DriveStraightDistanceProfile(-60, 0, 100, 100));
 		
-/*		addSequential(new DriveStraightDistanceProfile(-50, 20, 100, 100));
-		addSequential(new TurnGyro(45, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(10, 20, 100, 100));		
-		addSequential(new TurnGyro(-45, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(50, 20, 100, 100));
-		addSequential(new AutoSwitchShoot()); */
+		// Turn towards switch and drive to switch
+		addSequential(new TurnGyro(22 * angleMultiplier, TurnGyro.Units.Degrees));
+		addSequential(new DriveStraightDistanceProfile(108, 25 * angleMultiplier, 100, 100));  // acceleration factor was 70 
 		
-//		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));	
-//		addSequential(new WaitCommand(0.2));
-//		addSequential(new DriveStraightDistanceProfile(40, 0, 100, 100));
-//		addSequential(new DriveStraightDistanceProfile(-10, 0, 100, 100));
-//		addSequential(new TurnGyro(45, TurnGyro.Units.Degrees));
-//		addSequential(new DriveStraightDistanceProfile(30, 45*angleMultiplier, 100, 100));
+		// Score 2nd cube at switch
+		addSequential(new AutoSwitchShoot());
+
 	}
 }

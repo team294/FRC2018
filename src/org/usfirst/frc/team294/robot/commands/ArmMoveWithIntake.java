@@ -10,6 +10,12 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
  */
 public class ArmMoveWithIntake extends CommandGroup {
 
+	/**
+	 * Move arm and intake to position to score on switch.
+	 * 
+	 * Details:  Deploys intake, wait 0.25 secs to deploy, move arm to switch position, wait 1 sec,
+	 * and then raise intake (so we can butt up against the switch)
+	 */
 	public ArmMoveWithIntake() {
 		addSequential(new IntakeSetDeploy(true));
 		addSequential(new WaitCommand(0.25));

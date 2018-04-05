@@ -5,6 +5,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 
@@ -20,6 +21,12 @@ public class LoadCubeWithIntakeOpenTeleop extends CommandGroup {
 
     	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
     	addSequential(new IntakeSetOpen(true)); // Close the claw while moving the arm
+    	addSequential(new ConditionalCommand(new ClawSetOpen(false)){
+    		protected boolean condition(){
+    			return (Robot.armMotor.getArmDegrees()>-45); 
+    		}
+    		// Move the arm to the intake position
+    	});
     	addSequential(new WaitCommand(0.2));
     	addSequential(new LogMessage("loadCube, 1 intake claw set",true)); 
     	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos,false)); // Move the arm to the intake position
