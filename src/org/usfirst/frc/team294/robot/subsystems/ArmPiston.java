@@ -178,9 +178,10 @@ public class ArmPiston extends Subsystem {
 	/**
 	 * Extends both pistons only if in the proper zone
 	 * 
-	 * @return true if pistons changed state, false if otherwise
+	 * @return IS NOT CORRECT true if pistons changed state, false if otherwise
 	 */
 	public boolean smartExtend() {
+		//  TODO fix return values
 		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		if (zone == ArmZones.Low) {
 			setMajor(PistonPositions.Retracted);

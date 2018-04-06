@@ -179,27 +179,25 @@ public class OI {
 
 		xbB[1].whenPressed(new LoadCubeSequence()); // grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClawAndClimb()); // Stops all flywheels
-		xbB[3].whenPressed(new LoadCubeWithIntakeOpenTeleop()); // Partial intake (load cube to intake only, not to claw)
-		xbB[4].whenPressed(new ToggleIntakeDeploy()); // Open Claw
-		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Retract Pistons
-		xbB[6].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); // Intake Sequence
+		xbB[3].whenPressed(new LoadCubeWithIntakeOpenTeleop()); 
+		xbB[4].whenPressed(new ToggleIntakeDeploy()); 
+		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); 
+		xbB[6].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); 
 		xbB[7].whenPressed(new ToggleClawOpen());
 		// xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
 		xbB[8].whenPressed(new ToggleIntakeOpen());
 		// xbB[9].whenPressed(new ToggleClawOpen());
 		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 		xbB[9].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
-		 xbB[10].whenPressed(new ArmMoveWithPiston(37, false));
+		 xbB[10].whenPressed(new ArmMoveWithPiston(37, RobotMap.PistonPositions.Null));
 
 		xbPovUp.whenActive(new IntakeInvertAndGrab());
-		// xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to
-		// intake position
-		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to scale backwards
+		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
 		xbPovLeft.whenActive(new ArmPistonsRetract()); // Arm to switch position
 		xbPovRight.whenActive(new ArmPistonSmartExtend()); // Arm to scale fowards
 
 		// Xbox triggers
-		xbLT.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); // Prepare to score cube (rev up flywheels), alternate climb/arm override
+		xbLT.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); 
 		xbRT.whenActive(new CubeShootOut(1)); // Score cube
 //		xbRT.whenActive(new IntakeShootOut()); // Score cube
 
@@ -244,13 +242,13 @@ public class OI {
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
 		SmartDashboard.putData("Move to Edge of Range", new ArmMoveToEdge(90));
 
-		SmartDashboard.putData("Score Backwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, false));
-		SmartDashboard.putData("Move arm to 0 and set piston state", new ArmMoveWithPiston(0.0, false));
-		SmartDashboard.putData("Score Forwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleLowPos, false));
+		SmartDashboard.putData("Score Backwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, RobotMap.PistonPositions.Null));
+		SmartDashboard.putData("Move arm to 0 and set piston state", new ArmMoveWithPiston(0.0, RobotMap.PistonPositions.Null));
+		SmartDashboard.putData("Score Forwards in Scale", new ArmMoveWithPiston(RobotMap.armScaleLowPos, RobotMap.PistonPositions.Null));
 		SmartDashboard.putData("Score Forwards in Scale (extend)",
-				new ArmMoveWithPiston(RobotMap.armScaleLowPos, true));
-		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow, false));
-		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos, false));
+				new ArmMoveWithPiston(RobotMap.armScaleLowPos, RobotMap.PistonPositions.Extended));
+		SmartDashboard.putData("Score in Switch Low", new ArmMoveWithPiston(RobotMap.armSwitchPosLow, RobotMap.PistonPositions.Null));
+		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos, RobotMap.PistonPositions.Null));
 
 		SmartDashboard.putData("Arm Intake Cube", new ArmIntakeCube());
 		SmartDashboard.putData("Intake Retract", new IntakeSetDeploy(false));
