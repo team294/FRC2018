@@ -312,7 +312,10 @@ public class OI {
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
 
 		SmartDashboard.putBoolean("Arm Intake Interlocked", false);
-
+		
+    	SmartDashboard.putNumber("Camera Exposure (-1 auto)" , 30);
+    	SmartDashboard.putNumber("Camera Brightness" , 30);
+    	SmartDashboard.putData("Camera Set Bright Expose", new CameraSetProperties());
 	}
 
 	/**
