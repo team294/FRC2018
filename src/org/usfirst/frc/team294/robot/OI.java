@@ -152,7 +152,7 @@ public class OI {
 		coP[1].whileHeld(new ClimbSetPercentPower(RobotMap.climbPercent, false)); // Preps for climb
 		coP[2].whenPressed(new ClimbMotorSequence()); // Does  climb sequence
 		coP[3].whileHeld(new ClimbSetPercentPower(.2,false)); // Stop all flywheels
-		// coP[4].whenPressed(new Command()); // Prepare to score cube (rev up
+		coP[4].whenPressed(new LoadCubeManual()); // Prepare to score cube (rev up
 		// flywheels), alternate override for arm
 		// coP[5].whenPressed(new Command()); // Score cube
 		// coP[6].whenPressed(new Command()); // Intake mechanism up

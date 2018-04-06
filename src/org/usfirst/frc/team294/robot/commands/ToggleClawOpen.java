@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
+import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -26,6 +27,7 @@ public class ToggleClawOpen extends Command {
     	{
     		Robot.claw.openClaw();
     	}
+    	Robot.claw.setClawMotorPercent(RobotMap.clawPercentDefault);
     }
 
     // Called repeatedly when this Command is scheduled to run
