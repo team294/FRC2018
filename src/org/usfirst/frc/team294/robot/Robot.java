@@ -96,14 +96,14 @@ public class Robot extends TimedRobot {
 		 * Comment out UsbCamera if the video info is sent through RaspberryPi
 		 **/
 		// USB drive camera
-//		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-//		camera.setVideoMode(VideoMode.PixelFormat.kYUYV, 320, 240, 15); 
-//		camera.setExposureAuto(); // Start in auto exposure mode so that we can set brightness 
-//		camera.setBrightness(25); // Setting brightness only works correctly in auto exposure mode (?)  was 10
-//		camera.getProperty("contrast").set(80);
-//		camera.getProperty("saturation").set(60); 
-//		camera.setExposureManual(20);
-//		camera.setWhiteBalanceManual(2800);
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setVideoMode(VideoMode.PixelFormat.kYUYV, 160, 120, 15); 
+		camera.setExposureAuto(); // Start in auto exposure mode so that we can set brightness 
+		camera.setBrightness(30); // Setting brightness only works correctly in auto exposure mode (?)  was 10
+		camera.getProperty("contrast").set(80);
+		camera.getProperty("saturation").set(60); 
+		camera.setExposureManual(20);
+		camera.setWhiteBalanceManual(2800);
 
 		// Create the OI last, so that it can use commands that call subsystems
 		oi = new OI();

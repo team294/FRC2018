@@ -44,12 +44,12 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		// Load 2nd cube
 //		addParallel(new LoadCubeSequence());
 		addParallel(new LoadCubeSequenceWithIntakeOpenAuto());
-		addSequential(new DriveStraightDistanceProfile(20, 0 * angleMultiplier, 100, 80));  // NEW NEW NEW
-		addSequential(new TurnGyro(-75 * angleMultiplier, TurnGyro.Units.Degrees));  // was -35
+		addSequential(new DriveStraightDistanceProfile(20, 0 * angleMultiplier, 100, 80));  
+		addSequential(new TurnGyro(-75 * angleMultiplier, TurnGyro.Units.Degrees));  
 		addSequential(new WaitCommand(.5));
 		//addSequential(new TurnGyro());
 		//addParallel(new IntakeCube());
-		addSequential(new DriveStraightDistanceProfile(34, -75 * angleMultiplier, 100, 80));   // was 25, -35, 100, 100;  better 33, -35, 100, 80
+		addSequential(new DriveStraightDistanceProfile(22, -75 * angleMultiplier, 100, 80));   // was 34, -75, 100, 80.  Shortened 12 in due to Match 35
 		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
 		
 		// Turn towards closest cube using vision, if vision is working and we see a cube (otherwise do nothing and continue sequence)
