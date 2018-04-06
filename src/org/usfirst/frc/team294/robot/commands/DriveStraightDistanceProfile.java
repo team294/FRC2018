@@ -192,7 +192,7 @@ public class DriveStraightDistanceProfile extends Command {
 			SmartDashboard.putNumber("fSet Distance", targetDistance);
 			SmartDashboard.putNumber("fActual Distance", currentDistance);
 		}
-		return (Math.abs(velCheck.getAverage()) < 0.2) || success; // 0.05
+		return (Math.abs(velCheck.getAverage()) < 0.05) || success; // was 0.2, but initial ramp-up triggered at 0.15 and the profile didn't run
 	}
 
 	// Called once after isFinished returns true
