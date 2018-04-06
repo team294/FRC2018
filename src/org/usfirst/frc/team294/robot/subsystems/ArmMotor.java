@@ -490,11 +490,12 @@ public class ArmMotor extends Subsystem {
 				+ ",Arm Motor 1 Output Current," + armMotor1.getOutputCurrent() + ",Arm Motor 1 Output Percent,"
 				+ armMotor1.getMotorOutputPercent() + ",Arm Motor 2 Output Voltage," + armMotor2.getMotorOutputVoltage()
 				+ ",Arm Motor 2 Output Current," + armMotor2.getOutputCurrent() + ",Arm Motor 2 Output Percent,"
-				+ armMotor2.getMotorOutputPercent() + ",Arm Cal Zero," + Robot.robotPrefs.armCalZero
+				+ armMotor2.getMotorOutputPercent() 
+				+ ",isArmCalibrated," + Robot.robotPrefs.armCalibrated + ",Arm Cal Zero," + Robot.robotPrefs.armCalZero
 				+ ",Arm Angle in Degrees," + getArmDegrees() + ",Arm Angle in Ticks Raw," + getArmEncRaw()
 				+ ",Arm Angle in Ticks Calibrated," + getArmEnc() + ",Arm Motion Profile Angle,"
 				+ trapezoid.getCurrentPosition() + ",Arm Final Angle," + finalAngle + ",Arm Initial Angle," + initAngle
-				+ ",Arm Target Angle," + getCurrentArmTarget() + ",Arm Velocity," + lastVelocity
+				+ ",Arm Velocity," + lastVelocity
 				+ ",MP Target Velocity," + trapezoid.getCurrentVelocity()
 				+ ",Arm Error Current," + error + ",Arm Error Previous,"
 				+ prevError + ",Integrated Error," + intError + ",Arm Piston Position," + Robot.armPiston.getMajor());
