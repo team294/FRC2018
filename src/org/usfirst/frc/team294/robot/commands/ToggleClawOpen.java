@@ -27,7 +27,7 @@ public class ToggleClawOpen extends Command {
     	{
     		Robot.claw.openClaw();
     	}
-    	Robot.claw.setClawMotorPercent(RobotMap.clawPercentDefault);
+//    	Robot.claw.setClawMotorPercent(RobotMap.clawPercentDefault);  // Stop-gap solution -- always passive intake claw whenever Charlie hits this button
     }
 
     // Called repeatedly when this Command is scheduled to run

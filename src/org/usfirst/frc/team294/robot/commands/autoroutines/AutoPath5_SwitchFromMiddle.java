@@ -61,6 +61,9 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		//addParallel(new IntakeSetOpen(true));		// This was needed to force orpen intake,  it closed before moving forward
 		addSequential(new DriveStraightDistanceProfile(60, 0, 100, 100));
 		
+		// Back up so we can rotate cube if necessary
+		addSequential(new DriveStraightDistanceProfile(-10, 0, 100, 100));
+		
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
     	addSequential(new ConditionalCommand(new IntakeInvertAndGrab()) {
 			protected boolean condition() {
@@ -83,7 +86,7 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 
 		// Move arm up to switch position and back away from pile
 		addParallel(new ArmMoveWithIntake());
-		addSequential(new DriveStraightDistanceProfile(-60, 0, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(-50, 0, 100, 100)); // distance was -60, but changed because we back up 10 inches earlier
 		
 		// Turn towards switch and drive to switch
 		addSequential(new TurnGyro(22 * angleMultiplier, TurnGyro.Units.Degrees));

@@ -71,4 +71,19 @@ public class Climb extends Subsystem {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 	}
+	
+	public void periodic() {
+		if(DriverStation.getInstance().isEnabled() && (Math.abs(getClimbMotorPercentPower()) > 0.1) ) {
+			updateClimbLog();
+		}
+	}
+	
+	public void updateClimbLog() {
+		Robot.log.writeLog("Climb voltage 1," + climbMotor1.getMotorOutputVoltage()
+				+ ",Climb percent 1," + climbMotor1.getMotorOutputPercent()
+				+ ",Climb current 1," + climbMotor1.getOutputCurrent()
+				+ ",Climb voltage 2," + climbMotor2.getMotorOutputVoltage()
+				+ ",Climb percent 2," + climbMotor2.getMotorOutputPercent()
+				+ ",Climb current 2," + climbMotor2.getOutputCurrent());
+	}
 }
