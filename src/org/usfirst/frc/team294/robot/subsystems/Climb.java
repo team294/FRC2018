@@ -37,31 +37,53 @@ public class Climb extends Subsystem {
 		climbMotor1.set(ControlMode.Follower, RobotMap.climbMotor2);
 	}
 
-
-	// Deploys Climb Piston, but only in the last 30 seconds of the match
-	public void deployClimbPiston(boolean state) {
+	/**
+	 * Deploys Climb Piston, but only in the last 30 seconds of the match
+	 * @param deploy true = deploy, false = retract
+	 */
+	public void deployClimbPiston(boolean deploy) {
 		//Commented out for practice because there is no match time
 		//if (DriverStation.getInstance().getMatchTime() <= 30) {
-		climbPiston.set(state);
-		}
-	//}
-
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-
-	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
+		climbPiston.set(deploy);
+		Robot.log.writeLogEcho("Climb hook,deploy," + deploy);
+//		}
 	}
 
 	/**
 	 * Sets the climb motor based on a percent power parameter
 	 * 
-	 * @param percentPower
-	 *            -1 to +1
+	 * @param percentPower -1 (climb) to +1 (fall)
 	 */
 	public void setClimbMotors(double percentPower) {
 		climbMotor2.set(ControlMode.PercentOutput, percentPower);
+		Robot.log.writeLogEcho("Climb motor,percent power," + percentPower);
 	}
 	
+	/**
+	 * Returns the climb motor power setting
+	 * @return percentPower, -1 (climb) to +1 (fall)
+	 */
+	public double getClimbMotorPercentPower() {
+		return climbMotor2.getMotorOutputPercent();
+	}
+	
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
+	
+	public void periodic() {
+		if(DriverStation.getInstance().isEnabled() && (Math.abs(getClimbMotorPercentPower()) > 0.1) ) {
+			updateClimbLog();
+		}
+	}
+	
+	public void updateClimbLog() {
+		Robot.log.writeLog("Climb voltage 1," + climbMotor1.getMotorOutputVoltage()
+				+ ",Climb percent 1," + climbMotor1.getMotorOutputPercent()
+				+ ",Climb current 1," + climbMotor1.getOutputCurrent()
+				+ ",Climb voltage 2," + climbMotor2.getMotorOutputVoltage()
+				+ ",Climb percent 2," + climbMotor2.getMotorOutputPercent()
+				+ ",Climb current 2," + climbMotor2.getOutputCurrent());
+	}
 }

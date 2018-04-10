@@ -30,7 +30,7 @@ public class ArmMoveToDestAngle extends Command {
 		tolcheck = new ToleranceChecker(4, 10);
 		destAngle = (destAngle > RobotMap.maxAngle) ? RobotMap.maxAngle : destAngle;
 		destAngle = (destAngle < RobotMap.minAngle) ? RobotMap.minAngle : destAngle;
-		Robot.log.writeLogEcho("armMoveToDestAngle,destAngle," + destAngle + ",currentAngle," + Robot.armMotor.getArmDegrees());
+		Robot.log.writeLogEcho("armMoveToDestAngle,destAngle," + destAngle + ",currentAngle," + Robot.armMotor.getArmDegrees());   // armMotor.startPID() logs this, but log here to echo to screen
 		Robot.armMotor.startPID(destAngle);
 	}
 
@@ -40,7 +40,7 @@ public class ArmMoveToDestAngle extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		Robot.log.writeLogEcho("armMoveToDestAngle,destAngle," + destAngle + ",currentAngle," + Robot.armMotor.getArmDegrees());
+//		Robot.log.writeLogEcho("armMoveToDestAngle,destAngle," + destAngle + ",currentAngle," + Robot.armMotor.getArmDegrees());
 		return (Math.abs( Robot.armMotor.getArmDegrees() - destAngle) <4);
 	}
 

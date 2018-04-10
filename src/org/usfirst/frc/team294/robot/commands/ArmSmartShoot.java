@@ -14,7 +14,7 @@ public class ArmSmartShoot extends CommandGroup {
 
     public ArmSmartShoot() {
 
-    	addSequential(new ConditionalCommand(new OuttakeAll(), new ConditionalCommand(new ClawSetState(true), new CubeShootOut()) { 
+    	addSequential(new ConditionalCommand(new OuttakeAll(), new ConditionalCommand(new ClawSetOpen(true), new CubeShootOut()) { 
 			protected boolean condition() {
 				return (RobotMap.getArmZone(Robot.armMotor.getArmDegrees()) == ArmZones.Middle);
 			}} )	{

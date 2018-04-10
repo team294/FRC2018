@@ -3,30 +3,21 @@ package org.usfirst.frc.team294.robot.commands;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  */
 public class ClimbPreparation extends CommandGroup {
 
+	/**
+	 * Preapres robot to climb:
+	 * Lowers intake, closes claw, raises arm, and deploys climbing hook
+	 */
     public ClimbPreparation() {
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
-
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
+    	addParallel(new ClawSetOpen(false));
     	addSequential(new IntakeSetDeploy(true));
+    	addSequential(new WaitCommand(0.25));
     	addParallel(new ArmMoveWithPiston(RobotMap.armClimbPos, false));
     	addSequential(new ClimbPistonDeploy(true));
     }

@@ -57,9 +57,9 @@ public class ArmProfileGenerator {
 		
 		directionSign = Math.signum(finalPosition - initialPosition);
 
-		this.currentVelocity = initialVelocity;
+		this.currentVelocity = initialVelocity * directionSign;
 		this.maxVelocity = Math.abs(maxVelocity);
-		this.maxAcceleration = maxAcceleration;
+		this.maxAcceleration = Math.abs(maxAcceleration);
 		stoppingAcceleration = .75*maxAcceleration;
 		
 		// Save starting time
@@ -114,8 +114,8 @@ public class ArmProfileGenerator {
 	}
 	
 	/**
-	 * Returns current velocity in in/s
-	 * @return Current velocity for profile calculation in in/s
+	 * Returns current target velocity in in/s
+	 * @return Current target velocity from profile calculation in in/s
 	 */
 	public double getCurrentVelocity(){
 		return currentVelocity * directionSign;

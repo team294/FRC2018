@@ -11,6 +11,10 @@ public class ClimbPistonDeploy extends Command {
 	
 	boolean state; //true is deployed
 
+	/**
+	 * Deploys climb hook
+	 * @param state true = deploy, false = retract
+	 */
     public ClimbPistonDeploy(boolean state) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

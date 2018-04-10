@@ -39,7 +39,7 @@ public class AutoPath1_part2_Score2ndCube extends CommandGroup {
 		
 		// Leave arm up, ready for teleop
 //		addSequential(new ArmMoveWithPiston(RobotMap.armScaleLowPos, false));//true)); // enforce the arm being up before shooting
-		addSequential(new ArmMoveWithPiston(90, false));//true)); // move arm to +90, since the arm will stay there when disabled
+		addSequential(new ArmMoveWithPiston(90, RobotMap.PistonPositions.Null));//true)); // move arm to +90, since the arm will stay there when disabled
 
 	}
 }

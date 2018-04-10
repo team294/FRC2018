@@ -33,7 +33,6 @@ public class ArmMoveToEdge extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		currZone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
-		tolcheck = new ToleranceChecker(4, 10);
 		switch (currZone) {
 		case Low:
 			if (destAngle >= RobotMap.lowerBound) {
@@ -73,6 +72,9 @@ public class ArmMoveToEdge extends Command {
 			}
 			break;
 		}	
+		
+		// Move to the new destAngle (edge of zone)
+		Robot.armMotor.startPID(destAngle);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

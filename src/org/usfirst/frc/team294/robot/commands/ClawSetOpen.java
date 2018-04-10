@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ClawSetState extends Command {
+public class ClawSetOpen extends Command {
 
 	boolean open;
 	
@@ -15,7 +15,7 @@ public class ClawSetState extends Command {
 	 * Set the state of the claw
 	 * @param open true = claw open, false = claw closed
 	 */
-    public ClawSetState(boolean open) {
+    public ClawSetOpen(boolean open) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.claw);

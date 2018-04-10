@@ -45,7 +45,7 @@ public class ArmPistonSmartRetract extends Command {
 			Robot.armPiston.smartRetract();
 			retract = true;
 		} else {
-			Robot.armPiston.smartExtend();
+//			Robot.armPiston.smartExtend();  // TODO:  Check if this is needed.  We probably should not extend here.
 		}
 	}
 

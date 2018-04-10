@@ -11,6 +11,12 @@ public class IntakeSetOpen extends Command {
 
 	boolean open;
 	
+	/**
+	 * Open or close the jaws on the intake
+	 * 
+	 * @param open
+	 *            true = open, false = close
+	 */
     public IntakeSetOpen(boolean open) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

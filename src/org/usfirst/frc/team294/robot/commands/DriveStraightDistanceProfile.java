@@ -30,6 +30,7 @@ public class DriveStraightDistanceProfile extends Command {
 	// old kPdist = .05, .2 old kDdist = .37 old kFdist = .008
 
 	private double prevDistErr;
+	private double currentAngle;
 	private double angleErr;
 	private double intErr = 0;
 	private double prevAngleErr;
@@ -71,6 +72,7 @@ public class DriveStraightDistanceProfile extends Command {
 	 *            Absolute angle for direction of travel, in degrees. 0 = away from
 	 *            drivers, -90 = left (relative to drive stations), +90 = right
 	 *            (relative to drive stations)
+	 *            ***Special Case*** 9999 = go straight using current robot heading
 	 * @param MPSpeed
 	 *            Speed, in in/sec
 	 * @param MPAccel
@@ -97,7 +99,6 @@ public class DriveStraightDistanceProfile extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		// distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
-		Robot.log.writeLog("DriveStraightdistanceProfile instantiated");
 
 		if (driveUsingDashboardParams) {
 			targetDistance = SmartDashboard.getNumber("DSDP_Distance_inches", 0);
@@ -105,6 +106,14 @@ public class DriveStraightDistanceProfile extends Command {
 			MPSpeed = SmartDashboard.getNumber("DSDP_Speed_ips", 80);
 			MPAccel = SmartDashboard.getNumber("DSDP_Accel_ips2", 80);
 		}
+		
+		// Special case:  If angle = 9999, then drive straight on current heading
+		if (angleBase == 9999) {
+			angleBase = Robot.driveTrain.getGyroRotation();
+		}
+
+		Robot.log.writeLogEcho("DriveStraightdistanceProfile,started,distance inches," + 
+				targetDistance + ",angle," + angleBase + ",speed," + MPSpeed + ",accel," + MPAccel);
 
 		distErr = 0;
 		prevDistErr = 0;
@@ -138,7 +147,8 @@ public class DriveStraightDistanceProfile extends Command {
 				distSpeedControl = (distSpeedControl > -minSpeed) ? -minSpeed : distSpeedControl;
 			}
 
-			angleErr = angleBase - Robot.driveTrain.getGyroRotation();
+			currentAngle = Robot.driveTrain.getGyroRotation();
+			angleErr = angleBase - currentAngle;
 			angleErr = (angleErr > 180) ? angleErr - 360 : angleErr;
 			intErr = intErr + angleErr * 0.02;
 			double dErr = angleErr - prevAngleErr;
@@ -163,11 +173,11 @@ public class DriveStraightDistanceProfile extends Command {
 			prevDistanceInches = currentDistanceInches;
 		}
 
-		Robot.log.writeLogEcho("MPCurrentDistance," + MPCurrentDistance + ",distSpeedControl," + distSpeedControl
-				+ ",MPVelocity," + trapezoid.getCurrentVelocity() + ",tolCheckerValue," + tolCheck.success()
-				+ ",velCheckAverage," + velCheck.getAverage()); //DSD Profile Specific logging
-
-		Robot.driveTrain.updateDriveLog();
+		Robot.log.writeLog("DriveStraightDistanceProfile,currentDistance," + currentDistanceInches + ",MPCurrentDistance," + MPCurrentDistance 
+				+ ",distSpeedControl," + distSpeedControl + ",MPVelocity," 
+				+ trapezoid.getCurrentVelocity() + ",tolCheckerValue," + tolCheck.success()
+				+ ",velCheckAverage," + velCheck.getAverage()
+				+ ",currentAngle," + currentAngle + ",targetAngle," + angleBase + ",curve," + curve); //DSD Profile Specific logging
 
 		SmartDashboard.putNumber("Distance Calculated", MPCurrentDistance);
 		SmartDashboard.putNumber("Distance Error", targetDistance - currentDistanceInches);
@@ -182,21 +192,21 @@ public class DriveStraightDistanceProfile extends Command {
 			SmartDashboard.putNumber("fSet Distance", targetDistance);
 			SmartDashboard.putNumber("fActual Distance", currentDistance);
 		}
-		return (Math.abs(velCheck.getAverage()) < 0.2) || success; // 0.05
+		return (Math.abs(velCheck.getAverage()) < 0.05) || success; // was 0.2, but initial ramp-up triggered at 0.15 and the profile didn't run
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		// velCheck.dumpArray();
-		Robot.log.writeLogEcho("DriveStraightDistanceProfile ended, distError: " + (targetDistance - currentDistance)
-				+ ", velCheck: " + velCheck.getAverage());
+		Robot.log.writeLogEcho("DriveStraightDistanceProfile,ended,distError," + (targetDistance - currentDistance)
+				+ ",velCheck," + velCheck.getAverage());
 		Robot.driveTrain.driveAtCurve(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.log.writeLog("DriveStraightdistanceProfile interrupted");
+		Robot.log.writeLogEcho("DriveStraightdistanceProfile,interrupted");
 		end();
 	}
 }

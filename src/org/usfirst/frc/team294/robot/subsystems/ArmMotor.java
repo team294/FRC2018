@@ -44,13 +44,15 @@ public class ArmMotor extends Subsystem {
 	private double error;
 	private double intError; // integrated error
 	private double armMoment = 19.26 * 16 * 19.985 / 519;// 11.87;
-	private double previousArmAngle;
 
 	// variables to check if arm Encoder is reliable
 	private double armEncoderStartValue = getArmEncRaw();
 	public boolean joystickControl;
 
-	double lastTime;
+	// Record the time and arm position the last time that we went though Periodic
+	private long lastTime;
+	private double lastAngle, lastVelocity, lastMPVelocity, dt;
+
 	int loop = 0;
 	private ArmProfileGenerator trapezoid;
 
@@ -89,10 +91,16 @@ public class ArmMotor extends Subsystem {
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
 
 		// Set up PID and watchdogs
-		previousArmAngle = getArmDegrees();
-		trapezoid = new ArmProfileGenerator(getArmDegrees(), getArmDegrees(), 0, 0, 0);
 		lastTime = System.currentTimeMillis();
-
+		if (Robot.robotPrefs.armCalibrated) {
+			lastAngle = getArmDegrees();			
+		} else {
+			lastAngle = 0;
+		}
+		lastVelocity = 0.0;
+		lastMPVelocity = 0.0;
+		finalAngle = lastAngle;
+		trapezoid = new ArmProfileGenerator(finalAngle, finalAngle, 0, 0, 0);
 	}
 
 	/**
@@ -104,12 +112,21 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * 
+	 * Resets the PID.  Use this if the calibration changes or the arm was running in manual mode 
+	 * to prevent the arm from jumping when the PID re-engages.
+	 */
+	public void resetPID() {
+		lastAngle = getArmDegrees();
+		lastVelocity = 0.0;
+		lastMPVelocity = 0.0;
+		startPID(lastAngle);
+	}
+	
+	/**
+	 * Sets target angle for arm PID.
+	 * @param angle in degrees
 	 */
 	public void startPID(double angle) {
-		// TODO: integrate checks with piston to avoid penalties for breaking frame
-		// perimeter
-
 		// Check arm set angle for correct range
 		angle = (angle > 180) ? angle - 360 : angle;
 
@@ -152,17 +169,13 @@ public class ArmMotor extends Subsystem {
 		SmartDashboard.putNumber("Arm target angle", angle);
 		finalAngle = angle;
 		if(initAngle< angle) {
-			trapezoid.newProfile(initAngle, angle, 0, 180, 160); // was 150, 150
+			trapezoid.newProfile(initAngle, angle, lastMPVelocity, 180, 160); // was 150, 150
 		}else {
-			trapezoid.newProfile(initAngle, angle, 0, 180, 160);  // was 150, 150
+			trapezoid.newProfile(initAngle, angle, lastMPVelocity, 180, 160);  // was 150, 150
 		}
 		// double encoderDegrees = angle * TICKS_PER_DEGREE;
 		// setArmPositionScaled(encoderDegrees);
 	}
-
-	/**
-	 * 
-	 */
 
 	/**
 	 * Controls the arm based on Percent VBUS FOR CALIBRATION ONLY DO NOT USE AT
@@ -382,6 +395,7 @@ public class ArmMotor extends Subsystem {
 				 * ",arm cal zero," + Robot.robotPrefs.armCalZero);
 				 */
 				Robot.robotPrefs.setArmCalibration(getArmEncRaw() - (RobotMap.minAngle * TICKS_PER_DEGREE), false);
+				resetPID();
 				/*
 				 * Robot.log.writeLogEcho("Arm auto cal post,target angle," + finalAngle +
 				 * ",current angle," + getArmDegrees() + ",arm raw enc," + getArmEncRaw() +
@@ -392,8 +406,8 @@ public class ArmMotor extends Subsystem {
 
 		// The following boolean statement checks for sudden jumps in arm degree value.
 		// Need to verify: What happens if we just calibrated the arm? Will
-		// previousArmAngle be meaningless, then we trigger this?
-		// if((previousArmAngle - getArmDegrees())> 50) {
+		// lastAngle be meaningless, then we trigger this?
+		// if((lastAngle - getArmDegrees())> 50) {
 		// Robot.robotPrefs.armCalibrated = false;
 		// }
 		// the following boolean statement checks whether the arm is inside a reasonable
@@ -402,6 +416,14 @@ public class ArmMotor extends Subsystem {
 			Robot.robotPrefs.armCalibrated = false;
 		}
 
+		// Calculate dt and velocity
+		dt = ((double)(System.currentTimeMillis() - lastTime)) / 1000.0;  // Time since the last periodic run
+		if (Robot.robotPrefs.armCalibrated) {
+			lastVelocity = (getArmDegrees() - lastAngle)/dt;
+		} else {
+			lastVelocity = 0.0;
+		}
+		
 		if (DriverStation.getInstance().isEnabled() && Robot.robotPrefs.armCalibrated
 				&& !Robot.armMotor.joystickControl) {
 			// if we are enabled, our arm is calibrated, and we are not trying to control
@@ -410,10 +432,10 @@ public class ArmMotor extends Subsystem {
 			// controller which will calculate a percent power to control
 			// the arm with.
 			trapezoid.updateProfileCalcs();
+			lastMPVelocity = trapezoid.getCurrentVelocity();
 			error = trapezoid.getCurrentPosition() - getArmDegrees();
-			intError = intError + error * ((System.currentTimeMillis() - lastTime) / 1000); // measures time since the
-																							// last periodic run
-			lastTime = System.currentTimeMillis();
+			intError = intError + error * dt;		// Integrated error
+
 			double percentPower = kF * armMoment * Math.cos(Math.toRadians(getArmDegrees()));
 			// Gain schedule until stuff gets tuned
 			if (finalAngle - initAngle > 0)
@@ -433,7 +455,7 @@ public class ArmMotor extends Subsystem {
 			// and periodically reset the pid as it falls back to its default state.
 			setArmMotorToPercentPower(0);
 			if (Robot.robotPrefs.armCalibrated)
-				startPID(getArmDegrees());
+				resetPID();
 		} else {
 			// if we are neither controlling the robot with the PID loop or disabled, we
 			// must be in joystick control mode and therefore we
@@ -442,10 +464,14 @@ public class ArmMotor extends Subsystem {
 			// Track the current joystick angle, so when joystick is disabled the PID will
 			// hold the current position
 			if (Robot.robotPrefs.armCalibrated)
-				startPID(getArmDegrees());
+				resetPID();
 			// TODO change all arm commands to run until angle is met
 		}
-		previousArmAngle = getArmDegrees();
+
+		// Update tracking variables
+		lastTime = System.currentTimeMillis();
+		lastAngle = getArmDegrees();
+		
 		SmartDashboard.putNumber("Arm Left Motor voltage", armMotor1.getMotorOutputVoltage());
 		SmartDashboard.putNumber("Arm Left Motor current", armMotor1.getOutputCurrent());
 		
@@ -464,11 +490,14 @@ public class ArmMotor extends Subsystem {
 				+ ",Arm Motor 1 Output Current," + armMotor1.getOutputCurrent() + ",Arm Motor 1 Output Percent,"
 				+ armMotor1.getMotorOutputPercent() + ",Arm Motor 2 Output Voltage," + armMotor2.getMotorOutputVoltage()
 				+ ",Arm Motor 2 Output Current," + armMotor2.getOutputCurrent() + ",Arm Motor 2 Output Percent,"
-				+ armMotor2.getMotorOutputPercent() + ",Arm Cal Zero," + Robot.robotPrefs.armCalZero
+				+ armMotor2.getMotorOutputPercent() 
+				+ ",isArmCalibrated," + Robot.robotPrefs.armCalibrated + ",Arm Cal Zero," + Robot.robotPrefs.armCalZero
 				+ ",Arm Angle in Degrees," + getArmDegrees() + ",Arm Angle in Ticks Raw," + getArmEncRaw()
 				+ ",Arm Angle in Ticks Calibrated," + getArmEnc() + ",Arm Motion Profile Angle,"
 				+ trapezoid.getCurrentPosition() + ",Arm Final Angle," + finalAngle + ",Arm Initial Angle," + initAngle
-				+ ",Arm Target Angle," + getCurrentArmTarget() + ",Arm Error Current," + error + ",Arm Error Previous,"
+				+ ",Arm Velocity," + lastVelocity
+				+ ",MP Target Velocity," + trapezoid.getCurrentVelocity()
+				+ ",Arm Error Current," + error + ",Arm Error Previous,"
 				+ prevError + ",Integrated Error," + intError + ",Arm Piston Position," + Robot.armPiston.getMajor());
 	}
 }

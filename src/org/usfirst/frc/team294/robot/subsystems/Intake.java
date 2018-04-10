@@ -31,12 +31,11 @@ public class Intake extends Subsystem {
 	private final TalonSRX intakeMotorLeft = new TalonSRX(RobotMap.intakeMotorLeft);
 	private final TalonSRX intakeMotorRight = new TalonSRX(RobotMap.intakeMotorRight);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchIntake);
-	private final Relay ledIntakingIn = new Relay(RobotMap.LEDIntakingIn);
 
-	public static boolean cubeInIntake;
-	public double lastMotorCurrent = 0;
-	public double motorCurrent = 0;
-	public boolean currentDecreasing;
+	private static boolean cubeInIntake;
+	private double lastMotorCurrent = 0;
+	private double motorCurrent = 0;
+
 	private DoubleSolenoid.Value intakeState = DoubleSolenoid.Value.kOff;
 
 	public final MotorCurrentTrigger intakeMotorLeftCurrentTrigger = new MotorCurrentTrigger(intakeMotorLeft, 8, 4);
@@ -55,7 +54,6 @@ public class Intake extends Subsystem {
 		intakeMotorRight.configVoltageCompSaturation(11.0, 0);
 		intakeMotorRight.setInverted(false);
 
-		ledIntakingIn.set(Relay.Value.kOff);
 		cubeInIntake = false;
 	}
 
@@ -77,6 +75,7 @@ public class Intake extends Subsystem {
 	 * @return true = open, false = closed
 	 */
 	public boolean isIntakeOpen() {
+		Robot.log.writeLog("Intake,isOpen?," + intakeOpenPiston.get());
 		return intakeOpenPiston.get();
 	}
 
@@ -99,7 +98,7 @@ public class Intake extends Subsystem {
 				Robot.log.writeLogEcho("Intake,Retracting,arm is low");
 			} else {
 				intakeState = DoubleSolenoid.Value.kForward;
-				Robot.log.writeLogEcho("Intake,Deploying,arm is in keep-out region");
+				Robot.log.writeLogEcho("Intake,Deploying (even though commanded to retract),arm is in keep-out region");
 			}
 		} else {
 			intakeState = DoubleSolenoid.Value.kForward;
@@ -116,17 +115,28 @@ public class Intake extends Subsystem {
 	 *            true = open, false = close
 	 */
 	public void setIntakeOpen(boolean open) {
+		Robot.log.writeLogEcho("Intake,SetOpen," + (open ? "open" : "closed"));
 		intakeOpenPiston.set(open);
 	}
 
+	// TODO:  This doesn't work properly.  Delete me
 	public void updateCubeStatus() {
 		cubeInIntake = !cubeInIntake;
 	}
 
+	// TODO:  This doesn't work properly.  Delete me
+	/**
+	 * Doesn't work, don't use?
+	 * @return
+	 */
 	public boolean isCubeInIntake() {
 		return cubeInIntake;
 	}
 
+	/**
+	 * Returns true if intake motor is decreasing by more than 1 amp from last call to this method.
+	 * @return
+	 */
 	public boolean isCurrentDecreasing() {
 		motorCurrent = intakeMotorLeft.getOutputCurrent();
 //		SmartDashboard.putNumber("Intake Left Motor Delta Current", motorCurrent - lastMotorCurrent);
@@ -174,6 +184,8 @@ public class Intake extends Subsystem {
 				+ " A, Bus at " + intakeMotorRight.getBusVoltage() + " V");
 **/		SmartDashboard.putNumber("Left Intake Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Intake Motor Percent:", percent);
+		
+		Robot.log.writeLogEcho("Intake,setMotorPercent," + percent);
 	}
 
 	/**
@@ -183,8 +195,18 @@ public class Intake extends Subsystem {
 	public void setIntakeMotorPercentOpposite(double percentPower) {
 		intakeMotorLeft.set(ControlMode.PercentOutput, -percentPower);
 		intakeMotorRight.set(ControlMode.PercentOutput, percentPower);
+
+		Robot.log.writeLogEcho("Intake,Opposite setMotorPercent," + percentPower);
 	}
 
+	/**
+	 * Reads the Talon speed of the left intake motor
+	 * @return -1 to +1, percent power
+	 */
+	public double getIntakeMotorPercent() {
+		return intakeMotorLeft.getMotorOutputPercent();
+	}
+	
 	/**
 	 * closes the intake jaws if the photo switch is triggered
 	 * 
@@ -221,19 +243,11 @@ public class Intake extends Subsystem {
 	 * @return true = deployed, false = retracted or unknown state
 	 */
 	public boolean isIntakeDeployed() {
+		Robot.log.writeLog("Intake,isDeployed?," + (intakeState == DoubleSolenoid.Value.kForward));
 		return intakeState == DoubleSolenoid.Value.kForward;
 	}
 
 	public void periodic() {
-		if (!DriverStation.getInstance().isAutonomous() && DriverStation.getInstance().isEnabled()
-				&& (intakeMotorLeft.getMotorOutputPercent() > 0.1)) {
-			Robot.oi.setXBoxRumble(0.7);
-			ledIntakingIn.set(Relay.Value.kForward);
-		} else {
-			Robot.oi.setXBoxRumble(0);
-			ledIntakingIn.set(Relay.Value.kOff);
-		}
-
 		SmartDashboard.putBoolean("Object Present (Intake): ", getPhotoSwitch());
 		SmartDashboard.putBoolean("Intake Photo", photoSwitch.get());
 		SmartDashboard.putNumber("Intake Left Motor voltage", intakeMotorLeft.getMotorOutputVoltage());

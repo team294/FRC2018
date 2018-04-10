@@ -4,6 +4,8 @@ package org.usfirst.frc.team294.robot;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 // import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,6 +15,7 @@ import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.robot.subsystems.*;
 import org.usfirst.frc.team294.utilities.AutoSelection;
 import org.usfirst.frc.team294.utilities.FileLog;
+import org.usfirst.frc.team294.utilities.LEDSet;
 import org.usfirst.frc.team294.utilities.RobotPreferences;
 import org.usfirst.frc.team294.utilities.VisionData;
 
@@ -29,11 +32,14 @@ public class Robot extends TimedRobot {
 	public static Climb climb;
 	public static PressureSensor pressureSensor;
 
+	public static LEDSet mainLEDs;
+	
 	public static FileLog log;
 	public static RobotPreferences robotPrefs;
 
 	public static VisionData visionData;
 	public static AutoSelection autoSelection;
+	public static UsbCamera driveCamera;
 
 	public static boolean prototypeRobot; // Set true if using code for prototype, false for practice and competition
 	public static boolean driveDirection; // true for reversed
@@ -59,8 +65,10 @@ public class Robot extends TimedRobot {
 		// Set variable that the robot has not been enabled
 		beforeFirstEnable = true;
 
-		// Create Vision object before subsystems
+		// Create Vision and LED objects before subsystems
 		visionData = new VisionData();
+		mainLEDs = new LEDSet(RobotMap.LEDMain);
+		
 		// Create subsystems
 		driveTrain = new DriveTrain();
 		shifter = new Shifter();
@@ -86,17 +94,20 @@ public class Robot extends TimedRobot {
 		coDisplay = networkTables.getTable("coDisplay"); // I think this will work, just need to send value to it
 
 		/**
-		 * Commented out UsbCamera since the video info is now sent through RaspberryPi
-		 * // USB drive camera UsbCamera camera =
-		 * CameraServer.getInstance().startAutomaticCapture(); //
-		 * camera.setVideoMode(VideoMode.PixelFormat.kYUYV, IMG_WIDTH, IMG_HEIGHT,
-		 * IMG_FPS); camera.setExposureAuto(); // Start in auto exposure mode so that we
-		 * can set brightness camera.setBrightness(10); // Setting brightness only works
-		 * correctly in auto exposure mode (?) //
-		 * camera.getProperty("contrast").set(80); //
-		 * camera.getProperty("saturation").set(60); camera.setExposureManual(20); //
-		 * camera.setWhiteBalanceManual(2800);
+		 * Comment out UsbCamera if the video info is sent through RaspberryPi
 		 **/
+		// USB drive camera
+		driveCamera = CameraServer.getInstance().startAutomaticCapture();
+		
+		// There seems to be some issues with the RoboRio camera driver.  Don't use this code until the driver is fixed?
+//		driveCamera.setVideoMode(VideoMode.PixelFormat.kYUYV, 160, 120, 15); 
+//		driveCamera.setExposureAuto(); // Start in auto exposure mode so that we can set brightness 
+//		driveCamera.setBrightness(30); // Setting brightness only works correctly in auto exposure mode (?)  was 10
+//		driveCamera.getProperty("contrast").set(80);
+//		driveCamera.getProperty("saturation").set(60); 
+//		driveCamera.setExposureManual(20);
+//		driveCamera.setWhiteBalanceManual(2800);
+
 		// Create the OI last, so that it can use commands that call subsystems
 		oi = new OI();
 	}
@@ -161,6 +172,13 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		driveTrain.getGyroRotation();
+
+		// Control LED colors
+		if (intake.getIntakeMotorPercent() > 0.1) {
+			Robot.mainLEDs.setPurple();
+		} else {
+			Robot.mainLEDs.setOff();
+		}
 	}
 
 	@Override
@@ -188,6 +206,22 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		// Control LED colors
+		if (climb.getClimbMotorPercentPower() < -0.1) {
+			// Robot is climbing
+			Robot.oi.setXBoxRumble(0);
+			Robot.mainLEDs.setRed();
+		} else if (climb.getClimbMotorPercentPower() > 0.1) {
+			Robot.oi.setXBoxRumble(0);
+			Robot.mainLEDs.setBlue();
+		} else if (intake.getIntakeMotorPercent() > 0.1) {
+			Robot.oi.setXBoxRumble(0.7);
+			Robot.mainLEDs.setPurple();
+		} else {
+			Robot.oi.setXBoxRumble(0);
+			Robot.mainLEDs.setOff();
+		}
 	}
 
 	/**

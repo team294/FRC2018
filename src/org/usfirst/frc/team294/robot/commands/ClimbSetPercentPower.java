@@ -10,6 +10,13 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ClimbSetPercentPower extends Command {
 	private double percentPower;
 	private boolean terminate;
+	
+	/**
+	 * Sets the climb motor based on a percent power parameter.
+	 * This command immediately terminates (isFinished=true) but
+	 * leaves the motor running.
+	 * @param percentPower -1 (climb) to +1 (fall)
+	 */
     public ClimbSetPercentPower(double percentPower) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -18,6 +25,13 @@ public class ClimbSetPercentPower extends Command {
     	terminate = true;
     }
     
+	/**
+	 * Sets the climb motor based on a percent power parameter.
+	 * @param percentPower -1 (climb) to +1 (fall)
+     * @param terminate true = immediately terminates (isFinished=true) but
+	 * leave the motor running.
+	 * false = keep command running, but turn off motor when interrupted.
+	 */
     public ClimbSetPercentPower(double percentPower, boolean terminate) {
     	this.terminate = terminate;
     	this.percentPower = percentPower;
