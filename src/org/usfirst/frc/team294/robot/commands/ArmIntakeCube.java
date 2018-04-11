@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class ArmIntakeCube extends Command {
 	
-	private double timeClawClosed = 1000.0;
+	private double timeClawClosed = 10000.0;
+	private boolean photoSwitchTriggered = false;
 
     public ArmIntakeCube() {
         // Use requires() here to declare subsystem dependencies
@@ -22,6 +23,10 @@ public class ArmIntakeCube extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	// initialize variables
+    	timeClawClosed = 10000.0;
+    	photoSwitchTriggered = false;
+    	
     	//set the claw to intake
     	Robot.claw.openClaw();
     	Robot.claw.setClawMotorPercent(RobotMap.clawPercentIn);
@@ -30,11 +35,13 @@ public class ArmIntakeCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putBoolean("Arm Smart Close Return", Robot.claw.clawCloseIfPhotoSwitch());
+    	SmartDashboard.putBoolean("Arm Smart Close Return", Robot.claw.getPhotoSwitch());
     	
     	// Close the claw on the arm when the photoswitch is triggered
-    	if (Robot.claw.clawCloseIfPhotoSwitch()) {
-    		if(timeClawClosed == 1000) {
+    	if (Robot.claw.getPhotoSwitch()) {
+    		Robot.claw.closeClaw();
+    		if(!photoSwitchTriggered) {
+    			photoSwitchTriggered = true;
     			timeClawClosed = Timer.getFPGATimestamp();
     		}
     	}
@@ -43,9 +50,10 @@ public class ArmIntakeCube extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	// if the claw has been closed 
-    	if (Robot.claw.getBumpSwitch() || Timer.getFPGATimestamp() >= (timeClawClosed + 2)) {
+    	Robot.log.writeLog("ArmIntakeCube,bumpswitch," + Robot.claw.getBumpSwitch() + ",photSwitchTriggered," + photoSwitchTriggered 
+    						+ ",time Claw Closed," + timeClawClosed + ",timer," + Timer.getFPGATimestamp());
+    	if (Robot.claw.getBumpSwitch() || (photoSwitchTriggered && (Timer.getFPGATimestamp() >= (timeClawClosed + 2))) ) {
     		end();
-    		timeClawClosed = 1000;
     		return true;
     	} else {
     		return false;
