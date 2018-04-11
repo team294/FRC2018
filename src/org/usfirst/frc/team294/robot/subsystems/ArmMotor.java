@@ -169,9 +169,11 @@ public class ArmMotor extends Subsystem {
 		SmartDashboard.putNumber("Arm target angle", angle);
 		finalAngle = angle;
 		if(initAngle< angle) {
-			trapezoid.newProfile(initAngle, angle, lastMPVelocity, 180, 160); // was 150, 150
+			trapezoid.newProfile(angle, 180, 160); // was 150, 150
+//			trapezoid.newProfile(initAngle, angle, lastMPVelocity, 180, 160); // was 150, 150
 		}else {
-			trapezoid.newProfile(initAngle, angle, lastMPVelocity, 180, 160);  // was 150, 150
+			trapezoid.newProfile(angle, 180, 160);  // was 150, 150
+//			trapezoid.newProfile(initAngle, angle, lastMPVelocity, 180, 160);  // was 150, 150
 		}
 		// double encoderDegrees = angle * TICKS_PER_DEGREE;
 		// setArmPositionScaled(encoderDegrees);
