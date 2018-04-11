@@ -1,4 +1,4 @@
-
+  
 package org.usfirst.frc.team294.robot;
 
 import org.usfirst.frc.team294.robot.OI.BottomKnob;
@@ -7,6 +7,7 @@ import org.usfirst.frc.team294.robot.OI.TopKnob;
 import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import org.usfirst.frc.team294.robot.commands.*;
+import org.usfirst.frc.team294.robot.commands.SetVariableRef.Variables;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -154,8 +155,8 @@ public class OI {
 		coP[3].whileHeld(new ClimbSetPercentPower(RobotMap.climbLowerRobot,false)); // Lower robot from climbing
 		coP[4].whenPressed(new LoadCubeManual()); // 
 		coP[5].whenPressed(new ClimbSetPercentPower(RobotMap.climbHoldRobot)); // Hold robot up after climbing
-		// coP[6].whenPressed(new Command()); // Intake mechanism up
-		// coP[7].whenPressed(new Command()); // Intake mechanism down
+		coP[6].whenPressed(new SetVariableRef(Variables.Bump)); // Intake mechanism up
+		coP[7].whenPressed(new SetVariableRef(Variables.ArmPiston)); // Intake mechanism down
 		coP[8].whenPressed(new ClimbPreparation()); // Arm to intake position
 		coP[9].whenPressed(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Outtake
 		coP[10].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to backwards for scale
@@ -216,6 +217,8 @@ public class OI {
 		chooser_autoPlan.addObject("do Scale only", AutoPlan.ScaleOnly);
 		chooser_autoPlan.addDefault("do Switch only from middle", AutoPlan.SwitchOnly);
 		chooser_autoPlan.addObject("Go to baseline", AutoPlan.BaselineOnly);
+		chooser_autoPlan.addObject("Dead Reckoning Baseline Forwards", AutoPlan.DeadReckoningForward);
+		chooser_autoPlan.addObject("Dead Reckoning Baseline Backwards", AutoPlan.DeadReckoningBackward);
 		// chooser_autoPlan.addObject("2Cube", 5);
 		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
 		SmartDashboard.putData("AutoTest1", new AutoTest1());

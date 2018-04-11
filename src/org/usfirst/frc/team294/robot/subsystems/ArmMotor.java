@@ -29,7 +29,7 @@ public class ArmMotor extends Subsystem {
 
 	private final double MAX_UP_PERCENT_POWER = 1.0; // Up these speeds after testing. 0.8 before
 	private final double MAX_DOWN_PERCENT_POWER = -1.0; // -0.5 before
-
+	
 	// PID values
 	private final double kPu;
 	private final double kIu;
