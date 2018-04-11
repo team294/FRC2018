@@ -1,13 +1,7 @@
 package org.usfirst.frc.team294.utilities;
 
 import org.usfirst.frc.team294.robot.Robot;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath1_SameSideScale;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath2_OppositeSideScale;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath3_SameSideSwitch;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath4_OppositeSideSwitchBack;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath5_SwitchFromMiddle;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath6_OppositeSideSwitchFront;
-import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath7_Baseline;
+import org.usfirst.frc.team294.robot.commands.autoroutines.*;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -26,7 +20,7 @@ public class AutoSelection {
 	public static final int AUTO_PLANS = 6;
 
 	public enum AutoPlan {
-		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly
+		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly, DeadReckoningForward, DeadReckoningBackward;
 		// do not change the order of these
 	}
 
@@ -83,7 +77,15 @@ public class AutoSelection {
 		timeSinceAutoStart.start();
 		StartingPosition startPosition = Robot.oi.readStartPosition();
 		autoPlan = Robot.oi.readAutoPlan();
-
+		if(autoPlan == AutoPlan.DeadReckoningBackward) {
+			autonomousCommand = new AutoDeadReckoningBaseline(false);
+			Robot.log.writeLogEcho("Ran Dead Reckoning Baseline Backward, side = " + startPosition.name());
+			return;
+		}else if (autoPlan == AutoPlan.DeadReckoningForward) {
+			autonomousCommand = new AutoDeadReckoningBaseline(true);
+			Robot.log.writeLogEcho("Ran Dead Reckoning Baseline Forward, side = " + startPosition.name());
+			return;
+		}
 		// Retry reading game data until we get a valid string, or 4 seconds have passed.
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		while (gameData.length() < 2 && timeSinceAutoStart.get() < 4) {
