@@ -139,6 +139,7 @@ public class Intake extends Subsystem {
 	 */
 	public boolean isCurrentDecreasing() {
 		motorCurrent = intakeMotorLeft.getOutputCurrent();
+		Robot.log.writeLog("Intake,isCurrentDecreasing?,current," + motorCurrent + ",decreasing," + ((motorCurrent-lastMotorCurrent)<-1));
 //		SmartDashboard.putNumber("Intake Left Motor Delta Current", motorCurrent - lastMotorCurrent);
 		if ((motorCurrent - lastMotorCurrent) < -1) {
 			lastMotorCurrent = 0;
