@@ -24,12 +24,14 @@ public class Claw extends Subsystem {
 	private final DigitalInput bumpSwitch = new DigitalInput(RobotMap.bumpSwitchClaw);
 	private final DigitalInput photoSwitch = new DigitalInput(RobotMap.photoSwitchClaw);
 	private final Solenoid clawPiston = new Solenoid(RobotMap.pneumaticClawPistonOut);
-
+	private boolean bumpSwitchOverride;
+	
 	private final TalonSRX clawMotorLeft = new TalonSRX(RobotMap.clawMotorLeft);
 	private final TalonSRX clawMotorRight = new TalonSRX(RobotMap.clawMotorRight);
-
+	
 	public final MotorCurrentTrigger clawMotorLeftCurrentTrigger = new MotorCurrentTrigger(clawMotorLeft, 8, 4);
 	public final MotorCurrentTrigger clawMotorRightCurrentTrigger = new MotorCurrentTrigger(clawMotorRight, 8, 4);
+	
 
 	public Claw() {
 		// Configure talons
@@ -45,6 +47,8 @@ public class Claw extends Subsystem {
 		clawMotorRight.enableVoltageCompensation(true);
 		clawMotorRight.configVoltageCompSaturation(11.0, 0);
 		clawMotorRight.configOpenloopRamp(0.2, 0);
+		bumpSwitchOverride = false;
+		
 	}
 
 	/**
@@ -110,6 +114,7 @@ public class Claw extends Subsystem {
 	 * @return true = object is pressing bump switch
 	 */
 	public boolean getBumpSwitch() {
+		if(bumpSwitchOverride) return false;
 		return !bumpSwitch.get();
 	}
 
@@ -122,6 +127,10 @@ public class Claw extends Subsystem {
 		return photoSwitch.get();
 	}
 
+	public void overrideBumpSwitch() {
+		bumpSwitchOverride = true;
+	}
+	
 	/**
 	 * closes the intake jaws if the photo switch is triggered
 	 * 
