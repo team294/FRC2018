@@ -311,6 +311,8 @@ public class OI {
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
 
 		SmartDashboard.putBoolean("Arm Intake Interlocked", false);
+		
+		SmartDashboard.putData("Auto Spin and Intake", new AutoRotateAndIntakeDiamondCube());
 
 		// Camera settings are crashing the Rio kernel camera driver, so don't use
 //    	SmartDashboard.putNumber("Camera Exposure (-1 auto)" , 30);

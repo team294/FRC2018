@@ -123,20 +123,6 @@ public class Claw extends Subsystem {
 	}
 
 	/**
-	 * closes the intake jaws if the photo switch is triggered
-	 * 
-	 * @return true if closed, false if opened
-	 */
-	public boolean clawCloseIfPhotoSwitch() {
-		// if object is detected with photoSwitch, close the intake
-		if (photoSwitch.get()) {
-			closeClaw();
-			return true;
-		} else
-			return false;
-	}
-
-	/**
 	 * stops the claw motors sets the claw motors to 0.0
 	 */
 	public void stop() {
