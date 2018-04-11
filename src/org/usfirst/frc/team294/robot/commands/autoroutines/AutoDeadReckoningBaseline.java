@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoDeadReckoningBaseline extends Command {
 	private final boolean goForward;
-	private static final double MOTOR_POWER = .6, TIME_DELAY = 7;
+	private static final double MOTOR_POWER = .6, TIME_DELAY = 3;
 
 	/**
 	 * Create a new Dead Reckoning Auto
@@ -25,11 +25,11 @@ public class AutoDeadReckoningBaseline extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.driveTrain.driveAtCurve(MOTOR_POWER * (goForward ? 1 : -1), 0);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		Robot.driveTrain.driveAtCurve(MOTOR_POWER * (goForward ? 1.0 : -1.0), 0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
