@@ -38,6 +38,19 @@ public class ArmProfileGenerator {
 			double maxVelocity, double maxAcceleration) {
 		newProfile( initialPosition, finalPosition, initialVelocity, maxVelocity, maxAcceleration);
 	}
+
+	
+	/**
+	 * Resets profile generator with new parameters, starting now.
+	 * This method continues seamlessly with the prior profile.
+	 * @param finalPosition in inches
+	 * @param maxVelocity in inches per second
+	 * @param maxAcceleration in inches per second^2
+	 */
+	public void newProfile(double finalPosition, double maxVelocity, double maxAcceleration) {
+		newProfile( getCurrentPosition(), finalPosition, getCurrentVelocity(), maxVelocity, maxAcceleration);
+	}
+	
 	
 	/**
 	 * Resets profile generator with new parameters, starting now
@@ -80,7 +93,7 @@ public class ArmProfileGenerator {
 		currentTime = tempTime;		
 		
 		double stoppingDistance = 0.5*currentVelocity*currentVelocity/stoppingAcceleration;
-		if(targetMPDistance - currentMPDistance < stoppingDistance) currentAcceleration = -stoppingAcceleration;
+		if( (targetMPDistance - currentMPDistance < stoppingDistance) && (currentVelocity>0)) currentAcceleration = -stoppingAcceleration;
 		else if(currentVelocity < maxVelocity) currentAcceleration = maxAcceleration;
 		else currentAcceleration = 0;
 		
@@ -117,7 +130,7 @@ public class ArmProfileGenerator {
 	 * Returns current target velocity in in/s
 	 * @return Current target velocity from profile calculation in in/s
 	 */
-	public double getCurrentVelocity(){
+	public double getCurrentVelocity() {
 		return currentVelocity * directionSign;
 	}
 }
