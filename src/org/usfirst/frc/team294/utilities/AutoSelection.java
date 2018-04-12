@@ -17,10 +17,10 @@ public class AutoSelection {
 	public Command autonomousCommand;
 
 	// Auto path selections
-	public static final int AUTO_PLANS = 6;
+	public static final int AUTO_PLANS = 8;
 
 	public enum AutoPlan {
-		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly, DeadReckoningForward, DeadReckoningBackward;
+		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly, DeadReckoningForward, DeadReckoningBackward, SameSideScaleSwitch;
 		// do not change the order of these
 	}
 
@@ -84,6 +84,10 @@ public class AutoSelection {
 		}else if (autoPlan == AutoPlan.DeadReckoningForward) {
 			autonomousCommand = new AutoDeadReckoningBaseline(true);
 			Robot.log.writeLogEcho("Ran Dead Reckoning Baseline Forward, side = " + startPosition.name());
+			return;
+		}else if(autoPlan == AutoPlan.SameSideScaleSwitch) {
+			autonomousCommand = new AutoPath8_SameSideScaleSwitch(startPosition);
+			Robot.log.writeLogEcho("Ran Same Side Scale Switch, side = " + startPosition.name());
 			return;
 		}
 		// Retry reading game data until we get a valid string, or 4 seconds have passed.

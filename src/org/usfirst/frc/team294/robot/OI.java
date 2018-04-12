@@ -219,6 +219,7 @@ public class OI {
 		chooser_autoPlan.addObject("Go to baseline", AutoPlan.BaselineOnly);
 		chooser_autoPlan.addObject("Dead Reckoning Baseline Forwards", AutoPlan.DeadReckoningForward);
 		chooser_autoPlan.addObject("Dead Reckoning Baseline Backwards", AutoPlan.DeadReckoningBackward);
+		chooser_autoPlan.addObject("do Scale and Switch", AutoPlan.SameSideScaleSwitch);
 		// chooser_autoPlan.addObject("2Cube", 5);
 		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
 		SmartDashboard.putData("AutoTest1", new AutoTest1());

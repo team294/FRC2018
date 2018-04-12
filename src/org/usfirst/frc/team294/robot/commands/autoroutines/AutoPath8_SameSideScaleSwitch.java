@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class AutoPath1_SameSideScale extends CommandGroup {
+public class AutoPath8_SameSideScaleSwitch extends CommandGroup {
 
-	public AutoPath1_SameSideScale(StartingPosition startPosition) {
+	public AutoPath8_SameSideScaleSwitch(StartingPosition startPosition) {
 		int angleMultiplier = 1;
 		switch (startPosition) {
 
@@ -64,7 +64,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addSequential(new AutoRotateAndIntakeDiamondCube());
     	
 		// If we have the cube in the claw, then go back to scale and score
-    	addSequential(new ConditionalCommand(new AutoPath1_part2_Score2ndCube(startPosition)) {
+    	addSequential(new ConditionalCommand(new AutoPath1_part2_Score2ndCubeSwitch(startPosition)) {
 			protected boolean condition() {
 				return (Robot.claw.getPhotoSwitch());
 			} 
