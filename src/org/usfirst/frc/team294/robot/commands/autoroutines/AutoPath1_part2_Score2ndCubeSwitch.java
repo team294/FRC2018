@@ -31,7 +31,7 @@ public class AutoPath1_part2_Score2ndCubeSwitch extends CommandGroup {
     		// Assume we have the cube, so go back to scale to score
     		addParallel(new ArmMoveWithPiston(0, false));
     		addSequential(new DriveStraightDistanceProfile(-12, 0, 100, 100));
-    		addSequential(new WaitCommand(0.1));
+    		addSequential(new WaitCommand(0.2));
     		addParallel(new IntakeSetDeploy(false));
     		addSequential(new DriveStraightDistanceProfile(12, 0, 100, 100));
     		addSequential(new TurnGyro(-10 * angleMultiplier, TurnGyro.Units.Degrees));
