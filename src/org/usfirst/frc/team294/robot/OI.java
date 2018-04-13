@@ -7,7 +7,7 @@ import org.usfirst.frc.team294.robot.OI.TopKnob;
 import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import org.usfirst.frc.team294.robot.commands.*;
-import org.usfirst.frc.team294.robot.commands.SetVariableRef.Variables;
+import org.usfirst.frc.team294.robot.commands.OverrideSensor.Sensors;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -155,8 +155,8 @@ public class OI {
 		coP[3].whileHeld(new ClimbSetPercentPower(RobotMap.climbLowerRobot,false)); // Lower robot from climbing
 		coP[4].whenPressed(new LoadCubeManual()); // 
 		coP[5].whenPressed(new ClimbSetPercentPower(RobotMap.climbHoldRobot)); // Hold robot up after climbing
-		coP[6].whenPressed(new SetVariableRef(Variables.Bump)); // Intake mechanism up
-		coP[7].whenPressed(new SetVariableRef(Variables.ArmPiston)); // Intake mechanism down
+		coP[6].whenPressed(new OverrideSensor(Sensors.Bump)); // Intake mechanism up
+		coP[7].whenPressed(new OverrideSensor(Sensors.ArmPiston)); // Intake mechanism down
 		coP[8].whenPressed(new ClimbPreparation()); // Arm to intake position
 		coP[9].whenPressed(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Outtake
 		coP[10].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to backwards for scale

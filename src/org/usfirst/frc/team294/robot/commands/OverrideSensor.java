@@ -8,14 +8,21 @@ import org.usfirst.frc.team294.robot.Robot;
 /**
  *
  */
-public class SetVariableRef extends Command {
-public static enum Variables{
-	Bump,
-	ArmPiston,
+public class OverrideSensor extends Command {
+	public static enum Sensors{
+		Bump,
+		ArmPiston,	
+	}
+
+	private Sensors sensor;
 	
-}
-    public SetVariableRef(Variables var) {
-    	switch(var) {
+    public OverrideSensor(Sensors sensor) {
+    	this.sensor = sensor;
+    }
+
+    // Called just before this Command runs the first time
+    protected void initialize() {
+    	switch(sensor) {
     	case Bump:
     		Robot.claw.overrideBumpSwitch();
     		break;
@@ -23,10 +30,6 @@ public static enum Variables{
     		Robot.armPiston.overrideArmSensor();
     		break;
     	}
-    }
-
-    // Called just before this Command runs the first time
-    protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
