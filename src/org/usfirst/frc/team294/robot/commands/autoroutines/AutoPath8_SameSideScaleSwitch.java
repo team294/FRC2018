@@ -57,14 +57,14 @@ public class AutoPath8_SameSideScaleSwitch extends CommandGroup {
 //		addSequential(new TurnGyro());
 
 		// Final movement foward to grab 2nd cube
-		addSequential(new DriveStraightDistanceProfile(20, 0, 100, 100));   // Was 15 in
+		addSequential(new DriveStraightDistanceProfile(26, 0, 100, 100));   // Was 15 in
 		addSequential(new WaitCommand(.75));
 
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
 		addSequential(new AutoRotateAndIntakeDiamondCube());
     	
 		// If we have the cube in the claw, then go back to scale and score
-    	addSequential(new ConditionalCommand(new AutoPath1_part2_Score2ndCubeSwitch(startPosition)) {
+    	addSequential(new ConditionalCommand(new AutoPath8_part2_Score2ndCubeSwitch(startPosition)) {
 			protected boolean condition() {
 				return (Robot.claw.getPhotoSwitch());
 			} 

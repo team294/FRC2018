@@ -57,7 +57,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 //		addSequential(new TurnGyro());
 
 		// Final movement foward to grab 2nd cube
-		addSequential(new DriveStraightDistanceProfile(20, 0, 100, 100));   // Was 15 in
+		addSequential(new DriveStraightDistanceProfile(26, 0, 100, 100));   // Was 15 in
 		addSequential(new WaitCommand(.75));
 
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube

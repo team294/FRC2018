@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class AutoPath1_part2_Score2ndCubeSwitch extends CommandGroup {
+public class AutoPath8_part2_Score2ndCubeSwitch extends CommandGroup {
 
-    public AutoPath1_part2_Score2ndCubeSwitch(StartingPosition startPosition) {
+    public AutoPath8_part2_Score2ndCubeSwitch(StartingPosition startPosition) {
     		int angleMultiplier = 1;
     		switch (startPosition) {
 
@@ -33,8 +33,8 @@ public class AutoPath1_part2_Score2ndCubeSwitch extends CommandGroup {
     		addSequential(new DriveStraightDistanceProfile(-12, 0, 100, 100));
     		addSequential(new WaitCommand(0.2));
     		addParallel(new IntakeSetDeploy(false));
-    		addSequential(new DriveStraightDistanceProfile(12, 0, 100, 100));
-    		addSequential(new TurnGyro(-10 * angleMultiplier, TurnGyro.Units.Degrees));
+    		addSequential(new DriveStraightDistanceProfile(24, 0, 100, 100));
+    		addSequential(new TurnGyro(-20 * angleMultiplier, TurnGyro.Units.Degrees));
     		addSequential(new AutoSwitchShoot());
     	}
     }
