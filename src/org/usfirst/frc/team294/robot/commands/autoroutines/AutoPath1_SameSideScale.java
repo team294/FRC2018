@@ -32,7 +32,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addParallel(new ArmMoveWithIntakeBack());
 
 		// Drive to scale
-		addSequential(new DriveStraightDistanceProfile(-246, 6 * angleMultiplier, 100, 80));
+		addSequential(new DriveStraightDistanceProfile(-246, 6 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, true));
 		
 		// Turn then shoot cube in scale
@@ -43,12 +43,12 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		// Load 2nd cube
 //		addParallel(new LoadCubeSequence());
 		addParallel(new LoadCubeSequenceWithIntakeOpenAuto());
-		addSequential(new DriveStraightDistanceProfile(15, 0 * angleMultiplier, 100, 80));  // Was 20in, reduced to avoid hitting cubes when turning
+		addSequential(new DriveStraightDistanceProfile(15, 0 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // Was 20in, reduced to avoid hitting cubes when turning
 		addSequential(new TurnGyro(-75 * angleMultiplier, TurnGyro.Units.Degrees));  
 		addSequential(new WaitCommand(.5));
 		//addSequential(new TurnGyro());
 		//addParallel(new IntakeCube());
-		addSequential(new DriveStraightDistanceProfile(22, -75 * angleMultiplier, 100, 80));   // was 34, -75, 100, 80.  Shortened 12 in due to Match 35
+		addSequential(new DriveStraightDistanceProfile(22, -75 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));   // was 34, -75, 100, 80.  Shortened 12 in due to Match 35
 		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
 		
 		// Turn towards closest cube using vision, if vision is working and we see a cube (otherwise do nothing and continue sequence)
@@ -57,7 +57,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 //		addSequential(new TurnGyro());
 
 		// Final movement foward to grab 2nd cube
-		addSequential(new DriveStraightDistanceProfile(20, 0, 100, 100));   // Was 15 in
+		addSequential(new DriveStraightDistanceProfile(20, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));   // Was 15 in
 		addSequential(new WaitCommand(.75));
 
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube

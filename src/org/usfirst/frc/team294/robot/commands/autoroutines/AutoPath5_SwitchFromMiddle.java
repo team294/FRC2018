@@ -37,18 +37,18 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		// Go forward to switch
 //		addSequential(new DriveStraightDistanceProfile(10, 0, 100, 100));
 		if (goLeft) {
-			addSequential(new DriveStraightDistanceProfile(118, 26 * angleMultiplier, 100, 100)); // acceleration factor was 7, distance was 110
+			addSequential(new DriveStraightDistanceProfile(118, 26 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration)); // acceleration factor was 7, distance was 110
 			
 			
 		} else { // going right
-			addSequential(new DriveStraightDistanceProfile(108, 19 * angleMultiplier, 100, 100));  // acceleration factor was 70, distance was 100	
+			addSequential(new DriveStraightDistanceProfile(108, 19 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // acceleration factor was 70, distance was 100	
 		}
 		
 		// Shoot out first cube
 		addSequential(new AutoSwitchShoot());
 		
 		// Back away from switch to front of cube pile
-		addSequential(new DriveStraightDistanceProfile(-105, 23 * angleMultiplier, 100, 100));  // acceleration factor was 70 
+		addSequential(new DriveStraightDistanceProfile(-105, 23 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // acceleration factor was 70 
 		
 		// Start intake and drive forward to grab 2nd cube
 		addParallel(new LoadCubeSequence());
@@ -59,9 +59,9 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		//			addParallel(new LoadCubeSequenceWithIntakeOpenAuto());	// open claw to allow for more error on position
 		//addParallel(new LoadCubeSequence());		// TODO: This was redundant, but need to check!!!!
 		//addParallel(new IntakeSetOpen(true));		// This was needed to force orpen intake,  it closed before moving forward
-		addSequential(new DriveStraightDistanceProfile(60, 0, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(60, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		
-		addSequential(new DriveStraightDistanceProfile(-10, 0, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(-10, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
 		addSequential(new AutoRotateAndIntakeDiamondCube());
@@ -77,11 +77,11 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 
 		// Move arm up to switch position and back away from pile
 		addParallel(new ArmMoveWithIntake());
-		addSequential(new DriveStraightDistanceProfile(-50, 0, 100, 100)); // distance was -60, but changed because we back up 10 inches earlier
+		addSequential(new DriveStraightDistanceProfile(-50, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration)); // distance was -60, but changed because we back up 10 inches earlier
 		
 		// Turn towards switch and drive to switch
 		addSequential(new TurnGyro(22 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(108, 25 * angleMultiplier, 100, 100));  // acceleration factor was 70 
+		addSequential(new DriveStraightDistanceProfile(108, 25 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // acceleration factor was 70 
 		
 		// Score 2nd cube at switch
 		addSequential(new AutoSwitchShoot());
