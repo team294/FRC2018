@@ -68,7 +68,7 @@ public class RobotMap {
 //	public static double highThreshold; // High threshold for scoring
 
 	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
-	public static double armIntakePos = -40.0;   // Was -53
+	public static double armIntakePos = -37.0;   // Was -53
 	public static double armSwitchPosHigh = 5.0;
 	public static double armSwitchPosLow = -5.0;
 	public static double armScaleLowPos = 60.0;
@@ -77,12 +77,12 @@ public class RobotMap {
 	public static double armStartPosition = -53;
 	// Arm interlocking angle
 	public static double armIntakeClearanceAng = -18.0;
-
+	public static double armPortalIntakePos = -15;
 	// Arm angle constants
 	public static double degreesPerTicks = 360.0 / 4096.0;
 
 	public enum ArmPositions {
-		Intake(armIntakePos), Switch(armSwitchPosHigh), ScaleLow(armScaleLowPos), ScaleHigh(armScaleBackwardsPos), StartPosition(armStartPosition);
+		Intake(armIntakePos), Switch(armSwitchPosHigh), ScaleLow(armScaleLowPos), ScaleHigh(armScaleBackwardsPos), StartPosition(armStartPosition), PortalIntake(armPortalIntakePos);
 
 		private double angle;
 

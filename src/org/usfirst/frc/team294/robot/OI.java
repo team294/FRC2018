@@ -179,7 +179,7 @@ public class OI {
 
 		xbB[1].whenPressed(new LoadCubeSequenceNoIntake()); // grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClawAndClimb()); // Stops all flywheels
-		xbB[3].whenPressed(new LoadCubeWithIntakeOpenTeleop()); 
+		xbB[3].whenPressed(new LoadCubeSequenceNoIntake(ArmPositions.PortalIntake, PistonPositions.Retracted, false)); 
 		xbB[4].whenPressed(new ToggleIntakeDeploy()); 
 		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); 
 		xbB[6].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); 
@@ -191,7 +191,7 @@ public class OI {
 		xbB[9].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
 		 xbB[10].whenPressed(new ArmMoveWithPiston(37, RobotMap.PistonPositions.Null));
 
-		xbPovUp.whenActive(new IntakeInvertAndGrab());
+		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));
 		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.StartPosition)); // Arm to intake position
 		xbPovLeft.whenActive(new ArmPistonRetract());// Arm to switch position
 		xbPovRight.whenActive(new ArmPistonSmartExtend()); // Arm to scale fowards
