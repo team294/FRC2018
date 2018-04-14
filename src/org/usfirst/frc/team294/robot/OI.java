@@ -177,7 +177,7 @@ public class OI {
 		// xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
 		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 
-		xbB[1].whenPressed(new LoadCubeSequence()); // grabs cube fully
+		xbB[1].whenPressed(new LoadCubeSequenceNoIntake()); // grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClawAndClimb()); // Stops all flywheels
 		xbB[3].whenPressed(new LoadCubeWithIntakeOpenTeleop()); 
 		xbB[4].whenPressed(new ToggleIntakeDeploy()); 
@@ -192,10 +192,9 @@ public class OI {
 		 xbB[10].whenPressed(new ArmMoveWithPiston(37, RobotMap.PistonPositions.Null));
 
 		xbPovUp.whenActive(new IntakeInvertAndGrab());
-		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
-		xbPovLeft.whenActive(new ArmPistonsRetract()); // Arm to switch position
+		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.StartPosition)); // Arm to intake position
+		xbPovLeft.whenActive(new ArmPistonRetract());// Arm to switch position
 		xbPovRight.whenActive(new ArmPistonSmartExtend()); // Arm to scale fowards
-
 		// Xbox triggers
 		xbLT.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); 
 		xbRT.whenActive(new CubeShootOut(1)); // Score cube
@@ -271,7 +270,7 @@ public class OI {
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
 		SmartDashboard.putData("Auto Switch Shoot", new AutoSwitchShoot());
 
-		SmartDashboard.putData("Retract Arm Pistons", new ArmPistonsRetract());
+		SmartDashboard.putData("Retract Arm Pistons", new ArmPistonRetract());
 
 		SmartDashboard.putData("DriveStraightDistanceProfile", new DriveStraightDistanceProfile(30, 0));
 
