@@ -23,8 +23,8 @@ public class DriveStraightDistanceProfile extends Command {
 	private ToleranceChecker tolCheck;
 	private boolean success;
 	private double distSpeedControl;
-
-	private final double kPdist = .08, kDdist = .3, kIdist = 0.00, kFdist = 0;// .006; // not used
+	private final double kPdist = .08, kDdist = .6, kIdist = 0.00, kFdist = 0;// .006; // not used
+	//private final double kPdist = .08, kDdist = .3, kIdist = 0.00, kFdist = 0;// .006; // not used
 	// private final double kPdist = .05, kDdist = 0, kIdist = 0.00, kFdist = .009;
 	// // not used
 	// old kPdist = .05, .2 old kDdist = .37 old kFdist = .008
@@ -101,6 +101,7 @@ public class DriveStraightDistanceProfile extends Command {
 		// distanceTravel = SmartDashboard.getNumber("DistToTravelDSDG", 60);
 
 		if (driveUsingDashboardParams) {
+			Robot.driveTrain.zeroGyroRotation();
 			targetDistance = SmartDashboard.getNumber("DSDP_Distance_inches", 0);
 			angleBase = SmartDashboard.getNumber("DSDP_AngleBase", 0);
 			MPSpeed = SmartDashboard.getNumber("DSDP_Speed_ips", 80);
@@ -141,11 +142,11 @@ public class DriveStraightDistanceProfile extends Command {
 			distSpeedControl = distErr * kPdist + ((distErr - prevDistErr) * kDdist)
 					+ (kFdist * trapezoid.getCurrentVelocity());
 
-			if (distSpeedControl > 0) {
-				distSpeedControl = (distSpeedControl < minSpeed) ? minSpeed : distSpeedControl;
-			} else {
-				distSpeedControl = (distSpeedControl > -minSpeed) ? -minSpeed : distSpeedControl;
-			}
+//			if (distSpeedControl > 0) {
+//				distSpeedControl = (distSpeedControl < minSpeed) ? minSpeed : distSpeedControl;
+//			} else {
+//				distSpeedControl = (distSpeedControl > -minSpeed) ? -minSpeed : distSpeedControl;
+//			}
 
 			currentAngle = Robot.driveTrain.getGyroRotation();
 			angleErr = angleBase - currentAngle;
