@@ -2,6 +2,8 @@ package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
+import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
@@ -42,7 +44,7 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		
 		// Load 2nd cube
 //		addParallel(new LoadCubeSequence());
-		addParallel(new LoadCubeSequenceWithIntakeOpenAuto());
+		addParallel(new LoadCubeSequence(ArmPositions.Intake, PistonPositions.Extended, false));
 		addSequential(new DriveStraightDistanceProfile(15, 0 * angleMultiplier, 100, 80));  // Was 20in, reduced to avoid hitting cubes when turning
 		addSequential(new TurnGyro(-75 * angleMultiplier, TurnGyro.Units.Degrees));  
 		addSequential(new WaitCommand(.5));

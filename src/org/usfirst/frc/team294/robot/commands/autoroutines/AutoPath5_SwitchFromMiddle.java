@@ -2,6 +2,8 @@ package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
+import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import org.usfirst.frc.team294.robot.commands.*;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -51,7 +53,7 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		addSequential(new DriveStraightDistanceProfile(-105, 23 * angleMultiplier, 100, 100));  // acceleration factor was 70 
 		
 		// Start intake and drive forward to grab 2nd cube
-		addParallel(new LoadCubeSequence());
+		addParallel(new LoadCubeSequence(ArmPositions.Intake, PistonPositions.Extended, false));
 //		addParallel(new LoadCubeSequenceWithIntakeOpenAuto());
 		
 		addSequential(new TurnGyro(0, TurnGyro.Units.Degrees));
