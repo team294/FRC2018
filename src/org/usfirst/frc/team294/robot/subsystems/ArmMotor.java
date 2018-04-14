@@ -120,6 +120,7 @@ public class ArmMotor extends Subsystem {
 		lastVelocity = 0.0;
 		lastMPVelocity = 0.0;
 		startPID(lastAngle);
+		trapezoid.newProfile(lastAngle, lastAngle, 0, 0, 0);
 	}
 	
 	/**
