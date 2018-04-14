@@ -25,11 +25,11 @@ public class AutoPath3_SameSideSwitch extends CommandGroup {
 			break;
 		}
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
-		addParallel(new IntakeSetDeploy(true));
+//		addParallel(new IntakeSetDeploy(true));
 		addSequential(new DriveStraightDistanceProfile(-154, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		addParallel(new ArmMoveWithPiston(0, false));
 		addSequential(new TurnGyro(-90 * angleMultiplier, TurnGyro.Units.Degrees));
-		addParallel(new IntakeSetDeploy(false));
+//		addParallel(new IntakeSetDeploy(false));
 		addSequential(new WaitCommand(.2));
 		addSequential(new DriveStraightDistanceProfile(30, -90 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // 24 inches is just shy of the switch (really nice)
 		addSequential(new AutoSwitchShoot());

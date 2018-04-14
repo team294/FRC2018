@@ -30,22 +30,25 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 			break;
 		}
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
-		addSequential(new WaitCommand(0.1));
-		addParallel(new ArmMoveWithIntakeBack());
+//		addSequential(new WaitCommand(0.1));
+		addParallel(new ArmMoveWithPiston(RobotMap.armSwitchPosLow, RobotMap.PistonPositions.Null)); //was armScaleLowPos
 
 		// Drive to scale
 		addSequential(new DriveStraightDistanceProfile(-246, 6 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));
-		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, true));
+		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, false));
 		
 		// Turn then shoot cube in scale
 		addSequential(new TurnGyro(25 * angleMultiplier, TurnGyro.Units.Degrees));   // Angle was 30deg, changing to 25 for 1st Qual match
-		 addSequential(new WaitCommand(0.1));
-		addSequential(new CubeShootOut(0.75));  // Was 0.66
+		addSequential(new WaitCommand(0.1));
+		addSequential(new CubeShootOut(1.0));  // Was 0.66
 		
 		// Load 2nd cube
 //		addParallel(new LoadCubeSequence());
 		addParallel(new LoadCubeSequence(ArmPositions.Intake, PistonPositions.Extended, false));
-		addSequential(new DriveStraightDistanceProfile(15, 0 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // Was 20in, reduced to avoid hitting cubes when turning
+		addSequential(new TurnGyro(-20 * angleMultiplier, TurnGyro.Units.Degrees));
+		addSequential(new WaitCommand(0.5));
+		addSequential(new DriveStraightDistanceProfile(54, -20 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));
+/*		addSequential(new DriveStraightDistanceProfile(15, 0 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // Was 20in, reduced to avoid hitting cubes when turning
 		addSequential(new TurnGyro(-75 * angleMultiplier, TurnGyro.Units.Degrees));  
 		addSequential(new WaitCommand(.5));
 		//addSequential(new TurnGyro());
@@ -63,13 +66,13 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addSequential(new WaitCommand(.75));
 
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
-		addSequential(new AutoRotateAndIntakeDiamondCube());
+//		addSequential(new AutoRotateAndIntakeDiamondCube());
     	
 		// If we have the cube in the claw, then go back to scale and score
     	addSequential(new ConditionalCommand(new AutoPath1_part2_Score2ndCube(startPosition)) {
 			protected boolean condition() {
 				return (Robot.claw.getPhotoSwitch());
 			}
-		});
-	}
+		}); */
+	} 
 }

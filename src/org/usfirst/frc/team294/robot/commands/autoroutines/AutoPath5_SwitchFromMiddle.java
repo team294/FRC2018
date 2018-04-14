@@ -31,7 +31,7 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		
 		// Go to drive config
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentInFully));
-		addParallel(new IntakeSetDeploy(false));
+//		addParallel(new IntakeSetDeploy(false));
 		addSequential(new WaitCommand(0.1)); 
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addParallel(new ArmMoveWithIntake());
@@ -63,23 +63,23 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		//addParallel(new IntakeSetOpen(true));		// This was needed to force orpen intake,  it closed before moving forward
 		addSequential(new DriveStraightDistanceProfile(60, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		
-		addSequential(new DriveStraightDistanceProfile(-10, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
+//		addSequential(new DriveStraightDistanceProfile(-10, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
-		addSequential(new AutoRotateAndIntakeDiamondCube());
+//		addSequential(new AutoRotateAndIntakeDiamondCube());
 
 		// If we don't have the cube in the claw, then stop (well, wait 15 sec to end of auto mode)
-    	addSequential(new ConditionalCommand(new WaitCommand(15)) {
-			protected boolean condition() {
-				Robot.log.writeLogEcho("Auto diamond condition,intake photo switch," + Robot.intake.getPhotoSwitch()
-				+ ",claw photo switch," + Robot.claw.getPhotoSwitch());
-				return (!Robot.claw.getPhotoSwitch());
-			}
-		});
+//    	addSequential(new ConditionalCommand(new WaitCommand(15)) {
+//			protected boolean condition() {
+//				Robot.log.writeLogEcho("Auto diamond condition,intake photo switch," + Robot.intake.getPhotoSwitch()
+//				+ ",claw photo switch," + Robot.claw.getPhotoSwitch());
+//				return (!Robot.claw.getPhotoSwitch());
+//			}
+//		});
 
 		// Move arm up to switch position and back away from pile
 		addParallel(new ArmMoveWithIntake());
-		addSequential(new DriveStraightDistanceProfile(-50, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration)); // distance was -60, but changed because we back up 10 inches earlier
+		addSequential(new DriveStraightDistanceProfile(-60, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration)); // distance was -60, but changed because we back up 10 inches earlier
 		
 		// Turn towards switch and drive to switch
 		addSequential(new TurnGyro(22 * angleMultiplier, TurnGyro.Units.Degrees));
@@ -88,5 +88,8 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		// Score 2nd cube at switch
 		addSequential(new AutoSwitchShoot());
 
+		addSequential(new DriveStraightDistanceProfile (-8, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
+		addParallel(new TurnGyro (-90 * angleMultiplier, TurnGyro.Units.Degrees));
+		addSequential(new LoadCubeSequence());
 	}
 }

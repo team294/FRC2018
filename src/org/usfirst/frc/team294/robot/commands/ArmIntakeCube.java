@@ -38,7 +38,7 @@ public class ArmIntakeCube extends Command {
     	SmartDashboard.putBoolean("Arm Smart Close Return", Robot.claw.getPhotoSwitch());
     	
     	// Close the claw on the arm when the photoswitch is triggered
-    	if (Robot.claw.getPhotoSwitch()) {
+    	if (Robot.claw.getPhotoSwitch()||Robot.claw.getBumpSwitch()) {
     		Robot.claw.closeClaw();
     		if(!photoSwitchTriggered) {
     			photoSwitchTriggered = true;

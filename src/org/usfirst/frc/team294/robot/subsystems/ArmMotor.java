@@ -146,21 +146,21 @@ public class ArmMotor extends Subsystem {
 			SmartDashboard.putBoolean("Arm Intake Interlocked", getArmDegrees() <= RobotMap.armIntakeClearanceAng);
 		} else {
 			// We are enabled and under PID control
-			if (Robot.intake.isIntakeDeployed()) {
-				SmartDashboard.putBoolean("Arm Intake Interlocked", false);
-			} else {
-				if (initAngle > RobotMap.armIntakeClearanceAng - 3) {
-					if (angle <= RobotMap.armIntakeClearanceAng) {
-						angle = RobotMap.armIntakeClearanceAng;
-						SmartDashboard.putBoolean("Arm Intake Interlocked", true);
-					} else {
-						SmartDashboard.putBoolean("Arm Intake Interlocked", false);
-					}
-				} else {
-					SmartDashboard.putBoolean("Arm Intake Interlocked", true);
-					angle = finalAngle;
-				}
-			}
+//			if (Robot.intake.isIntakeDeployed()) {
+//				SmartDashboard.putBoolean("Arm Intake Interlocked", false);
+//			} else {
+//				if (initAngle > RobotMap.armIntakeClearanceAng - 3) {
+//					if (angle <= RobotMap.armIntakeClearanceAng) {
+//						angle = RobotMap.armIntakeClearanceAng;
+//						SmartDashboard.putBoolean("Arm Intake Interlocked", true);
+//					} else {
+//						SmartDashboard.putBoolean("Arm Intake Interlocked", false);
+//					}
+//				} else {
+//					SmartDashboard.putBoolean("Arm Intake Interlocked", true);
+//					angle = finalAngle;
+//				}
+//			}
 			Robot.log.writeLog("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero + ",initial raw encoder,"
 					+ getArmEncRaw() + ",initialAngle," + initAngle + ",Destination Angle," + angle
 					+ ",intake deployed," + Robot.intake.isIntakeDeployed());

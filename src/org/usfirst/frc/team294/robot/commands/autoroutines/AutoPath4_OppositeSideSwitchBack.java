@@ -32,7 +32,7 @@ public class AutoPath4_OppositeSideSwitchBack extends CommandGroup {
 
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addSequential(new WaitCommand(0.1));
-		addParallel(new IntakeSetDeploy(true));
+//		addParallel(new IntakeSetDeploy(true));
 		addSequential(new DriveStraightDistanceProfile(-220, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
 

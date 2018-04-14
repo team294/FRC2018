@@ -28,13 +28,13 @@ public class AutoPath6_OppositeSideSwitchFront extends CommandGroup {
 			break;
 		}
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
-		addParallel(new IntakeSetDeploy(true));
+//		addParallel(new IntakeSetDeploy(true));
 		addSequential(new DriveStraightDistanceProfile(-53, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
 		addParallel(new ArmMoveWithPiston(0, false));
 		addSequential(new DriveStraightDistanceProfile(-184, 90 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		addSequential(new TurnGyro(180, TurnGyro.Units.Degrees));
-		addParallel(new IntakeSetDeploy(false));
+//		addParallel(new IntakeSetDeploy(false));
 		addSequential(new WaitCommand(.2));
 		addSequential(new DriveStraightDistanceProfile(47, 180, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		addSequential(new AutoSwitchShoot());

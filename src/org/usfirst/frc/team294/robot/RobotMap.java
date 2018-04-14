@@ -51,7 +51,7 @@ public class RobotMap {
 
 	// claw motor speeds
 	public static double clawPercentDefault = -0.35; // Constant intake speed to prevent cube from dropping out of claw
-	public static double clawPercentIn = -0.7; // need to be tested
+	public static double clawPercentIn = -1; // need to be tested
 	public static double clawPercentInFully = -1.0; // Used to make sure cube is in claw TODO check if necessary
 	public static double clawPercentOut = 0.3; // Slow speed for outtake
 	public static double clawPercentLetGo = 0.5; // Speed to help drop cube

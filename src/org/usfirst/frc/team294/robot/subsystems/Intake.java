@@ -57,6 +57,9 @@ public class Intake extends Subsystem {
 		cubeInIntake = false;
 	}
 
+	@Override
+	protected void initDefaultCommand() {}
+
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
@@ -261,14 +264,6 @@ public class Intake extends Subsystem {
 			// TODO Is logging ok here?  Log less often?
 //			updateIntakeLog();
 		}
-	}
-
-	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
-		// sets both intake motors to -50 by default,
-		// will run at this speed until ToggleIntake
-		// or another command shuts them off or changes speed.
 	}
 
 	public void updateIntakeLog() {

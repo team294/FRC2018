@@ -42,7 +42,7 @@ public class ArmPiston extends Subsystem {
 	}
 
 	private boolean getMajorRet() {
-		if(overrideArm) return false;
+		if(overrideArm) return true;
 		return !majorLimitRetract.get();
 	}
 
