@@ -177,9 +177,9 @@ public class OI {
 		// xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
 		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 
-		xbB[1].whenPressed(new LoadCubeSequenceNoIntake()); // grabs cube fully
+		xbB[1].whenPressed(new LoadCubeSequence()); // grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClawAndClimb()); // Stops all flywheels
-		xbB[3].whenPressed(new LoadCubeSequenceNoIntake(ArmPositions.PortalIntake, PistonPositions.Retracted, false)); 
+		xbB[3].whenPressed(new LoadCubeSequence(ArmPositions.PortalIntake, PistonPositions.Retracted, false)); 
 		xbB[4].whenPressed(new ToggleIntakeDeploy()); 
 		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); 
 		xbB[6].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); 
@@ -301,14 +301,14 @@ public class OI {
 		SmartDashboard.putData("Climb Preperation", new ClimbPreparation());
 		SmartDashboard.putData("Climb Sequence", new ClimbMotorSequence());
 
-		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
+		SmartDashboard.putData("Intake Cube", new LoadCubeSequenceWithIntake());
 		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
 		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
 
 		SmartDashboard.putData("Invert Intake", new IntakeMotorsSetOpposite());
 		SmartDashboard.putData("Re-Intake Cube", new IntakeInvertAndGrab());
 
-		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
+		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequenceWithIntake());
 
 		SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 		
