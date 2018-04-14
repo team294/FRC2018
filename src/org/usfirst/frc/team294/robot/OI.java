@@ -236,8 +236,6 @@ public class OI {
 		SmartDashboard.putData("Extend Arm", new ArmPistonSetMajorState(PistonPositions.Extended));
 
 		// SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
-		SmartDashboard.putData("Button Increment with Joystick", new ArmMotorIncrementAngle(true));
-
 		SmartDashboard.putData("Calibrate arm zero position", new ArmMotorCalibrateZero());
 
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
