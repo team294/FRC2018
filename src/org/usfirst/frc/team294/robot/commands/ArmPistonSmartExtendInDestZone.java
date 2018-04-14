@@ -34,7 +34,7 @@ public class ArmPistonSmartExtendInDestZone extends Command {
 		// destAng > RobotMap.lowerBound)) {
 		//done = true;
 		// currentAng = Robot.protoArmMotor.getArmDegrees();
-		if (destZone == RobotMap.ArmZones.Backwards || destZone == RobotMap.ArmZones.Middle)
+		if (destZone == RobotMap.ArmZones.Backwards || destZone == RobotMap.ArmZones.Middle || destZone == RobotMap.ArmZones.Ground)
 			done = true;
 		else
 			done = false;

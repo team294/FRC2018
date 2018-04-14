@@ -264,36 +264,6 @@ public class ArmMotor extends Subsystem {
 	}
 
 	/**
-	 * Increments or decrements the arm by 7 degrees
-	 * 
-	 * @param increment
-	 *            true for increment, false for decrement
-	 */
-	public void armIncrement(boolean increment) {
-		armIncrement(7, increment);
-	}
-
-	/**
-	 * Increments or decrements the arm
-	 * 
-	 * @param difference
-	 *            the amount to increment/decrement by
-	 * @param increment
-	 *            true for increment, false for decrement
-	 */
-	public void armIncrement(int difference, boolean increment) {
-		if (increment) {
-			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - difference)) {
-				startPID(getArmDegrees() - difference);
-			}
-		} else {
-			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + difference)) {
-				startPID(getArmDegrees() + difference);
-			}
-		}
-	}
-
-	/**
 	 * Sets the angle of the arm in degrees
 	 * 
 	 * @param angle
