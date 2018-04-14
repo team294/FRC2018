@@ -191,7 +191,7 @@ public class ArmPiston extends Subsystem {
 		//  TODO fix return values
 		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		if (zone == ArmZones.Low) {
-			setMajor(PistonPositions.Retracted);
+			setMajor(PistonPositions.Extended);	// Allow arm to extend in Low zone.  Was "Retracted"
 			//setMinor(PistonPositions.Extended);
 //			setMinor(PistonPositions.Retracted);
 			return true;
@@ -213,7 +213,7 @@ public class ArmPiston extends Subsystem {
 	 */
 	public boolean smartExtendMajor() {
 		ArmZones zone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
-		if (zone == ArmZones.High) {
+		if (zone == ArmZones.High || zone == ArmZones.Low) {
 			setMajor(PistonPositions.Extended);
 			return true;
 		} else {
