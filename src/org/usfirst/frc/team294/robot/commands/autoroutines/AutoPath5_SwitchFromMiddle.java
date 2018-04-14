@@ -64,8 +64,10 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 		addSequential(new DriveStraightDistanceProfile(-10, 0, 100, 100));
 		
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
-		addSequential(new AutoRotateAndIntakeDiamondCube());
-
+/**				Removed since we don't have and intake anymore!
+ * 
+  		addSequential(new AutoRotateAndIntakeDiamondCube());
+**/
 		// If we don't have the cube in the claw, then stop (well, wait 15 sec to end of auto mode)
     	addSequential(new ConditionalCommand(new WaitCommand(15)) {
 			protected boolean condition() {
