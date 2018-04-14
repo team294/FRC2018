@@ -120,6 +120,7 @@ public class ArmMotor extends Subsystem {
 		lastVelocity = 0.0;
 		lastMPVelocity = 0.0;
 		startPID(lastAngle);
+		trapezoid.newProfile(lastAngle, lastAngle, 0, 0, 0);
 	}
 	
 	/**
@@ -261,36 +262,6 @@ public class ArmMotor extends Subsystem {
 		armAngle = (armAngle > 180) ? armAngle - 360 : armAngle; // Convert to range -180 to +180
 		SmartDashboard.putNumber("Arm angle Value", armAngle);
 		return (armAngle);
-	}
-
-	/**
-	 * Increments or decrements the arm by 7 degrees
-	 * 
-	 * @param increment
-	 *            true for increment, false for decrement
-	 */
-	public void armIncrement(boolean increment) {
-		armIncrement(7, increment);
-	}
-
-	/**
-	 * Increments or decrements the arm
-	 * 
-	 * @param difference
-	 *            the amount to increment/decrement by
-	 * @param increment
-	 *            true for increment, false for decrement
-	 */
-	public void armIncrement(int difference, boolean increment) {
-		if (increment) {
-			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - difference)) {
-				startPID(getArmDegrees() - difference);
-			}
-		} else {
-			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + difference)) {
-				startPID(getArmDegrees() + difference);
-			}
-		}
 	}
 
 	/**
