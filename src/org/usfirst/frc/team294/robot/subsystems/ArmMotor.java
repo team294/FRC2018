@@ -162,8 +162,7 @@ public class ArmMotor extends Subsystem {
 //				}
 //			}
 			Robot.log.writeLog("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero + ",initial raw encoder,"
-					+ getArmEncRaw() + ",initialAngle," + initAngle + ",Destination Angle," + angle
-					+ ",intake deployed," + Robot.intake.isIntakeDeployed());
+					+ getArmEncRaw() + ",initialAngle," + initAngle + ",Destination Angle," + angle);
 		}
 
 		SmartDashboard.putNumber("Arm initial angle", initAngle);

@@ -14,12 +14,12 @@ public class IntakeSetSpeed extends Command {
 	
     public IntakeSetSpeed(double percentPower) {
         this.percentPower = percentPower;
-    	requires(Robot.intake);
+//    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeMotorPercent(percentPower); // Sets the intake motors to specified percent
+ //   	Robot.intake.setIntakeMotorPercent(percentPower); // Sets the intake motors to specified percent
     }
 
     // Called repeatedly when this Command is scheduled to run

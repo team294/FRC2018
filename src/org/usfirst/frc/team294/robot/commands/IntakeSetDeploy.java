@@ -20,7 +20,7 @@ public class IntakeSetDeploy extends Command {
     public IntakeSetDeploy(boolean deploy) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
+ //   	requires(Robot.intake);
     	deployed = deploy;
     	waitForMove = false; 
     }
@@ -33,14 +33,14 @@ public class IntakeSetDeploy extends Command {
     public IntakeSetDeploy(boolean deploy, boolean waitForMove) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
+ //   	requires(Robot.intake);
     	deployed = deploy;
     	this.waitForMove = waitForMove; 
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeDeploy(deployed);
+ //   	Robot.intake.setIntakeDeploy(deployed);
 //    	Robot.log.writeLogEcho("Intake Command," + (deployed ? "deploy" : "retract"));		// intake.setIntakeDeploy() does lots of logging
     }
 
