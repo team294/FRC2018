@@ -38,6 +38,6 @@ public class LoadCubeSequenceWithIntakeOpenAuto extends CommandGroup {
     	addSequential(new ArmIntakeCube()); // Simultaneously, open the arm claw and being intaking. Exit when bumpswitch triggered, then lower claw speed to hold cube
     	addSequential(new LogMessage("loadCube, 3 finished arm intake cube",true));
     	addSequential(new WaitCommand(0.5));
-    	addSequential(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Start outtaking so we don't get a penalty
+ //   	addSequential(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Start outtaking so we don't get a penalty
 	}
 }

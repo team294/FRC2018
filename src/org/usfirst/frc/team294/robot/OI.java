@@ -158,7 +158,7 @@ public class OI {
 		coP[6].whenPressed(new OverrideSensor(Sensors.Bump)); // Intake mechanism up
 		coP[7].whenPressed(new OverrideSensor(Sensors.ArmPiston)); // Intake mechanism down
 		coP[8].whenPressed(new ClimbPreparation()); // Arm to intake position
-		coP[9].whenPressed(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Outtake
+//		coP[9].whenPressed(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Outtake
 		coP[10].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to backwards for scale
 		coP[11].whenPressed(new LoadCubeSequence()); // Intake sequence
 		// coP[12].whenPressed(new Command()); // TBD
@@ -250,8 +250,8 @@ public class OI {
 		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos, RobotMap.PistonPositions.Null));
 
 		SmartDashboard.putData("Arm Intake Cube", new ArmIntakeCube());
-		SmartDashboard.putData("Intake Retract", new IntakeSetDeploy(false));
-		SmartDashboard.putData("Intake Deploy", new IntakeSetDeploy(true));
+//		SmartDashboard.putData("Intake Retract", new IntakeSetDeploy(false));
+//		SmartDashboard.putData("Intake Deploy", new IntakeSetDeploy(true));
 
 		// SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new
 		// ArmControl());
@@ -306,7 +306,7 @@ public class OI {
 //		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
 
 //		SmartDashboard.putData("Invert Intake", new IntakeMotorsSetOpposite());
-		SmartDashboard.putData("Re-Intake Cube", new IntakeInvertAndGrab());
+//		SmartDashboard.putData("Re-Intake Cube", new IntakeInvertAndGrab());
 
 		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequenceWithIntake());
 

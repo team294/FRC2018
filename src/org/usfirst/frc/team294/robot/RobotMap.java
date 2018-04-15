@@ -64,15 +64,15 @@ public class RobotMap {
 	public static double climbLowerRobot = 0.2;
 
 	// drive train variables for motion profile
-	public static double maxSpeed = 140;
-	public static double maxAcceleration = 120;
+	public static double maxSpeed = 120;  // was 180
+	public static double maxAcceleration = 100;  // was 120
 	
 	// Arm angle thresholds
 //	public static double lowThreshold; // Low threshold for ground pickup  Not Used?
 //	public static double highThreshold; // High threshold for scoring
 
 	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
-	public static double armIntakePos = -37.0;   // Was -53
+	public static double armIntakePos = -41.0;   // Was -53
 	public static double armSwitchPosHigh = 5.0;
 	public static double armSwitchPosLow = -5.0;
 	public static double armScaleLowPos = 60.0;

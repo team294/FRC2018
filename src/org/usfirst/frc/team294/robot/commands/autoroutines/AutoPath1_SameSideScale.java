@@ -45,16 +45,17 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		// Load 2nd cube
 //		addParallel(new LoadCubeSequence());
 		addParallel(new LoadCubeSequence(ArmPositions.Intake, PistonPositions.Extended, false));
-		addSequential(new TurnGyro(-8 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new WaitCommand(1.5));
-		addSequential(new DriveStraightDistanceProfile(54, -20 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));
-/*		addSequential(new DriveStraightDistanceProfile(15, 0 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // Was 20in, reduced to avoid hitting cubes when turning
-		addSequential(new TurnGyro(-75 * angleMultiplier, TurnGyro.Units.Degrees));  
-		addSequential(new WaitCommand(.5));
+		addSequential(new TurnGyro(-12 * angleMultiplier, TurnGyro.Units.Degrees));
+//		addSequential(new WaitCommand(1.5));
+		addSequential(new DriveStraightDistanceProfile(54, -12 * angleMultiplier, 35, 70));
+		
+//		addSequential(new DriveStraightDistanceProfile(15, 0 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // Was 20in, reduced to avoid hitting cubes when turning
+//		addSequential(new TurnGyro(-75 * angleMultiplier, TurnGyro.Units.Degrees));  
+//		addSequential(new WaitCommand(.5));
 		//addSequential(new TurnGyro());
 		//addParallel(new IntakeCube());
-		addSequential(new DriveStraightDistanceProfile(22, -75 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));   // was 34, -75, 100, 80.  Shortened 12 in due to Match 35
-		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
+//		addSequential(new DriveStraightDistanceProfile(22, -75 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));   // was 34, -75, 100, 80.  Shortened 12 in due to Match 35
+//		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
 		
 		// Turn towards closest cube using vision, if vision is working and we see a cube (otherwise do nothing and continue sequence)
 		// Commented out, since RPi was removed from robot
@@ -62,8 +63,8 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 //		addSequential(new TurnGyro());
 
 		// Final movement foward to grab 2nd cube
-		addSequential(new DriveStraightDistanceProfile(20, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));   // Was 15 in
-		addSequential(new WaitCommand(.75));
+//		addSequential(new DriveStraightDistanceProfile(20, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));   // Was 15 in
+//		addSequential(new WaitCommand(.75));
 
 		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
 //		addSequential(new AutoRotateAndIntakeDiamondCube());
@@ -73,6 +74,6 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 			protected boolean condition() {
 				return (Robot.claw.getPhotoSwitch());
 			}
-		}); */
+		}); 
 	} 
 }

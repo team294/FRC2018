@@ -160,7 +160,7 @@ public class Robot extends TimedRobot {
 			Command shiftLow = new Shift(false);
 			shiftLow.start();
 			claw.closeClaw();
-			new IntakeSetDeploy(false);
+//			new IntakeSetDeploy(false);
 			autoSelection.autonomousCommand.start();
 		}
 	}

@@ -20,8 +20,8 @@ public class LoadCubeSequenceWithIntake extends CommandGroup {
     	/* These commands are all individual because we want them to finish before we continue on to moving anything else, to avoid impacts */
     	
 
-    	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
-    	addSequential(new IntakeSetOpen(false));// Close the intake while moving the arm
+ //   	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
+ //   	addSequential(new IntakeSetOpen(false));// Close the intake while moving the arm
     	addSequential(new ConditionalCommand(new ClawSetOpen(false)){
     		protected boolean condition(){
     			return (Robot.armMotor.getArmDegrees()>-45); 
@@ -35,6 +35,6 @@ public class LoadCubeSequenceWithIntake extends CommandGroup {
  //   	addParallel(new IntakeCube()); // Open intake claw and start intaking, close when the photoswitch is triggered
     	addSequential(new ArmIntakeCube()); // Simultaneously, open the arm claw and being intaking. Exit when bumpswitch triggered, then lower claw speed to hold cube
     	addSequential(new WaitCommand(0.5));
-    	addSequential(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Start outtaking so we don't get a penalty
+//    	addSequential(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Start outtaking so we don't get a penalty
 	}
 }

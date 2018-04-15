@@ -6,7 +6,7 @@ import org.usfirst.frc.team294.robot.commands.ArmMoveWithIntake;
 import org.usfirst.frc.team294.robot.commands.ArmMoveWithPiston;
 import org.usfirst.frc.team294.robot.commands.ClawSetMotorSpeed;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
-import org.usfirst.frc.team294.robot.commands.IntakeSetDeploy;
+//import org.usfirst.frc.team294.robot.commands.IntakeSetDeploy;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
