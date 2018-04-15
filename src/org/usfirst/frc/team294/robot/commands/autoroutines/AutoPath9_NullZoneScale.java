@@ -1,8 +1,6 @@
 package org.usfirst.frc.team294.robot.commands.autoroutines;
 
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.ArmMoveToDestAngle;
-import org.usfirst.frc.team294.robot.commands.ArmMoveWithIntake;
 import org.usfirst.frc.team294.robot.commands.ArmMoveWithPiston;
 import org.usfirst.frc.team294.robot.commands.ArmPistonSmartExtendInDestZone;
 import org.usfirst.frc.team294.robot.commands.ClawSetMotorSpeed;
