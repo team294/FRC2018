@@ -31,22 +31,22 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		}
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 //		addSequential(new WaitCommand(0.1));
-		addParallel(new ArmMoveWithPiston(RobotMap.armSwitchPosLow, RobotMap.PistonPositions.Null)); //was armScaleLowPos
+		addParallel(new ArmMoveWithPiston(RobotMap.armSwitchPosHigh, RobotMap.PistonPositions.Null)); //was armScaleLowPos
 
 		// Drive to scale
-		addSequential(new DriveStraightDistanceProfile(-246, 6 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));
+		addSequential(new DriveStraightDistanceProfile(-246, 5 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // was 6 degrees
 		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, false));
 		
 		// Turn then shoot cube in scale
 		addSequential(new TurnGyro(25 * angleMultiplier, TurnGyro.Units.Degrees));   // Angle was 30deg, changing to 25 for 1st Qual match
-		addSequential(new WaitCommand(0.1));
+		addSequential(new WaitCommand(0.5));
 		addSequential(new CubeShootOut(1.0));  // Was 0.66
 		
 		// Load 2nd cube
 //		addParallel(new LoadCubeSequence());
 		addParallel(new LoadCubeSequence(ArmPositions.Intake, PistonPositions.Extended, false));
-		addSequential(new TurnGyro(-20 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new WaitCommand(0.5));
+		addSequential(new TurnGyro(-8 * angleMultiplier, TurnGyro.Units.Degrees));
+		addSequential(new WaitCommand(1.5));
 		addSequential(new DriveStraightDistanceProfile(54, -20 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 /*		addSequential(new DriveStraightDistanceProfile(15, 0 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // Was 20in, reduced to avoid hitting cubes when turning
 		addSequential(new TurnGyro(-75 * angleMultiplier, TurnGyro.Units.Degrees));  

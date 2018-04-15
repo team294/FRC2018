@@ -16,20 +16,20 @@ public class RobotMap {
 	public static final int armMotor2 = 31;
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
-	public static final int intakeMotorLeft = 51;
-	public static final int intakeMotorRight = 50;
+//	public static final int intakeMotorLeft = 51;
+//	public static final int intakeMotorRight = 50;
 	public static final int climbMotor1 = 60;
 	public static final int climbMotor2 = 61;
 
 	// Pneumatic addresses
 	public static final int pnuematicShifter = 0;
-	public static final int pneumaticIntakePistonDeploy = 1;
-	public static final int pneumaticIntakePistonOpen = 2;
+	public static final int pneumaticArmPistonMajorIn2 = 1;
+//	public static final int pneumaticIntakePistonOpen = 2;
 	public static final int pneumaticClawPistonOut = 3;
 	public static final int pneumaticArmPistonMajorIn = 4;
 	public static final int pneumaticArmPistonMajorOut = 5;
 	public static final int pneumaticClimbPistonRetract = 6;
-	public static final int pneumaticIntakePistonStow = 7;
+	public static final int pneumaticArmPistonMajorOut2 = 7;
 
 	// RoboRIO digital I/O addresses
 	public static int photoSwitchIntake = 2;
