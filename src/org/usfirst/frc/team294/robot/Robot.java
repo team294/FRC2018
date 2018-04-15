@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
 	public static ArmPiston armPiston;
 	public static ArmMotor armMotor;
 	public static Claw claw;
-	public static Intake intake;
+//	public static Intake intake;
 	public static OI oi;
 	public static Climb climb;
 	public static PressureSensor pressureSensor;
@@ -76,11 +76,11 @@ public class Robot extends TimedRobot {
 		armMotor = new ArmMotor();
 		claw = new Claw();
 		climb = new Climb();
-		intake = new Intake();
+//		intake = new Intake();
 		pressureSensor = new PressureSensor();
 
 		// armMotor.armMotorsCurrentProtection(); needs to be tested
-		intake.intakeMotorsCurrentProtection();
+//		intake.intakeMotorsCurrentProtection();
 		claw.clawMotorsCurrentProtection();
 		
 		// Reset single-sided solenoid to default state, so solenoid doesn't move when we download new code
@@ -172,13 +172,6 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		driveTrain.getGyroRotation();
-
-		// Control LED colors
-		if (intake.getIntakeMotorPercent() > 0.1) {
-			Robot.mainLEDs.setPurple();
-		} else {
-			Robot.mainLEDs.setOff();
-		}
 	}
 
 	@Override
@@ -206,7 +199,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		
+/*		
 		// Control LED colors
 		if (climb.getClimbMotorPercentPower() < -0.1) {
 			// Robot is climbing
@@ -222,7 +215,9 @@ public class Robot extends TimedRobot {
 			Robot.oi.setXBoxRumble(0);
 			Robot.mainLEDs.setOff();
 		}
+		*/
 	}
+
 
 	/**
 	 * This function is called periodically during test mode.

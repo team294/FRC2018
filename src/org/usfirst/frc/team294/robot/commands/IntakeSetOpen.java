@@ -20,13 +20,13 @@ public class IntakeSetOpen extends Command {
     public IntakeSetOpen(boolean open) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
+  //  	requires(Robot.intake);
     	this.open = open;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeOpen(open);
+//    	Robot.intake.setIntakeOpen(open);
     }
 
     // Called repeatedly when this Command is scheduled to run
