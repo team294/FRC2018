@@ -143,7 +143,7 @@ public class ArmMotor extends Subsystem {
 		if (!DriverStation.getInstance().isEnabled() || Robot.armMotor.joystickControl) {
 			// We are disabled or under joystick control, so just track the angle.
 			// I.e., we were called from periodic() using startPID(getArmDegrees());
-			SmartDashboard.putBoolean("Arm Intake Interlocked", getArmDegrees() <= RobotMap.armIntakeClearanceAng);
+//			SmartDashboard.putBoolean("Arm Intake Interlocked", getArmDegrees() <= RobotMap.armIntakeClearanceAng);
 		} else {
 			// We are enabled and under PID control
 //			if (Robot.intake.isIntakeDeployed()) {

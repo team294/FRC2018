@@ -72,7 +72,7 @@ public class RobotMap {
 //	public static double highThreshold; // High threshold for scoring
 
 	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
-	public static double armIntakePos = -41.0;   // Was -53
+	public static double armIntakePos = -39.0;   // Was -53
 	public static double armSwitchPosHigh = 5.0;
 	public static double armSwitchPosLow = -5.0;
 	public static double armScaleLowPos = 60.0;

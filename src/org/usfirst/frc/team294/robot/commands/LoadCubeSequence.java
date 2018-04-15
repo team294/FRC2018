@@ -30,6 +30,7 @@ public class LoadCubeSequence extends CommandGroup {
     	addSequential(new ArmIntakeCube()); 
     	addSequential(new ArmPistonRetract(true));
     	if(armMoveToSafety) {
+    		// TODO: Put this back in when the arm retract sensor is fixed.
     	  	addSequential(new ArmMoveWithPiston(-53, false));  		
     	}
    	}

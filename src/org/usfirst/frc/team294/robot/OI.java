@@ -308,7 +308,7 @@ public class OI {
 //		SmartDashboard.putData("Invert Intake", new IntakeMotorsSetOpposite());
 //		SmartDashboard.putData("Re-Intake Cube", new IntakeInvertAndGrab());
 
-		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequenceWithIntake());
+//		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequenceWithIntake());
 
 		SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 		
