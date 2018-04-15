@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
 		 * Comment out UsbCamera if the video info is sent through RaspberryPi
 		 **/
 		// USB drive camera
-		driveCamera = CameraServer.getInstance().startAutomaticCapture();
+//		driveCamera = CameraServer.getInstance().startAutomaticCapture();
 		
 		// There seems to be some issues with the RoboRio camera driver.  Don't use this code until the driver is fixed?
 //		driveCamera.setVideoMode(VideoMode.PixelFormat.kYUYV, 160, 120, 15); 
@@ -160,7 +160,7 @@ public class Robot extends TimedRobot {
 			Command shiftLow = new Shift(false);
 			shiftLow.start();
 			claw.closeClaw();
-			new IntakeSetDeploy(false);
+//			new IntakeSetDeploy(false);
 			autoSelection.autonomousCommand.start();
 		}
 	}
