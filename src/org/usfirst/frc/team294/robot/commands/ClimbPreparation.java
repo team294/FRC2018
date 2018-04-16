@@ -16,7 +16,7 @@ public class ClimbPreparation extends CommandGroup {
 	 */
     public ClimbPreparation() {
     	addParallel(new ClawSetOpen(false));
-    	addSequential(new IntakeSetDeploy(true));
+//    	addSequential(new IntakeSetDeploy(true));
     	addSequential(new WaitCommand(0.25));
     	addParallel(new ArmMoveWithPiston(RobotMap.armClimbPos, false));
     	addSequential(new ClimbPistonDeploy(true));

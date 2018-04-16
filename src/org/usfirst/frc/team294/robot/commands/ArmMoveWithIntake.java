@@ -17,10 +17,10 @@ public class ArmMoveWithIntake extends CommandGroup {
 	 * and then raise intake (so we can butt up against the switch)
 	 */
 	public ArmMoveWithIntake() {
-		addSequential(new IntakeSetDeploy(true));
+//		addSequential(new IntakeSetDeploy(true));
 		addSequential(new WaitCommand(0.25));
 		addParallel(new ArmMoveWithPiston(RobotMap.armSwitchPosHigh, false));
 		addSequential(new WaitCommand(1.0));
-		addSequential(new IntakeSetDeploy(false));
+//		addSequential(new IntakeSetDeploy(false));
 	}
 }

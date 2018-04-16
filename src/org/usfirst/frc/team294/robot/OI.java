@@ -7,7 +7,7 @@ import org.usfirst.frc.team294.robot.OI.TopKnob;
 import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import org.usfirst.frc.team294.robot.commands.*;
-import org.usfirst.frc.team294.robot.commands.SetVariableRef.Variables;
+import org.usfirst.frc.team294.robot.commands.OverrideSensor.Sensors;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -155,10 +155,10 @@ public class OI {
 		coP[3].whileHeld(new ClimbSetPercentPower(RobotMap.climbLowerRobot,false)); // Lower robot from climbing
 		coP[4].whenPressed(new LoadCubeManual()); // 
 		coP[5].whenPressed(new ClimbSetPercentPower(RobotMap.climbHoldRobot)); // Hold robot up after climbing
-		coP[6].whenPressed(new SetVariableRef(Variables.Bump)); // Intake mechanism up
-		coP[7].whenPressed(new SetVariableRef(Variables.ArmPiston)); // Intake mechanism down
+		coP[6].whenPressed(new OverrideSensor(Sensors.Bump)); // Intake mechanism up
+		coP[7].whenPressed(new OverrideSensor(Sensors.ArmPiston)); // Intake mechanism down
 		coP[8].whenPressed(new ClimbPreparation()); // Arm to intake position
-		coP[9].whenPressed(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Outtake
+//		coP[9].whenPressed(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Outtake
 		coP[10].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); // Arm to backwards for scale
 		coP[11].whenPressed(new LoadCubeSequence()); // Intake sequence
 		// coP[12].whenPressed(new Command()); // TBD
@@ -179,23 +179,22 @@ public class OI {
 
 		xbB[1].whenPressed(new LoadCubeSequence()); // grabs cube fully
 		xbB[2].whenPressed(new StopIntakeAndClawAndClimb()); // Stops all flywheels
-		xbB[3].whenPressed(new LoadCubeWithIntakeOpenTeleop()); 
-		xbB[4].whenPressed(new ToggleIntakeDeploy()); 
+		xbB[3].whenPressed(new LoadCubeSequence(ArmPositions.PortalIntake, PistonPositions.Retracted, false)); 
+//		xbB[4].whenPressed(new ToggleIntakeDeploy()); 
 		xbB[5].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleHigh)); 
 		xbB[6].whenPressed(new ArmMoveWithPiston(ArmPositions.ScaleLow)); 
 		xbB[7].whenPressed(new ToggleClawOpen());
 		// xbB[8].whenPressed(new ClimbCommand()); // Reserved for climbing
-		xbB[8].whenPressed(new ToggleIntakeOpen());
+//		xbB[8].whenPressed(new ToggleIntakeOpen());
 		// xbB[9].whenPressed(new ToggleClawOpen());
 		// xbB[9].whenPressed(new OverrideCommand()); // Override climb OR arm
 		xbB[9].toggleWhenPressed(new ArmMotorControlJoystick()); // Manual Arm Control
 		 xbB[10].whenPressed(new ArmMoveWithPiston(37, RobotMap.PistonPositions.Null));
 
-		xbPovUp.whenActive(new IntakeInvertAndGrab());
-		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.Intake)); // Arm to intake position
-		xbPovLeft.whenActive(new ArmPistonsRetract()); // Arm to switch position
+		xbPovUp.whenActive(new ArmMoveWithPiston(ArmPositions.Intake));
+		xbPovDown.whenActive(new ArmMoveWithPiston(ArmPositions.StartPosition)); // Arm to intake position
+		xbPovLeft.whenActive(new ArmPistonRetract());// Arm to switch position
 		xbPovRight.whenActive(new ArmPistonSmartExtend()); // Arm to scale fowards
-
 		// Xbox triggers
 		xbLT.whenActive(new ArmMoveWithPiston(ArmPositions.Switch)); 
 		xbRT.whenActive(new CubeShootOut(1)); // Score cube
@@ -237,8 +236,6 @@ public class OI {
 		SmartDashboard.putData("Extend Arm", new ArmPistonSetMajorState(PistonPositions.Extended));
 
 		// SmartDashboard.putData("Control Arm Motor Joystick", new ArmMotorControl());
-		SmartDashboard.putData("Button Increment with Joystick", new ArmMotorIncrementAngle(true));
-
 		SmartDashboard.putData("Calibrate arm zero position", new ArmMotorCalibrateZero());
 
 		SmartDashboard.putData("Move Arm to Legal Area", new ArmMoveToLegalRange());
@@ -253,8 +250,8 @@ public class OI {
 		SmartDashboard.putData("Intake Position", new ArmMoveWithPiston(RobotMap.armIntakePos, RobotMap.PistonPositions.Null));
 
 		SmartDashboard.putData("Arm Intake Cube", new ArmIntakeCube());
-		SmartDashboard.putData("Intake Retract", new IntakeSetDeploy(false));
-		SmartDashboard.putData("Intake Deploy", new IntakeSetDeploy(true));
+//		SmartDashboard.putData("Intake Retract", new IntakeSetDeploy(false));
+//		SmartDashboard.putData("Intake Deploy", new IntakeSetDeploy(true));
 
 		// SmartDashboard.putData("Arm Piston Retract Based on Arm Position", new
 		// ArmControl());
@@ -271,7 +268,7 @@ public class OI {
 		SmartDashboard.putData("Turn heckla small", new TurnGyro(90, Units.Degrees));
 		SmartDashboard.putData("Auto Switch Shoot", new AutoSwitchShoot());
 
-		SmartDashboard.putData("Retract Arm Pistons", new ArmPistonsRetract());
+		SmartDashboard.putData("Retract Arm Pistons", new ArmPistonRetract());
 
 		SmartDashboard.putData("DriveStraightDistanceProfile", new DriveStraightDistanceProfile(30, 0));
 
@@ -282,12 +279,18 @@ public class OI {
 		SmartDashboard.putNumber("DSDP_Speed_ips", 80);
 		SmartDashboard.putNumber("DSDP_Accel_ips2", 80);
 		SmartDashboard.putData("DSDP_Go!", new DriveStraightDistanceProfile());
-
+		
 		SmartDashboard.putData("EllipseTest", new DriveStraightDistanceEllipse(30, 10, 0));
 		SmartDashboard.putNumber("DistToTravelDSDG", 150);
 		SmartDashboard.putData(" ProfileTest", new DriveStraightDistanceEllipse(100, 1000, 0));
 
 		SmartDashboard.putData("Turn with vision", new TurnGyro());
+		SmartDashboard.putData("Turn +5", new TurnGyro(5, Units.Degrees));
+		SmartDashboard.putData("Turn +10", new TurnGyro(10, Units.Degrees));
+		SmartDashboard.putData("Turn +20", new TurnGyro(20, Units.Degrees));
+		SmartDashboard.putData("Turn -5", new TurnGyro(-5, Units.Degrees));
+		SmartDashboard.putData("Turn -10", new TurnGyro(-10, Units.Degrees));
+		SmartDashboard.putData("Turn -20", new TurnGyro(-20, Units.Degrees));
 
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
@@ -304,18 +307,18 @@ public class OI {
 		SmartDashboard.putData("Climb Preperation", new ClimbPreparation());
 		SmartDashboard.putData("Climb Sequence", new ClimbMotorSequence());
 
-		SmartDashboard.putData("Intake Cube", new LoadCubeSequence());
-		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
-		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
+//		SmartDashboard.putData("Intake Cube", new LoadCubeSequenceWithIntake());
+//		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));
+//		SmartDashboard.putData("Close Intake", new IntakeSetOpen(false));
 
-		SmartDashboard.putData("Invert Intake", new IntakeMotorsSetOpposite());
-		SmartDashboard.putData("Re-Intake Cube", new IntakeInvertAndGrab());
+//		SmartDashboard.putData("Invert Intake", new IntakeMotorsSetOpposite());
+//		SmartDashboard.putData("Re-Intake Cube", new IntakeInvertAndGrab());
 
-		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequence());
+//		SmartDashboard.putData("Intake Sequence with Arm Move", new LoadCubeSequenceWithIntake());
 
 		SmartDashboard.putBoolean("Arm Intake Interlocked", false);
 		
-		SmartDashboard.putData("Auto Spin and Intake", new AutoRotateAndIntakeDiamondCube());
+//		SmartDashboard.putData("Auto Spin and Intake", new AutoRotateAndIntakeDiamondCube());
 
 		// Camera settings are crashing the Rio kernel camera driver, so don't use
 //    	SmartDashboard.putNumber("Camera Exposure (-1 auto)" , 30);

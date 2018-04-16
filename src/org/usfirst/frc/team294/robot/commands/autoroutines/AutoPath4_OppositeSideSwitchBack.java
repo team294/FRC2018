@@ -6,7 +6,7 @@ import org.usfirst.frc.team294.robot.commands.ArmMoveWithIntake;
 import org.usfirst.frc.team294.robot.commands.ArmMoveWithPiston;
 import org.usfirst.frc.team294.robot.commands.ClawSetMotorSpeed;
 import org.usfirst.frc.team294.robot.commands.DriveStraightDistanceProfile;
-import org.usfirst.frc.team294.robot.commands.IntakeSetDeploy;
+//import org.usfirst.frc.team294.robot.commands.IntakeSetDeploy;
 import org.usfirst.frc.team294.robot.commands.TurnGyro;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
 
@@ -32,8 +32,8 @@ public class AutoPath4_OppositeSideSwitchBack extends CommandGroup {
 
 		addParallel(new ClawSetMotorSpeed(RobotMap.clawPercentDefault));
 		addSequential(new WaitCommand(0.1));
-		addParallel(new IntakeSetDeploy(true));
-		addSequential(new DriveStraightDistanceProfile(-220, 0, 100, 100));
+//		addParallel(new IntakeSetDeploy(true));
+		addSequential(new DriveStraightDistanceProfile(-220, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
 
 		/*
@@ -46,11 +46,11 @@ public class AutoPath4_OppositeSideSwitchBack extends CommandGroup {
 		 */
 
 		addParallel(new ArmMoveWithIntake());
-		addSequential(new DriveStraightDistanceProfile(-222, 90 * angleMultiplier, 100, 100));
+		addSequential(new DriveStraightDistanceProfile(-222, 90 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(65, 0));
+		addSequential(new DriveStraightDistanceProfile(65, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		addSequential(new TurnGyro(90 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new DriveStraightDistanceProfile(15, 90 * angleMultiplier)); // Touch the Switch wall
+		addSequential(new DriveStraightDistanceProfile(15, 90 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration)); // Touch the Switch wall
 		addSequential(new AutoSwitchShoot());
 
 	}

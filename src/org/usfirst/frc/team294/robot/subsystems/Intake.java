@@ -3,7 +3,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.IntakeMotorSetToZero;
+//import org.usfirst.frc.team294.robot.commands.IntakeMotorSetToZero;
 import org.usfirst.frc.team294.robot.triggers.MotorCurrentTrigger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
+/**
 public class Intake extends Subsystem {
 
 	private final Solenoid intakeOpenPiston = new Solenoid(RobotMap.pneumaticIntakePistonOpen);
@@ -57,13 +58,16 @@ public class Intake extends Subsystem {
 		cubeInIntake = false;
 	}
 
+	@Override
+	protected void initDefaultCommand() {}
+
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
 	/**
 	 * Adds current protection to the intake motor. If the intake motor trips this,
 	 * the intake will stop
-	 */
+	 *
 	public void intakeMotorsCurrentProtection() {
 		intakeMotorLeftCurrentTrigger.whenActive(new IntakeMotorSetToZero());
 		intakeMotorRightCurrentTrigger.whenActive(new IntakeMotorSetToZero());
@@ -73,7 +77,7 @@ public class Intake extends Subsystem {
 	 * Returns the state of the intake grabbers.
 	 * 
 	 * @return true = open, false = closed
-	 */
+	 *
 	public boolean isIntakeOpen() {
 		Robot.log.writeLog("Intake,isOpen?," + intakeOpenPiston.get());
 		return intakeOpenPiston.get();
@@ -84,7 +88,7 @@ public class Intake extends Subsystem {
 	 * 
 	 * @param deployed
 	 *            true = deployed, false = retracted
-	 */
+	 *
 	public void setIntakeDeploy(boolean deployed) {
 		// Track intake state in software (variable intakeState), so that we
 		// can read back the intake state change faster than the CanBus
@@ -113,7 +117,7 @@ public class Intake extends Subsystem {
 	 * 
 	 * @param open
 	 *            true = open, false = close
-	 */
+	 *
 	public void setIntakeOpen(boolean open) {
 		Robot.log.writeLogEcho("Intake,SetOpen," + (open ? "open" : "closed"));
 		intakeOpenPiston.set(open);
@@ -128,7 +132,7 @@ public class Intake extends Subsystem {
 	/**
 	 * Doesn't work, don't use?
 	 * @return
-	 */
+	 *
 	public boolean isCubeInIntake() {
 		return cubeInIntake;
 	}
@@ -136,7 +140,7 @@ public class Intake extends Subsystem {
 	/**
 	 * Returns true if intake motor is decreasing by more than 1 amp from last call to this method.
 	 * @return
-	 */
+	 *
 	public boolean isCurrentDecreasing() {
 		motorCurrent = intakeMotorLeft.getOutputCurrent();
 		Robot.log.writeLog("Intake,isCurrentDecreasing?,current," + motorCurrent + ",decreasing," + ((motorCurrent-lastMotorCurrent)<-1));
@@ -173,7 +177,7 @@ public class Intake extends Subsystem {
 	 * 
 	 * @param percent
 	 *            -1 (out) to 1 (in)
-	 */
+	 *
 	public void setIntakeMotorPercent(double percent) {
 		intakeMotorLeft.set(ControlMode.PercentOutput, percent);
 		intakeMotorRight.set(ControlMode.PercentOutput, percent);
@@ -183,7 +187,7 @@ public class Intake extends Subsystem {
 		System.out.println("Right Intake motor " + intakeMotorRight.getDeviceID() + " set to percent " + percent
 				+ ", output " + intakeMotorRight.getMotorOutputVoltage() + " V," + intakeMotorRight.getOutputCurrent()
 				+ " A, Bus at " + intakeMotorRight.getBusVoltage() + " V");
-**/		SmartDashboard.putNumber("Left Intake Motor Percent:", percent);
+**		SmartDashboard.putNumber("Left Intake Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Intake Motor Percent:", percent);
 		
 		Robot.log.writeLogEcho("Intake,setMotorPercent," + percent);
@@ -192,7 +196,7 @@ public class Intake extends Subsystem {
 	/**
 	 * Sets the intake motors to opposite directions
 	 * @param percentPower -1.0 (right out, left in) to +1.0 (right in, left out)
-	 */
+	 *
 	public void setIntakeMotorPercentOpposite(double percentPower) {
 		intakeMotorLeft.set(ControlMode.PercentOutput, -percentPower);
 		intakeMotorRight.set(ControlMode.PercentOutput, percentPower);
@@ -203,7 +207,7 @@ public class Intake extends Subsystem {
 	/**
 	 * Reads the Talon speed of the left intake motor
 	 * @return -1 to +1, percent power
-	 */
+	 *
 	public double getIntakeMotorPercent() {
 		return intakeMotorLeft.getMotorOutputPercent();
 	}
@@ -212,7 +216,7 @@ public class Intake extends Subsystem {
 	 * closes the intake jaws if the photo switch is triggered
 	 * 
 	 * @return true once claw is closed, false otherwise
-	 */
+	 *
 	public boolean smartCloseIntake() {
 		// if object is detected with photoSwitch, close the intake
 		if (photoSwitch.get()) {
@@ -224,7 +228,7 @@ public class Intake extends Subsystem {
 
 	/**
 	 * stops the intake motors
-	 */
+	 *
 	public void stop() {
 		setIntakeMotorPercent(0.0);
 	}
@@ -233,7 +237,7 @@ public class Intake extends Subsystem {
 	 * Reads the value of the photo switch
 	 * 
 	 * @return true = object is breaking the photo beam
-	 */
+	 *
 	public boolean getPhotoSwitch() {
 		return photoSwitch.get();
 	}
@@ -242,7 +246,7 @@ public class Intake extends Subsystem {
 	 * Gets the state of the intake
 	 * 
 	 * @return true = deployed, false = retracted or unknown state
-	 */
+	 *
 	public boolean isIntakeDeployed() {
 		Robot.log.writeLog("Intake,isDeployed?," + (intakeState == DoubleSolenoid.Value.kForward));
 		return intakeState == DoubleSolenoid.Value.kForward;
@@ -263,14 +267,6 @@ public class Intake extends Subsystem {
 		}
 	}
 
-	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
-		// sets both intake motors to -50 by default,
-		// will run at this speed until ToggleIntake
-		// or another command shuts them off or changes speed.
-	}
-
 	public void updateIntakeLog() {
 		Robot.log.writeLog("Intake Motor Left Output Voltage," + intakeMotorLeft.getMotorOutputVoltage()
 				+ ",Intake Motor Left Output Current," + intakeMotorLeft.getOutputCurrent()
@@ -282,3 +278,4 @@ public class Intake extends Subsystem {
 				+ ",Intake PhotoSwitchTriggered," + Robot.intake.isCubeInIntake());
 	}
 }
+**/

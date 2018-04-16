@@ -1,32 +1,35 @@
 package org.usfirst.frc.team294.robot.commands;
 
-import org.usfirst.frc.team294.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
 
+import org.usfirst.frc.team294.robot.Robot;
 /**
  *
  */
-public class ToggleIntakeOpen extends Command {
+public class OverrideSensor extends Command {
+	public static enum Sensors{
+		Bump,
+		ArmPiston,	
+	}
 
-    public ToggleIntakeOpen() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.intake);
+	private Sensors sensor;
+	
+    public OverrideSensor(Sensors sensor) {
+    	this.sensor = sensor;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if(Robot.intake.isIntakeOpen()) 
-    	{
-    		Robot.intake.setIntakeOpen(false);
+    	switch(sensor) {
+    	case Bump:
+    		Robot.claw.overrideBumpSwitch();
+    		break;
+    	case ArmPiston:
+    		Robot.armPiston.overrideArmSensor();
+    		break;
     	}
-    	
-    	else 
-    	{
-    		Robot.intake.setIntakeOpen(true);
-    	}
-    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -40,12 +43,10 @@ public class ToggleIntakeOpen extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	
     }
 }

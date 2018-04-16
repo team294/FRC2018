@@ -16,20 +16,20 @@ public class RobotMap {
 	public static final int armMotor2 = 31;
 	public static final int clawMotorLeft = 40;
 	public static final int clawMotorRight = 41;
-	public static final int intakeMotorLeft = 51;
-	public static final int intakeMotorRight = 50;
+//	public static final int intakeMotorLeft = 51;
+//	public static final int intakeMotorRight = 50;
 	public static final int climbMotor1 = 60;
 	public static final int climbMotor2 = 61;
 
 	// Pneumatic addresses
 	public static final int pnuematicShifter = 0;
-	public static final int pneumaticIntakePistonDeploy = 1;
-	public static final int pneumaticIntakePistonOpen = 2;
+	public static final int pneumaticArmPistonMajorIn2 = 1;
+//	public static final int pneumaticIntakePistonOpen = 2;
 	public static final int pneumaticClawPistonOut = 3;
 	public static final int pneumaticArmPistonMajorIn = 4;
 	public static final int pneumaticArmPistonMajorOut = 5;
 	public static final int pneumaticClimbPistonRetract = 6;
-	public static final int pneumaticIntakePistonStow = 7;
+	public static final int pneumaticArmPistonMajorOut2 = 7;
 
 	// RoboRIO digital I/O addresses
 	public static int photoSwitchIntake = 2;
@@ -51,7 +51,7 @@ public class RobotMap {
 
 	// claw motor speeds
 	public static double clawPercentDefault = -0.35; // Constant intake speed to prevent cube from dropping out of claw
-	public static double clawPercentIn = -0.7; // need to be tested
+	public static double clawPercentIn = -1; // need to be tested
 	public static double clawPercentInFully = -1.0; // Used to make sure cube is in claw TODO check if necessary
 	public static double clawPercentOut = 0.3; // Slow speed for outtake
 	public static double clawPercentLetGo = 0.5; // Speed to help drop cube
@@ -63,26 +63,30 @@ public class RobotMap {
 	public static double climbHoldRobot = -0.3;
 	public static double climbLowerRobot = 0.2;
 
+	// drive train variables for motion profile
+	public static double maxSpeed = 120;  // was 180
+	public static double maxAcceleration = 100;  // was 120
+	
 	// Arm angle thresholds
 //	public static double lowThreshold; // Low threshold for ground pickup  Not Used?
 //	public static double highThreshold; // High threshold for scoring
 
 	// Arm Scoring Angles - NEED TO BE UPDATED WITH TESTING
-	public static double armIntakePos = -50.0;   // Was -53
+	public static double armIntakePos = -39.0;   // Was -53
 	public static double armSwitchPosHigh = 5.0;
 	public static double armSwitchPosLow = -5.0;
 	public static double armScaleLowPos = 60.0;
 	public static double armScaleBackwardsPos = 110.0;
 	public static double armClimbPos = 87.0;
-
+	public static double armStartPosition = -53;
 	// Arm interlocking angle
 	public static double armIntakeClearanceAng = -18.0;
-
+	public static double armPortalIntakePos = -15;
 	// Arm angle constants
 	public static double degreesPerTicks = 360.0 / 4096.0;
 
 	public enum ArmPositions {
-		Intake(armIntakePos), Switch(armSwitchPosHigh), ScaleLow(armScaleLowPos), ScaleHigh(armScaleBackwardsPos);
+		Intake(armIntakePos), Switch(armSwitchPosLow), ScaleLow(armScaleLowPos), ScaleHigh(armScaleBackwardsPos), StartPosition(armStartPosition), PortalIntake(armPortalIntakePos);
 
 		private double angle;
 
@@ -117,13 +121,14 @@ public class RobotMap {
 
 	// Arm angle zone boundaries THESE ARE NUMBERS JUST FOR TEST ON PROTO ARM
 	public static double minAngle = -53; // arm cannot extend downward past this angle
-	public static double lowerBound = -35; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
+	public static double groundBound = -42;  // long piston cannot extend past this angle because it would hit the ground
+	public static double lowerBound = -28; // piston1 can be extended between Ang0 and Ang1, cube picked up below Ang1
 	public static double middleBound = 35; // arm cannot extend between Ang1 and Ang2
 	public static double upperBound = 113; // both pistons can be extended between Ang2 and Ang 3
 	public static double maxAngle = 130; // arm cannot extend upward past this angle
 
 	public enum ArmZones {
-		Low, Middle, High, Backwards
+		Ground, Low, Middle, High, Backwards
 	}
 
 	// arm angles where claw pistons cannot be opened
@@ -137,6 +142,8 @@ public class RobotMap {
 	 * @return RobotMap.ArmZones
 	 */
 	public static ArmZones getArmZone(double angle) {
+		if (angle <= groundBound)
+			return ArmZones.Ground;
 		if (angle < lowerBound)
 			return ArmZones.Low;
 		if (angle >= upperBound)

@@ -38,7 +38,7 @@ public class ArmPistonSmartRetract extends Command {
 		this.retract = false;
 		ArmZones currentZone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		ArmZones destZone = RobotMap.getArmZone(destAngle);
-		if (destZone == ArmZones.Middle || destZone == ArmZones.Backwards
+		if (destZone == ArmZones.Middle || destZone == ArmZones.Backwards || destZone == ArmZones.Ground
 				|| (currentZone == ArmZones.Low && destZone == ArmZones.High)
 				|| (currentZone == ArmZones.High && destZone == ArmZones.Low) || !pistonFinal) {
 			// If arm is in the middle or backwards zone set pistons to retracted

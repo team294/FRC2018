@@ -13,14 +13,14 @@ public class StopIntakeAndClawAndClimb extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.claw);
-    	requires(Robot.intake);
+//    	requires(Robot.intake);
     	requires(Robot.climb);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.claw.stop();
-    	Robot.intake.stop();
+//    	Robot.intake.stop();
     	Robot.climb.setClimbMotors(0);
     }
 

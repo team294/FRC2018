@@ -19,8 +19,8 @@ public class LoadCubeWithIntakeOpenTeleop extends CommandGroup {
     	/* These commands are all individual because we want them to finish before we continue on to moving anything else, to avoid impacts */
     	
 
-    	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
-    	addSequential(new IntakeSetOpen(true)); // Close the claw while moving the arm
+ //   	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
+//    	addSequential(new IntakeSetOpen(true)); // Close the claw while moving the arm
     	addSequential(new ConditionalCommand(new ClawSetOpen(false)){
     		protected boolean condition(){
     			return (Robot.armMotor.getArmDegrees()>-45); 
@@ -34,7 +34,7 @@ public class LoadCubeWithIntakeOpenTeleop extends CommandGroup {
 
     	//    		TODO add checker to see if the intake is deployed and open before intaking can occur
     	addSequential(new WaitCommand(0.3));		// Was 0.75 sec
-    	addParallel(new IntakeCube(false)); // Open intake claw and start intaking, close when the photoswitch is triggered
+ //   	addParallel(new IntakeCube(false)); // Open intake claw and start intaking, close when the photoswitch is triggered
     	addSequential(new ArmIntakeCube()); // Simultaneously, open the arm claw and begin intaking. Exit when bumpswitch triggered, then lower claw speed to hold cube
 	}
 }
