@@ -6,6 +6,8 @@ import org.usfirst.frc.team294.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Compressor;
+
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,6 +25,7 @@ public class Climb extends Subsystem {
 	private final TalonSRX climbMotor1 = new TalonSRX(RobotMap.climbMotor1);
 	private final TalonSRX climbMotor2 = new TalonSRX(RobotMap.climbMotor2);
 	private final Solenoid climbPiston = new Solenoid(RobotMap.pneumaticClimbPistonRetract);
+	private final Compressor compressor = new Compressor(0);
 
 	public Climb() {
 		// Configure talons
@@ -55,6 +58,7 @@ public class Climb extends Subsystem {
 	 * @param percentPower -1 (climb) to +1 (fall)
 	 */
 	public void setClimbMotors(double percentPower) {
+		compressor.setClosedLoopControl(false);		// added to reduce brownout likelihood
 		climbMotor2.set(ControlMode.PercentOutput, percentPower);
 		Robot.log.writeLogEcho("Climb motor,percent power," + percentPower);
 	}

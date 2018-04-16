@@ -5,6 +5,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 // import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -31,6 +32,8 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Climb climb;
 	public static PressureSensor pressureSensor;
+	public static Compressor compressor;
+	
 
 	public static LEDSet mainLEDs;
 	
@@ -65,7 +68,8 @@ public class Robot extends TimedRobot {
 		// Set variable that the robot has not been enabled
 		beforeFirstEnable = true;
 
-		// Create Vision and LED objects before subsystems
+		// Create Compressor, Vision and LED objects before subsystems
+		
 		visionData = new VisionData();
 		mainLEDs = new LEDSet(RobotMap.LEDMain);
 		
@@ -78,13 +82,15 @@ public class Robot extends TimedRobot {
 		climb = new Climb();
 //		intake = new Intake();
 		pressureSensor = new PressureSensor();
+		compressor = new Compressor(0);
 		Robot.armPiston.overrideArm = false;
 		// armMotor.armMotorsCurrentProtection(); needs to be tested
 //		intake.intakeMotorsCurrentProtection();
 		claw.clawMotorsCurrentProtection();
 		
 		// Reset single-sided solenoid to default state, so solenoid doesn't move when we download new code
-		climb.deployClimbPiston(false);		
+		climb.deployClimbPiston(false);	
+		compressor.setClosedLoopControl(true);
 
 		// Create auto selection utility
 		autoSelection = new AutoSelection();
