@@ -90,6 +90,8 @@ public class AutoPath5_SwitchFromMiddle extends CommandGroup {
 
 		addSequential(new DriveStraightDistanceProfile (-8, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));
 		addParallel(new TurnGyro (-90 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new LoadCubeSequence());
+//		addSequential(new LoadCubeSequence());
+		addSequential(new ArmMoveWithPiston(RobotMap.armStartPosition, false));//true)); // enforce the arm being up before shooting
+
 	}
 }
