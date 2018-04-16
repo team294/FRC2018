@@ -43,32 +43,17 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		addSequential(new CubeShootOut(1.0));  // Was 0.66
 		
 		// Load 2nd cube
-//		addParallel(new LoadCubeSequence());
 		addParallel(new LoadCubeSequence(ArmPositions.Intake, PistonPositions.Extended, false));
 		addSequential(new TurnGyro(-12 * angleMultiplier, TurnGyro.Units.Degrees));
-//		addSequential(new WaitCommand(1.5));
-		addSequential(new DriveStraightDistanceProfile(54, -12 * angleMultiplier, 35, 70));
-		
-//		addSequential(new DriveStraightDistanceProfile(15, 0 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));  // Was 20in, reduced to avoid hitting cubes when turning
-//		addSequential(new TurnGyro(-75 * angleMultiplier, TurnGyro.Units.Degrees));  
-//		addSequential(new WaitCommand(.5));
-		//addSequential(new TurnGyro());
-		//addParallel(new IntakeCube());
-//		addSequential(new DriveStraightDistanceProfile(22, -75 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));   // was 34, -75, 100, 80.  Shortened 12 in due to Match 35
-//		addSequential(new TurnGyro(0 * angleMultiplier, TurnGyro.Units.Degrees));
-		
-		// Turn towards closest cube using vision, if vision is working and we see a cube (otherwise do nothing and continue sequence)
-		// Commented out, since RPi was removed from robot
-		// IMPORTANT: If you use vision, then change the angle of the next DriveStraight = 9999 (use current heading)
-//		addSequential(new TurnGyro());
 
-		// Final movement foward to grab 2nd cube
-//		addSequential(new DriveStraightDistanceProfile(20, 0, RobotMap.maxSpeed, RobotMap.maxAcceleration));   // Was 15 in
-//		addSequential(new WaitCommand(.75));
+		
+		// Drive absolute angle (don't use vision)
+//		addSequential(new DriveStraightDistanceProfile(54, -12 * angleMultiplier, 35, 70));
+		
+		// Drive using vision
+		addSequential(new TurnGyro());		// turn using vision camera
+		addSequential(new DriveStraightDistanceProfile(54, 9999, 35, 70));  // Drive straight with the direction from vision (angle  = 9999)
 
-		// If we have the cube in the intake in diamond shape (not in claw), then try rotating the cube
-//		addSequential(new AutoRotateAndIntakeDiamondCube());
-    	
 		// If we have the cube in the claw, then go back to scale and score
     	addSequential(new ConditionalCommand(new AutoPath1_part2_Score2ndCube(startPosition)) {
 			protected boolean condition() {
