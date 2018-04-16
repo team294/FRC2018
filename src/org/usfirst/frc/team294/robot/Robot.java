@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
 		climb = new Climb();
 //		intake = new Intake();
 		pressureSensor = new PressureSensor();
-
+		Robot.armPiston.overrideArm = false;
 		// armMotor.armMotorsCurrentProtection(); needs to be tested
 //		intake.intakeMotorsCurrentProtection();
 		claw.clawMotorsCurrentProtection();
