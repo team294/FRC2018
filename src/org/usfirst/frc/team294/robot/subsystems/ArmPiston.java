@@ -50,6 +50,14 @@ public class ArmPiston extends Subsystem {
 	public void overrideArmSensor() {
 		overrideArm = true;
 	}
+	
+	/**
+	 * 
+	 * @return true if arm piston sensor is being overridden
+	 */
+	public boolean getOverride() {
+		return overrideArm;
+	}
 /*	private boolean getMajorExt() {
 		return !majorLimitExtend.get();
 	}
