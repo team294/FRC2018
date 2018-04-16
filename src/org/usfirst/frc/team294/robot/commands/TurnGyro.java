@@ -101,7 +101,7 @@ public class TurnGyro extends Command {
 		derivativeError = (angleError - prevAngleError) / dt;
 		angleSpeedControl = angleError * kPdist + integratedError * kIdist + derivativeError * kDdist;
 		// Robot.driveTrain.tankDrive(-percentSpeed, percentSpeed);
-		angleSpeedControl = angleSpeedControl < .6 && angleSpeedControl > 0 ? .6 : angleSpeedControl;
+		angleSpeedControl = angleSpeedControl < .6 && angleSpeedControl > 0 ? .6 : angleSpeedControl;   //  It takes a lot of power to turn in place on carpet
 		angleSpeedControl = angleSpeedControl > -.6 && angleSpeedControl < 0 ? -.6 : angleSpeedControl;
 		Robot.driveTrain.tankDrive(angleSpeedControl, -angleSpeedControl);
 		velCheck.addValue(currAngle - prevAngle);
@@ -116,14 +116,14 @@ public class TurnGyro extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		// return velCheck.getAverage() < 1 || Math.abs(angleError) <= 1;
-		return Math.abs(velCheck.getAverage()) < 0.1;  
+		return (velCheck.getAverage() < 0.1 || Math.abs(angleError) <= 1);
+		//return Math.abs(velCheck.getAverage()) < 0.1;  
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.log.writeLogEcho(
-				"Turn Gyro,ended,average," + velCheck.getAverage() + ",distErr," + angleError);
+				"Turn Gyro,ended,average," + velCheck.getAverage() + ",angleErr," + angleError);
 		Robot.driveTrain.tankDrive(0, 0);
 	}
 
