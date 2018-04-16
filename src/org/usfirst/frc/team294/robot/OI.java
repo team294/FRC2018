@@ -279,12 +279,18 @@ public class OI {
 		SmartDashboard.putNumber("DSDP_Speed_ips", 80);
 		SmartDashboard.putNumber("DSDP_Accel_ips2", 80);
 		SmartDashboard.putData("DSDP_Go!", new DriveStraightDistanceProfile());
-
+		
 		SmartDashboard.putData("EllipseTest", new DriveStraightDistanceEllipse(30, 10, 0));
 		SmartDashboard.putNumber("DistToTravelDSDG", 150);
 		SmartDashboard.putData(" ProfileTest", new DriveStraightDistanceEllipse(100, 1000, 0));
 
 		SmartDashboard.putData("Turn with vision", new TurnGyro());
+		SmartDashboard.putData("Turn +5", new TurnGyro(5, Units.Degrees));
+		SmartDashboard.putData("Turn +10", new TurnGyro(10, Units.Degrees));
+		SmartDashboard.putData("Turn +20", new TurnGyro(20, Units.Degrees));
+		SmartDashboard.putData("Turn -5", new TurnGyro(-5, Units.Degrees));
+		SmartDashboard.putData("Turn -10", new TurnGyro(-10, Units.Degrees));
+		SmartDashboard.putData("Turn -20", new TurnGyro(-20, Units.Degrees));
 
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
