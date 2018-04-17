@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Climb climb;
 	public static PressureSensor pressureSensor;
-	public static Compressor compressor;
+//	public static Compressor compressor;
 	
 
 	public static LEDSet mainLEDs;
@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
 		climb = new Climb();
 //		intake = new Intake();
 		pressureSensor = new PressureSensor();
-		compressor = new Compressor(0);
+//		compressor = new Compressor(0);
 		Robot.armPiston.overrideArm = false;
 		// armMotor.armMotorsCurrentProtection(); needs to be tested
 //		intake.intakeMotorsCurrentProtection();
@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
 		
 		// Reset single-sided solenoid to default state, so solenoid doesn't move when we download new code
 		climb.deployClimbPiston(false);	
-		compressor.setClosedLoopControl(true);
+	//	compressor.setClosedLoopControl(true);
 
 		// Create auto selection utility
 		autoSelection = new AutoSelection();

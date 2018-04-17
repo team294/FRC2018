@@ -116,14 +116,14 @@ public class TurnGyro extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (velCheck.getAverage() < 0.1 || Math.abs(angleError) <= 1);
+		return (velCheck.getAverage() < 0.1 || Math.abs(angleError) <= 1);	// Stop on either velocity or angle error
 		//return Math.abs(velCheck.getAverage()) < 0.1;  
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.log.writeLogEcho(
-				"Turn Gyro,ended,average," + velCheck.getAverage() + ",angleErr," + angleError);
+				"Turn Gyro,ended,average," + velCheck.getAverage() + ",angleError," + angleError);
 		Robot.driveTrain.tankDrive(0, 0);
 	}
 
