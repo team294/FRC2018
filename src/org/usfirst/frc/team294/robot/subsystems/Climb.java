@@ -25,7 +25,7 @@ public class Climb extends Subsystem {
 	private final TalonSRX climbMotor1 = new TalonSRX(RobotMap.climbMotor1);
 	private final TalonSRX climbMotor2 = new TalonSRX(RobotMap.climbMotor2);
 	private final Solenoid climbPiston = new Solenoid(RobotMap.pneumaticClimbPistonRetract);
-//	private final Compressor compressor = new Compressor(0);
+	private final Compressor compressor = new Compressor(0);
 
 	public Climb() {
 		// Configure talons
@@ -48,6 +48,7 @@ public class Climb extends Subsystem {
 		//Commented out for practice because there is no match time
 		//if (DriverStation.getInstance().getMatchTime() <= 30) {
 		climbPiston.set(deploy);
+		Robot.claw.stop();		// stop claw motors
 		Robot.log.writeLogEcho("Climb hook,deploy," + deploy);
 //		}
 	}
@@ -58,7 +59,7 @@ public class Climb extends Subsystem {
 	 * @param percentPower -1 (climb) to +1 (fall)
 	 */
 	public void setClimbMotors(double percentPower) {
-//		compressor.setClosedLoopControl(false);		// Turn off compressor to reduce brownout likelihood
+		compressor.setClosedLoopControl(false);		// Turn off compressor to reduce brownout likelihood
 		climbMotor2.set(ControlMode.PercentOutput, percentPower);
 		Robot.log.writeLogEcho("Climb motor,percent power," + percentPower);
 	}
