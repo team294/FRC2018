@@ -162,6 +162,8 @@ public class Robot extends TimedRobot {
 		driveTrain.zeroRightEncoder();
 		driveTrain.zeroGyroRotation();
 
+		climb.enableCompressor(true);
+		
 		// schedule the autonomous command
 		if (autoSelection.autonomousCommand != null) {
 			Command shiftLow = new Shift(false);
@@ -190,10 +192,13 @@ public class Robot extends TimedRobot {
 		if (autoSelection.autonomousCommand != null) {
 			autoSelection.autonomousCommand.cancel();
 		}
+
 		driveTrain.zeroGyroRotation(); // TODO remove later
 		driveTrain.setFieldPositionX(0); // TODO remove later
 		driveTrain.setFieldPositionY(0); // TODO remove later
 
+		climb.enableCompressor(true);
+		
 		log.writeLogEcho("Teleop mode started.");
 		
 		// Set variable that the robot has been enabled

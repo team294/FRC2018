@@ -43,6 +43,7 @@ public class DriveStraightDistanceProfile extends Command {
 	private double kDangle = .1;
 	private final VelocityChecker velCheck = new VelocityChecker(0.3); // 0.4
 
+	private boolean useVisionForAngle = false;
 	private double curve;
 	private double minSpeed = .1;
 	private double angleBase;
@@ -74,10 +75,11 @@ public class DriveStraightDistanceProfile extends Command {
 	 * @param distanceTravel
 	 *            Distance to travel, in inches
 	 * @param angleBase
-	 *            Absolute angle for direction of travel, in degrees. 0 = away from
-	 *            drivers, -90 = left (relative to drive stations), +90 = right
+	 *            Absolute angle for direction of travel, in degrees. 
+	 *            <li> 0 = away from drivers, -90 = left (relative to drive stations), +90 = right
 	 *            (relative to drive stations)
-	 *            ***Special Case*** 9999 = go straight using current robot heading
+	 *            <li>***Special Case #1*** 9999 = go straight using current robot heading
+	 *            <li>***Special Case #1*** 9998 = go towards cube using vision camera
 	 * @param MPSpeed
 	 *            Speed, in in/sec
 	 * @param MPAccel
@@ -121,6 +123,9 @@ public class DriveStraightDistanceProfile extends Command {
 			angleBase = Robot.driveTrain.getGyroRotation();
 		}
 
+		// Special case:  If angle = 9998, then drive using vision towards cube
+		useVisionForAngle = (angleBase==9998);
+		
 		Robot.log.writeLogEcho("DriveStraightdistanceProfile,started,distance inches," + 
 				targetDistance + ",angle," + angleBase + ",speed," + MPSpeed + ",accel," + MPAccel);
 
@@ -171,6 +176,11 @@ public class DriveStraightDistanceProfile extends Command {
 				distSpeedControl = (distSpeedControl > -minSpeed) ? -minSpeed : distSpeedControl;
 			}
 
+			// If using vision to drive towards cube, then dynamically set angleBase (dest angle)
+			if (useVisionForAngle) {
+				angleBase = Robot.driveTrain.getGyroRotation() + Robot.visionData.getCubeAngleRelative();
+			}
+			
 			currentAngle = Robot.driveTrain.getGyroRotation();
 			angleErr = angleBase - currentAngle;
 			angleErr = (angleErr > 180) ? angleErr - 360 : angleErr;

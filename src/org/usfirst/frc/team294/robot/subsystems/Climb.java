@@ -38,8 +38,19 @@ public class Climb extends Subsystem {
 		climbMotor1.enableVoltageCompensation(true);
 		climbMotor1.configVoltageCompSaturation(11.0, 0);
 		climbMotor1.set(ControlMode.Follower, RobotMap.climbMotor2);
+		
+		enableCompressor(true);
 	}
 
+	/**
+	 * Enables or disables the compressor.
+	 * @param turnOn true = turn on compressor when pressure drops.
+	 *    false = keep compressor off (to prevent brownouts).
+	 */
+	public void enableCompressor(boolean turnOn) {
+		compressor.setClosedLoopControl(turnOn);
+	}
+	
 	/**
 	 * Deploys Climb Piston, but only in the last 30 seconds of the match
 	 * @param deploy true = deploy, false = retract
@@ -59,7 +70,9 @@ public class Climb extends Subsystem {
 	 * @param percentPower -1 (climb) to +1 (fall)
 	 */
 	public void setClimbMotors(double percentPower) {
-		compressor.setClosedLoopControl(false);		// Turn off compressor to reduce brownout likelihood
+		// If running climb motor, turn off compressor to reduce brownout likelihood
+		compressor.setClosedLoopControl(percentPower==0);		
+
 		climbMotor2.set(ControlMode.PercentOutput, percentPower);
 		Robot.log.writeLogEcho("Climb motor,percent power," + percentPower);
 	}

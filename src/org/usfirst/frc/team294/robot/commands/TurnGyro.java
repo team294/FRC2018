@@ -67,18 +67,7 @@ public class TurnGyro extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		if (useVisionForAngle) {
-			double RPiX; // the x coordinate in pixels for the center of the conuntour
-			double distanceFromCenter;// tells the distance from the center of the screen
-			double amountTurnUsingPixels;// tells how much to turn the gyro based on Vision pixels
-			Robot.visionData.readCameraData();
-			RPiX = Robot.visionData.RPiX; // * Get X location of cube.
-			if (RPiX == -1 || (RPiX >= 310 && RPiX <= 330)) {
-				amountTurn = Robot.driveTrain.getGyroRotation();
-			} else {
-				distanceFromCenter = RPiX - 320;
-				amountTurnUsingPixels = Math.atan(distanceFromCenter / (752) ) * (180 / Math.PI);   // Nom dist was 470
-				amountTurn = Robot.driveTrain.getGyroRotation() + amountTurnUsingPixels;
-			}
+			amountTurn = Robot.driveTrain.getGyroRotation() + Robot.visionData.getCubeAngleRelative();
 		}
 		prevAngleError = 0;
 		prevAngle = Robot.driveTrain.getGyroRotation();
