@@ -3,38 +3,43 @@ package org.usfirst.frc.team294.robot.commands;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
+import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
+import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 
-/**
- * Sequence to load cube from intake to arm and reverse intake motors.
- * Load with intake closed.
- */
+
 public class LoadCubeSequence extends CommandGroup {
+	
+/**
+ * Sequence to load cube with the claw.
+ * @param armPosition Arm position to intake with
+ * @param pistonPosition Arm extension staet to intake with (intake with arm extended, or retracted?)
+ * @param armMoveToSafety If true, move arm to "safe -53 degree position to protect arm. This s
+ */
+    public LoadCubeSequence(ArmPositions armPosition, PistonPositions pistonPosition, boolean armMoveToSafety) {
 
+    	addSequential(new ArmMoveWithPiston(armPosition, pistonPosition));
+    	if(pistonPosition == PistonPositions.Extended) {
+    	  	addSequential(new ArmPistonSmartExtend());
+    	    
+    	}
+    	addSequential(new ArmIntakeCube()); 
+    	addSequential(new ArmPistonRetract(true));
+    	//if the arm is being 
+    	if(armMoveToSafety && Robot.armPiston.getOverride()) {
+    		// TODO: Put this back in when the arm retract sensor is fixed.
+//    	  	addSequential(new ArmMoveWithPiston(-53, false));  		
+    	}
+   	}
+    
+    /**
+     * Sequence to load cube with the claw. If no parameter is passed, arm will load at intake position, retract and then move to the "safe" angle (-53 degrees)
+     */
     public LoadCubeSequence() {
-
-    	/* These commands are all individual because we want them to finish before we continue on to moving anything else, to avoid impacts */
-    	
-
-    	addSequential(new IntakeSetDeploy(true)); // Deploy the intake first, before anything else
-    	addSequential(new IntakeSetOpen(false));// Close the intake while moving the arm
-    	addSequential(new ConditionalCommand(new ClawSetOpen(false)){
-    		protected boolean condition(){
-    			return (Robot.armMotor.getArmDegrees()>-45); 
-    		}
-    		// Move the arm to the intake position
-    	});
-    	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos, false)); // Close the claw while moving the arm
-    	
-    	// TODO Commented out the Wait command.  If intake is closed, we shouldn't need to wait.
-    	//addSequential(new WaitCommand(.75));
-    	addParallel(new IntakeCube()); // Open intake claw and start intaking, close when the photoswitch is triggered
-    	addSequential(new ArmIntakeCube()); // Simultaneously, open the arm claw and being intaking. Exit when bumpswitch triggered, then lower claw speed to hold cube
-    	addSequential(new WaitCommand(0.5));
-    	addSequential(new IntakeSetSpeed(RobotMap.intakePercentOut)); // Start outtaking so we don't get a penalty
-	}
+    	this(ArmPositions.Intake, PistonPositions.Extended, true);
+    }
 }

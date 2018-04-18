@@ -13,15 +13,16 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ArmMoveToEdge extends Command {
 	private double destAngle;
-	//private double currentAngle;
+	// private double currentAngle;
 	private ArmZones currZone;
 	public ToleranceChecker tolcheck;
-	
+
 	/**
-	 * Moves arm to the edge of the current zone, towards destAngle.
-	 * Use this to start the arm moving while waiting for a piston
-	 * to retract.
-	 * @param destAngle in degrees
+	 * Moves arm to the edge of the current zone, towards destAngle. Use this to
+	 * start the arm moving while waiting for a piston to retract.
+	 * 
+	 * @param destAngle
+	 *            in degrees
 	 */
 	public ArmMoveToEdge(double destAngle) {
 		// Use requires() here to declare subsystem dependencies
@@ -34,45 +35,39 @@ public class ArmMoveToEdge extends Command {
 	protected void initialize() {
 		currZone = RobotMap.getArmZone(Robot.armMotor.getArmDegrees());
 		switch (currZone) {
+		case Ground:
+			break;
 		case Low:
 			if (destAngle >= RobotMap.lowerBound) {
 				// We are moving from Low zone to another zone, so move to edge of Low zone
-				Robot.armMotor.startPID(RobotMap.lowerBound);
+				destAngle = RobotMap.lowerBound;
+			} else if (destAngle <= RobotMap.groundBound) {
+				destAngle = RobotMap.groundBound;
 			} else {
 				// We aren't leaving Low zone, so just go to destAngle
-				Robot.armMotor.startPID(destAngle);
 			}
 			break;
 		case High:
 			if (destAngle >= RobotMap.upperBound) {
-				// We are moving from High zone to Backward zone, so move to high edge of High zone
-				Robot.armMotor.startPID(RobotMap.upperBound);
+				// We are moving from High zone to Backward zone, so move to high edge of High
+				// zone
+				destAngle = RobotMap.upperBound;
 			} else if (destAngle <= RobotMap.middleBound) {
-				// We are moving from High zone to a lower zone, so move to low edge of High zone
-				Robot.armMotor.startPID(RobotMap.middleBound); 
+				// We are moving from High zone to a lower zone, so move to low edge of High
+				// zone
+				destAngle = RobotMap.middleBound;
 			} else {
-				// We aren't leaving High zone, so just go to destAngle				
-				Robot.armMotor.startPID(destAngle);
+				// We aren't leaving High zone, so just go to destAngle
 			}
 			break;
 		case Backwards:
-			// We are in Middle or Backwards zone, so just go to the dest angle				
-			if (RobotMap.getArmZone(destAngle).equals(ArmZones.Backwards) || RobotMap.getArmZone(destAngle).equals(ArmZones.High)) {
-				Robot.armMotor.startPID(destAngle);
-			} else {
-				Robot.armMotor.startPID(RobotMap.middleBound);
-			}
+			// We are in Backwards zone, so just go to the dest angle
 			break;
 		case Middle:
-			// We are in Middle Zone 
-			if (!(RobotMap.getArmZone(destAngle) == ArmZones.Backwards)) {
-				Robot.armMotor.startPID(destAngle);
-			} else {
-				Robot.armMotor.startPID(RobotMap.upperBound);
-			}
+			// We are in Middle zone, so just go to the dest angle
 			break;
-		}	
-		
+		}
+
 		// Move to the new destAngle (edge of zone)
 		Robot.armMotor.startPID(destAngle);
 	}
@@ -84,7 +79,7 @@ public class ArmMoveToEdge extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (Math.abs( Robot.armMotor.getArmDegrees() - destAngle) <4);
+		return (Math.abs(Robot.armMotor.getArmDegrees() - destAngle) < 4);
 	}
 
 	// Called once after isFinished returns true

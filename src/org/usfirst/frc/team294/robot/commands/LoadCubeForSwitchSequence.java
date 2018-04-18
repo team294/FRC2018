@@ -15,10 +15,10 @@ public class LoadCubeForSwitchSequence extends CommandGroup {
     public LoadCubeForSwitchSequence() {
 
     	addSequential(new ClawSetOpen(false));
-    	addSequential(new IntakeSetOpen(true));
+ //   	addSequential(new IntakeSetOpen(true));
     	addSequential(new WaitCommand(.75));
-    	addSequential(new IntakeCube());
+ //   	addSequential(new IntakeCube());
     	addSequential(new WaitCommand(0.3));
-    	addSequential(new IntakeMotorSetToZero());
+  //  	addSequential(new IntakeMotorSetToZero());
     }
 }

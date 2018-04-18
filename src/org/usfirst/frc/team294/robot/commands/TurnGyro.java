@@ -21,7 +21,7 @@ public class TurnGyro extends Command {
 	private double prevAngle, currAngle;
 	private static final double dt = .02;
 	private final VelocityChecker velCheck = new VelocityChecker(0.2);  // was 0.8 
-	private final double kPdist = 0.045, // Proportional Term
+	private final double kPdist = 0.025, // Proportional Term was .045
 			kDdist = 0.002,//38, // Derivative Value
 			kIdist = 0; // Integral Term
 	private boolean useVisionForAngle;
@@ -101,8 +101,8 @@ public class TurnGyro extends Command {
 		derivativeError = (angleError - prevAngleError) / dt;
 		angleSpeedControl = angleError * kPdist + integratedError * kIdist + derivativeError * kDdist;
 		// Robot.driveTrain.tankDrive(-percentSpeed, percentSpeed);
-		angleSpeedControl = angleSpeedControl < .4 && angleSpeedControl > 0 ? .4 : angleSpeedControl;
-		angleSpeedControl = angleSpeedControl > -.4 && angleSpeedControl < 0 ? -.4 : angleSpeedControl;
+		angleSpeedControl = angleSpeedControl < .65 && angleSpeedControl > 0 ? .65 : angleSpeedControl;   //  It takes a lot of power to turn in place on carpet
+		angleSpeedControl = angleSpeedControl > -.65 && angleSpeedControl < 0 ? -.65 : angleSpeedControl;
 		Robot.driveTrain.tankDrive(angleSpeedControl, -angleSpeedControl);
 		velCheck.addValue(currAngle - prevAngle);
 		prevAngleError = angleError;
@@ -110,19 +110,20 @@ public class TurnGyro extends Command {
 		SmartDashboard.putNumber("Gyro Turn Dist Err:", angleError);
 		SmartDashboard.putNumber("Gyro Turn Perc Speed:", angleSpeedControl);
 		SmartDashboard.putNumber("Degrees to turn Robot: ", amountTurn);
-		Robot.log.writeLog("Turn Gyro,destAngle," + amountTurn + ",currentAngle," + currAngle + ",averageVelocity," + velCheck.getAverage()); 
+		Robot.log.writeLog("Turn Gyro,destAngle," + amountTurn + ",currentAngle," + currAngle + ",averageVelocity," + velCheck.getAverage()
+						   + ",percentPower," + angleSpeedControl + ",angleError," + angleError + ",derivativeError," + derivativeError); 
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		// return velCheck.getAverage() < 1 || Math.abs(angleError) <= 1;
-		return Math.abs(velCheck.getAverage()) < 0.1;
+		return (Math.abs(velCheck.getAverage()) < 0.01 || Math.abs(angleError) <= 1);	// Stop on either velocity or angle error
+		//return Math.abs(velCheck.getAverage()) < 0.1;  
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.log.writeLogEcho(
-				"Turn Gyro,ended,average," + velCheck.getAverage() + ",distErr," + angleError);
+				"Turn Gyro,ended,average," + velCheck.getAverage() + ",angleError," + angleError);
 		Robot.driveTrain.tankDrive(0, 0);
 	}
 

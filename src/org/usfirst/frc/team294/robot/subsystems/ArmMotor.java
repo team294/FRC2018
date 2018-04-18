@@ -120,6 +120,7 @@ public class ArmMotor extends Subsystem {
 		lastVelocity = 0.0;
 		lastMPVelocity = 0.0;
 		startPID(lastAngle);
+		trapezoid.newProfile(lastAngle, lastAngle, 0, 0, 0);
 	}
 	
 	/**
@@ -142,27 +143,26 @@ public class ArmMotor extends Subsystem {
 		if (!DriverStation.getInstance().isEnabled() || Robot.armMotor.joystickControl) {
 			// We are disabled or under joystick control, so just track the angle.
 			// I.e., we were called from periodic() using startPID(getArmDegrees());
-			SmartDashboard.putBoolean("Arm Intake Interlocked", getArmDegrees() <= RobotMap.armIntakeClearanceAng);
+//			SmartDashboard.putBoolean("Arm Intake Interlocked", getArmDegrees() <= RobotMap.armIntakeClearanceAng);
 		} else {
 			// We are enabled and under PID control
-			if (Robot.intake.isIntakeDeployed()) {
-				SmartDashboard.putBoolean("Arm Intake Interlocked", false);
-			} else {
-				if (initAngle > RobotMap.armIntakeClearanceAng - 3) {
-					if (angle <= RobotMap.armIntakeClearanceAng) {
-						angle = RobotMap.armIntakeClearanceAng;
-						SmartDashboard.putBoolean("Arm Intake Interlocked", true);
-					} else {
-						SmartDashboard.putBoolean("Arm Intake Interlocked", false);
-					}
-				} else {
-					SmartDashboard.putBoolean("Arm Intake Interlocked", true);
-					angle = finalAngle;
-				}
-			}
+//			if (Robot.intake.isIntakeDeployed()) {
+//				SmartDashboard.putBoolean("Arm Intake Interlocked", false);
+//			} else {
+//				if (initAngle > RobotMap.armIntakeClearanceAng - 3) {
+//					if (angle <= RobotMap.armIntakeClearanceAng) {
+//						angle = RobotMap.armIntakeClearanceAng;
+//						SmartDashboard.putBoolean("Arm Intake Interlocked", true);
+//					} else {
+//						SmartDashboard.putBoolean("Arm Intake Interlocked", false);
+//					}
+//				} else {
+//					SmartDashboard.putBoolean("Arm Intake Interlocked", true);
+//					angle = finalAngle;
+//				}
+//			}
 			Robot.log.writeLog("Arm Start PID,cal Zero," + Robot.robotPrefs.armCalZero + ",initial raw encoder,"
-					+ getArmEncRaw() + ",initialAngle," + initAngle + ",Destination Angle," + angle
-					+ ",intake deployed," + Robot.intake.isIntakeDeployed());
+					+ getArmEncRaw() + ",initialAngle," + initAngle + ",Destination Angle," + angle);
 		}
 
 		SmartDashboard.putNumber("Arm initial angle", initAngle);
@@ -261,36 +261,6 @@ public class ArmMotor extends Subsystem {
 		armAngle = (armAngle > 180) ? armAngle - 360 : armAngle; // Convert to range -180 to +180
 		SmartDashboard.putNumber("Arm angle Value", armAngle);
 		return (armAngle);
-	}
-
-	/**
-	 * Increments or decrements the arm by 7 degrees
-	 * 
-	 * @param increment
-	 *            true for increment, false for decrement
-	 */
-	public void armIncrement(boolean increment) {
-		armIncrement(7, increment);
-	}
-
-	/**
-	 * Increments or decrements the arm
-	 * 
-	 * @param difference
-	 *            the amount to increment/decrement by
-	 * @param increment
-	 *            true for increment, false for decrement
-	 */
-	public void armIncrement(int difference, boolean increment) {
-		if (increment) {
-			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() - difference)) {
-				startPID(getArmDegrees() - difference);
-			}
-		} else {
-			if (RobotMap.getArmZone(getArmDegrees()) == RobotMap.getArmZone(getArmDegrees() + difference)) {
-				startPID(getArmDegrees() + difference);
-			}
-		}
 	}
 
 	/**
