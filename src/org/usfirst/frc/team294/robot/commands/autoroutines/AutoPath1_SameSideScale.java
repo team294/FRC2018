@@ -39,20 +39,21 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 		
 		// Turn then shoot cube in scale
 		addSequential(new TurnGyro(25 * angleMultiplier, TurnGyro.Units.Degrees));   // Angle was 30deg, changing to 25 for 1st Qual match
-		addSequential(new WaitCommand(0.5));
+		addSequential(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, false));
+//		addSequential(new WaitCommand(0.25));
 		addSequential(new CubeShootOut(1.0));  // Was 0.66
 		
 		// Load 2nd cube
 		addParallel(new LoadCubeSequence(ArmPositions.Intake, PistonPositions.Extended, false));
-		addSequential(new TurnGyro(-12 * angleMultiplier, TurnGyro.Units.Degrees));
+		addSequential(new TurnGyro(-15 * angleMultiplier, TurnGyro.Units.Degrees));
 
 		
 		// Drive absolute angle (don't use vision)
-//		addSequential(new DriveStraightDistanceProfile(54, -12 * angleMultiplier, 35, 70));
+		addSequential(new DriveStraightDistanceProfile(50, -15 * angleMultiplier, 25, 70));
 		
 		// Drive using vision
-		addSequential(new TurnGyro());		// turn using vision camera
-		addSequential(new DriveStraightDistanceProfile(54, 9999, 35, 70));  // Drive straight with the direction from vision (angle  = 9999)
+//		addSequential(new TurnGyro());		// turn using vision camera
+//		addSequential(new DriveStraightDistanceProfile(54, 9999, 35, 70));  // Drive straight with the direction from vision (angle  = 9999)
 
 		// If we have the cube in the claw, then go back to scale and score
     	addSequential(new ConditionalCommand(new AutoPath1_part2_Score2ndCube(startPosition)) {

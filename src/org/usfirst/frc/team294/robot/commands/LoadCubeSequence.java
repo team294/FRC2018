@@ -32,7 +32,7 @@ public class LoadCubeSequence extends CommandGroup {
     	//if the arm is being 
     	if(armMoveToSafety && Robot.armPiston.getOverride()) {
     		// TODO: Put this back in when the arm retract sensor is fixed.
-    	  	addSequential(new ArmMoveWithPiston(-53, false));  		
+//    	  	addSequential(new ArmMoveWithPiston(-53, false));  		
     	}
    	}
     

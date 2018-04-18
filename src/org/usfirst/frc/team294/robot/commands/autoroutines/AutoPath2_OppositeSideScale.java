@@ -47,7 +47,8 @@ public class AutoPath2_OppositeSideScale extends CommandGroup {
 //		addSequential(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, false));//true)); // enforce the arm being up before shooting
 		addSequential(new ArmMoveWithPiston(90, RobotMap.PistonPositions.Null));//true)); // move arm to +90, since the arm will stay there when disabled
 		
-//		addParallel(new TurnGyro(0, TurnGyro.Units.Degrees));
+		addParallel(new TurnGyro(0, TurnGyro.Units.Degrees));
+		addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos, false));
 //		addSequential(new LoadCubeSequence());
 
 		// addParallel(new ClawSetMotorSpeed(-0.40));
