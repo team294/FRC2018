@@ -291,6 +291,8 @@ public class OI {
 		SmartDashboard.putData("Turn -5", new TurnGyro(-5, Units.Degrees));
 		SmartDashboard.putData("Turn -10", new TurnGyro(-10, Units.Degrees));
 		SmartDashboard.putData("Turn -20", new TurnGyro(-20, Units.Degrees));
+		SmartDashboard.putData("Turn -90", new TurnGyro(-90, Units.Degrees));
+		SmartDashboard.putData("Turn +90", new TurnGyro( 90, Units.Degrees));
 
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
@@ -306,6 +308,10 @@ public class OI {
 
 		SmartDashboard.putData("Climb Preperation", new ClimbPreparation());
 		SmartDashboard.putData("Climb Sequence", new ClimbMotorSequence());
+		
+		SmartDashboard.putBoolean("Override Bump Switch", false);
+		SmartDashboard.putData("Override Sensors", new OverrideSensor());
+		
 
 //		SmartDashboard.putData("Intake Cube", new LoadCubeSequenceWithIntake());
 //		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));

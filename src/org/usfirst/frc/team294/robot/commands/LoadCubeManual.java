@@ -15,7 +15,7 @@ public class LoadCubeManual extends CommandGroup {
     public LoadCubeManual() {
     	
     	addSequential(new ClawSetOpen(true));
-    	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos, true)); // Close the claw while moving the arm
+    	addSequential(new ArmMoveWithPiston(RobotMap.armIntakePos, true));
     	addSequential(new ClawSetMotorSpeed(RobotMap.clawPercentIn));
     }
 }

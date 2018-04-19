@@ -34,12 +34,11 @@ public class ArmPiston extends Subsystem {
 	// Tracking piston position in software
 	private PistonPositions majorPosition = PistonPositions.Null;
 	private PistonPositions minorPosition = PistonPositions.Null;
-	public boolean overrideArm;
+	private boolean overrideArm;
 	
 	public ArmPiston() {
 		super();
-		overrideArm = false;
-		
+		overrideArmSensor(false);
 	}
 
 	private boolean getMajorRet() {
@@ -47,8 +46,12 @@ public class ArmPiston extends Subsystem {
 		return !majorLimitRetract.get();
 	}
 
-	public void overrideArmSensor() {
-		overrideArm = true;
+	/**
+	 * Turns Arm piston retract override on or off
+	 * @param override true = override, false = use sensor
+	 */
+	public void overrideArmSensor(boolean override) {
+		overrideArm = override;
 	}
 	
 	/**

@@ -47,8 +47,8 @@ public class Claw extends Subsystem {
 		clawMotorRight.enableVoltageCompensation(true);
 		clawMotorRight.configVoltageCompSaturation(11.0, 0);
 		clawMotorRight.configOpenloopRamp(0.2, 0);
-		bumpSwitchOverride = false;
-		
+
+		overrideBumpSwitch(false);
 	}
 
 	/**
@@ -127,8 +127,12 @@ public class Claw extends Subsystem {
 		return photoSwitch.get();
 	}
 
-	public void overrideBumpSwitch() {
-		bumpSwitchOverride = true;
+	/**
+	 * Turns bump switch override on or off
+	 * @param override true = override, false = use sensor
+	 */
+	public void overrideBumpSwitch(boolean override) {
+		bumpSwitchOverride = override;
 	}
 	
 	/**
@@ -175,6 +179,6 @@ public class Claw extends Subsystem {
 				+ ",Claw Motor Right Output Current," + clawMotorRight.getOutputCurrent()
 				+ ",Claw Motor Right Output Percent," + clawMotorRight.getMotorOutputPercent() + ",Claw Open,"
 				+ Robot.claw.isClawOpen() + ",Claw PhotoSwitch Triggered," + Robot.claw.getPhotoSwitch()
-				+ ",Claw BumpSwitch Triggered," + Robot.claw.getBumpSwitch());
+				+ ",Claw BumpSwitch Triggered," + Robot.claw.getBumpSwitch() + ",Claw BumpSwitch Override," + bumpSwitchOverride);
 	}
 }

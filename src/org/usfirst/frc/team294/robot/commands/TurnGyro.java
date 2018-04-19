@@ -21,10 +21,11 @@ public class TurnGyro extends Command {
 	private double prevAngle, currAngle;
 	private static final double dt = .02;
 	private final VelocityChecker velCheck = new VelocityChecker(0.2);  // was 0.8 
-	private final double kPdist = 0.025, // Proportional Term was .045
+	private final double kPdist = 0.045, // Proportional Term was .045
 			kDdist = 0.002,//38, // Derivative Value
 			kIdist = 0; // Integral Term
 	private boolean useVisionForAngle;
+	private double minimumSpeed;
 
 	/**
 	 * Turns to the angle specified by amountTurn
@@ -66,6 +67,11 @@ public class TurnGyro extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		if(Math.abs(amountTurn - Robot.driveTrain.getGyroRotation()) < 15) {
+			minimumSpeed= .65;
+		}else {
+			minimumSpeed = .3;
+		}
 		if (useVisionForAngle) {
 			amountTurn = Robot.driveTrain.getGyroRotation() + Robot.visionData.getCubeAngleRelative();
 		}
@@ -90,8 +96,8 @@ public class TurnGyro extends Command {
 		derivativeError = (angleError - prevAngleError) / dt;
 		angleSpeedControl = angleError * kPdist + integratedError * kIdist + derivativeError * kDdist;
 		// Robot.driveTrain.tankDrive(-percentSpeed, percentSpeed);
-		angleSpeedControl = angleSpeedControl < .65 && angleSpeedControl > 0 ? .65 : angleSpeedControl;   //  It takes a lot of power to turn in place on carpet
-		angleSpeedControl = angleSpeedControl > -.65 && angleSpeedControl < 0 ? -.65 : angleSpeedControl;
+		angleSpeedControl = angleSpeedControl < minimumSpeed && angleSpeedControl > 0 ? minimumSpeed : angleSpeedControl;   //  It takes a lot of power to turn in place on carpet
+		angleSpeedControl = angleSpeedControl > -minimumSpeed && angleSpeedControl < 0 ? -minimumSpeed : angleSpeedControl;
 		Robot.driveTrain.tankDrive(angleSpeedControl, -angleSpeedControl);
 		velCheck.addValue(currAngle - prevAngle);
 		prevAngleError = angleError;

@@ -31,9 +31,7 @@ public class Robot extends TimedRobot {
 //	public static Intake intake;
 	public static OI oi;
 	public static Climb climb;
-	public static PressureSensor pressureSensor;
-	public static Compressor compressor;
-	
+	public static PressureSensor pressureSensor;	
 
 	public static LEDSet mainLEDs;
 	
@@ -82,15 +80,14 @@ public class Robot extends TimedRobot {
 		climb = new Climb();
 //		intake = new Intake();
 		pressureSensor = new PressureSensor();
-		compressor = new Compressor(0);
-		Robot.armPiston.overrideArm = false;
+
 		// armMotor.armMotorsCurrentProtection(); needs to be tested
 //		intake.intakeMotorsCurrentProtection();
 		claw.clawMotorsCurrentProtection();
 		
 		// Reset single-sided solenoid to default state, so solenoid doesn't move when we download new code
 		climb.deployClimbPiston(false);	
-		compressor.setClosedLoopControl(true);
+		climb.enableCompressor(true);
 
 		// Create auto selection utility
 		autoSelection = new AutoSelection();
@@ -129,7 +126,7 @@ public class Robot extends TimedRobot {
 		climb.setClimbMotors(0);
 		armMotor.joystickControl = false;
 		climb.deployClimbPiston(false);
-		compressor.setClosedLoopControl(true);		// Turn off compressor to reduce brownout likelihood
+		climb.enableCompressor(true);
 	}
 
 	@Override
@@ -155,7 +152,11 @@ public class Robot extends TimedRobot {
 		
 		// Set variable that the robot has been enabled
 		beforeFirstEnable = false;
-
+		
+		// Read and set overrides, as applicable
+		OverrideSensor override = new OverrideSensor();   // Use booleans from SmartDashboard
+		override.setOverrides();   						// Set Overrides
+		
 		autoSelection.readGameData();
 
 		driveTrain.zeroLeftEncoder();
