@@ -17,10 +17,10 @@ public class AutoSelection {
 	public Command autonomousCommand;
 
 	// Auto path selections
-	public static final int AUTO_PLANS = 6;
+	public static final int AUTO_PLANS = 9;
 
 	public enum AutoPlan {
-		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly, DeadReckoningForward, DeadReckoningBackward;
+		ClosestSwitchScale_FFScale, ClosestSwitchScale_FFSwitchFront, ClosestSwitchScale_FFSwitchBack, ScaleOnly, SwitchOnly, BaselineOnly, SameSideSwitchOrBaseline, DeadReckoningForward, DeadReckoningBackward;
 		// do not change the order of these
 	}
 
@@ -44,7 +44,8 @@ public class AutoSelection {
 			{ 3, 3, 1, 4 }, // Plan 2, ClosestSwitchScale_FFSwitchBack
 			{ 1, 2, 1, 2 }, // Plan 3, ScaleOnly
 			{ 5, 5, 5, 5 }, // Plan 4, SwitchOnly
-			{ 7, 7, 7, 7 }  // Plan 5, BaselineOnly
+			{ 7, 7, 7, 7 }, // Plan 5, BaselineOnly
+			{ 3, 3, 7, 7 }  //Plan 6, SameSwitchOrBaseLine
 	};
 
 	public static int[][] startingMiddleAutoPrograms = {
@@ -53,7 +54,8 @@ public class AutoSelection {
 			{ 5, 5, 5, 5 }, // Plan 2, ClosestSwitchScale_FFSwitchBack
 			{ 5, 5, 5, 5 }, // Plan 3, ScaleOnly
 			{ 5, 5, 5, 5 }, // Plan 4, SwitchOnly
-			{ 7, 7, 7, 7 }  // Plan 5, BaselineOnly
+			{ 7, 7, 7, 7 },  // Plan 5, BaselineOnly
+			{ 5, 5, 5, 5 }  //Plan 6, SameSwitchOrBaseLine
 	};
 
 	public static int[][] startingRightAutoPrograms = {
@@ -62,7 +64,8 @@ public class AutoSelection {
 			{ 4, 1, 3, 3 }, // Plan 2, ClosestSwitchScale_FFSwitchBack
 			{ 2, 1, 2, 1 }, // Plan 3, ScaleOnly
 			{ 5, 5, 5, 5 }, // Plan 4, SwitchOnly
-			{ 7, 7, 7, 7 }  // Plan 5, BaselineOnly
+			{ 7, 7, 7, 7 },  // Plan 5, BaselineOnly
+			{ 7, 7, 3, 3 }  //Plan 6, SameSwitchOrBaseLine
 	};
 
 	public AutoSelection() {
@@ -73,10 +76,13 @@ public class AutoSelection {
 		int programSelected;
 		int fieldLayout;
 		AutoPlan autoPlan;
+		
 		Timer timeSinceAutoStart = new Timer();
 		timeSinceAutoStart.start();
+		
 		StartingPosition startPosition = Robot.oi.readStartPosition();
 		autoPlan = Robot.oi.readAutoPlan();
+		
 		if(autoPlan == AutoPlan.DeadReckoningBackward) {
 			autonomousCommand = new AutoDeadReckoningBaseline(false);
 			Robot.log.writeLogEcho("Ran Dead Reckoning Baseline Backward, side = " + startPosition.name());
@@ -86,6 +92,7 @@ public class AutoSelection {
 			Robot.log.writeLogEcho("Ran Dead Reckoning Baseline Forward, side = " + startPosition.name());
 			return;
 		}
+		
 		// Retry reading game data until we get a valid string, or 4 seconds have passed.
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		while (gameData.length() < 2 && timeSinceAutoStart.get() < 4) {
