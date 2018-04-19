@@ -10,8 +10,9 @@ public class VisionData {
 	public double RPiX ;//X coordinate from Raspberry Pi
 	public double RPiY;//Y coordinate from Raspberry Pi
 	
-	private NetworkTableEntry xCoord;
-	private NetworkTableEntry yCoord;
+	public enum CubePositions { LeftMost, Biggest, RightMost };
+	
+	private NetworkTableEntry xCoord, yCoord, cubeSelector;
 
 	/**
 	 * Creates a VisionData object and connects to the RPi keys in the NetworkTable.
@@ -23,6 +24,28 @@ public class VisionData {
 
 		xCoord = pi.getEntry("X");
 		yCoord = pi.getEntry("Y");		
+		cubeSelector = pi.getEntry("CubeSelector");  // leftmost cube (<0), biggest cube (0), or rightmost cube (>0)
+		
+		// Default to looking for biggest cube
+		selectCube(CubePositions.Biggest);
+	}
+	
+	/**
+	 * Selects which cube to look for with the camera
+	 * @param cube enum CubePositions (LeftMost, Biggest, RightMost)
+	 */
+	public void selectCube(CubePositions cube) {
+		switch (cube) {
+		case LeftMost:
+			cubeSelector.setDouble(-1.0);
+			break;
+		case Biggest:
+			cubeSelector.setDouble(0.0);
+			break;
+		case RightMost:
+			cubeSelector.setDouble(1.0);
+			break;			
+		}
 	}
 	
 	/**

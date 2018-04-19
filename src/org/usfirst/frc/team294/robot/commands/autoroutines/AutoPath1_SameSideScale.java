@@ -6,10 +6,10 @@ import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
 import org.usfirst.frc.team294.robot.commands.*;
 import org.usfirst.frc.team294.utilities.AutoSelection.StartingPosition;
+import org.usfirst.frc.team294.utilities.VisionData.CubePositions;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -22,9 +22,11 @@ public class AutoPath1_SameSideScale extends CommandGroup {
 
 		case Left:
 			angleMultiplier = 1;
+			Robot.visionData.selectCube(CubePositions.RightMost);
 			break;
 		case Right:
 			angleMultiplier = -1;
+			Robot.visionData.selectCube(CubePositions.LeftMost);
 			break;
 		default:
 			break;
