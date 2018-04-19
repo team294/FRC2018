@@ -309,6 +309,7 @@ public class OI {
 		SmartDashboard.putData("Climb Preperation", new ClimbPreparation());
 		SmartDashboard.putData("Climb Sequence", new ClimbMotorSequence());
 		
+		SmartDashboard.putBoolean("Override Arm Retract Sensor", false);
 		SmartDashboard.putBoolean("Override Bump Switch", false);
 		SmartDashboard.putData("Override Sensors", new OverrideSensor());
 		
