@@ -214,7 +214,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
-		if (claw.isClawOpen() && claw.getClawMotorPercent()<-0.4) {
+		if (claw.isClawOpen(false) && claw.getClawMotorPercent()<-0.4) {
 			oi.setXBoxRumble(0.7);
 		} else {
 			oi.setXBoxRumble(0);
