@@ -107,6 +107,14 @@ public class Claw extends Subsystem {
 		SmartDashboard.putNumber("Left Claw Motor Percent:", percent);
 		SmartDashboard.putNumber("Right Claw Motor Percent:", percent);
 	}
+	
+	/**
+	 * Returns the speed of the left claw motor
+	 * @return precent -1 (in) to +1 (out)
+	 */
+	public double getClawMotorPercent() {
+		return clawMotorLeft.getMotorOutputPercent();
+	}
 
 	/**
 	 * Reads the value of the bump switch

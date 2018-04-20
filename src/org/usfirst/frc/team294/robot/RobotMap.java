@@ -77,6 +77,7 @@ public class RobotMap {
 	public static double armSwitchPosLow = -5.0;
 	public static double armScaleLowPos = 60.0;
 	public static double armScaleBackwardsPos = 110.0;
+	public static double armScaleBackwardsPosAuto = 113.0;
 	public static double armClimbPos = 87.0;
 	public static double armStartPosition = -53;
 	// Arm interlocking angle

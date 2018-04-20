@@ -22,6 +22,7 @@ public class ArmMotor extends Subsystem {
 	private final TalonSRX armMotor1 = new TalonSRX(RobotMap.armMotor1);
 	private final TalonSRX armMotor2 = new TalonSRX(RobotMap.armMotor2);
 	public final MotorCurrentTrigger armMotor1CurrentTrigger = new MotorCurrentTrigger(armMotor1, 20, 2);
+	private SensorCollection armMotor1Sensors;
 
 	private final double DEGREES_PER_TICK = RobotMap.degreesPerTicks; // Put in robot.preferences or change proto arm to
 																		// magnetic encoder
@@ -89,6 +90,7 @@ public class ArmMotor extends Subsystem {
 		armMotor1.configClosedloopRamp(0.25, 10);
 		armMotor1.configPeakOutputForward(MAX_UP_PERCENT_POWER, 10);
 		armMotor1.configPeakOutputReverse(MAX_DOWN_PERCENT_POWER, 10);
+		armMotor1Sensors = armMotor1.getSensorCollection();
 
 		// Set up PID and watchdogs
 		lastTime = System.currentTimeMillis();
@@ -352,6 +354,7 @@ public class ArmMotor extends Subsystem {
 		}
 		SmartDashboard.putNumber("Arm Motor 1 Current", armMotor1.getOutputCurrent());
 		SmartDashboard.putNumber("Arm Motor 2 Current", armMotor2.getOutputCurrent());
+		SmartDashboard.putBoolean("Arm limit switch pressed", armMotor1Sensors.isRevLimitSwitchClosed());
 	}
 
 	public void periodic() {
@@ -359,8 +362,7 @@ public class ArmMotor extends Subsystem {
 		// Set armCalZero, when limit switch is hit [(was) if not already set], by using
 		// known value of lower limit switch
 		if (!Robot.robotPrefs.armCalibrated || Robot.beforeFirstEnable) {
-			SensorCollection sc = armMotor1.getSensorCollection();
-			if (sc.isRevLimitSwitchClosed()) {
+			if (armMotor1Sensors.isRevLimitSwitchClosed()) {
 				/*
 				 * Robot.log.writeLogEcho("Arm auto cal pre,target angle," + finalAngle +
 				 * ",current angle," + getArmDegrees() + ",arm raw enc," + getArmEncRaw() +

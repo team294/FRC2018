@@ -39,9 +39,9 @@ public class AutoSelection {
 
 	// Columns in Array are in order of LL, LR, RL, RR
 	public static int[][] startingLeftAutoPrograms = {
-			{ 3, 3, 1, 2 }, // Plan 0, ClosestSwitchScale_FFScale
-			{ 3, 3, 1, 6 }, // Plan 1, ClosestSwitchScale_FFSwitchFront
-			{ 3, 3, 1, 4 }, // Plan 2, ClosestSwitchScale_FFSwitchBack
+			{ 1, 3, 1, 2 }, // Plan 0, ClosestSwitchScale_FFScale
+			{ 1, 3, 1, 6 }, // Plan 1, ClosestSwitchScale_FFSwitchFront
+			{ 1, 3, 1, 4 }, // Plan 2, ClosestSwitchScale_FFSwitchBack
 			{ 1, 2, 1, 2 }, // Plan 3, ScaleOnly
 			{ 5, 5, 5, 5 }, // Plan 4, SwitchOnly
 			{ 7, 7, 7, 7 }, // Plan 5, BaselineOnly
@@ -59,9 +59,9 @@ public class AutoSelection {
 	};
 
 	public static int[][] startingRightAutoPrograms = {
-			{ 2, 1, 3, 3 }, // Plan 0, ClosestSwitchScale_FFScale
-			{ 6, 1, 3, 3 }, // Plan 1, ClosestSwitchScale_FFSwitchFront
-			{ 4, 1, 3, 3 }, // Plan 2, ClosestSwitchScale_FFSwitchBack
+			{ 2, 1, 3, 1 }, // Plan 0, ClosestSwitchScale_FFScale
+			{ 6, 1, 3, 1 }, // Plan 1, ClosestSwitchScale_FFSwitchFront
+			{ 4, 1, 3, 1 }, // Plan 2, ClosestSwitchScale_FFSwitchBack
 			{ 2, 1, 2, 1 }, // Plan 3, ScaleOnly
 			{ 5, 5, 5, 5 }, // Plan 4, SwitchOnly
 			{ 7, 7, 7, 7 },  // Plan 5, BaselineOnly

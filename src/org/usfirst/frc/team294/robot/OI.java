@@ -118,7 +118,7 @@ public class OI {
 				left[i].whenPressed(new CubeLetGo()); // Automatic cube pick up with vision
 				right[i].whenPressed(new CubeShootOut()); // Automatic cube pick up with vision
 			} else if (i == 3) {
-				 right[i].whenPressed(new ClimbMotorSequence()); // Switch drive
+				//right[i].whenPressed(new ClimbMotorSequence()); // Switch drive
 				//left[i].whenPressed(new ClimbPreparation());
 				 // direction
 				// left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive
@@ -216,8 +216,9 @@ public class OI {
 		chooser_autoPlan.addObject("do Scale only", AutoPlan.ScaleOnly);
 		chooser_autoPlan.addDefault("do Switch only from middle", AutoPlan.SwitchOnly);
 		chooser_autoPlan.addObject("Go to baseline", AutoPlan.BaselineOnly);
+		chooser_autoPlan.addObject("Go to baseline", AutoPlan.BaselineOnly);		
 		chooser_autoPlan.addObject("Dead Reckoning Baseline Forwards", AutoPlan.DeadReckoningForward);
-		chooser_autoPlan.addObject("Dead Reckoning Baseline Backwards", AutoPlan.DeadReckoningBackward);
+		chooser_autoPlan.addObject("Same side switch or baseline", AutoPlan.SameSideSwitchOrBaseline);
 		// chooser_autoPlan.addObject("2Cube", 5);
 		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
 		SmartDashboard.putData("AutoTest1", new AutoTest1());

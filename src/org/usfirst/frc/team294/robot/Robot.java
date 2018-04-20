@@ -127,6 +127,7 @@ public class Robot extends TimedRobot {
 		armMotor.joystickControl = false;
 		climb.deployClimbPiston(false);
 		climb.enableCompressor(true);
+		oi.setXBoxRumble(0);
 	}
 
 	@Override
@@ -212,6 +213,13 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		if (claw.isClawOpen() && claw.getClawMotorPercent()<-0.4) {
+			oi.setXBoxRumble(0.7);
+		} else {
+			oi.setXBoxRumble(0);
+		}
+
 /*		
 		// Control LED colors
 		if (climb.getClimbMotorPercentPower() < -0.1) {
