@@ -5,6 +5,7 @@ import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.RobotMap.ArmPositions;
 import org.usfirst.frc.team294.robot.RobotMap.PistonPositions;
+import org.usfirst.frc.team294.robot.commands.autoroutines.AutoPath1_part2_Score2ndCube;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
@@ -27,8 +28,14 @@ public class LoadCubeSequence extends CommandGroup {
     	  	addSequential(new ArmPistonSmartExtend());
     	    
     	}
-    	addSequential(new ArmIntakeCube()); 
-    	addSequential(new ArmPistonRetract(true));
+    	addSequential(new ArmIntakeCube());
+    	
+    	addSequential(new ConditionalCommand(new ArmPistonRetract(true)) {
+			protected boolean condition() {
+				return (Robot.claw.getBumpSwitch());
+			}
+		}); 
+    	
     	//if the arm is being 
     	if(armMoveToSafety && Robot.armPiston.getOverride()) {
     		// TODO: Put this back in when the arm retract sensor is fixed.

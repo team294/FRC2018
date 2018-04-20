@@ -118,7 +118,7 @@ public class OI {
 				left[i].whenPressed(new CubeLetGo()); // Automatic cube pick up with vision
 				right[i].whenPressed(new CubeShootOut()); // Automatic cube pick up with vision
 			} else if (i == 3) {
-				 right[i].whenPressed(new ClimbMotorSequence()); // Switch drive
+				//right[i].whenPressed(new ClimbMotorSequence()); // Switch drive
 				//left[i].whenPressed(new ClimbPreparation());
 				 // direction
 				// left[i].whenPressed(new SwitchDriveDirection(false)); // Switch drive
@@ -216,8 +216,9 @@ public class OI {
 		chooser_autoPlan.addObject("do Scale only", AutoPlan.ScaleOnly);
 		chooser_autoPlan.addDefault("do Switch only from middle", AutoPlan.SwitchOnly);
 		chooser_autoPlan.addObject("Go to baseline", AutoPlan.BaselineOnly);
+		chooser_autoPlan.addObject("Go to baseline", AutoPlan.BaselineOnly);		
 		chooser_autoPlan.addObject("Dead Reckoning Baseline Forwards", AutoPlan.DeadReckoningForward);
-		chooser_autoPlan.addObject("Dead Reckoning Baseline Backwards", AutoPlan.DeadReckoningBackward);
+		chooser_autoPlan.addObject("Same side switch or baseline", AutoPlan.SameSideSwitchOrBaseline);
 		// chooser_autoPlan.addObject("2Cube", 5);
 		SmartDashboard.putData("Auto Plan Selection", chooser_autoPlan);
 		SmartDashboard.putData("AutoTest1", new AutoTest1());
@@ -291,6 +292,8 @@ public class OI {
 		SmartDashboard.putData("Turn -5", new TurnGyro(-5, Units.Degrees));
 		SmartDashboard.putData("Turn -10", new TurnGyro(-10, Units.Degrees));
 		SmartDashboard.putData("Turn -20", new TurnGyro(-20, Units.Degrees));
+		SmartDashboard.putData("Turn -90", new TurnGyro(-90, Units.Degrees));
+		SmartDashboard.putData("Turn +90", new TurnGyro( 90, Units.Degrees));
 
 		SmartDashboard.putData("Release Cube", new CubeLetGo());
 		SmartDashboard.putData("Shoot Out Cube", new CubeShootOut());
@@ -306,6 +309,11 @@ public class OI {
 
 		SmartDashboard.putData("Climb Preperation", new ClimbPreparation());
 		SmartDashboard.putData("Climb Sequence", new ClimbMotorSequence());
+		
+		SmartDashboard.putBoolean("Override Arm Retract Sensor", false);
+		SmartDashboard.putBoolean("Override Bump Switch", false);
+		SmartDashboard.putData("Override Sensors", new OverrideSensor());
+		
 
 //		SmartDashboard.putData("Intake Cube", new LoadCubeSequenceWithIntake());
 //		SmartDashboard.putData("Open Intake", new IntakeSetOpen(true));

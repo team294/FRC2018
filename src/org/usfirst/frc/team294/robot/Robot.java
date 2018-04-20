@@ -31,9 +31,7 @@ public class Robot extends TimedRobot {
 //	public static Intake intake;
 	public static OI oi;
 	public static Climb climb;
-	public static PressureSensor pressureSensor;
-	public static Compressor compressor;
-	
+	public static PressureSensor pressureSensor;	
 
 	public static LEDSet mainLEDs;
 	
@@ -82,15 +80,14 @@ public class Robot extends TimedRobot {
 		climb = new Climb();
 //		intake = new Intake();
 		pressureSensor = new PressureSensor();
-		compressor = new Compressor(0);
-		Robot.armPiston.overrideArm = false;
+
 		// armMotor.armMotorsCurrentProtection(); needs to be tested
 //		intake.intakeMotorsCurrentProtection();
 		claw.clawMotorsCurrentProtection();
 		
 		// Reset single-sided solenoid to default state, so solenoid doesn't move when we download new code
 		climb.deployClimbPiston(false);	
-		compressor.setClosedLoopControl(true);
+		climb.enableCompressor(true);
 
 		// Create auto selection utility
 		autoSelection = new AutoSelection();
@@ -129,7 +126,8 @@ public class Robot extends TimedRobot {
 		climb.setClimbMotors(0);
 		armMotor.joystickControl = false;
 		climb.deployClimbPiston(false);
-		compressor.setClosedLoopControl(true);		// Turn off compressor to reduce brownout likelihood
+		climb.enableCompressor(true);
+		oi.setXBoxRumble(0);
 	}
 
 	@Override
@@ -155,13 +153,19 @@ public class Robot extends TimedRobot {
 		
 		// Set variable that the robot has been enabled
 		beforeFirstEnable = false;
-
+		
+		// Read and set overrides, as applicable
+		OverrideSensor override = new OverrideSensor();   // Use booleans from SmartDashboard
+		override.setOverrides();   						// Set Overrides
+		
 		autoSelection.readGameData();
 
 		driveTrain.zeroLeftEncoder();
 		driveTrain.zeroRightEncoder();
 		driveTrain.zeroGyroRotation();
 
+		climb.enableCompressor(true);
+		
 		// schedule the autonomous command
 		if (autoSelection.autonomousCommand != null) {
 			Command shiftLow = new Shift(false);
@@ -190,10 +194,13 @@ public class Robot extends TimedRobot {
 		if (autoSelection.autonomousCommand != null) {
 			autoSelection.autonomousCommand.cancel();
 		}
+
 		driveTrain.zeroGyroRotation(); // TODO remove later
 		driveTrain.setFieldPositionX(0); // TODO remove later
 		driveTrain.setFieldPositionY(0); // TODO remove later
 
+		climb.enableCompressor(true);
+		
 		log.writeLogEcho("Teleop mode started.");
 		
 		// Set variable that the robot has been enabled
@@ -206,6 +213,13 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		if (claw.isClawOpen() && claw.getClawMotorPercent()<-0.4) {
+			oi.setXBoxRumble(0.7);
+		} else {
+			oi.setXBoxRumble(0);
+		}
+
 /*		
 		// Control LED colors
 		if (climb.getClimbMotorPercentPower() < -0.1) {
