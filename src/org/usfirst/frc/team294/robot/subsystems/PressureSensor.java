@@ -1,8 +1,11 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -11,9 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class PressureSensor extends Subsystem {
 	private AnalogInput pressure = new AnalogInput(RobotMap.pressureSensor);
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+	private Timer logTimer = new Timer();
 
+	public PressureSensor() {
+		logTimer.reset();
+		logTimer.start();
+	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -34,5 +41,10 @@ public class PressureSensor extends Subsystem {
 
     public void periodic() {
     	SmartDashboard.putNumber("High Pressure", getPressure()); 
+    	
+    	if (logTimer.get()>=1.0 && DriverStation.getInstance().isEnabled()) {
+    		logTimer.reset();
+    		Robot.log.writeLog("Pressure," + getPressure());
+    	}
     }
 }

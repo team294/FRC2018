@@ -79,11 +79,20 @@ public class Claw extends Subsystem {
 	}
 
 	/**
-	 * Checks if claw is open
+	 * Checks if claw is open.  Also logs the result to the log file.
 	 * @return true = open, false = closed
 	 */
 	public boolean isClawOpen() {
-		Robot.log.writeLog("Claw,isClawOpen," + clawPiston.get());
+		return isClawOpen(true);
+	}
+
+	/**
+	 * Checks if claw is open.
+	 * @param log true = also log the result to the log file, false = no logging
+	 * @return true = open, false = closed
+	 */
+	public boolean isClawOpen(boolean log) {
+		if (log) Robot.log.writeLog("Claw,isClawOpen," + clawPiston.get());
 		return clawPiston.get();
 	}
 

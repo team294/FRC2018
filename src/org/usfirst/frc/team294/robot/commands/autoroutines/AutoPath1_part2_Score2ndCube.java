@@ -30,10 +30,10 @@ public class AutoPath1_part2_Score2ndCube extends CommandGroup {
 		}
 
 		// Assume we have the cube, so go back to scale to score
-		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPosAuto, true));
+		addParallel(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, true));
 		addSequential(new DriveStraightDistanceProfile(-44, -12 * angleMultiplier, RobotMap.maxSpeed, RobotMap.maxAcceleration));   // Was 5 degrees
 		addSequential(new TurnGyro( 20.0 * angleMultiplier, TurnGyro.Units.Degrees));
-		addSequential(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPosAuto, true)); // enforce the arm being up before shooting
+		addSequential(new ArmMoveWithPiston(RobotMap.armScaleBackwardsPos, true)); // enforce the arm being up before shooting
 //		addSequential(new CubeShootOut(0.66));
 		addSequential(new CubeLetGo());
 		

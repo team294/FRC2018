@@ -50,7 +50,8 @@ public class ArmIntakeCube extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	// if the claw has been closed 
-    	Robot.log.writeLog("ArmIntakeCube,bumpswitch," + Robot.claw.getBumpSwitch() + ",photSwitchTriggered," + photoSwitchTriggered 
+    	Robot.log.writeLog("ArmIntakeCube,bumpswitch," + Robot.claw.getBumpSwitch() + ",photoswitch," + Robot.claw.getPhotoSwitch()
+    						+ "switchTriggered," + photoSwitchTriggered 
     						+ ",time Claw Closed," + timeClawClosed + ",timer," + Timer.getFPGATimestamp());
     	if (Robot.claw.getBumpSwitch() || (photoSwitchTriggered && (Timer.getFPGATimestamp() >= (timeClawClosed + 2))) ) {
     		end();

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
+import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -24,7 +25,7 @@ public class Shifter extends Subsystem {
 	 */
 	public void setShift(boolean high) {
 		shifter.set(high ? false : true); // shifter true is high gear, shifter false is low gear
-		// TODO re-test shifter booleans (whether false is high gear)
+		Robot.log.writeLogEcho("Shifter," + (high? "High":"Low"));
 	}
 
 	/**
