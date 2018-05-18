@@ -26,8 +26,8 @@ public class RobotMap {
 	public static final int pneumaticArmPistonMajorIn2 = 1;
 //	public static final int pneumaticIntakePistonOpen = 2;
 	public static final int pneumaticClawPistonOut = 3;
-	public static final int pneumaticArmPistonMajorIn = 4;
-	public static final int pneumaticArmPistonMajorOut = 5;
+	public static final int pneumaticArmPistonMajorIn = 5;
+	public static final int pneumaticArmPistonMajorOut = 4;
 	public static final int pneumaticClimbPistonRetract = 6;
 	public static final int pneumaticArmPistonMajorOut2 = 7;
 
