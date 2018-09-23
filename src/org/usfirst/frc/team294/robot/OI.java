@@ -151,7 +151,7 @@ public class OI {
 
 		// Bind commands to the codriver panel switches
 		coP[1].whileHeld(new ClimbSetPercentPower(RobotMap.climbPercent, false)); // Preps for climb
-		coP[2].whenPressed(new ClimbMotorSequence()); // Does  climb sequence
+//		coP[2].whenPressed(new ClimbMotorSequence()); // Does  climb sequence
 		coP[3].whileHeld(new ClimbSetPercentPower(RobotMap.climbLowerRobot,false)); // Lower robot from climbing
 		coP[4].whenPressed(new LoadCubeManual()); // 
 		coP[5].whenPressed(new ClimbSetPercentPower(RobotMap.climbHoldRobot)); // Hold robot up after climbing
