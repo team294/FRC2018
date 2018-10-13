@@ -23,13 +23,13 @@ public class RobotMap {
 
 	// Pneumatic addresses
 	public static final int pnuematicShifter = 0;
-	public static final int pneumaticArmPistonMajorIn2 = 1;
+	public static final int pneumaticArmPistonMajorIn2 = 7; // 7
 //	public static final int pneumaticIntakePistonOpen = 2;
 	public static final int pneumaticClawPistonOut = 3;
-	public static final int pneumaticArmPistonMajorIn = 4;
-	public static final int pneumaticArmPistonMajorOut = 5;
+	public static final int pneumaticArmPistonMajorIn = 5; // 4
+	public static final int pneumaticArmPistonMajorOut = 4; // 5
 	public static final int pneumaticClimbPistonRetract = 6;
-	public static final int pneumaticArmPistonMajorOut2 = 7;
+	public static final int pneumaticArmPistonMajorOut2 = 1; // 1
 
 	// RoboRIO digital I/O addresses
 	public static int photoSwitchIntake = 2;
